@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "families": [
+    {
+      "id": "kimi",
+      "name": "Kimi",
+      "publisher": "Moonshot AI",
+      "description": "从 K1 / K1.5 的推理研究，到 K2 系列的工具与视觉能力，再到 K3 的主干重构。",
+      "path": "data/families/kimi/family.json",
+      "updated": "2026-09-19",
+      "modelCount": 18,
+      "figureCount": 11
+    }
+  ]
+}

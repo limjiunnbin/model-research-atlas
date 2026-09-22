@@ -1,0 +1,1 @@
+{"name":"model-research-atlas","version":"1.0.0","private":true,"type":"module","description":"Data-driven Chinese model research atlas with a native WebGL architecture explorer","scripts":{"build":"python3 scripts/build.py","dev":"python3 scripts/serve.py","check":"node --check dist/app.js && node --check dist/structure.js"}}

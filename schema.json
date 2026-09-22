@@ -1,0 +1,765 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Model Research Atlas data contracts",
+  "description": "Root selects a document type; cross-file references are checked by scripts/build.py.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/catalog"
+    },
+    {
+      "$ref": "#/$defs/family"
+    },
+    {
+      "$ref": "#/$defs/architecture"
+    },
+    {
+      "$ref": "#/$defs/report"
+    },
+    {
+      "$ref": "#/$defs/hardware"
+    },
+    {
+      "$ref": "#/$defs/compute"
+    }
+  ],
+  "$defs": {
+    "catalog": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "families"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "families": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "name",
+              "path"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "fact": {
+      "type": "object",
+      "required": [
+        "value",
+        "evidence",
+        "source"
+      ],
+      "properties": {
+        "value": {
+          "type": [
+            "string",
+            "number",
+            "boolean",
+            "null"
+          ]
+        },
+        "evidence": {
+          "enum": [
+            "official",
+            "derived",
+            "interpretation",
+            "unknown"
+          ]
+        },
+        "source": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "if": {
+        "properties": {
+          "value": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "evidence": {
+            "const": "unknown"
+          }
+        }
+      }
+    },
+    "model": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "branch",
+        "summary",
+        "tags",
+        "facts",
+        "sections"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "branch": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "facts": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/fact"
+          }
+        },
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "architecturePath": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "auditPath": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "configPath": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "releaseDate": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "computePath": {
+          "type": "string"
+        }
+      }
+    },
+    "family": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "models",
+        "overview",
+        "technology",
+        "figures",
+        "downloads",
+        "reportPath",
+        "scenarios"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "models": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/model"
+          }
+        },
+        "overview": {
+          "type": "object",
+          "required": [
+            "title",
+            "conclusion",
+            "highlights"
+          ],
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "conclusion": {
+              "type": "string"
+            },
+            "highlights": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "label"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "label": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "technology": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "title",
+              "section",
+              "summary"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "section": {
+                "type": "string"
+              },
+              "summary": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "reportPath": {
+          "type": "string"
+        },
+        "figures": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "path",
+              "caption"
+            ],
+            "properties": {
+              "id": {
+                "type": [
+                  "string",
+                  "number"
+                ]
+              },
+              "path": {
+                "type": "string"
+              },
+              "caption": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "downloads": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "path",
+              "bytes",
+              "sha256"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          }
+        },
+        "scenarios": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "title",
+              "text",
+              "models",
+              "boundary"
+            ],
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              },
+              "models": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "boundary": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "hardwarePath": {
+          "type": "string"
+        },
+        "computePath": {
+          "type": "string"
+        }
+      }
+    },
+    "matrix": {
+      "type": "object",
+      "required": [
+        "tensor_template",
+        "stored_dtype",
+        "stored_shape",
+        "logical_shape",
+        "logical_parameters_each"
+      ],
+      "properties": {
+        "tensor_template": {
+          "type": "string"
+        },
+        "stored_dtype": {
+          "type": "string"
+        },
+        "stored_shape": {
+          "type": "string"
+        },
+        "logical_shape": {
+          "type": "string"
+        },
+        "logical_parameters_each": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "module": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "count",
+        "selectedCount",
+        "parameters",
+        "matrices"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "selectedCount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "parameters": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "representative": {
+          "type": "boolean"
+        },
+        "matrices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/matrix"
+          }
+        }
+      }
+    },
+    "node": {
+      "type": "object",
+      "required": [
+        "id",
+        "group",
+        "number",
+        "type",
+        "parameters",
+        "activeLinearParameters",
+        "payloadBytes",
+        "modules"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "group": {
+          "type": "string"
+        },
+        "number": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "type": {
+          "type": "string"
+        },
+        "parameters": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "activeLinearParameters": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "payloadBytes": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "modules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/module"
+          }
+        }
+      }
+    },
+    "architecture": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "modelId",
+        "label",
+        "scope",
+        "source",
+        "nodes",
+        "config",
+        "cache"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "modelId": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/node"
+          }
+        },
+        "config": {
+          "type": "object"
+        },
+        "cache": {
+          "type": "object",
+          "required": [
+            "mla",
+            "kda",
+            "vision"
+          ],
+          "properties": {
+            "mla": {
+              "type": "string"
+            },
+            "kda": {
+              "type": "string"
+            },
+            "vision": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "report": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "html"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "html": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "hardware": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "familyId",
+        "updated",
+        "modules",
+        "platforms",
+        "optimizations",
+        "sources",
+        "protocol",
+        "versionNotes",
+        "downloads"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "familyId": {
+          "type": "string"
+        },
+        "updated": {
+          "type": "string"
+        },
+        "modules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "title",
+              "models",
+              "flow",
+              "meaning",
+              "code",
+              "hardware",
+              "limit",
+              "refs"
+            ]
+          }
+        },
+        "platforms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "name",
+              "precision",
+              "support",
+              "stack",
+              "boundary",
+              "refs"
+            ]
+          }
+        },
+        "optimizations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "priority",
+              "title",
+              "status",
+              "scope",
+              "observation",
+              "proposal",
+              "metric",
+              "risk",
+              "refs"
+            ]
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "title",
+              "url",
+              "revision",
+              "accessed",
+              "kind"
+            ]
+          }
+        },
+        "protocol": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "versionNotes": {
+          "type": "array"
+        },
+        "downloads": {
+          "type": "object",
+          "required": [
+            "report",
+            "sources"
+          ]
+        }
+      }
+    },
+    "compute": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "familyId",
+        "snapshot",
+        "models",
+        "templates",
+        "proofs",
+        "counts"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "familyId": {
+          "type": "string"
+        },
+        "snapshot": {
+          "type": "string"
+        },
+        "models": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "nodes",
+              "symbols"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "nodes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "layer",
+                    "group",
+                    "template",
+                    "parameters"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "templates": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": [
+              "id",
+              "modelId",
+              "steps"
+            ],
+            "properties": {
+              "steps": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "input",
+                    "output",
+                    "relation",
+                    "tensors",
+                    "apis",
+                    "reference",
+                    "parameters"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "proofs": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": [
+              "repo",
+              "revision",
+              "path",
+              "symbol",
+              "line",
+              "end",
+              "sourceSha256",
+              "functionSha256"
+            ]
+          }
+        },
+        "counts": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "research_date": "2026-09-19",
+  "models": {
+    "Kimi-K2-Instruct": {
+      "revision": "fd1984e2b7a3350dbf7305fe73a4ede25c14de50",
+      "logical_parameters": 1026408232448,
+      "payload_bytes": 1029173256720,
+      "shards": 61,
+      "tensor_count": 139644
+    },
+    "Kimi-K2-Instruct-0905": {
+      "revision": "ac6c49f04883bd0a0598b790693a72061c676629",
+      "logical_parameters": 1026408232448,
+      "payload_bytes": 1029173265504,
+      "shards": 62,
+      "tensor_count": 139644
+    },
+    "Kimi-K2-Thinking": {
+      "revision": "a51ccc050d73dab088bf7b0e2dd9b30ae85a4e55",
+      "logical_parameters": 1026408232448,
+      "payload_bytes": 594205920512,
+      "shards": 62,
+      "tensor_count": 208276
+    },
+    "Kimi-K2.5": {
+      "revision": "4d01dfe0332d63057c186e0b262165819efb6611",
+      "logical_parameters": 1026879376368,
+      "payload_bytes": 595148192736,
+      "shards": 64,
+      "tensor_count": 208550
+    },
+    "Kimi-K2.6": {
+      "revision": "7eb5002f6aadc958aed6a9177b7ed26bb94011bb",
+      "logical_parameters": 1026879376368,
+      "payload_bytes": 595148192736,
+      "shards": 64,
+      "tensor_count": 208550
+    },
+    "Kimi-K2.7-Code": {
+      "revision": "74797c9c62378b951a1f6fcf5c4631024e9b8bef",
+      "logical_parameters": 1026879376368,
+      "payload_bytes": 595148192736,
+      "shards": 64,
+      "tensor_count": 208550
+    },
+    "Kimi-K3": {
+      "revision": "f831ab66814297da540d832a5235f8e904f29d06",
+      "logical_parameters": 2779931837184,
+      "payload_bytes": 1560860324864,
+      "shards": 96,
+      "tensor_count": 497220
+    }
+  },
+  "hashes": {
+    "Kimi-K2-Instruct-0905-config.json": "4cd10b0f3cb1c1dfdbfcdd2f303057500f570b24f671ce5eb7650b6a511807cc",
+    "Kimi-Linear-48B-A3B-Instruct-config.json": "a6ac3c2c4b5aa72370f9727f49ffa4432715d20061889acdb37c688be853096e",
+    "Kimi-K2-Base-config.json": "8c13ae1049df55f29b3bdcae69a562433f243ff70dac251d819ecad8dbdf7439",
+    "Kimi-K3-config.json": "9710e121a58d03ac92c8d6da287a19541994319afbbe6d6202af001ffd379213",
+    "Kimi-K2-Thinking-config.json": "666ee58fc3871ecc369a22bc8c100075c2ad24ccbe8b3e336fa5f726e6111c15",
+    "Kimi-K2.6-config.json": "85825ca6e18cbe539eb83ee09eedfb3f4222265929f06e9f535a6d9364f55899",
+    "Kimi-K2.7-Code-config.json": "ffbb57bff844e024f6c112640b63da80af228ceb8fb3e2e21908a21febbcdffb",
+    "Kimi-K2-Instruct-config.json": "8c13ae1049df55f29b3bdcae69a562433f243ff70dac251d819ecad8dbdf7439",
+    "Kimi-VL-A3B-Instruct-config.json": "af3810295de6b08232776b74110ed482fa0183f4aeaec586ff4f7593910951cb",
+    "Kimi-Audio-7B-Instruct-config.json": "515a352843ad45896514ecf707b0983fa39bd3ee2c32bd88cc4fa98a50516ba1",
+    "Kimi-K2.5-config.json": "acd5bb01a16f64b309599cd6ed196be056f613c99d6bc9300692b82cd10882f6"
+  }
+}

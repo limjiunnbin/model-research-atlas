@@ -1,0 +1,2610 @@
+{
+  "id": "kimi",
+  "name": "Kimi",
+  "publisher": "Moonshot AI",
+  "updated": "2026-09-19",
+  "description": "从 K1 / K1.5 的推理研究，到 K2 系列的工具与视觉能力，再到 K3 的主干重构。",
+  "scope": "18 个名称条目：8 个主线公开权重、8 个支线公开权重、K1 与 K1.5 两个历史节点。不是 18 套架构，也不是公司全部历史模型。官方目录另有 Moonlight 两个仓库和 MoonViT 编码器，均不计入 Kimi 对话模型。推理档位和产品模式不单列为检查点。",
+  "models": [
+    {
+      "id": "k1",
+      "name": "K1",
+      "branch": "历史",
+      "summary": "早期历史节点；原始结构尚未核验。",
+      "tags": [
+        "历史"
+      ],
+      "source": null,
+      "summaryEvidence": "unknown",
+      "facts": {
+        "layers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "hidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "heads": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "denseWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "expertWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "context": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "vocab": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "experts": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "topK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "shared": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "attention": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "expertInput": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "quantization": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "parameters": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        },
+        "payload": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        }
+      },
+      "auditPath": null,
+      "configPath": null,
+      "sections": [
+        "s10"
+      ],
+      "revision": null,
+      "releaseDate": null,
+      "implementationLinks": []
+    },
+    {
+      "id": "k1.5",
+      "name": "K1.5",
+      "branch": "历史",
+      "summary": "强化学习、长思考与长转短，多模态推理研究。未获得可同等审计的公开权重。",
+      "tags": [
+        "推理"
+      ],
+      "source": "https://arxiv.org/abs/2501.12599",
+      "summaryEvidence": "official",
+      "facts": {
+        "layers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://arxiv.org/abs/2501.12599"
+        },
+        "hidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://arxiv.org/abs/2501.12599"
+        },
+        "heads": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://arxiv.org/abs/2501.12599"
+        },
+        "denseWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://arxiv.org/abs/2501.12599"
+        },
+        "expertWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://arxiv.org/abs/2501.12599"
+        },
+        "context": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://arxiv.org/abs/2501.12599"
+        },
+        "vocab": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://arxiv.org/abs/2501.12599"
+        },
+        "experts": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://arxiv.org/abs/2501.12599"
+        },
+        "topK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://arxiv.org/abs/2501.12599"
+        },
+        "shared": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://arxiv.org/abs/2501.12599"
+        },
+        "attention": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://arxiv.org/abs/2501.12599"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://arxiv.org/abs/2501.12599"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://arxiv.org/abs/2501.12599"
+        },
+        "expertInput": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://arxiv.org/abs/2501.12599"
+        },
+        "quantization": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://arxiv.org/abs/2501.12599"
+        },
+        "parameters": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        },
+        "payload": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        }
+      },
+      "auditPath": null,
+      "configPath": null,
+      "sections": [
+        "s10"
+      ],
+      "revision": null,
+      "releaseDate": null,
+      "implementationLinks": []
+    },
+    {
+      "id": "k2-base",
+      "name": "Kimi-K2-Base",
+      "branch": "主线",
+      "summary": "首发预训练基础权重，供继续训练与领域适配；不是现成聊天助手。",
+      "tags": [
+        "基础训练"
+      ],
+      "source": "https://huggingface.co/moonshotai/Kimi-K2-Base",
+      "summaryEvidence": "official",
+      "facts": {
+        "layers": {
+          "value": 61,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Base/blob/main/config.json"
+        },
+        "hidden": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Base/blob/main/config.json"
+        },
+        "heads": {
+          "value": 64,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Base/blob/main/config.json"
+        },
+        "denseWidth": {
+          "value": 18432,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Base/blob/main/config.json"
+        },
+        "expertWidth": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Base/blob/main/config.json"
+        },
+        "context": {
+          "value": 131072,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Base/blob/main/config.json"
+        },
+        "vocab": {
+          "value": 163840,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Base/blob/main/config.json"
+        },
+        "experts": {
+          "value": 384,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Base"
+        },
+        "topK": {
+          "value": 8,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Base"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Base"
+        },
+        "attention": {
+          "value": "MLA",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Base"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Base"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Base"
+        },
+        "expertInput": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Base"
+        },
+        "quantization": {
+          "value": "FP8 主体；BF16 / F32 辅助",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Base"
+        },
+        "parameters": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        },
+        "payload": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        }
+      },
+      "auditPath": null,
+      "configPath": "data/families/kimi/configs/Kimi-K2-Base-config.json",
+      "sections": [
+        "s4"
+      ],
+      "revision": null,
+      "releaseDate": null,
+      "architecturePath": "data/families/kimi/k2-base-architecture.json",
+      "implementationLinks": [
+        {
+          "topic": "mla",
+          "title": "MLA 与 Gated MLA",
+          "path": "#/family/kimi/implementation/mla/k2-base"
+        },
+        {
+          "topic": "moe",
+          "title": "MoE",
+          "path": "#/family/kimi/implementation/moe/k2-base"
+        },
+        {
+          "topic": "precision",
+          "title": "BF16、FP8、INT4 与 MXFP4",
+          "path": "#/family/kimi/implementation/precision/k2-base"
+        },
+        {
+          "topic": "serving",
+          "title": "Prefill / Decode、缓存与多卡服务",
+          "path": "#/family/kimi/implementation/serving/k2-base"
+        }
+      ],
+      "computePath": "#/family/kimi/compute/k2-base"
+    },
+    {
+      "id": "k2-instruct",
+      "name": "Kimi-K2-Instruct",
+      "branch": "主线",
+      "summary": "在相同主干上学习指令遵循、代码与工具使用。",
+      "tags": [
+        "代码"
+      ],
+      "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct",
+      "summaryEvidence": "official",
+      "facts": {
+        "layers": {
+          "value": 61,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct/blob/main/config.json"
+        },
+        "hidden": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct/blob/main/config.json"
+        },
+        "heads": {
+          "value": 64,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct/blob/main/config.json"
+        },
+        "denseWidth": {
+          "value": 18432,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct/blob/main/config.json"
+        },
+        "expertWidth": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct/blob/main/config.json"
+        },
+        "context": {
+          "value": 131072,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct/blob/main/config.json"
+        },
+        "vocab": {
+          "value": 163840,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct/blob/main/config.json"
+        },
+        "experts": {
+          "value": 384,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct"
+        },
+        "topK": {
+          "value": 8,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct"
+        },
+        "attention": {
+          "value": "MLA",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct"
+        },
+        "expertInput": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct"
+        },
+        "quantization": {
+          "value": "FP8 主体；BF16 / F32 辅助",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct"
+        },
+        "parameters": {
+          "value": 1026408232448,
+          "evidence": "derived",
+          "source": "assets/kimi/audit-summary.json"
+        },
+        "payload": {
+          "value": 1029173256720,
+          "evidence": "derived",
+          "source": "assets/kimi/audit-summary.json"
+        }
+      },
+      "auditPath": "data/families/kimi/k2-instruct-layers.json",
+      "configPath": "data/families/kimi/configs/Kimi-K2-Instruct-config.json",
+      "sections": [
+        "s4"
+      ],
+      "revision": "fd1984e2b7a3350dbf7305fe73a4ede25c14de50",
+      "releaseDate": null,
+      "architecturePath": "data/families/kimi/k2-instruct-architecture.json",
+      "implementationLinks": [
+        {
+          "topic": "mla",
+          "title": "MLA 与 Gated MLA",
+          "path": "#/family/kimi/implementation/mla/k2-instruct"
+        },
+        {
+          "topic": "moe",
+          "title": "MoE",
+          "path": "#/family/kimi/implementation/moe/k2-instruct"
+        },
+        {
+          "topic": "precision",
+          "title": "BF16、FP8、INT4 与 MXFP4",
+          "path": "#/family/kimi/implementation/precision/k2-instruct"
+        },
+        {
+          "topic": "serving",
+          "title": "Prefill / Decode、缓存与多卡服务",
+          "path": "#/family/kimi/implementation/serving/k2-instruct"
+        }
+      ],
+      "computePath": "#/family/kimi/compute/k2-instruct"
+    },
+    {
+      "id": "k2-instruct-0905",
+      "name": "Kimi-K2-Instruct-0905",
+      "branch": "主线",
+      "summary": "上下文从 128K 扩到 256K，改进 agentic coding 与前端任务，主要矩阵尺寸不变。",
+      "tags": [
+        "代码",
+        "长文档"
+      ],
+      "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905",
+      "summaryEvidence": "official",
+      "facts": {
+        "layers": {
+          "value": 61,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905/blob/main/config.json"
+        },
+        "hidden": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905/blob/main/config.json"
+        },
+        "heads": {
+          "value": 64,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905/blob/main/config.json"
+        },
+        "denseWidth": {
+          "value": 18432,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905/blob/main/config.json"
+        },
+        "expertWidth": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905/blob/main/config.json"
+        },
+        "context": {
+          "value": 262144,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905/blob/main/config.json"
+        },
+        "vocab": {
+          "value": 163840,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905/blob/main/config.json"
+        },
+        "experts": {
+          "value": 384,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905"
+        },
+        "topK": {
+          "value": 8,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905"
+        },
+        "attention": {
+          "value": "MLA",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905"
+        },
+        "expertInput": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905"
+        },
+        "quantization": {
+          "value": "FP8 主体；BF16 / F32 辅助",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905"
+        },
+        "parameters": {
+          "value": 1026408232448,
+          "evidence": "derived",
+          "source": "assets/kimi/audit-summary.json"
+        },
+        "payload": {
+          "value": 1029173265504,
+          "evidence": "derived",
+          "source": "assets/kimi/audit-summary.json"
+        }
+      },
+      "auditPath": "data/families/kimi/k2-instruct-0905-layers.json",
+      "configPath": "data/families/kimi/configs/Kimi-K2-Instruct-0905-config.json",
+      "sections": [
+        "s4"
+      ],
+      "revision": "ac6c49f04883bd0a0598b790693a72061c676629",
+      "releaseDate": null,
+      "architecturePath": "data/families/kimi/k2-instruct-0905-architecture.json",
+      "implementationLinks": [
+        {
+          "topic": "mla",
+          "title": "MLA 与 Gated MLA",
+          "path": "#/family/kimi/implementation/mla/k2-instruct-0905"
+        },
+        {
+          "topic": "moe",
+          "title": "MoE",
+          "path": "#/family/kimi/implementation/moe/k2-instruct-0905"
+        },
+        {
+          "topic": "precision",
+          "title": "BF16、FP8、INT4 与 MXFP4",
+          "path": "#/family/kimi/implementation/precision/k2-instruct-0905"
+        },
+        {
+          "topic": "serving",
+          "title": "Prefill / Decode、缓存与多卡服务",
+          "path": "#/family/kimi/implementation/serving/k2-instruct-0905"
+        }
+      ],
+      "computePath": "#/family/kimi/compute/k2-instruct-0905"
+    },
+    {
+      "id": "k2-thinking",
+      "name": "Kimi-K2-Thinking",
+      "branch": "主线",
+      "summary": "多步思考与工具调用交替，路由专家使用原生 INT4；不能理解为只添加提示词。",
+      "tags": [
+        "推理"
+      ],
+      "source": "https://huggingface.co/moonshotai/Kimi-K2-Thinking",
+      "summaryEvidence": "official",
+      "facts": {
+        "layers": {
+          "value": 61,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Thinking/blob/main/config.json"
+        },
+        "hidden": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Thinking/blob/main/config.json"
+        },
+        "heads": {
+          "value": 64,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Thinking/blob/main/config.json"
+        },
+        "denseWidth": {
+          "value": 18432,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Thinking/blob/main/config.json"
+        },
+        "expertWidth": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Thinking/blob/main/config.json"
+        },
+        "context": {
+          "value": 262144,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Thinking/blob/main/config.json"
+        },
+        "vocab": {
+          "value": 163840,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Thinking/blob/main/config.json"
+        },
+        "experts": {
+          "value": 384,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Thinking"
+        },
+        "topK": {
+          "value": 8,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Thinking"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Thinking"
+        },
+        "attention": {
+          "value": "MLA",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Thinking"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Thinking"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Thinking"
+        },
+        "expertInput": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Thinking"
+        },
+        "quantization": {
+          "value": "路由专家 INT4；其他主要模块 BF16",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2-Thinking"
+        },
+        "parameters": {
+          "value": 1026408232448,
+          "evidence": "derived",
+          "source": "assets/kimi/audit-summary.json"
+        },
+        "payload": {
+          "value": 594205920512,
+          "evidence": "derived",
+          "source": "assets/kimi/audit-summary.json"
+        }
+      },
+      "auditPath": "data/families/kimi/k2-thinking-layers.json",
+      "configPath": "data/families/kimi/configs/Kimi-K2-Thinking-config.json",
+      "sections": [
+        "s4"
+      ],
+      "revision": "a51ccc050d73dab088bf7b0e2dd9b30ae85a4e55",
+      "releaseDate": null,
+      "architecturePath": "data/families/kimi/k2-thinking-architecture.json",
+      "implementationLinks": [
+        {
+          "topic": "mla",
+          "title": "MLA 与 Gated MLA",
+          "path": "#/family/kimi/implementation/mla/k2-thinking"
+        },
+        {
+          "topic": "moe",
+          "title": "MoE",
+          "path": "#/family/kimi/implementation/moe/k2-thinking"
+        },
+        {
+          "topic": "precision",
+          "title": "BF16、FP8、INT4 与 MXFP4",
+          "path": "#/family/kimi/implementation/precision/k2-thinking"
+        },
+        {
+          "topic": "serving",
+          "title": "Prefill / Decode、缓存与多卡服务",
+          "path": "#/family/kimi/implementation/serving/k2-thinking"
+        }
+      ],
+      "computePath": "#/family/kimi/compute/k2-thinking"
+    },
+    {
+      "id": "k2.5",
+      "name": "Kimi-K2.5",
+      "branch": "主线",
+      "summary": "延续 K2 语言主干，加入 MoonViT 视觉通路和多模态训练。二点五，不是二零点五。",
+      "tags": [
+        "视觉",
+        "代码"
+      ],
+      "source": "https://huggingface.co/moonshotai/Kimi-K2.5",
+      "summaryEvidence": "official",
+      "facts": {
+        "layers": {
+          "value": 61,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.5/blob/main/config.json"
+        },
+        "hidden": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.5/blob/main/config.json"
+        },
+        "heads": {
+          "value": 64,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.5/blob/main/config.json"
+        },
+        "denseWidth": {
+          "value": 18432,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.5/blob/main/config.json"
+        },
+        "expertWidth": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.5/blob/main/config.json"
+        },
+        "context": {
+          "value": 262144,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.5/blob/main/config.json"
+        },
+        "vocab": {
+          "value": 163840,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.5/blob/main/config.json"
+        },
+        "experts": {
+          "value": 384,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.5"
+        },
+        "topK": {
+          "value": 8,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.5"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.5"
+        },
+        "attention": {
+          "value": "MLA",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.5"
+        },
+        "visionLayers": {
+          "value": 27,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.5"
+        },
+        "visionHidden": {
+          "value": 1152,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.5"
+        },
+        "expertInput": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.5"
+        },
+        "quantization": {
+          "value": "路由专家 INT4；其他主要模块 BF16",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.5"
+        },
+        "parameters": {
+          "value": 1026879376368,
+          "evidence": "derived",
+          "source": "assets/kimi/audit-summary.json"
+        },
+        "payload": {
+          "value": 595148192736,
+          "evidence": "derived",
+          "source": "assets/kimi/audit-summary.json"
+        }
+      },
+      "auditPath": "data/families/kimi/k2.5-layers.json",
+      "configPath": "data/families/kimi/configs/Kimi-K2.5-config.json",
+      "sections": [
+        "s4",
+        "s8"
+      ],
+      "revision": "4d01dfe0332d63057c186e0b262165819efb6611",
+      "releaseDate": null,
+      "architecturePath": "data/families/kimi/k2.5-architecture.json",
+      "implementationLinks": [
+        {
+          "topic": "mla",
+          "title": "MLA 与 Gated MLA",
+          "path": "#/family/kimi/implementation/mla/k2.5"
+        },
+        {
+          "topic": "moe",
+          "title": "MoE",
+          "path": "#/family/kimi/implementation/moe/k2.5"
+        },
+        {
+          "topic": "vision",
+          "title": "视觉编码器与多模态预填充",
+          "path": "#/family/kimi/implementation/vision/k2.5"
+        },
+        {
+          "topic": "precision",
+          "title": "BF16、FP8、INT4 与 MXFP4",
+          "path": "#/family/kimi/implementation/precision/k2.5"
+        },
+        {
+          "topic": "serving",
+          "title": "Prefill / Decode、缓存与多卡服务",
+          "path": "#/family/kimi/implementation/serving/k2.5"
+        }
+      ],
+      "computePath": "#/family/kimi/compute/k2.5"
+    },
+    {
+      "id": "k2.6",
+      "name": "Kimi-K2.6",
+      "branch": "主线",
+      "summary": "语言和视觉主要尺寸延续，增强长流程代码任务和持续工具执行。",
+      "tags": [
+        "代码",
+        "长文档"
+      ],
+      "source": "https://huggingface.co/moonshotai/Kimi-K2.6",
+      "summaryEvidence": "official",
+      "facts": {
+        "layers": {
+          "value": 61,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.6/blob/main/config.json"
+        },
+        "hidden": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.6/blob/main/config.json"
+        },
+        "heads": {
+          "value": 64,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.6/blob/main/config.json"
+        },
+        "denseWidth": {
+          "value": 18432,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.6/blob/main/config.json"
+        },
+        "expertWidth": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.6/blob/main/config.json"
+        },
+        "context": {
+          "value": 262144,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.6/blob/main/config.json"
+        },
+        "vocab": {
+          "value": 163840,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.6/blob/main/config.json"
+        },
+        "experts": {
+          "value": 384,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.6"
+        },
+        "topK": {
+          "value": 8,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.6"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.6"
+        },
+        "attention": {
+          "value": "MLA",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.6"
+        },
+        "visionLayers": {
+          "value": 27,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.6"
+        },
+        "visionHidden": {
+          "value": 1152,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.6"
+        },
+        "expertInput": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.6"
+        },
+        "quantization": {
+          "value": "路由专家 INT4；其他主要模块 BF16",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.6"
+        },
+        "parameters": {
+          "value": 1026879376368,
+          "evidence": "derived",
+          "source": "assets/kimi/audit-summary.json"
+        },
+        "payload": {
+          "value": 595148192736,
+          "evidence": "derived",
+          "source": "assets/kimi/audit-summary.json"
+        }
+      },
+      "auditPath": "data/families/kimi/k2.6-layers.json",
+      "configPath": "data/families/kimi/configs/Kimi-K2.6-config.json",
+      "sections": [
+        "s4",
+        "s8"
+      ],
+      "revision": "7eb5002f6aadc958aed6a9177b7ed26bb94011bb",
+      "releaseDate": null,
+      "architecturePath": "data/families/kimi/k2.6-architecture.json",
+      "implementationLinks": [
+        {
+          "topic": "mla",
+          "title": "MLA 与 Gated MLA",
+          "path": "#/family/kimi/implementation/mla/k2.6"
+        },
+        {
+          "topic": "moe",
+          "title": "MoE",
+          "path": "#/family/kimi/implementation/moe/k2.6"
+        },
+        {
+          "topic": "vision",
+          "title": "视觉编码器与多模态预填充",
+          "path": "#/family/kimi/implementation/vision/k2.6"
+        },
+        {
+          "topic": "precision",
+          "title": "BF16、FP8、INT4 与 MXFP4",
+          "path": "#/family/kimi/implementation/precision/k2.6"
+        },
+        {
+          "topic": "serving",
+          "title": "Prefill / Decode、缓存与多卡服务",
+          "path": "#/family/kimi/implementation/serving/k2.6"
+        }
+      ],
+      "computePath": "#/family/kimi/compute/k2.6"
+    },
+    {
+      "id": "k2.7-code",
+      "name": "Kimi-K2.7-Code",
+      "branch": "主线",
+      "summary": "面向代码的专门化训练；强制 thinking、保留思考历史。官方思考 token 改善不等于固定速度提升。",
+      "tags": [
+        "代码"
+      ],
+      "source": "https://huggingface.co/moonshotai/Kimi-K2.7-Code",
+      "summaryEvidence": "official",
+      "facts": {
+        "layers": {
+          "value": 61,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/main/config.json"
+        },
+        "hidden": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/main/config.json"
+        },
+        "heads": {
+          "value": 64,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/main/config.json"
+        },
+        "denseWidth": {
+          "value": 18432,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/main/config.json"
+        },
+        "expertWidth": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/main/config.json"
+        },
+        "context": {
+          "value": 262144,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/main/config.json"
+        },
+        "vocab": {
+          "value": 163840,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/main/config.json"
+        },
+        "experts": {
+          "value": 384,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.7-Code"
+        },
+        "topK": {
+          "value": 8,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.7-Code"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.7-Code"
+        },
+        "attention": {
+          "value": "MLA",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.7-Code"
+        },
+        "visionLayers": {
+          "value": 27,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.7-Code"
+        },
+        "visionHidden": {
+          "value": 1152,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.7-Code"
+        },
+        "expertInput": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.7-Code"
+        },
+        "quantization": {
+          "value": "路由专家 INT4；其他主要模块 BF16",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K2.7-Code"
+        },
+        "parameters": {
+          "value": 1026879376368,
+          "evidence": "derived",
+          "source": "assets/kimi/audit-summary.json"
+        },
+        "payload": {
+          "value": 595148192736,
+          "evidence": "derived",
+          "source": "assets/kimi/audit-summary.json"
+        }
+      },
+      "auditPath": "data/families/kimi/k2.7-code-layers.json",
+      "configPath": "data/families/kimi/configs/Kimi-K2.7-Code-config.json",
+      "sections": [
+        "s4",
+        "s8"
+      ],
+      "revision": "74797c9c62378b951a1f6fcf5c4631024e9b8bef",
+      "releaseDate": null,
+      "architecturePath": "data/families/kimi/k2.7-code-architecture.json",
+      "implementationLinks": [
+        {
+          "topic": "mla",
+          "title": "MLA 与 Gated MLA",
+          "path": "#/family/kimi/implementation/mla/k2.7-code"
+        },
+        {
+          "topic": "moe",
+          "title": "MoE",
+          "path": "#/family/kimi/implementation/moe/k2.7-code"
+        },
+        {
+          "topic": "vision",
+          "title": "视觉编码器与多模态预填充",
+          "path": "#/family/kimi/implementation/vision/k2.7-code"
+        },
+        {
+          "topic": "precision",
+          "title": "BF16、FP8、INT4 与 MXFP4",
+          "path": "#/family/kimi/implementation/precision/k2.7-code"
+        },
+        {
+          "topic": "serving",
+          "title": "Prefill / Decode、缓存与多卡服务",
+          "path": "#/family/kimi/implementation/serving/k2.7-code"
+        }
+      ],
+      "computePath": "#/family/kimi/compute/k2.7-code"
+    },
+    {
+      "id": "k3",
+      "name": "Kimi-K3",
+      "branch": "主线",
+      "summary": "93 层混合注意力、LatentMoE 与跨层 AttnRes；百万上下文。仅一个已核对的公开权重。",
+      "tags": [
+        "代码",
+        "推理",
+        "长文档",
+        "视觉"
+      ],
+      "source": "https://huggingface.co/moonshotai/Kimi-K3",
+      "summaryEvidence": "official",
+      "facts": {
+        "layers": {
+          "value": 93,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K3/blob/main/config.json"
+        },
+        "hidden": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K3/blob/main/config.json"
+        },
+        "heads": {
+          "value": 96,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K3/blob/main/config.json"
+        },
+        "denseWidth": {
+          "value": 33792,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K3/blob/main/config.json"
+        },
+        "expertWidth": {
+          "value": 3072,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K3/blob/main/config.json"
+        },
+        "context": {
+          "value": 1048576,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K3/blob/main/config.json"
+        },
+        "vocab": {
+          "value": 163840,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K3/blob/main/config.json"
+        },
+        "experts": {
+          "value": 896,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K3"
+        },
+        "topK": {
+          "value": 16,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K3"
+        },
+        "shared": {
+          "value": 2,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K3"
+        },
+        "attention": {
+          "value": "69 KDA + 24 Gated MLA",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K3"
+        },
+        "visionLayers": {
+          "value": 27,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K3"
+        },
+        "visionHidden": {
+          "value": 1024,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K3"
+        },
+        "expertInput": {
+          "value": 3584,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K3"
+        },
+        "quantization": {
+          "value": "路由专家 MXFP4 + QAT；其他模块 BF16 / F32",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-K3"
+        },
+        "parameters": {
+          "value": 2779931837184,
+          "evidence": "derived",
+          "source": "assets/kimi/audit-summary.json"
+        },
+        "payload": {
+          "value": 1560860324864,
+          "evidence": "derived",
+          "source": "assets/kimi/audit-summary.json"
+        }
+      },
+      "auditPath": "data/families/kimi/k3-layers.json",
+      "configPath": "data/families/kimi/configs/Kimi-K3-config.json",
+      "sections": [
+        "s5",
+        "s8"
+      ],
+      "revision": "f831ab66814297da540d832a5235f8e904f29d06",
+      "releaseDate": null,
+      "architecturePath": "data/families/kimi/k3-architecture.json",
+      "implementationLinks": [
+        {
+          "topic": "mla",
+          "title": "MLA 与 Gated MLA",
+          "path": "#/family/kimi/implementation/mla/k3"
+        },
+        {
+          "topic": "kda",
+          "title": "KDA",
+          "path": "#/family/kimi/implementation/kda/k3"
+        },
+        {
+          "topic": "moe",
+          "title": "MoE",
+          "path": "#/family/kimi/implementation/moe/k3"
+        },
+        {
+          "topic": "latent",
+          "title": "K3 Stable LatentMoE",
+          "path": "#/family/kimi/implementation/latent/k3"
+        },
+        {
+          "topic": "attnres",
+          "title": "K3 AttnRes",
+          "path": "#/family/kimi/implementation/attnres/k3"
+        },
+        {
+          "topic": "vision",
+          "title": "视觉编码器与多模态预填充",
+          "path": "#/family/kimi/implementation/vision/k3"
+        },
+        {
+          "topic": "precision",
+          "title": "BF16、FP8、INT4 与 MXFP4",
+          "path": "#/family/kimi/implementation/precision/k3"
+        },
+        {
+          "topic": "serving",
+          "title": "Prefill / Decode、缓存与多卡服务",
+          "path": "#/family/kimi/implementation/serving/k3"
+        }
+      ],
+      "computePath": "#/family/kimi/compute/k3"
+    },
+    {
+      "id": "vl-a3b-instruct",
+      "name": "Kimi-VL-A3B-Instruct",
+      "branch": "支线",
+      "summary": "较小的 MoE 视觉语言模型，面向图像、文档和截图理解。A3B 表示激活参数。",
+      "tags": [
+        "视觉"
+      ],
+      "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Instruct",
+      "summaryEvidence": "official",
+      "facts": {
+        "layers": {
+          "value": 27,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Instruct/blob/main/config.json"
+        },
+        "hidden": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Instruct/blob/main/config.json"
+        },
+        "heads": {
+          "value": 16,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Instruct/blob/main/config.json"
+        },
+        "denseWidth": {
+          "value": 11264,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Instruct/blob/main/config.json"
+        },
+        "expertWidth": {
+          "value": 1408,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Instruct/blob/main/config.json"
+        },
+        "context": {
+          "value": 131072,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Instruct/blob/main/config.json"
+        },
+        "vocab": {
+          "value": 163840,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Instruct/blob/main/config.json"
+        },
+        "experts": {
+          "value": 64,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Instruct"
+        },
+        "topK": {
+          "value": 6,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Instruct"
+        },
+        "shared": {
+          "value": 2,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Instruct"
+        },
+        "attention": {
+          "value": "MLA",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Instruct"
+        },
+        "visionLayers": {
+          "value": 27,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Instruct"
+        },
+        "visionHidden": {
+          "value": 1152,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Instruct"
+        },
+        "expertInput": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Instruct"
+        },
+        "quantization": {
+          "value": "BF16（配置级）",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Instruct"
+        },
+        "parameters": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        },
+        "payload": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        }
+      },
+      "auditPath": null,
+      "configPath": "data/families/kimi/configs/Kimi-VL-A3B-Instruct-config.json",
+      "sections": [
+        "s10"
+      ],
+      "revision": null,
+      "releaseDate": null,
+      "architecturePath": "data/families/kimi/vl-a3b-instruct-architecture.json",
+      "implementationLinks": []
+    },
+    {
+      "id": "vl-a3b-thinking",
+      "name": "Kimi-VL-A3B-Thinking",
+      "branch": "支线",
+      "summary": "VL 视觉推理变体，强化多步视觉问题求解。未将 Instruct 配置直接当作此版本的逐项核验结果。",
+      "tags": [
+        "视觉",
+        "推理"
+      ],
+      "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking",
+      "summaryEvidence": "official",
+      "facts": {
+        "layers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking"
+        },
+        "hidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking"
+        },
+        "heads": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking"
+        },
+        "denseWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking"
+        },
+        "expertWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking"
+        },
+        "context": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking"
+        },
+        "vocab": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking"
+        },
+        "experts": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking"
+        },
+        "topK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking"
+        },
+        "shared": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking"
+        },
+        "attention": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking"
+        },
+        "expertInput": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking"
+        },
+        "quantization": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking"
+        },
+        "parameters": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        },
+        "payload": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        }
+      },
+      "auditPath": null,
+      "configPath": null,
+      "sections": [
+        "s10"
+      ],
+      "revision": null,
+      "releaseDate": null,
+      "implementationLinks": []
+    },
+    {
+      "id": "vl-a3b-thinking-2506",
+      "name": "Kimi-VL-A3B-Thinking-2506",
+      "branch": "支线",
+      "summary": "视觉与视频推理更新；作为独立公开检查点收录，结构字段待逐版本核验。",
+      "tags": [
+        "视觉",
+        "推理"
+      ],
+      "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking-2506",
+      "summaryEvidence": "official",
+      "facts": {
+        "layers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking-2506"
+        },
+        "hidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking-2506"
+        },
+        "heads": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking-2506"
+        },
+        "denseWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking-2506"
+        },
+        "expertWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking-2506"
+        },
+        "context": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking-2506"
+        },
+        "vocab": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking-2506"
+        },
+        "experts": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking-2506"
+        },
+        "topK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking-2506"
+        },
+        "shared": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking-2506"
+        },
+        "attention": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking-2506"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking-2506"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking-2506"
+        },
+        "expertInput": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking-2506"
+        },
+        "quantization": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking-2506"
+        },
+        "parameters": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        },
+        "payload": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        }
+      },
+      "auditPath": null,
+      "configPath": null,
+      "sections": [
+        "s10"
+      ],
+      "revision": null,
+      "releaseDate": null,
+      "implementationLinks": []
+    },
+    {
+      "id": "audio-7b",
+      "name": "Kimi-Audio-7B",
+      "branch": "支线",
+      "summary": "音频基础版本，用于音频研究与继续训练；名称 7B 不等于所有外部音频组件参数之和。",
+      "tags": [
+        "音频"
+      ],
+      "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B",
+      "summaryEvidence": "official",
+      "facts": {
+        "layers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B"
+        },
+        "hidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B"
+        },
+        "heads": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B"
+        },
+        "denseWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B"
+        },
+        "expertWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B"
+        },
+        "context": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B"
+        },
+        "vocab": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B"
+        },
+        "experts": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B"
+        },
+        "topK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B"
+        },
+        "shared": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B"
+        },
+        "attention": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B"
+        },
+        "expertInput": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B"
+        },
+        "quantization": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B"
+        },
+        "parameters": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        },
+        "payload": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        }
+      },
+      "auditPath": null,
+      "configPath": null,
+      "sections": [
+        "s10"
+      ],
+      "revision": null,
+      "releaseDate": null,
+      "implementationLinks": []
+    },
+    {
+      "id": "audio-7b-instruct",
+      "name": "Kimi-Audio-7B-Instruct",
+      "branch": "支线",
+      "summary": "音频指令交互分支；主配置不能完整重建外部声学 tokenizer、Whisper 与 vocoder。",
+      "tags": [
+        "音频"
+      ],
+      "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B-Instruct",
+      "summaryEvidence": "official",
+      "facts": {
+        "layers": {
+          "value": 28,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B-Instruct/blob/main/config.json"
+        },
+        "hidden": {
+          "value": 3584,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B-Instruct/blob/main/config.json"
+        },
+        "heads": {
+          "value": 28,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B-Instruct/blob/main/config.json"
+        },
+        "denseWidth": {
+          "value": 18944,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B-Instruct/blob/main/config.json"
+        },
+        "expertWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B-Instruct/blob/main/config.json"
+        },
+        "context": {
+          "value": 8192,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B-Instruct/blob/main/config.json"
+        },
+        "vocab": {
+          "value": 168448,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B-Instruct/blob/main/config.json"
+        },
+        "experts": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B-Instruct"
+        },
+        "topK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B-Instruct"
+        },
+        "shared": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B-Instruct"
+        },
+        "attention": {
+          "value": "GQA",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B-Instruct"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B-Instruct"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B-Instruct"
+        },
+        "expertInput": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B-Instruct"
+        },
+        "quantization": {
+          "value": "BF16（配置级）",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Audio-7B-Instruct"
+        },
+        "parameters": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        },
+        "payload": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        }
+      },
+      "auditPath": null,
+      "configPath": "data/families/kimi/configs/Kimi-Audio-7B-Instruct-config.json",
+      "sections": [
+        "s10"
+      ],
+      "revision": null,
+      "releaseDate": null,
+      "architecturePath": "data/families/kimi/audio-7b-instruct-architecture.json",
+      "implementationLinks": []
+    },
+    {
+      "id": "dev-72b",
+      "name": "Kimi-Dev-72B",
+      "branch": "支线",
+      "summary": "基于 Qwen2.5-72B 的软件工程专项模型，用于仓库问题修复、补丁和测试反馈；不是缩小版 K2。",
+      "tags": [
+        "代码"
+      ],
+      "source": "https://huggingface.co/moonshotai/Kimi-Dev-72B",
+      "summaryEvidence": "official",
+      "facts": {
+        "layers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Dev-72B"
+        },
+        "hidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Dev-72B"
+        },
+        "heads": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Dev-72B"
+        },
+        "denseWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Dev-72B"
+        },
+        "expertWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Dev-72B"
+        },
+        "context": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Dev-72B"
+        },
+        "vocab": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Dev-72B"
+        },
+        "experts": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Dev-72B"
+        },
+        "topK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Dev-72B"
+        },
+        "shared": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Dev-72B"
+        },
+        "attention": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Dev-72B"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Dev-72B"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Dev-72B"
+        },
+        "expertInput": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Dev-72B"
+        },
+        "quantization": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Dev-72B"
+        },
+        "parameters": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        },
+        "payload": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        }
+      },
+      "auditPath": null,
+      "configPath": null,
+      "sections": [
+        "s10"
+      ],
+      "revision": null,
+      "releaseDate": null,
+      "implementationLinks": []
+    },
+    {
+      "id": "linear-48b-a3b-base",
+      "name": "Kimi-Linear-48B-A3B-Base",
+      "branch": "支线",
+      "summary": "独立混合注意力路线的基础版本。48B 与 A3B 分别指总参数与激活规模的标称，不能混同存储大小。",
+      "tags": [
+        "基础训练",
+        "长文档"
+      ],
+      "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Base",
+      "summaryEvidence": "official",
+      "facts": {
+        "layers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Base"
+        },
+        "hidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Base"
+        },
+        "heads": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Base"
+        },
+        "denseWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Base"
+        },
+        "expertWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Base"
+        },
+        "context": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Base"
+        },
+        "vocab": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Base"
+        },
+        "experts": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Base"
+        },
+        "topK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Base"
+        },
+        "shared": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Base"
+        },
+        "attention": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Base"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Base"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Base"
+        },
+        "expertInput": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Base"
+        },
+        "quantization": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Base"
+        },
+        "parameters": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        },
+        "payload": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        }
+      },
+      "auditPath": null,
+      "configPath": null,
+      "sections": [
+        "s10"
+      ],
+      "revision": null,
+      "releaseDate": null,
+      "implementationLinks": [
+        {
+          "topic": "mla",
+          "title": "MLA 与 Gated MLA",
+          "path": "#/family/kimi/implementation/mla/linear-48b-a3b-base"
+        },
+        {
+          "topic": "kda",
+          "title": "KDA",
+          "path": "#/family/kimi/implementation/kda/linear-48b-a3b-base"
+        },
+        {
+          "topic": "moe",
+          "title": "MoE",
+          "path": "#/family/kimi/implementation/moe/linear-48b-a3b-base"
+        },
+        {
+          "topic": "precision",
+          "title": "BF16、FP8、INT4 与 MXFP4",
+          "path": "#/family/kimi/implementation/precision/linear-48b-a3b-base"
+        },
+        {
+          "topic": "serving",
+          "title": "Prefill / Decode、缓存与多卡服务",
+          "path": "#/family/kimi/implementation/serving/linear-48b-a3b-base"
+        }
+      ]
+    },
+    {
+      "id": "linear-48b-a3b-instruct",
+      "name": "Kimi-Linear-48B-A3B-Instruct",
+      "branch": "支线",
+      "summary": "27 层混合注意力：20 KDA + 7 MLA，是 K3 混合注意力的技术先驱，不是权重继承证明。",
+      "tags": [
+        "长文档"
+      ],
+      "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct",
+      "summaryEvidence": "official",
+      "facts": {
+        "layers": {
+          "value": 27,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct/blob/main/config.json"
+        },
+        "hidden": {
+          "value": 2304,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct/blob/main/config.json"
+        },
+        "heads": {
+          "value": 32,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct/blob/main/config.json"
+        },
+        "denseWidth": {
+          "value": 9216,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct/blob/main/config.json"
+        },
+        "expertWidth": {
+          "value": 1024,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct/blob/main/config.json"
+        },
+        "context": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct/blob/main/config.json"
+        },
+        "vocab": {
+          "value": 163840,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct/blob/main/config.json"
+        },
+        "experts": {
+          "value": 256,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct"
+        },
+        "topK": {
+          "value": 8,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct"
+        },
+        "attention": {
+          "value": "20 KDA + 7 MLA",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct"
+        },
+        "expertInput": {
+          "value": 2304,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct"
+        },
+        "quantization": {
+          "value": "BF16（配置级）",
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct"
+        },
+        "parameters": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        },
+        "payload": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "assets/kimi/audit-summary.json"
+        }
+      },
+      "auditPath": null,
+      "configPath": "data/families/kimi/configs/Kimi-Linear-48B-A3B-Instruct-config.json",
+      "sections": [
+        "s10"
+      ],
+      "revision": null,
+      "releaseDate": null,
+      "architecturePath": "data/families/kimi/linear-48b-a3b-instruct-architecture.json",
+      "implementationLinks": [
+        {
+          "topic": "mla",
+          "title": "MLA 与 Gated MLA",
+          "path": "#/family/kimi/implementation/mla/linear-48b-a3b-instruct"
+        },
+        {
+          "topic": "kda",
+          "title": "KDA",
+          "path": "#/family/kimi/implementation/kda/linear-48b-a3b-instruct"
+        },
+        {
+          "topic": "moe",
+          "title": "MoE",
+          "path": "#/family/kimi/implementation/moe/linear-48b-a3b-instruct"
+        },
+        {
+          "topic": "precision",
+          "title": "BF16、FP8、INT4 与 MXFP4",
+          "path": "#/family/kimi/implementation/precision/linear-48b-a3b-instruct"
+        },
+        {
+          "topic": "serving",
+          "title": "Prefill / Decode、缓存与多卡服务",
+          "path": "#/family/kimi/implementation/serving/linear-48b-a3b-instruct"
+        }
+      ]
+    }
+  ],
+  "figures": [
+    {
+      "id": 0,
+      "caption": "Kimi 全家族历史演进与应用总览",
+      "source": "历史名称、主线、支线与应用边界；截至 2026-09-19。",
+      "path": "assets/kimi/Kimi全家族历史演进与应用总览.png"
+    },
+    {
+      "id": 1,
+      "file": "01-evolution.png",
+      "caption": "架构改变与训练改变应分开评价。",
+      "source": "来源：各版官方 config / 模型卡；K3 技术报告 §2–4。箭头表示技术演进，不表示所有版本均从前者权重初始化。",
+      "path": "assets/kimi/figures/01-evolution.png"
+    },
+    {
+      "id": 2,
+      "file": "02-capacity.png",
+      "caption": "公开权重约 1.026T → 2.780T；文本线性算子代理约 31.69B → 104.18B。",
+      "source": "来源：473 个 safetensors 分片文件头；按 INT4 / MXFP4 打包比例还原逻辑形状；排除量化元数据与 RoPE 缓冲。",
+      "path": "assets/kimi/figures/02-capacity.png"
+    },
+    {
+      "id": 3,
+      "file": "03-layer-map.png",
+      "caption": "层级编号覆盖全部语言层和视觉层；完整数值清单见逐层 CSV。",
+      "source": "来源：K2 / K3 config；K3 configuration_kimi_k3.py 的索引转换；模型卡与文件头交叉核对。",
+      "path": "assets/kimi/figures/03-layer-map.png"
+    },
+    {
+      "id": 4,
+      "file": "04-attention.png",
+      "caption": "KDA 的注意力模块约 443.74M 参数，Gated MLA 约 232.20M，K2 MLA 约 101.12M。",
+      "source": "来源：官方模型实现 + 张量形状复算。图中不含卷积/归一化等小参数；报告列明完整值。",
+      "path": "assets/kimi/figures/04-attention.png"
+    },
+    {
+      "id": 5,
+      "file": "05-latent-moe.png",
+      "caption": "总路由容量增加 75%，而单层激活路由专家矩阵工作量增加 50%；另需计算共享分支与压缩/恢复投影。",
+      "source": "来源：K2 / K3 config + 模型实现；本图为尺寸的代数复算，不是吞吐实测。",
+      "path": "assets/kimi/figures/05-latent-moe.png"
+    },
+    {
+      "id": 6,
+      "file": "06-per-layer-compute.png",
+      "caption": "K2 MoE 单层约 1.000 GFLOPs/token；K3 KDA+MoE 约 2.324，MLA+MoE 约 1.901。",
+      "source": "来源：逐层张量审计；按 top-k/E 加权路由矩阵，其余线性矩阵每 token 全部参与。",
+      "path": "assets/kimi/figures/06-per-layer-compute.png"
+    },
+    {
+      "id": 7,
+      "file": "07-quantization-storage.png",
+      "caption": "K2.5 权重约 595.15GB；K3 约 1560.86GB。MXFP4 的 U8 容器并不代表 8 位权重。",
+      "source": "来源：473 个 safetensors 分片文件头与 index.total_size 完全对账。GB=10^9 字节。",
+      "path": "assets/kimi/figures/07-quantization-storage.png"
+    },
+    {
+      "id": 8,
+      "file": "08-context-cache.png",
+      "caption": "实际引擎若缓存展开后的多头 K/V，结果会显著更大；这是压缩实现的结构估算。",
+      "source": "来源：官方注意力实现 / K3 技术报告 §2、§5；不含批量、分页碎片、prefix cache 多副本与临时激活。",
+      "path": "assets/kimi/figures/08-context-cache.png"
+    },
+    {
+      "id": 9,
+      "file": "09-vision.png",
+      "caption": "K3 视觉残差宽 1024，但 Q/K/V 各宽 1536；不能用 1024/12 推导 head dimension。",
+      "source": "来源：视觉配置、模型实现及分片头；K3 移除线性偏置，采用 RMSNorm；视觉塔约 401.21M 参数。",
+      "path": "assets/kimi/figures/09-vision.png"
+    },
+    {
+      "id": 10,
+      "file": "10-same-backbone-improvement.png",
+      "caption": "不能把这组能力增益解释为加层或加专家；尺寸不变，权重与训练仍可显著改变。",
+      "source": "来源：Kimi-K2.7-Code 官方模型卡 §3。内测基准与公开基准混合；不可用于单独量化某项训练技术的因果贡献。",
+      "path": "assets/kimi/figures/10-same-backbone-improvement.png"
+    }
+  ],
+  "downloads": [
+    {
+      "name": "Kimi-K2-Instruct-0905-tensor-templates.csv",
+      "path": "assets/kimi/Kimi-K2-Instruct-0905-tensor-templates.csv",
+      "bytes": 3442,
+      "sha256": "cdf05f2569a48373abe83c5a056597cc8a67fe6ba445c9c2c5106d5fb21acbcc"
+    },
+    {
+      "name": "Kimi-K2-Instruct-tensor-templates.csv",
+      "path": "assets/kimi/Kimi-K2-Instruct-tensor-templates.csv",
+      "bytes": 3441,
+      "sha256": "ef4c174808f6ada71d006bad6732cbbb0391c7389fbb95e6df9da4e3e8357d46"
+    },
+    {
+      "name": "Kimi-K2-Thinking-tensor-templates.csv",
+      "path": "assets/kimi/Kimi-K2-Thinking-tensor-templates.csv",
+      "bytes": 2711,
+      "sha256": "a9188b8b8adc6045c901d81fa4758f3b1a0f637d7d83ed8a8aa88ae932074a93"
+    },
+    {
+      "name": "Kimi-K2.5-tensor-templates.csv",
+      "path": "assets/kimi/Kimi-K2.5-tensor-templates.csv",
+      "bytes": 4816,
+      "sha256": "4db329409528ee85b8512f0c78d04466c432b47a6b295d4852c47303be93bc54"
+    },
+    {
+      "name": "Kimi-K2.6-tensor-templates.csv",
+      "path": "assets/kimi/Kimi-K2.6-tensor-templates.csv",
+      "bytes": 4816,
+      "sha256": "4db329409528ee85b8512f0c78d04466c432b47a6b295d4852c47303be93bc54"
+    },
+    {
+      "name": "Kimi-K2.7-Code-tensor-templates.csv",
+      "path": "assets/kimi/Kimi-K2.7-Code-tensor-templates.csv",
+      "bytes": 4816,
+      "sha256": "4db329409528ee85b8512f0c78d04466c432b47a6b295d4852c47303be93bc54"
+    },
+    {
+      "name": "Kimi-K2至K3深度研究报告.html",
+      "path": "assets/kimi/Kimi-K2至K3深度研究报告.html",
+      "bytes": 2322094,
+      "sha256": "69206800ca4f175892ff7a1a07be9ddbf02d9cc3006945b47c05aab1208938fa"
+    },
+    {
+      "name": "Kimi-K2至K3深度研究报告.md",
+      "path": "assets/kimi/Kimi-K2至K3深度研究报告.md",
+      "bytes": 73749,
+      "sha256": "29e52ef117b1bfe7dbd25c489b48c5f359fa86c22d9cdb68cbcedaba7f596385"
+    },
+    {
+      "name": "Kimi-K2至K3研究报告与十张图.zip",
+      "path": "assets/kimi/Kimi-K2至K3研究报告与十张图.zip",
+      "bytes": 4650947,
+      "sha256": "df5f0de4c4e5b3974470ad1dd0eca744e9463530f7f6d05aa7c2ca711830a458"
+    },
+    {
+      "name": "Kimi-K3-tensor-templates.csv",
+      "path": "assets/kimi/Kimi-K3-tensor-templates.csv",
+      "bytes": 6021,
+      "sha256": "d53cc4218342ba413bdaa00b8e10d148e00d594b90d115c23ebe339fea71e3b0"
+    },
+    {
+      "name": "Kimi全家族历史演进与应用总览.pdf",
+      "path": "assets/kimi/Kimi全家族历史演进与应用总览.pdf",
+      "bytes": 187907,
+      "sha256": "d2fab8817bd2254a853282f69f65bc16c728517b5b80fe9cf1e6b10f6528db13"
+    },
+    {
+      "name": "Kimi全家族历史演进与应用总览.png",
+      "path": "assets/kimi/Kimi全家族历史演进与应用总览.png",
+      "bytes": 1061658,
+      "sha256": "5d3384accb54801aded0855aebf6c6d46c7c4141a8c7f70f4b22c3ccc371df6a"
+    },
+    {
+      "name": "Kimi全家族历史演进与应用总览.svg",
+      "path": "assets/kimi/Kimi全家族历史演进与应用总览.svg",
+      "bytes": 396271,
+      "sha256": "c1023e9a5eb9de208cb3d8f1e4004c82ee946b4bc5f4715db340ad210a86b46e"
+    },
+    {
+      "name": "Kimi架构分析十张图.zip",
+      "path": "assets/kimi/Kimi架构分析十张图.zip",
+      "bytes": 1498398,
+      "sha256": "365b98375773ea558a82f5270037ded246b37b9b3de5259563c3c4db21ad6173"
+    },
+    {
+      "name": "audit-summary.json",
+      "path": "assets/kimi/audit-summary.json",
+      "bytes": 198259,
+      "sha256": "b5c311a2cd62513015ab5ce24270de3b614645d1fa2f2db009c834a95ec1f330"
+    },
+    {
+      "name": "01-evolution.png",
+      "path": "assets/kimi/figures/01-evolution.png",
+      "bytes": 180195,
+      "sha256": "4abaccd23339bf6e64aa0db068da921eaeca116c3f4e1938599a6cf90073bf1a"
+    },
+    {
+      "name": "02-capacity.png",
+      "path": "assets/kimi/figures/02-capacity.png",
+      "bytes": 144150,
+      "sha256": "9c19c581ad570cd555f0d48b05bbc80dbf507bdfb5244391788741a809b60cc5"
+    },
+    {
+      "name": "03-layer-map.png",
+      "path": "assets/kimi/figures/03-layer-map.png",
+      "bytes": 136176,
+      "sha256": "ac83372a4078571f5428c948475f156f669977bfc1482e1e27b560a37408db86"
+    },
+    {
+      "name": "04-attention.png",
+      "path": "assets/kimi/figures/04-attention.png",
+      "bytes": 139355,
+      "sha256": "a2248a5f0828800489ba16d84e134b7bc5fa87b283bb47dfdcccf539a12e2ae4"
+    },
+    {
+      "name": "05-latent-moe.png",
+      "path": "assets/kimi/figures/05-latent-moe.png",
+      "bytes": 179656,
+      "sha256": "8636a7b19c65085ab489e6409a693fd1633052e982cd506c557c8d2443f6280a"
+    },
+    {
+      "name": "06-per-layer-compute.png",
+      "path": "assets/kimi/figures/06-per-layer-compute.png",
+      "bytes": 164389,
+      "sha256": "c846cb92c59f94cb4615a54cf4a337d3a86ae00ae98047f3ea69068bd58e83f4"
+    },
+    {
+      "name": "07-quantization-storage.png",
+      "path": "assets/kimi/figures/07-quantization-storage.png",
+      "bytes": 158847,
+      "sha256": "fd8820590c86f2e4f8efeb5ed762727e38882fb3883ed4a3c8fa92e05f64b06a"
+    },
+    {
+      "name": "08-context-cache.png",
+      "path": "assets/kimi/figures/08-context-cache.png",
+      "bytes": 210226,
+      "sha256": "fd36b5b7c528d1610342ad4ed209cba03b8f21f3e9fb6cd113523d640386a105"
+    },
+    {
+      "name": "09-vision.png",
+      "path": "assets/kimi/figures/09-vision.png",
+      "bytes": 180844,
+      "sha256": "16d5b905ec620d2a5fc2750164c40c19719576731cfdd4a2372ec1f719d54b6d"
+    },
+    {
+      "name": "10-same-backbone-improvement.png",
+      "path": "assets/kimi/figures/10-same-backbone-improvement.png",
+      "bytes": 164567,
+      "sha256": "2904bede0e2b8c710395ae45fab0c1413839d78effe03a82dbbfe54d577af0e8"
+    },
+    {
+      "name": "manifest.json",
+      "path": "assets/kimi/figures/manifest.json",
+      "bytes": 3051,
+      "sha256": "5f6507eaf1453b1fba6cfa0af0eac933d906032ef09b247717c56df16c6bd492"
+    },
+    {
+      "name": "全部张量清单.csv.gz",
+      "path": "assets/kimi/全部张量清单.csv.gz",
+      "bytes": 4826972,
+      "sha256": "a4ec026d307f0eb80fc3ed6db2f069a945bca4114962d655e6eb11df750f4c70"
+    },
+    {
+      "name": "来源与审计摘要.json",
+      "path": "assets/kimi/来源与审计摘要.json",
+      "bytes": 2764,
+      "sha256": "9e832be140cbcf5a693e9a34e5ce21363b3250e5bb82f402b19fcfec71e156da"
+    },
+    {
+      "name": "逐层参数与体积.csv",
+      "path": "assets/kimi/逐层参数与体积.csv",
+      "bytes": 59487,
+      "sha256": "fca29ca6e4272fd4bb9be14429dab36c8dff13b4ae90c57887a56683a05ff23f"
+    },
+    {
+      "name": "阅读说明.txt",
+      "path": "assets/kimi/阅读说明.txt",
+      "bytes": 585,
+      "sha256": "b601b9490c1efceafb13ba9e9487eb3470f2995d51f881977f12f59a621ff62d"
+    },
+    {
+      "name": "Kimi-implementation-hardware-ascend.md",
+      "path": "assets/kimi/Kimi-implementation-hardware-ascend.md",
+      "bytes": 39589,
+      "sha256": "11b2a4f16842c4caff3a71b90d90d2b5e1301f064a2c054debe28bc64bced37b"
+    },
+    {
+      "name": "Kimi-hardware-sources.csv",
+      "path": "assets/kimi/Kimi-hardware-sources.csv",
+      "bytes": 13147,
+      "sha256": "c5deedad41e9a0c57203d41ac118c9b8087d28224fe71017680cdee5ae067d5c"
+    },
+    {
+      "name": "字段与符号说明.md",
+      "path": "assets/kimi/compute/字段与符号说明.md",
+      "bytes": 2586,
+      "sha256": "db4ad7d4594a88556b6a92c31d8eef3321dd64e5915debc4eb0e0812069e3e49"
+    },
+    {
+      "name": "Kimi-compute-atlas.json",
+      "path": "assets/kimi/compute/Kimi-compute-atlas.json",
+      "bytes": 1693946,
+      "sha256": "9107165952a66c8f6c8c04ec5eddb2a6e147399dc7d562e150ee14fed2cd63db"
+    },
+    {
+      "name": "Kimi-layer-compute-shapes.csv",
+      "path": "assets/kimi/compute/Kimi-layer-compute-shapes.csv",
+      "bytes": 19069871,
+      "sha256": "959338e408068a1d021b8e03a6f5aba72f72b3bef276570f288037742f82c02d"
+    },
+    {
+      "name": "Kimi-layer-api-report.md",
+      "path": "assets/kimi/compute/Kimi-layer-api-report.md",
+      "bytes": 824344,
+      "sha256": "85d2579674f94d7bb5f3ee8d443bf42dee0c397401cc13f52f997af7a3a46438"
+    },
+    {
+      "name": "Kimi-backend-api-map.csv",
+      "path": "assets/kimi/compute/Kimi-backend-api-map.csv",
+      "bytes": 30507597,
+      "sha256": "f2e59ee5aaa1d430143b8686f8959a17bf80c3242842531f2e3dd47332460f46"
+    },
+    {
+      "name": "Kimi-per-model-tables.zip",
+      "path": "assets/kimi/compute/Kimi-per-model-tables.zip",
+      "bytes": 2706476,
+      "sha256": "2de953002ca9f36eb9bccc73ee8f465a56e12e251b4220716774f29cc4aca579"
+    }
+  ],
+  "reportPath": "data/families/kimi/report.json",
+  "officialDirectory": "https://huggingface.co/moonshotai/models",
+  "scenarios": [
+    {
+      "title": "代码工程",
+      "text": "从单次补全转向仓库级修改、测试、工具调用与长流程恢复。优先查看 K2.6、K2.7-Code 与 K3 的训练变化；Dev-72B 是独立的 Qwen 基础专项分支。",
+      "models": [
+        "k2.6",
+        "k2.7-code",
+        "k3",
+        "dev-72b"
+      ],
+      "boundary": "比较时固定仓库、工具权限、测试预算和 harness；不把思考 token 减少等同于每秒 token 提升。"
+    },
+    {
+      "title": "难题推理",
+      "text": "K1.5 提供强化学习和长思考的研究起点；K2-Thinking 强化思考与工具交替，K3 将推理训练与新架构结合。",
+      "models": [
+        "k1.5",
+        "k2-thinking",
+        "k3"
+      ],
+      "boundary": "更长思考并不保证每题正确；应比较相同预算下的可验证结果与失败恢复。"
+    },
+    {
+      "title": "长文档整理",
+      "text": "0905 将 K2 上下文从 128K 扩到 256K；K2.5 后可处理视觉材料，K3 与 Linear 的混合注意力路线降低部分缓存增长压力。",
+      "models": [
+        "k2-instruct-0905",
+        "k2.5",
+        "k3",
+        "linear-48b-a3b-instruct"
+      ],
+      "boundary": "上下文上限不是可靠召回率；用跨页引用、证据定位与长程一致性检验实际效果。"
+    }
+  ],
+  "overview": {
+    "title": "训练持续演进，K3 重构主干",
+    "conclusion": "K2 到 K2.7 主要语言尺寸持续复用；K2.5 加入视觉通路。K3 同时改变注意力、专家计算空间和跨层信息读取。",
+    "highlights": [
+      {
+        "id": "k1.5",
+        "label": "K1.5 · 推理"
+      },
+      {
+        "id": "k2.5",
+        "label": "K2.5 · 视觉"
+      },
+      {
+        "id": "k3",
+        "label": "K3 · 重构"
+      }
+    ]
+  },
+  "historyNote": "K1 原始结构未核验；K1.5 的核心贡献是强化学习、长思考和多模态推理。未获得可同等核算的公开权重，不能填入精确层数。",
+  "auditNote": "七个主线检查点、473 个分片、1,610,434 个张量条目。以文件头核对形状、格式与字节偏移；未加载巨型权重，也未运行推理性能测试。",
+  "limitations": "K3 的 A_log 文件头长度与参考实现存在差异；K2 论文与公开主干参数口径不同。详细限制见完整报告第 11 节。",
+  "technology": [
+    {
+      "id": "structure",
+      "title": "结构",
+      "section": "s3",
+      "summary": "K2 系列延续 61 层主干；K3 改为 93 层混合注意力。规模比较必须区分总参数与激活参数。"
+    },
+    {
+      "id": "attention",
+      "title": "注意力与专家",
+      "section": "s5",
+      "summary": "K3 将序列信息、专家计算和跨层信息流一起重构。单专家缩小，不代表每 token 计算更少。"
+    },
+    {
+      "id": "quantization",
+      "title": "量化与格式",
+      "section": "s6",
+      "summary": "低位格式主要用于路由专家。INT4 与 MXFP4 的数值和打包方式不同，其他模块保留较高精度。"
+    },
+    {
+      "id": "compute",
+      "title": "计算与缓存",
+      "section": "s7",
+      "summary": "线性矩阵工作量只是计算代理。K3 仍有全局注意力层，仍需要随序列增长的 KV 缓存。"
+    },
+    {
+      "id": "vision",
+      "title": "视觉通路",
+      "section": "s8",
+      "summary": "K2.5 加入视觉通路；K3 更换视觉塔细节，使视觉表示与联合训练更匹配。"
+    },
+    {
+      "id": "why",
+      "title": "原因与收益",
+      "section": "s9",
+      "summary": "各项改变解决不同瓶颈，也引入新的存储、训练和部署代价。不能把整模型收益全部归于某一个模块。"
+    }
+  ],
+  "hardwarePath": "data/families/kimi/hardware.json",
+  "computePath": "data/families/kimi/compute.json"
+}

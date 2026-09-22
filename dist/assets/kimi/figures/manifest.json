@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "file": "01-evolution.png",
+    "caption": "架构改变与训练改变应分开评价。",
+    "source": "来源：各版官方 config / 模型卡；K3 技术报告 §2–4。箭头表示技术演进，不表示所有版本均从前者权重初始化。"
+  },
+  {
+    "id": 2,
+    "file": "02-capacity.png",
+    "caption": "公开权重约 1.026T → 2.780T；文本线性算子代理约 31.69B → 104.18B。",
+    "source": "来源：473 个 safetensors 分片文件头；按 INT4 / MXFP4 打包比例还原逻辑形状；排除量化元数据与 RoPE 缓冲。"
+  },
+  {
+    "id": 3,
+    "file": "03-layer-map.png",
+    "caption": "层级编号覆盖全部语言层和视觉层；完整数值清单见逐层 CSV。",
+    "source": "来源：K2 / K3 config；K3 configuration_kimi_k3.py 的索引转换；模型卡与文件头交叉核对。"
+  },
+  {
+    "id": 4,
+    "file": "04-attention.png",
+    "caption": "KDA 的注意力模块约 443.74M 参数，Gated MLA 约 232.20M，K2 MLA 约 101.12M。",
+    "source": "来源：官方模型实现 + 张量形状复算。图中不含卷积/归一化等小参数；报告列明完整值。"
+  },
+  {
+    "id": 5,
+    "file": "05-latent-moe.png",
+    "caption": "总路由容量增加 75%，而单层激活路由专家矩阵工作量增加 50%；另需计算共享分支与压缩/恢复投影。",
+    "source": "来源：K2 / K3 config + 模型实现；本图为尺寸的代数复算，不是吞吐实测。"
+  },
+  {
+    "id": 6,
+    "file": "06-per-layer-compute.png",
+    "caption": "K2 MoE 单层约 1.000 GFLOPs/token；K3 KDA+MoE 约 2.324，MLA+MoE 约 1.901。",
+    "source": "来源：逐层张量审计；按 top-k/E 加权路由矩阵，其余线性矩阵每 token 全部参与。"
+  },
+  {
+    "id": 7,
+    "file": "07-quantization-storage.png",
+    "caption": "K2.5 权重约 595.15GB；K3 约 1560.86GB。MXFP4 的 U8 容器并不代表 8 位权重。",
+    "source": "来源：473 个 safetensors 分片文件头与 index.total_size 完全对账。GB=10^9 字节。"
+  },
+  {
+    "id": 8,
+    "file": "08-context-cache.png",
+    "caption": "实际引擎若缓存展开后的多头 K/V，结果会显著更大；这是压缩实现的结构估算。",
+    "source": "来源：官方注意力实现 / K3 技术报告 §2、§5；不含批量、分页碎片、prefix cache 多副本与临时激活。"
+  },
+  {
+    "id": 9,
+    "file": "09-vision.png",
+    "caption": "K3 视觉残差宽 1024，但 Q/K/V 各宽 1536；不能用 1024/12 推导 head dimension。",
+    "source": "来源：视觉配置、模型实现及分片头；K3 移除线性偏置，采用 RMSNorm；视觉塔约 401.21M 参数。"
+  },
+  {
+    "id": 10,
+    "file": "10-same-backbone-improvement.png",
+    "caption": "不能把这组能力增益解释为加层或加专家；尺寸不变，权重与训练仍可显著改变。",
+    "source": "来源：Kimi-K2.7-Code 官方模型卡 §3。内测基准与公开基准混合；不可用于单独量化某项训练技术的因果贡献。"
+  }
+]

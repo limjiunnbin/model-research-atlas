@@ -1,0 +1,94 @@
+{
+  "status": "passed",
+  "counts": {
+    "components": 660,
+    "steps": 16974,
+    "torch_unknown_steps": 0,
+    "nvidia_unknown_steps": 5743,
+    "amd_unknown_steps": 5930,
+    "ascend_unknown_steps": 4816,
+    "config_shape_checks": 7798,
+    "fp8_scale_checks": 2004,
+    "packed_scale_checks": 996,
+    "raw_tensor_rows": 1610434,
+    "source_proofs_rechecked": 133
+  },
+  "logicalParametersByModel": {
+    "k2-base": 1026408232448,
+    "k2-instruct": 1026408232448,
+    "k2-instruct-0905": 1026408232448,
+    "k2-thinking": 1026408232448,
+    "k2.5": 1026879376368,
+    "k2.6": 1026879376368,
+    "k2.7-code": 1026879376368,
+    "k3": 2779931837184
+  },
+  "limitations": [
+    "研究源码快照为2026-09-21，结果整理于2026-09-23；不同仓库固定提交是分别核对的研究快照，不声称它们组成已测试的兼容软件栈。",
+    "PyTorch参考计算与vLLM服务实现分开。接口列按模块/分派/设备算子分层；并列API可能是互斥分支，不能当作依次执行或1:1映射。",
+    "K2 Base没有独立完整文件头审计：尺寸模板来自同配置Instruct，保留推导证据；其余7版对齐既有检查点逐张量审计。",
+    "FP8权重scale_inv是F32二维block表，块大小128×128；INT4权重I32按输入维打包8元素/容器，group32 scale为BF16；K3路由MXFP4每U8打包2元素，group32 scale为U8。具体每张量shape在步骤里保留。",
+    "K3 A_log审计存储[128]，参考配置96 heads。vLLM a_log_weight_loader按param局部head数narrow取片；不把存储值修改成96。该差异并未通过整模型加载实测。",
+    "旧检查点rotary_emb.inv_freq存储长度可能不同于config旋转维度所需频率长度；生成运行时RoPE的具体加载/重建路径尚未逐版验证，不据此推算运行cache。",
+    "K3官方参考MLA forward在所读文件中未直接调用RoPE；生产wrapper存在rotary_emb调用。此处区分代码路径，不自动补造参考调用。",
+    "Ascend W4A8接口列是转换检查点/对应量化方法的条件路径，不等同直接支持原始INT4/MXFP4。MC2通信、A5特化与A3部署条件分别适用。",
+    "未执行GPU/NPU基准、权重加载或数值精度实验；未核验设备内核处明确留空。shape检查是静态相容性检查，不是运行测试。"
+  ],
+  "httpChecks": {
+    "checkedAt": "2026-09-22T13:28:39.771676+00:00",
+    "files": [
+      {
+        "file": "字段与符号说明.md",
+        "http": 200,
+        "bytes": 2586,
+        "sha256Matches": true
+      },
+      {
+        "file": "Kimi-compute-atlas.json",
+        "http": 200,
+        "bytes": 1693946,
+        "sha256Matches": true
+      },
+      {
+        "file": "Kimi-layer-compute-shapes.csv",
+        "http": 200,
+        "bytes": 19069871,
+        "sha256Matches": true
+      },
+      {
+        "file": "Kimi-layer-api-report.md",
+        "http": 200,
+        "bytes": 824344,
+        "sha256Matches": true
+      },
+      {
+        "file": "Kimi-backend-api-map.csv",
+        "http": 200,
+        "bytes": 30507597,
+        "sha256Matches": true
+      },
+      {
+        "file": "Kimi-per-model-tables.zip",
+        "http": 200,
+        "bytes": 2706476,
+        "sha256Matches": true
+      }
+    ]
+  },
+  "browserChecks": {
+    "route": "#/family/kimi/compute/k3/decoder-93",
+    "passed": [
+      "model/backend/layer filters",
+      "Ascend npu_grouped_matmul search: 3 steps",
+      "empty search result",
+      "K2 Thinking INT4 packed shapes with expert placeholder",
+      "K3 vision layer 27",
+      "K3 projector",
+      "3D decoder-93 component link resolves to selected layer",
+      "390px viewport: no horizontal overflow",
+      "desktop: no horizontal overflow",
+      "six download links",
+      "no captured browser console errors"
+    ]
+  }
+}

@@ -1,0 +1,1295 @@
+{
+  "logical_parameters": 2779931837184,
+  "payload_bytes": 1560860324864,
+  "index_total_size": 1560860324864,
+  "tensor_count": 497220,
+  "shards": 96,
+  "bytes_by_category": {
+    "other_weights": 114404258816,
+    "routed_weights": 1361370415104,
+    "quant_metadata": 85085650944
+  },
+  "bytes_by_dtype": {
+    "F32": 44489728,
+    "BF16": 114359769088,
+    "U8": 1446456066048
+  },
+  "groups": [
+    {
+      "group": "decoder",
+      "layer_1based": 1,
+      "logical_parameters": 1170446592,
+      "payload_bytes": 2341213184,
+      "tensor_count": 23,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1170257920
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 2,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 3,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 4,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 5,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 6,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 7,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 8,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 9,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 10,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 11,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 12,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 13,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 14,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 15,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 16,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 17,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 18,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 19,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 20,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 21,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 22,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 23,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 24,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 25,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 26,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 27,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 28,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 29,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 30,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 31,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 32,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 33,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 34,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 35,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 36,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 37,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 38,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 39,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 40,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 41,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 42,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 43,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 44,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 45,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 46,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 47,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 48,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 49,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 50,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 51,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 52,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 53,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 54,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 55,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 56,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 57,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 58,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 59,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 60,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 61,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 62,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 63,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 64,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 65,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 66,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 67,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 68,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 69,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 70,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 71,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 72,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 73,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 74,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 75,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 76,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 77,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 78,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 79,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 80,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 81,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 82,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 83,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 84,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 85,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 86,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 87,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 88,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 89,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 90,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 91,
+      "logical_parameters": 30228720256,
+      "payload_bytes": 16990092800,
+      "tensor_count": 5404,
+      "attention_parameters": 443740416,
+      "active_linear_parameters": 1162000384.0,
+      "shared_parameters": 132120576,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 92,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "decoder",
+      "layer_1based": 93,
+      "logical_parameters": 30017175936,
+      "payload_bytes": 16566684160,
+      "tensor_count": 5398,
+      "active_linear_parameters": 950614016.0,
+      "shared_parameters": 132120576,
+      "attention_parameters": 232196096,
+      "routed_parameters": 29595009024
+    },
+    {
+      "group": "embedding",
+      "layer_1based": 0,
+      "logical_parameters": 1174405120,
+      "payload_bytes": 2348810240,
+      "tensor_count": 1
+    },
+    {
+      "group": "final_norm_and_residual",
+      "layer_1based": 0,
+      "logical_parameters": 21504,
+      "payload_bytes": 43008,
+      "tensor_count": 3,
+      "active_linear_parameters": 7168
+    },
+    {
+      "group": "output_head",
+      "layer_1based": 0,
+      "logical_parameters": 1174405120,
+      "payload_bytes": 2348810240,
+      "tensor_count": 1,
+      "active_linear_parameters": 1174405120
+    },
+    {
+      "group": "projector",
+      "layer_1based": 0,
+      "logical_parameters": 46144512,
+      "payload_bytes": 92289024,
+      "tensor_count": 3,
+      "active_linear_parameters": 46137344
+    },
+    {
+      "group": "vision",
+      "layer_1based": 1,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 2,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 3,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 4,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 5,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 6,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 7,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 8,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 9,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 10,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 11,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 12,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 13,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 14,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 15,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 16,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 17,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 18,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 19,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 20,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 21,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 22,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 23,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 24,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 25,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 26,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision",
+      "layer_1based": 27,
+      "logical_parameters": 14682112,
+      "payload_bytes": 29364224,
+      "tensor_count": 6,
+      "active_linear_parameters": 14680064
+    },
+    {
+      "group": "vision_other",
+      "layer_1based": 0,
+      "logical_parameters": 4797440,
+      "payload_bytes": 9594880,
+      "tensor_count": 3
+    }
+  ],
+  "revision": "f831ab66814297da540d832a5235f8e904f29d06"
+}
