@@ -11,5 +11,16 @@
       "modelCount": 18,
       "figureCount": 11
     }
+  ],
+  "reports": [
+    {
+      "id": "openbmb",
+      "name": "OpenBMB",
+      "publisher": "OpenBMB",
+      "description": "MiniCPM、MiniCPM-V/o、VoxCPM 与机器人主线：主模型与技术演进、88 个公开仓库分析，以及昇腾算子与编译优化。",
+      "path": "reports/openbmb/",
+      "updated": "2026-09-23",
+      "repositoryCount": 88
+    }
   ]
 }

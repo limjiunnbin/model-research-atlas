@@ -1,6 +1,6 @@
 # 模型研究图谱
 
-独立、本地优先的中文模型研究网站。动态模型家族入口收录 Kimi；另有独立的 OpenBMB 组织研究报告。无需安装 npm 包或下载权重，浏览器端不依赖 CDN。
+独立、本地优先的中文模型研究网站。主页并列展示 Kimi 模型家族与 OpenBMB 组织研究；两者按各自的研究范围浏览。无需安装 npm 包或下载权重，浏览器端不依赖 CDN。
 
 ## OpenBMB 主模型与技术演进
 
@@ -43,7 +43,7 @@ python3 scripts/serve.py
 
 ## 目录与数据流
 
-- `data/catalog.json`：顶层家族目录。
+- `data/catalog.json`：顶层研究目录；`families` 提供动态模型家族，`reports` 提供独立组织研究报告入口。
 - `data/families/<id>/family.json`：家族文案、版本、技术主题、场景、图与附件。
 - `data/families/<id>/report.json`：已审核的章节 HTML，原报告文字完整保留。
 - `*-layers.json`：主线逐层权重审计。

@@ -6,6 +6,13 @@ ROOT=Path(__file__).resolve().parents[1]
 def read(p):return json.loads(p.read_text())
 catalog=read(ROOT/'data/catalog.json');assert catalog['schemaVersion']==1
 assert len({f['id'] for f in catalog['families']})==len(catalog['families'])
+reports=catalog.get('reports',[])
+assert len({r['id'] for r in reports})==len(reports)
+assert not ({r['id'] for r in reports}&{f['id'] for f in catalog['families']})
+for report in reports:
+ assert report['name'] and report['description'] and report['repositoryCount']>0
+ path=Path(report['path']);assert not path.is_absolute() and '..' not in path.parts
+ assert (ROOT/'dist'/path/'index.html').is_file(),report['path']
 checks=0
 for ref in catalog['families']:
  f=read(ROOT/ref['path']);assert ref['id']==f['id']

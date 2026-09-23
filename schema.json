@@ -54,6 +54,45 @@
               }
             }
           }
+        },
+        "reports": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "name",
+              "publisher",
+              "description",
+              "path",
+              "updated",
+              "repositoryCount"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "publisher": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "updated": {
+                "type": "string"
+              },
+              "repositoryCount": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
         }
       }
     },
