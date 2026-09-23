@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="1420" viewBox="0 0 1320 1420" role="img" aria-label="OpenBMB主模型技术谱系">
+<defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0L10 4L0 8" fill="#346b80"/></marker></defs>
+<rect width="1320" height="1420" fill="#f6f8fa"/>
+<style>text{font-family:"PingFang SC","Noto Sans CJK SC",sans-serif;fill:#172d3d}.title{font-size:30px;font-weight:700}.sub{font-size:17px;fill:#516674}.node{font-size:20px;font-weight:600}.small{font-size:15px;fill:#516674}</style>
+<text x="38" y="52" class="title">主模型谱系：把“确实基于”与“同一家族”分开</text>
+<text x="38" y="87" class="sub">实线＝官方确认的骨干/初始化/转换　　虚线＝家族版本先后，不承诺权重继承</text>
+<rect x="38" y="120" width="460" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="54" y="150" class="node">CPM-Bee 10B</text><text x="54" y="175" class="small">历史语言底座</text>
+<rect x="760" y="120" width="510" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="776" y="150" class="node">VisCPM</text><text x="776" y="175" class="small">Chat / Paint 多模态路线</text>
+<path d="M507 158H749" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="628.0" y="146" text-anchor="middle" class="small">基于</text>
+<rect x="38" y="228" width="460" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="54" y="258" class="node">MiniCPM-2B</text><text x="54" y="283" class="small">稠密语言模型</text>
+<rect x="760" y="228" width="510" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="776" y="258" class="node">MiniCPM-MoE-8x2B</text><text x="776" y="283" class="small">8 专家 / 每 token 选择 2</text>
+<path d="M507 266H749" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="628.0" y="254" text-anchor="middle" class="small">Upcycling</text>
+<rect x="38" y="336" width="460" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="54" y="366" class="node">MiniCPM4</text><text x="54" y="391" class="small">稠密预训练起点</text>
+<rect x="760" y="336" width="510" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="776" y="366" class="node">MiniCPM-SALA</text><text x="776" y="391" class="small">25% 稀疏 + 75% 线性注意力</text>
+<path d="M507 374H749" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="628.0" y="362" text-anchor="middle" class="small">架构转换</text>
+<rect x="38" y="444" width="460" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="54" y="474" class="node">MiniCPM4.1-8B</text><text x="54" y="499" class="small">语言骨干</text>
+<rect x="760" y="444" width="510" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="776" y="474" class="node">AgentCPM-Report</text><text x="776" y="499" class="small">检索—写作—提纲深化</text>
+<path d="M507 482H749" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="628.0" y="470" text-anchor="middle" class="small">后训练</text>
+<rect x="38" y="552" width="460" height="74" rx="12" fill="#e8edf2" stroke="#c4d3d9"/>
+<text x="54" y="582" class="node">Qwen3-4B-Thinking-2507</text><text x="54" y="607" class="small">外部骨干</text>
+<rect x="760" y="552" width="510" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="776" y="582" class="node">AgentCPM-Explore</text><text x="776" y="607" class="small">长程搜索与工具交互</text>
+<path d="M507 590H749" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="628.0" y="578" text-anchor="middle" class="small">基于</text>
+<rect x="38" y="668" width="330" height="74" rx="12" fill="#e8edf2" stroke="#c4d3d9"/>
+<text x="54" y="698" class="node">Qwen3-8B</text><text x="54" y="723" class="small">外部语言骨干</text>
+<rect x="492" y="668" width="330" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="508" y="698" class="node">MiniCPM-V 4.5</text><text x="508" y="723" class="small">视觉语言预训练 checkpoint</text>
+<rect x="930" y="668" width="350" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="946" y="698" class="node">MiniCPM-o 4.5</text><text x="946" y="723" class="small">加语音；Omni-Flow 全双工</text>
+<path d="M378 706H482" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="430.0" y="694" text-anchor="middle" class="small">基于</text>
+<path d="M832 706H920" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="876.0" y="694" text-anchor="middle" class="small">初始化</text>
+<rect x="38" y="786" width="330" height="74" rx="12" fill="#e8edf2" stroke="#c4d3d9"/>
+<text x="54" y="816" class="node">Qwen3.5-0.8B</text><text x="54" y="841" class="small">外部语言骨干</text>
+<rect x="492" y="786" width="330" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="508" y="816" class="node">MiniCPM-V 4.6</text><text x="508" y="841" class="small">SigLIP2 + ViT 内早压缩</text>
+<rect x="930" y="786" width="350" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="946" y="816" class="node">RobotManip</text><text x="946" y="841" class="small">V4.6 + 操作动作头</text>
+<path d="M378 824H482" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="430.0" y="812" text-anchor="middle" class="small">基于</text>
+<path d="M832 824H920" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="876.0" y="812" text-anchor="middle" class="small">配置</text>
+<rect x="38" y="904" width="460" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="54" y="934" class="node">MiniCPM4-0.5B</text><text x="54" y="959" class="small">文本骨干</text>
+<rect x="760" y="904" width="510" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="776" y="934" class="node">RobotTrack</text><text x="776" y="959" class="small">时间/视觉投影 + 轨迹头</text>
+<path d="M507 942H749" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="628.0" y="930" text-anchor="middle" class="small">基于</text>
+<rect x="38" y="1012" width="460" height="74" rx="12" fill="#e8edf2" stroke="#c4d3d9"/>
+<text x="54" y="1042" class="node">Qwen3.5-4B</text><text x="54" y="1067" class="small">外部 VLM 骨干</text>
+<rect x="760" y="1012" width="510" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="776" y="1042" class="node">SimpleMemVLA</text><text x="776" y="1067" class="small">原生视频历史 + flow-matching 动作头</text>
+<path d="M507 1050H749" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="628.0" y="1038" text-anchor="middle" class="small">基于</text>
+<rect x="38" y="1130" width="330" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="54" y="1160" class="node">VoxCPM-0.5B</text><text x="54" y="1185" class="small">2025-09</text>
+<rect x="492" y="1130" width="330" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="508" y="1160" class="node">VoxCPM1.5</text><text x="508" y="1185" class="small">2025-12</text>
+<rect x="930" y="1130" width="350" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="946" y="1160" class="node">VoxCPM2</text><text x="946" y="1185" class="small">2026-04 · 2B / 48kHz</text>
+<path d="M378 1168H482" fill="none" stroke="#346b80" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<text x="430.0" y="1156" text-anchor="middle" class="small">版本</text>
+<path d="M832 1168H920" fill="none" stroke="#346b80" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<text x="876.0" y="1156" text-anchor="middle" class="small">版本</text>
+<rect x="38" y="1250" width="1242" height="122" rx="12" fill="#fff3d8"/>
+<text x="56" y="1282" class="node">特别注意：MiniCPM5 是稠密 Llama 兼容架构；未画 SALA → MiniCPM5 实线。</text>
+<text x="56" y="1315" class="sub">CPM → MiniCPM 是研究路线延续；没有证据证明 MiniCPM 是直接压缩 CPM-Bee 权重所得。</text>
+<text x="56" y="1347" class="sub">来源：固定版本 README、Hugging Face 配置与官方论文。各条证据和日期见配套报告。快照 2026-09-23。</text>
+</svg>

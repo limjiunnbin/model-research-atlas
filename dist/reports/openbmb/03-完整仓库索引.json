@@ -1,0 +1,2761 @@
+{
+  "research_date": "2026-09-23",
+  "scope": "OpenBMB public repositories, snapshot",
+  "count": 88,
+  "repositories": [
+    {
+      "name": "AceBench",
+      "category": "评测",
+      "purpose": "边云协同 Agent 的效用、成本与隐私评测。",
+      "input_output": "输入可执行任务、隐私标注和路由策略；输出任务成功率、调用成本、隐私相关指标及重复执行一致性。",
+      "modules_workflow": "在 OpenClaw 环境运行任务轨迹，对比本地、云端与混合策略，检查中途发往云端的上下文。",
+      "llm_difference": "它测量使用 LLM 的系统，不提供新的语言模型；比较对象包含路由及工具执行，不能只归因于模型参数。",
+      "dependencies": "上游 OpenClaw 和本地/云模型；下游边云路由选择，可与 ClawXRouter 的目标对应，但不等于自动集成。",
+      "scenarios_limits": "适合验证边云策略。README 列出 128 个任务、100 个隐私标注任务；这些是官方基准规模，隐私分数不是零泄漏证明。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/AceBench",
+      "default_branch": "main",
+      "revision": "9a17bc2c7ee3fab9ca023036b82a81898512a001",
+      "pushed_at": "2026-06-10",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/AceBench/blob/9a17bc2c7ee3fab9ca023036b82a81898512a001/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "AgentCPM",
+      "category": "模型与Agent",
+      "purpose": "面向长程工具交互和深度报告的模型家族，同时发布训练与运行基础设施。",
+      "input_output": "Explore：问题与工具观察→后续工具调用/答案；Report：写作要求与知识库→检索过程和长报告。",
+      "modules_workflow": "Explore 基于 Qwen3-4B-Thinking-2507；AgentDock 管理工具沙箱，AgentRL 异步强化学习，AgentToLeaP 评测。Report 基于 MiniCPM4.1-8B 并接 UltraRAG。",
+      "llm_difference": "骨干仍是自回归 LLM；差别主要是交互轨迹训练、奖励和执行循环。AgentCPM 名字不意味着所有子模型都基于 MiniCPM。",
+      "dependencies": "上游 Qwen3/MiniCPM4.1 与工具服务；Report 示例使用 UltraRAG、vLLM、Milvus，也有 llama.cpp 路径。",
+      "scenarios_limits": "适合深搜及本地资料报告。长链成功、低成本与隐私均依赖工具和部署；官方成绩未复测。Report 示例锁定 UltraRAG2.0，不应直接套用 v3 接口。",
+      "core_family": "☆ Agent衍生主线",
+      "url": "https://github.com/OpenBMB/AgentCPM",
+      "default_branch": "main",
+      "revision": "4a43561e790c154292798b3edd50171f71241cec",
+      "pushed_at": "2026-02-09",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/README_zh.md"
+        },
+        {
+          "label": "AgentCPM-Explore/README.md",
+          "url": "https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Explore/README.md"
+        },
+        {
+          "label": "AgentCPM-Explore/AgentDock/README.md",
+          "url": "https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Explore/AgentDock/README.md"
+        },
+        {
+          "label": "AgentCPM-Explore/AgentRL/README.md",
+          "url": "https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Explore/AgentRL/README.md"
+        },
+        {
+          "label": "AgentCPM-Explore/AgentToLeaP/README.md",
+          "url": "https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Explore/AgentToLeaP/README.md"
+        },
+        {
+          "label": "AgentCPM-Report/README.md",
+          "url": "https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Report/README.md"
+        },
+        {
+          "label": "AgentCPM-Explore/AgentRL/src/rollout/scheduler.py",
+          "url": "https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Explore/AgentRL/src/rollout/scheduler.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 6 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "AgentCPM-GUI",
+      "category": "模型与Agent",
+      "purpose": "面向手机图形界面的视觉动作模型。",
+      "input_output": "截图和任务→单步结构化 JSON 动作、坐标及可选思考；环境执行后回传新截图。",
+      "modules_workflow": "基于 MiniCPM-V 系列 8B 视觉语言骨干，经 GUI 数据监督微调及强化微调，进行界面定位和动作预测。",
+      "llm_difference": "比纯文本 LLM 多视觉编码与操作空间训练；输出点击/滑动等动作描述，不是仅给用户操作建议。",
+      "dependencies": "上游 MiniCPM-V 和 CAGUI 数据；下游设备执行器、Android 环境及评测脚本。",
+      "scenarios_limits": "适合 GUI 自动化研究。坐标采用 0–1000 相对尺度，仍需正确映射屏幕；界面变化、权限弹窗和长程误差会影响成功率。",
+      "core_family": "☆ GUI衍生",
+      "url": "https://github.com/OpenBMB/AgentCPM-GUI",
+      "default_branch": "main",
+      "revision": "2168ae21b1bed1cdb88736d422934825795a9fd7",
+      "pushed_at": "2026-01-11",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/AgentCPM-GUI/blob/2168ae21b1bed1cdb88736d422934825795a9fd7/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/AgentCPM-GUI/blob/2168ae21b1bed1cdb88736d422934825795a9fd7/README_zh.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "AgentVerse",
+      "category": "Agent框架",
+      "purpose": "多智能体协作求解和社会模拟框架。",
+      "input_output": "角色、任务、环境配置→多 Agent 对话、协作结果或模拟轨迹。",
+      "modules_workflow": "区分 task-solving 与 simulation；组织角色、消息和环境反馈，部分示例如 Minecraft 使用单独分支。",
+      "llm_difference": "主要改变 LLM 调用与协作流程，通常不改变 Transformer 或重新训练基础权重。",
+      "dependencies": "上游模型 API 与任务环境；下游协作实验和模拟研究。",
+      "scenarios_limits": "适合比较协作机制。历史 simulation 发布版及分支应分别读取；多 Agent 数量增加不保证答案更准确，且增加调用成本。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/AgentVerse",
+      "default_branch": "main",
+      "revision": "f90c4bd9680fdd3bcff8c52c9170911a59b23478",
+      "pushed_at": "2024-09-09",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/AgentVerse/blob/f90c4bd9680fdd3bcff8c52c9170911a59b23478/README.md"
+        },
+        {
+          "label": "README README_simulation_cases.md",
+          "url": "https://github.com/OpenBMB/AgentVerse/blob/f90c4bd9680fdd3bcff8c52c9170911a59b23478/README_simulation_cases.md"
+        },
+        {
+          "label": "README README_tasksolving_cases.md",
+          "url": "https://github.com/OpenBMB/AgentVerse/blob/f90c4bd9680fdd3bcff8c52c9170911a59b23478/README_tasksolving_cases.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/AgentVerse/blob/f90c4bd9680fdd3bcff8c52c9170911a59b23478/README_zh.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "AppCopilot",
+      "category": "Agent应用",
+      "purpose": "跨应用的手机任务自动执行系统。",
+      "input_output": "用户目标、屏幕观察→规划、手机操作和执行反馈。",
+      "modules_workflow": "分层规划、多 Agent 协同、跨设备控制；设备端通过 ADB 等接口执行动作，推理服务可用 vLLM。",
+      "llm_difference": "它组合视觉语言模型、控制器和运行环境；手机上有客户端不代表全部模型都在手机本地推理。",
+      "dependencies": "上游 AppCopilot 模型和推理服务；下游 Android 设备与实际应用。",
+      "scenarios_limits": "适合手机流程自动化。需设备连接、应用权限及匹配环境；跨应用任务的可靠性须按完整流程评估。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/AppCopilot",
+      "default_branch": "main",
+      "revision": "c23ab94bbcda95e82a7bc0e2798d5640cdc9b373",
+      "pushed_at": "2025-11-18",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/AppCopilot/blob/c23ab94bbcda95e82a7bc0e2798d5640cdc9b373/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "ArcLight",
+      "category": "推理基础设施",
+      "purpose": "面向 CPU 与统一内存环境的 C/C++ 大模型推理引擎。",
+      "input_output": "模型权重、文本与运行配置→生成 token 和性能记录。",
+      "modules_workflow": "支持 GGUF、ARM/x86，针对 NUMA、调度和跨节点张量并行优化；包含 MiniCPM5 等模型实现。",
+      "llm_difference": "改变算子、内存和执行方式，不是新预训练模型；同一权重换引擎主要影响速度、内存和数值实现。",
+      "dependencies": "上游模型/GGUF 权重；下游本地或 CPU 服务。与 CPM.cu 的 CUDA 路线不同。",
+      "scenarios_limits": "适合无大显卡或统一内存部署。硬件拓扑、量化与上下文长度决定效果；官方速度不能直接迁移到任意机器。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/ArcLight",
+      "default_branch": "main",
+      "revision": "558ef06dede9668c9560b87fe62b8eb2a8710d0f",
+      "pushed_at": "2026-05-30",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/ArcLight/blob/558ef06dede9668c9560b87fe62b8eb2a8710d0f/README.md"
+        },
+        {
+          "label": "models/minicpm5.cpp",
+          "url": "https://github.com/OpenBMB/ArcLight/blob/558ef06dede9668c9560b87fe62b8eb2a8710d0f/models/minicpm5.cpp"
+        },
+        {
+          "label": "nnml/include/scheduler.h",
+          "url": "https://github.com/OpenBMB/ArcLight/blob/558ef06dede9668c9560b87fe62b8eb2a8710d0f/nnml/include/scheduler.h"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 2 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "BMCook",
+      "category": "训练与压缩",
+      "purpose": "把蒸馏、剪枝、量化与 MoEfication 接入训练的压缩工具。",
+      "input_output": "教师/学生模型、训练数据、压缩配置→压缩后的模型与训练产物。",
+      "modules_workflow": "CookTrainer 组织附加损失和压缩钩子；提供结构/非结构剪枝及将稠密 FFN 转成专家的方案。",
+      "llm_difference": "通常不替代 LLM 功能，而改变模型体积、激活计算或训练目标；蒸馏把教师行为迁移给学生。",
+      "dependencies": "与 BMTrain、ModelCenter 体系配合；下游需要支持相应量化或稀疏格式的推理实现。",
+      "scenarios_limits": "适合压缩实验。稀疏率不等于实际加速；README 对 MoEfication 与蒸馏同时使用有组合限制，不能把所有方法任意叠加。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/BMCook",
+      "default_branch": "main",
+      "revision": "9f32ec7e2250ce0deea96db9b2e753d2d7145b82",
+      "pushed_at": "2026-07-07",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/BMCook/blob/9f32ec7e2250ce0deea96db9b2e753d2d7145b82/README.md"
+        },
+        {
+          "label": "README README-ZH.md",
+          "url": "https://github.com/OpenBMB/BMCook/blob/9f32ec7e2250ce0deea96db9b2e753d2d7145b82/README-ZH.md"
+        },
+        {
+          "label": "bmcook/trainer.py",
+          "url": "https://github.com/OpenBMB/BMCook/blob/9f32ec7e2250ce0deea96db9b2e753d2d7145b82/bmcook/trainer.py"
+        },
+        {
+          "label": "bmcook/moefication/README.md",
+          "url": "https://github.com/OpenBMB/BMCook/blob/9f32ec7e2250ce0deea96db9b2e753d2d7145b82/bmcook/moefication/README.md"
+        },
+        {
+          "label": "bmcook/pruning/sprune/README.md",
+          "url": "https://github.com/OpenBMB/BMCook/blob/9f32ec7e2250ce0deea96db9b2e753d2d7145b82/bmcook/pruning/sprune/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 3 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "BMInf",
+      "category": "推理基础设施",
+      "purpose": "早期低显存模型推理及量化、层调度工具。",
+      "input_output": "PyTorch 模型、显存预算和输入→受预算约束的生成结果。",
+      "modules_workflow": "wrapper 替换 Linear 为 QuantizedLinear、ModuleList 为 TransformerBlockList；块内参数保留 CPU，由调度器处理。",
+      "llm_difference": "不训练新的知识；以量化和 CPU/GPU 内存调度降低显存占用，可能付出传输或精度代价。",
+      "dependencies": "依赖 PyTorch、CUDA、cpm_kernels；历史 CPM 模型与 BMInf-demos 展示其使用。",
+      "scenarios_limits": "适合研究低显存设计。代码明确不支持嵌套 ModuleList；旧版兼容范围不能视为支持全部当前模型。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/BMInf",
+      "default_branch": "master",
+      "revision": "a9aec55b1d019069762420b002d39ccccb54f577",
+      "pushed_at": "2026-07-07",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/BMInf/blob/a9aec55b1d019069762420b002d39ccccb54f577/README.md"
+        },
+        {
+          "label": "README README-ZH.md",
+          "url": "https://github.com/OpenBMB/BMInf/blob/a9aec55b1d019069762420b002d39ccccb54f577/README-ZH.md"
+        },
+        {
+          "label": "bminf/wrapper.py",
+          "url": "https://github.com/OpenBMB/BMInf/blob/a9aec55b1d019069762420b002d39ccccb54f577/bminf/wrapper.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 1 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "BMInf-demos",
+      "category": "示例与文档",
+      "purpose": "BMInf 的网页和容器演示集合。",
+      "input_output": "文本提示→CPM1 故事续写、CPM2.1 填空或 EVA 对话界面结果。",
+      "modules_workflow": "把历史模型、推理后端与 Web/Docker 服务连接起来。",
+      "llm_difference": "是应用包装和示例，不是额外训练的一套通用 LLM。",
+      "dependencies": "上游 BMInf 及 CPM/EVA 权重；下游交互演示。",
+      "scenarios_limits": "适合追踪历史部署方式。依赖、权重地址和旧容器需重新验证，不宜据演示界面推断当前生产能力。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/BMInf-demos",
+      "default_branch": "master",
+      "revision": "0a55d22905515c87656d1adb790a8d54017b828e",
+      "pushed_at": "2021-10-14",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/BMInf-demos/blob/0a55d22905515c87656d1adb790a8d54017b828e/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "BMList",
+      "category": "资料与治理",
+      "purpose": "公开大模型目录。",
+      "input_output": "模型资料和人工整理条目→可浏览的模型清单。",
+      "modules_workflow": "按模型名称、规模、来源等汇总公开信息和链接。",
+      "llm_difference": "没有训练/推理模块，不是评测排名，也不构成模型实现。",
+      "dependencies": "上游各机构模型发布；下游资料检索。",
+      "scenarios_limits": "适合历史索引。README 的收录门槛及历史更新范围不代表当前所有模型，缺失条目不表示模型不存在。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/BMList",
+      "default_branch": "main",
+      "revision": "491a9c392463949d398bb75e8d64a30914fcb94d",
+      "pushed_at": "2026-07-07",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/BMList/blob/491a9c392463949d398bb75e8d64a30914fcb94d/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "BMPrinciples",
+      "category": "资料与治理",
+      "purpose": "大模型训练规律与相关论文的资料集合。",
+      "input_output": "论文和经验资料→主题索引与阅读入口。",
+      "modules_workflow": "整理 scaling、训练现象等研究内容。",
+      "llm_difference": "提供研究材料，不是可直接训练的模型，也不是被普遍证明的定律集合。",
+      "dependencies": "上游研究论文；下游训练设计与文献调查。",
+      "scenarios_limits": "适合了解研究线索。每条结论需回到原论文的规模、数据和实验设定，不能从目录标题外推。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/BMPrinciples",
+      "default_branch": "main",
+      "revision": "b8c8826e5ea400ac496a377740225d9809a3e320",
+      "pushed_at": "2023-08-13",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/BMPrinciples/blob/b8c8826e5ea400ac496a377740225d9809a3e320/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/BMPrinciples/blob/b8c8826e5ea400ac496a377740225d9809a3e320/README_zh.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "BMTools",
+      "category": "Agent框架",
+      "purpose": "早期让 LLM 发现和调用外部工具的框架。",
+      "input_output": "用户请求与工具描述→工具选择、参数和工具结果支持的回答。",
+      "modules_workflow": "通过插件/API 包装和递归工具使用把语言输出接到外部功能。",
+      "llm_difference": "增加的是工具接口与控制流程，模型本体仍负责生成和决策；工具结果可提供模型参数外的信息。",
+      "dependencies": "受 LangChain、早期 ChatGPT 插件接口启发；README 将后续功能指向 XAgent。",
+      "scenarios_limits": "适合研究早期工具调用设计。历史协议和 API 可能需要迁移；不能将其视为当前所有插件协议的实现。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/BMTools",
+      "default_branch": "main",
+      "revision": "85869fc6e26616508f5dfafa551546993ab35f52",
+      "pushed_at": "2023-12-05",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/BMTools/blob/85869fc6e26616508f5dfafa551546993ab35f52/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/BMTools/blob/85869fc6e26616508f5dfafa551546993ab35f52/README_zh.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "BMTrain",
+      "category": "训练与压缩",
+      "purpose": "大模型分布式训练基础库。",
+      "input_output": "模型定义、训练样本与并行配置→梯度更新、检查点和训练日志。",
+      "modules_workflow": "DistributedParameter、Block/TransformerBlockList 管理参数；ZeRO 分片、计算通信重叠，1.0 文档加入张量并行。",
+      "llm_difference": "解决多卡内存与吞吐，不定义模型用途；相同 LLM 可在不同训练引擎上训练。",
+      "dependencies": "上游 PyTorch/CUDA/NCCL；下游 ModelCenter、BMCook、CPM 系列历史训练。",
+      "scenarios_limits": "适合分布式训练开发。需遵守其参数和通信约定，不能随意混用 torch.distributed；加速取决于规模与互联。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/BMTrain",
+      "default_branch": "main",
+      "revision": "36a44fe525342f84b082682aaabbe30ae5e22a14",
+      "pushed_at": "2026-07-07",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/BMTrain/blob/36a44fe525342f84b082682aaabbe30ae5e22a14/README.md"
+        },
+        {
+          "label": "README README-ZH.md",
+          "url": "https://github.com/OpenBMB/BMTrain/blob/36a44fe525342f84b082682aaabbe30ae5e22a14/README-ZH.md"
+        },
+        {
+          "label": "docs/UPDATE_1.0.0.md",
+          "url": "https://github.com/OpenBMB/BMTrain/blob/36a44fe525342f84b082682aaabbe30ae5e22a14/docs/UPDATE_1.0.0.md"
+        },
+        {
+          "label": "bmtrain/block_layer.py",
+          "url": "https://github.com/OpenBMB/BMTrain/blob/36a44fe525342f84b082682aaabbe30ae5e22a14/bmtrain/block_layer.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 2 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "ChatDev",
+      "category": "Agent框架",
+      "purpose": "当前主线是 ChatDev 2.0/DevAll 多 Agent 工作流平台。",
+      "input_output": "任务、可视化/配置工作流、工具与模型设置→节点执行结果及产物。",
+      "modules_workflow": "DAG、动态边、循环和并行执行器组织 Agent；节点有 memory、thinking、tool、provider 等组件。",
+      "llm_difference": "是 LLM 工作流与应用搭建层，不是一种新的语言模型架构。",
+      "dependencies": "上游模型服务和工具；下游自定义 Agent 应用。1.0 虚拟软件公司在 chatdev1.0 分支。",
+      "scenarios_limits": "适合搭建可复用协作流程。不能只用早期“虚拟软件公司”概括现主线；不同分支的研究机制不能混算为默认功能。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/ChatDev",
+      "default_branch": "main",
+      "revision": "4fb2db0ea90375ce1059f44fe03ffbd191a7a169",
+      "pushed_at": "2026-07-24",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/ChatDev/blob/4fb2db0ea90375ce1059f44fe03ffbd191a7a169/README.md"
+        },
+        {
+          "label": "README README-zh.md",
+          "url": "https://github.com/OpenBMB/ChatDev/blob/4fb2db0ea90375ce1059f44fe03ffbd191a7a169/README-zh.md"
+        },
+        {
+          "label": "workflow/executor/dag_executor.py",
+          "url": "https://github.com/OpenBMB/ChatDev/blob/4fb2db0ea90375ce1059f44fe03ffbd191a7a169/workflow/executor/dag_executor.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 1 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "ClawXMemory",
+      "category": "Agent框架",
+      "purpose": "OpenClaw 的持久记忆插件。",
+      "input_output": "对话/执行经验→按人物、项目、反馈组织的 Markdown 记忆及检索结果。",
+      "modules_workflow": "文件为记忆主体，索引和 Dream 整理支持重组与召回；SQLite 用于运行控制状态。",
+      "llm_difference": "这是模型外的持久存储，不是增大上下文窗口、修改权重或保存每层 KV cache。",
+      "dependencies": "上游 OpenClaw/EdgeClaw 和语言模型；下游后续任务的上下文召回。",
+      "scenarios_limits": "适合长期个人/项目记忆。效果依赖记录选择、整理与召回；旧事实和跨项目误召回仍需控制。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/ClawXMemory",
+      "default_branch": "main",
+      "revision": "bcd66c5d8611413ad29354819b448e20dd51d480",
+      "pushed_at": "2026-04-15",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/ClawXMemory/blob/bcd66c5d8611413ad29354819b448e20dd51d480/README.md"
+        },
+        {
+          "label": "clawxmemory/src/core/file-memory.ts",
+          "url": "https://github.com/OpenBMB/ClawXMemory/blob/bcd66c5d8611413ad29354819b448e20dd51d480/clawxmemory/src/core/file-memory.ts"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 1 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "ClawXRouter",
+      "category": "Agent框架",
+      "purpose": "OpenClaw 的隐私和复杂度路由插件。",
+      "input_output": "请求、上下文和策略→云端、本地或脱敏后云端的执行路径。",
+      "modules_workflow": "S1 云端、S2 脱敏后云端、S3 本地三层隐私策略，叠加复杂度分级、规则和本地模型判断。",
+      "llm_difference": "在调用 LLM 之前做分流；不是更聪明的 Transformer，也不自动改变被选模型的能力。",
+      "dependencies": "上游 OpenClaw/EdgeClaw、本地模型及云 API；下游实际模型调用。",
+      "scenarios_limits": "适合边云成本和数据流控制。脱敏与分类会误判，README 的隐私目标不能当作安全证明，需检查完整轨迹实际发出的内容。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/ClawXRouter",
+      "default_branch": "main",
+      "revision": "6acac9f8ae1a8c2c236b84deb68b5df4d2d6336f",
+      "pushed_at": "2026-03-31",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/ClawXRouter/blob/6acac9f8ae1a8c2c236b84deb68b5df4d2d6336f/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/ClawXRouter/blob/6acac9f8ae1a8c2c236b84deb68b5df4d2d6336f/README_zh.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "ConsJudge",
+      "category": "检索与知识",
+      "purpose": "利用一致性改进 RAG 评判模型的方法。",
+      "input_output": "问题、候选答案及评判数据→更一致的 judge 与偏好数据。",
+      "modules_workflow": "构造多选/对比评判任务，以一致性筛选和训练改进 judge，进一步给 RAG 生成器产生 DPO 信号。",
+      "llm_difference": "模型角色从回答者变为评判者；优化的是评价一致性，仍可能稳定地判断错误。",
+      "dependencies": "使用 MiniCPM Embedding 等数据构造组件与 LLaMA-Factory；下游 RAG 对齐。",
+      "scenarios_limits": "适合研究低成本偏好标注。没有人工真值的地方不能把 judge 一致性等同事实正确性。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/ConsJudge",
+      "default_branch": "main",
+      "revision": "951d1748a94268b4eb83f1455fd2849a31d3ad35",
+      "pushed_at": "2025-03-23",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/ConsJudge/blob/951d1748a94268b4eb83f1455fd2849a31d3ad35/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "CPM-Bee",
+      "category": "文本模型",
+      "purpose": "历史中英双语 10B 自回归基础语言模型。",
+      "input_output": "结构化文本输入→文本续写或任务输出。",
+      "modules_workflow": "Transformer 语言建模结合结构化输入约定；在 OpenBMB 训练、压缩、微调与推理工具链内使用。",
+      "llm_difference": "本质仍是自回归 LLM，差异主要是双语训练、输入组织及实现约定，不是视觉/语音模型。",
+      "dependencies": "上游 CPM-Live 训练计划、BMTrain 等；下游 VisCPM 及适配训练。",
+      "scenarios_limits": "适合研究 CPM 系列演化。基础模型不等同聊天对齐版；权重及 GML 许可条款需按具体版本阅读。",
+      "core_family": "历史主模型",
+      "url": "https://github.com/OpenBMB/CPM-Bee",
+      "default_branch": "main",
+      "revision": "be2b6a904f596bfd0328cb5e9020a84db44f9629",
+      "pushed_at": "2026-07-07",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/CPM-Bee/blob/be2b6a904f596bfd0328cb5e9020a84db44f9629/README.md"
+        },
+        {
+          "label": "README README_en.md",
+          "url": "https://github.com/OpenBMB/CPM-Bee/blob/be2b6a904f596bfd0328cb5e9020a84db44f9629/README_en.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "CPM-Live",
+      "category": "训练与压缩",
+      "purpose": "公开训练过程与模型演进的项目入口。",
+      "input_output": "训练方案、模型定义和数据流程→CPM-Ant、Ant+、Bee 等阶段的记录与模型产物。",
+      "modules_workflow": "公开训练计划、过程更新和相应实现，强调可观察的模型成长过程。",
+      "llm_difference": "是训练项目及历史组织方式，不是一个独立于各阶段模型的统一架构。",
+      "dependencies": "连接 CPM 系列及 BMTrain 等基础设施；下游历史模型和研究复现。",
+      "scenarios_limits": "适合理解训练演化。分支和阶段名称不能额外计入组织仓库总数，也不能用后来 Bee 能力回填早期 Ant。",
+      "core_family": "历史训练主线",
+      "url": "https://github.com/OpenBMB/CPM-Live",
+      "default_branch": "master",
+      "revision": "3b27173f67827faf329ab649ee1d0cb2a873e56b",
+      "pushed_at": "2026-07-07",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/CPM-Live/blob/3b27173f67827faf329ab649ee1d0cb2a873e56b/README.md"
+        },
+        {
+          "label": "README README-ZH.md",
+          "url": "https://github.com/OpenBMB/CPM-Live/blob/3b27173f67827faf329ab649ee1d0cb2a873e56b/README-ZH.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "CPM.cu",
+      "category": "推理基础设施",
+      "purpose": "MiniCPM 等模型的 CUDA 推理优化实现。",
+      "input_output": "模型权重、提示和生成配置→token 流及执行性能。",
+      "modules_workflow": "组织算子、KV cache、CUDA Graph、分块 prefill；提供 InfLLMv2 稀疏注意力和 MTP/EAGLE 等推测解码路径。",
+      "llm_difference": "加速执行既有模型；推测解码由草稿与目标验证配合，不能直接等同减少模型参数或改变知识。",
+      "dependencies": "依赖 CUDA 及相关量化/内核实现；上游 MiniCPM 权重，下游 GPU 推理服务。",
+      "scenarios_limits": "适合 NVIDIA 平台性能研究。不同模型、量化格式与推测路径的支持需逐项核对；不要将单项最佳速度当整体加速。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/CPM.cu",
+      "default_branch": "main",
+      "revision": "23aa7b7fefc537113166691cec63d5baa5209ebe",
+      "pushed_at": "2026-01-14",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/CPM.cu/blob/23aa7b7fefc537113166691cec63d5baa5209ebe/README.md"
+        },
+        {
+          "label": "README README_ZH.md",
+          "url": "https://github.com/OpenBMB/CPM.cu/blob/23aa7b7fefc537113166691cec63d5baa5209ebe/README_ZH.md"
+        },
+        {
+          "label": "cpmcu/llm.py",
+          "url": "https://github.com/OpenBMB/CPM.cu/blob/23aa7b7fefc537113166691cec63d5baa5209ebe/cpmcu/llm.py"
+        },
+        {
+          "label": "cpmcu/speculative/eagle.py",
+          "url": "https://github.com/OpenBMB/CPM.cu/blob/23aa7b7fefc537113166691cec63d5baa5209ebe/cpmcu/speculative/eagle.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 2 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "cpm_kernels",
+      "category": "推理基础设施",
+      "purpose": "CPM 工具链使用的底层 CUDA 算子集合。",
+      "input_output": "GPU 张量→矩阵运算、归一化、激活、嵌入等张量结果。",
+      "modules_workflow": "Python/Torch 绑定调用 CUDA/C 接口，目录含 GEMM/GEMV、layernorm、softmax 等。",
+      "llm_difference": "粒度低于 Transformer 层；不具备独立理解或生成能力。",
+      "dependencies": "供 BMInf 等上层模块使用；依赖 CUDA 与张量布局约定。",
+      "scenarios_limits": "适合底层算子复用或研究。README 很短，本报告补查 GEMM 绑定和 layernorm 源码；不据目录推断任意 dtype/shape 均受支持。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/cpm_kernels",
+      "default_branch": "master",
+      "revision": "277a0eddd6d264c6b9b9477fa47cc00880d581c0",
+      "pushed_at": "2023-10-02",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/cpm_kernels/blob/277a0eddd6d264c6b9b9477fa47cc00880d581c0/README.md"
+        },
+        {
+          "label": "cpm_kernels/torch/gemm.py",
+          "url": "https://github.com/OpenBMB/cpm_kernels/blob/277a0eddd6d264c6b9b9477fa47cc00880d581c0/cpm_kernels/torch/gemm.py"
+        },
+        {
+          "label": "cuda/layernorm.cu",
+          "url": "https://github.com/OpenBMB/cpm_kernels/blob/277a0eddd6d264c6b9b9477fa47cc00880d581c0/cuda/layernorm.cu"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 2 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "CPO",
+      "category": "训练与压缩",
+      "purpose": "Controllable Preference Optimization，可控偏好对齐。",
+      "input_output": "带偏好维度的数据、控制条件→能按条件调整偏好的微调模型。",
+      "modules_workflow": "通过 CPSFT、CDPO 等训练将帮助性、安全性等目标的控制信号纳入优化；提供 UltraSafety 相关数据。",
+      "llm_difference": "不增加新的输入模态，主要修改对齐数据和目标；仍由自回归 LLM 生成回答。",
+      "dependencies": "上游基础 LLM 与偏好数据；下游可控对齐实验。",
+      "scenarios_limits": "适合多目标偏好研究。这里 CPO 指该仓库定义的方法，不应与同缩写的其他算法混淆；控制值不保证所有情境达标。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/CPO",
+      "default_branch": "main",
+      "revision": "10c4480326cd02a35e0221ccf40ed63eb79bef7f",
+      "pushed_at": "2024-07-16",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/CPO/blob/10c4480326cd02a35e0221ccf40ed63eb79bef7f/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "DEBATER",
+      "category": "检索与知识",
+      "purpose": "用“思考链式嵌入”和自蒸馏改进文本向量。",
+      "input_output": "查询/文档文本→用于相似度检索的稠密向量。",
+      "modules_workflow": "Chain of Deliberation 增强表示；自蒸馏把多步表示收益压到高效单次嵌入，LLM2Vec 包装提供 pooling 与 encode。",
+      "llm_difference": "骨干来自 LLM，但最终主要输出向量而非自然语言答案；用途是检索，不是聊天。",
+      "dependencies": "上游 MiniCPM2B/3-4B、LLM2Vec；下游向量检索、MTEB 类评测及 RAG。",
+      "scenarios_limits": "适合研究 LLM 转 embedding。查询与文档模板、pooling 和训练域需匹配；更强 embedding 不直接保证最终回答忠实。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/DEBATER",
+      "default_branch": "main",
+      "revision": "377a1421a094976009fa1c59dda1cb3659548355",
+      "pushed_at": "2025-03-02",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/DEBATER/blob/377a1421a094976009fa1c59dda1cb3659548355/README.md"
+        },
+        {
+          "label": "llm2vec/llm2vec.py",
+          "url": "https://github.com/OpenBMB/DEBATER/blob/377a1421a094976009fa1c59dda1cb3659548355/llm2vec/llm2vec.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 1 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "DecorateLM",
+      "category": "数据与对齐",
+      "purpose": "预训练语料的评级、标注和编辑流程。",
+      "input_output": "原始文本→质量/属性标签及编辑后的训练文本。",
+      "modules_workflow": "Rate 使用成对评价和 Bradley–Terry 等评分，Tag 构建属性分类，Edit 改写语料。",
+      "llm_difference": "主要改变喂给 LLM 的数据，不是另一个负责回答问题的基础模型。",
+      "dependencies": "上游教师模型和原始语料；下游预训练数据选择与加工。",
+      "scenarios_limits": "适合数据质量实验。教师偏差、过度改写和领域分布变化可能传入训练集，不能把加工后文本默认当事实核验结果。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/DecorateLM",
+      "default_branch": "main",
+      "revision": "357555cac4409a56aac42f69d6a8e49f361c4e31",
+      "pushed_at": "2024-12-17",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/DecorateLM/blob/357555cac4409a56aac42f69d6a8e49f361c4e31/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "DecT",
+      "category": "训练与压缩",
+      "purpose": "少样本语言理解任务的 Decoder Tuning。",
+      "input_output": "少量带标签文本和提示模板→类别预测及轻量任务适配参数。",
+      "modules_workflow": "冻结预训练模型，提取提示激活的输出分数与隐藏表示；训练输出侧任务解码网络/verbalizer，缓存特征用于少样本分类。",
+      "llm_difference": "名称中的 decoder tuning 不意味着从头训练一个 decoder-only 大模型；支持 MLM、LM、chat 等骨干。",
+      "dependencies": "依赖 PyTorch、Transformers、OpenPrompt；示例包括 RoBERTa、LLaMA、Alpaca、Vicuna。",
+      "scenarios_limits": "适合少样本分类研究。聊天模板和维度必须匹配模型；分类准确率不能泛化为开放式生成能力。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/DecT",
+      "default_branch": "main",
+      "revision": "a2aa29570c19d066aaa4b01fac278bf65ac37afb",
+      "pushed_at": "2023-06-25",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/DecT/blob/a2aa29570c19d066aaa4b01fac278bf65ac37afb/README.md"
+        },
+        {
+          "label": "src/dect_verbalizer.py",
+          "url": "https://github.com/OpenBMB/DecT/blob/a2aa29570c19d066aaa4b01fac278bf65ac37afb/src/dect_verbalizer.py"
+        },
+        {
+          "label": "src/dect_trainer.py",
+          "url": "https://github.com/OpenBMB/DecT/blob/a2aa29570c19d066aaa4b01fac278bf65ac37afb/src/dect_trainer.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 2 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "DeepThinkVLA",
+      "category": "具身与科学",
+      "purpose": "把显式推理与机器人动作预测连接起来的 VLA。",
+      "input_output": "视觉观察和语言任务→思考 token，随后预测动作序列。",
+      "modules_workflow": "基于 pi0-FAST/PaliGemma 路线；先自回归思考，再通过混合注意力掩码并行预测动作；配合 CoT SFT 和结果导向 RL。",
+      "llm_difference": "输出空间包含机器人动作，训练监督及注意力模式有别于纯文本逐 token 续写。",
+      "dependencies": "上游视觉语言骨干、机器人数据和仿真；下游动作解码及控制执行。",
+      "scenarios_limits": "适合检验推理对操作任务的帮助。当前 README 的真机及部分仿真事项仍列 TODO，不能把已有仿真成绩描述为全部完成真机验证。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/DeepThinkVLA",
+      "default_branch": "main",
+      "revision": "ff271e7c024422581c9875d96250f99dd0b743d1",
+      "pushed_at": "2026-09-08",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/DeepThinkVLA/blob/ff271e7c024422581c9875d96250f99dd0b743d1/README.md"
+        },
+        {
+          "label": "src/sft/modeling_deepthinkvla.py",
+          "url": "https://github.com/OpenBMB/DeepThinkVLA/blob/ff271e7c024422581c9875d96250f99dd0b743d1/src/sft/modeling_deepthinkvla.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 1 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "EdgeClaw",
+      "category": "Agent应用",
+      "purpose": "基于 OpenClaw 的边云智能体平台，GitHub 标记为 fork。",
+      "input_output": "用户任务和环境观察→经过路由、记忆及工具控制的执行结果。",
+      "modules_workflow": "集成 ClawXMemory、ClawXRouter，并组织持续任务循环、工具治理、沙箱、技能和上下文模块。",
+      "llm_difference": "属于 Agent 运行系统；记忆、隐私路由与工具执行不等于新训练的模型。",
+      "dependencies": "GitHub parent 明确为 openclaw/openclaw；结合 ClawXMemory、ClawXRouter 与模型/工具服务，下游为边云 Agent。",
+      "scenarios_limits": "适合边云 Agent 集成。名称与扩展功能不能抹去 fork 来源；本地运行也需核对模型端点和工具数据流。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/EdgeClaw",
+      "default_branch": "main",
+      "revision": "5e461861b370f5677d2eb6b35499764632989279",
+      "pushed_at": "2026-04-15",
+      "archived": false,
+      "fork": true,
+      "github_license": "MIT",
+      "fork_parent": "openclaw/openclaw",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/EdgeClaw/blob/5e461861b370f5677d2eb6b35499764632989279/README.md"
+        },
+        {
+          "label": "README readme_zh.md",
+          "url": "https://github.com/OpenBMB/EdgeClaw/blob/5e461861b370f5677d2eb6b35499764632989279/readme_zh.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "Eurus",
+      "category": "模型与Agent",
+      "purpose": "面向推理任务的后训练模型和偏好数据。",
+      "input_output": "数学、代码等问题→推理与答案；训练输入含偏好轨迹。",
+      "modules_workflow": "使用 UltraInteract 的多轮轨迹树及 UltraFeedback，训练 Eurus 模型/奖励模型，涉及 KTO/NCA 等目标。",
+      "llm_difference": "主要改进现有骨干的后训练与数据，不是新发明一套 Transformer。",
+      "dependencies": "Eurus 使用 Mistral7B、CodeLlama70B；Eurux 使用 Mixtral8x22B。下游推理与奖励评估。",
+      "scenarios_limits": "适合研究偏好与交互数据对推理的作用。必须区分 Eurus/Eurux 版本、基础权重与训练目标；历史成绩不代表当前排名。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/Eurus",
+      "default_branch": "main",
+      "revision": "fd72db1861ef009fede0dbe5bcc9893c9012dacf",
+      "pushed_at": "2024-09-18",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/Eurus/blob/fd72db1861ef009fede0dbe5bcc9893c9012dacf/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "ForgeStencil",
+      "category": "编程与优化",
+      "purpose": "用 Agent 优化 stencil 数值计算内核与应用集成的研究系统。",
+      "input_output": "应用、基线内核、硬件和正确性约束→候选 CUDA 优化、集成补丁与测量记录。",
+      "modules_workflow": "内核 Agent 规划/编码/性能分析，应用 Agent 集成和校验；保存实验来源和交错计时结果。",
+      "llm_difference": "LLM 是编程优化助手，被优化对象是数值 stencil，不是语言模型注意力或预训练本身。",
+      "dependencies": "上游模型服务、CUDA 编译器、A100/H100/B200 等硬件任务；下游科学计算应用。",
+      "scenarios_limits": "适合研究自动内核优化。性能须以同硬件完整应用和正确性测量为准；仓库报告不等于本次已验证全部应用。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/ForgeStencil",
+      "default_branch": "main",
+      "revision": "1c8311c8a79abaedd40fc6609d888a4f88dea3a2",
+      "pushed_at": "2026-08-04",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/ForgeStencil/blob/1c8311c8a79abaedd40fc6609d888a4f88dea3a2/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/ForgeStencil/blob/1c8311c8a79abaedd40fc6609d888a4f88dea3a2/README_zh.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "ForgeTrain",
+      "category": "训练与压缩",
+      "purpose": "以自主 Agent 循环构建的 LLM 预训练引擎及研究材料。",
+      "input_output": "训练数据、MiniCPM 配置、H100 资源→训练检查点与性能/损失记录。",
+      "modules_workflow": "公开导出的训练引擎，覆盖 MiniCPM4-0.5B/8B 的特定并行路径和算子优化；完整 agent harness 的开放状态需单独看。",
+      "llm_difference": "成果是训练软件，不是另一个通用 LLM；“AI 编写”描述开发流程，不代表数学架构不同。",
+      "dependencies": "上游 PyTorch、CUDA、CuTeDSL、FlashAttention 等；下游 MiniCPM 预训练。",
+      "scenarios_limits": "适合研究 Agent 编写高性能训练系统。44.13% MFU 等为官方 H100 条件结果；子项目明确排除移植上游代码于自主编写口径之外。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/ForgeTrain",
+      "default_branch": "main",
+      "revision": "3242a5cd74851a14a7e0c1ebbfb19decdafd2cde",
+      "pushed_at": "2026-08-20",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/ForgeTrain/blob/3242a5cd74851a14a7e0c1ebbfb19decdafd2cde/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/ForgeTrain/blob/3242a5cd74851a14a7e0c1ebbfb19decdafd2cde/README_zh.md"
+        },
+        {
+          "label": "exports/train_engine_0.5B/README.md",
+          "url": "https://github.com/OpenBMB/ForgeTrain/blob/3242a5cd74851a14a7e0c1ebbfb19decdafd2cde/exports/train_engine_0.5B/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 1 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "General-Model-License",
+      "category": "资料与治理",
+      "purpose": "通用模型许可文本与版本材料。",
+      "input_output": "许可条款和使用条件→模型发布时可引用的许可文件。",
+      "modules_workflow": "组织许可文案及适用约定，不执行训练或推理。",
+      "llm_difference": "治理层材料，没有模型输入输出或参数。",
+      "dependencies": "与采用 GML 的模型发布相关；下游发布者和使用者。",
+      "scenarios_limits": "适合定位原始许可。仓库代码许可证与权重许可证可能不同；本报告只标出来源，不替代具体条款解释。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/General-Model-License",
+      "default_branch": "main",
+      "revision": "e4eb9be48f2cfe8367205208516440fa186e8ae3",
+      "pushed_at": "2023-05-27",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/General-Model-License/blob/e4eb9be48f2cfe8367205208516440fa186e8ae3/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "HerculesBench",
+      "category": "评测",
+      "purpose": "公开内容说明不足的历史评测代码仓库。",
+      "input_output": "可见推理脚本接收题目和模型配置并保存回答；完整正式任务定义未能由根 README 确认。",
+      "modules_workflow": "根 README 只有“OlympiadBench-”；inference/readme.md 明确描述 OlympiadBench Evaluation 的提示、模型调用、保存与自动评分代码。",
+      "llm_difference": "可确认它不是一个发布了完整模型卡的新通用 LLM；不能仅凭 Hercules 名字发明其任务能力。",
+      "dependencies": "与 OlympiadBench 命名和评测代码有关系线索；缺少足够说明，不能断言是其正式新版或替代品。",
+      "scenarios_limits": "适合历史代码考察。该条明确列为信息不足：数据范围、正式指标和维护意图待作者进一步文档确认。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/HerculesBench",
+      "default_branch": "main",
+      "revision": "5efa6bc7d1cdff270934034bf16c93f86d226ba1",
+      "pushed_at": "2024-07-13",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/HerculesBench/blob/5efa6bc7d1cdff270934034bf16c93f86d226ba1/README.md"
+        },
+        {
+          "label": "inference/readme.md",
+          "url": "https://github.com/OpenBMB/HerculesBench/blob/5efa6bc7d1cdff270934034bf16c93f86d226ba1/inference/readme.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 1 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "InfiniteBench",
+      "category": "评测",
+      "purpose": "评估 100K+ 长上下文理解的基准。",
+      "input_output": "超长文本、问题和模型输出→各任务分数。",
+      "modules_workflow": "包含长书问答/摘要、长对话、检索、代码和数学等 12 类任务，混合真实与合成样本。",
+      "llm_difference": "检验 LLM 使用长输入的能力，不提供让模型窗口自动变长的算法。",
+      "dependencies": "上游待测模型与数据集；下游长上下文模型及系统比较。",
+      "scenarios_limits": "适合发现“支持长窗口但用不好信息”的差异。成绩受截断、模板、生成预算及 MapReduce 等外部流程影响，必须分开报告。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/InfiniteBench",
+      "default_branch": "main",
+      "revision": "51d9b37b0f1790ead936df2243abbf7f0420e439",
+      "pushed_at": "2024-09-25",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/InfiniteBench/blob/51d9b37b0f1790ead936df2243abbf7f0420e439/README.md"
+        },
+        {
+          "label": "README README_ZH.md",
+          "url": "https://github.com/OpenBMB/InfiniteBench/blob/51d9b37b0f1790ead936df2243abbf7f0420e439/README_ZH.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "infllmv2_cuda_impl",
+      "category": "推理基础设施",
+      "purpose": "InfLLM-V2 稀疏注意力的 CUDA 实现。",
+      "input_output": "Q/K/V 与块选择信息→选定块上的注意力输出及训练所需梯度。",
+      "modules_workflow": "第一阶段计算相关性及聚合，外部 TopK 选块，第二阶段执行稀疏注意力；支持稠密到稀疏的长短序列适配。",
+      "llm_difference": "改变注意力访问方式，仍保留语言建模框架；不是 MoE 的 FFN 专家路由，也不是把文本摘要成更短提示。",
+      "dependencies": "上游 MiniCPM/InfLLM-V2 与 FlashAttention 相关代码；下游匹配的训练和推理后端。",
+      "scenarios_limits": "适合注意力内核研究。TopK 并非全由此仓库包办；训练与 feature_infer 等分支应按需求固定，不可混用接口。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/infllmv2_cuda_impl",
+      "default_branch": "main",
+      "revision": "93cf2ec28e5a7acebe3f0bb7329b6c73a1be91f6",
+      "pushed_at": "2026-02-11",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/infllmv2_cuda_impl/blob/93cf2ec28e5a7acebe3f0bb7329b6c73a1be91f6/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "IoA",
+      "category": "Agent框架",
+      "purpose": "连接异构智能体的 Internet of Agents 框架。",
+      "input_output": "任务和可发现的 Agent 能力→跨 Agent 协作轨迹及结果。",
+      "modules_workflow": "异步通信、动态团队与嵌套组织，连接不同实现的智能体。",
+      "llm_difference": "主要解决 Agent 之间互操作，不是模型内部的 attention 通信，也不等于参数共享的多专家模型。",
+      "dependencies": "可对接 AutoGPT、OpenInterpreter 等系统；示例依赖 Docker/Milvus 等服务。",
+      "scenarios_limits": "适合跨框架协作实验。能力描述、协议和环境权限需一致，异步并发也会增加追踪与失败恢复复杂度。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/IoA",
+      "default_branch": "main",
+      "revision": "9d78e88e47160eb42ee1ee8538c05e1c2c47877a",
+      "pushed_at": "2025-10-04",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/IoA/blob/9d78e88e47160eb42ee1ee8538c05e1c2c47877a/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "Locret",
+      "category": "推理基础设施",
+      "purpose": "以训练过的 retaining heads 决定 KV cache 淘汰。",
+      "input_output": "长上下文及缓存预算→压缩后的 KV 和后续生成。",
+      "modules_workflow": "分块 prefill 时给缓存单元打分，TopK 保留重要单元并保护临近区间，再进行生成。",
+      "llm_difference": "改的是注意力缓存保留策略，不是模型外文档检索；压缩可能丢失后来需要的信息。",
+      "dependencies": "README 主要覆盖 Phi-3-mini-128k 与 Llama3.1-8B；与保持完整 KV 的普通解码对比。",
+      "scenarios_limits": "适合消费级显卡长上下文研究。不能把路线图中的 MiniCPM 当已支持；示例存在固定维度等假设，迁移需改代码和重新验证。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/Locret",
+      "default_branch": "main",
+      "revision": "28995c5ad6e6cc263913eb73fb76a4942f3dbf75",
+      "pushed_at": "2024-10-29",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/Locret/blob/28995c5ad6e6cc263913eb73fb76a4942f3dbf75/README.md"
+        },
+        {
+          "label": "locret/inference/infer.py",
+          "url": "https://github.com/OpenBMB/Locret/blob/28995c5ad6e6cc263913eb73fb76a4942f3dbf75/locret/inference/infer.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 1 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "MA-ProofBench",
+      "category": "评测",
+      "purpose": "数学分析领域 Lean4 形式化证明基准。",
+      "input_output": "形式化定理与证明尝试→Lean 编译/证明检查结果。",
+      "modules_workflow": "官方列出 200 道题、两个难度层及多类数学分析主题，使用 Kimina Lean 服务等执行环境。",
+      "llm_difference": "检查可机器验证的证明，和 LLM 输出一段看似合理的自然语言证明不同。",
+      "dependencies": "上游证明生成模型、Lean4/Mathlib；下游形式化推理研究。",
+      "scenarios_limits": "适合检验严谨证明能力。仓库环境为 Lean4.28 等特定版本；超时和库版本均会改变通过率，不能与非形式化分数混比。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/MA-ProofBench",
+      "default_branch": "main",
+      "revision": "31bab4c78fd1b0c464e767d62e9202163d1e9029",
+      "pushed_at": "2026-08-26",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/MA-ProofBench/blob/31bab4c78fd1b0c464e767d62e9202163d1e9029/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/MA-ProofBench/blob/31bab4c78fd1b0c464e767d62e9202163d1e9029/README_zh.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "MathForm",
+      "category": "模型与Agent",
+      "purpose": "把自然语言数学陈述转成 Lean 形式化陈述。",
+      "input_output": "数学文本→可编译且语义对应的 Lean statement。",
+      "modules_workflow": "检索 Mathlib，结合编译反馈与语义反馈迭代修改；提供 FormalVerse 数据和 MathForm8B 的 SFT/RL 路线。",
+      "llm_difference": "重点是自动形式化“题目”，不是自动完成其证明；生成代码通过编译也不单独证明语义忠实。",
+      "dependencies": "依赖模型、Mathlib 检索和 Lean4.21 环境；可给证明系统提供输入。",
+      "scenarios_limits": "适合数学形式化流水线。与 MA-ProofBench 的 Lean 版本不同，不能直接拼接而不适配；需分别检查语法和原题含义。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/MathForm",
+      "default_branch": "main",
+      "revision": "360487f264e801ee08de0f49b12e57fcc600e5ca",
+      "pushed_at": "2026-08-17",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/MathForm/blob/360487f264e801ee08de0f49b12e57fcc600e5ca/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/MathForm/blob/360487f264e801ee08de0f49b12e57fcc600e5ca/README_zh.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "Meshy",
+      "category": "训练与压缩",
+      "purpose": "把 RL 采样、训练与推理组织成服务的训练框架。",
+      "input_output": "数据、奖励和服务拓扑→rollout、参数更新、检查点。",
+      "modules_workflow": "SGLang 推理、Titan 训练、CPU rollout 经 TransferQueue 交换样本/门控；列就绪触发消费，同卡服务通过 token-ring 交接 GPU。",
+      "llm_difference": "不定义新的模型知识或奖励标准，优化的是强化学习系统的数据流、并发和资源分配。",
+      "dependencies": "依赖 SGLang、torchtitan、TransferQueue 等；下游 on-policy、受限 off-policy 和异步 RL。",
+      "scenarios_limits": "适合 RL 系统研究。权重版本与陈旧样本管理很关键；架构支持多布局不表示所有布局在任意硬件上都更快。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/Meshy",
+      "default_branch": "main",
+      "revision": "04e145c6282c9d8cbea99e692256a027c83a7673",
+      "pushed_at": "2026-09-21",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/Meshy/blob/04e145c6282c9d8cbea99e692256a027c83a7673/README.md"
+        },
+        {
+          "label": "docs/architecture_services.md",
+          "url": "https://github.com/OpenBMB/Meshy/blob/04e145c6282c9d8cbea99e692256a027c83a7673/docs/architecture_services.md"
+        },
+        {
+          "label": "meshy/service/topology.py",
+          "url": "https://github.com/OpenBMB/Meshy/blob/04e145c6282c9d8cbea99e692256a027c83a7673/meshy/service/topology.py"
+        },
+        {
+          "label": "meshy/service/colocation.py",
+          "url": "https://github.com/OpenBMB/Meshy/blob/04e145c6282c9d8cbea99e692256a027c83a7673/meshy/service/colocation.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 3 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "MetaMem",
+      "category": "检索与知识",
+      "purpose": "通过自反思改进“如何使用记忆”的符号元记忆。",
+      "input_output": "历史交互、事实记忆、反馈→可迁移的记忆利用经验及回答。",
+      "modules_workflow": "用 LightMem 构建事实记忆，再借反思和环境反馈更新符号化 meta-memory，指导后续证据选择。",
+      "llm_difference": "外部事实记忆与“使用经验”分层，不是直接微调所有 LLM 权重，也不是单纯保存聊天全文。",
+      "dependencies": "依赖 LightMem、SGLang 和外部 LLM/压缩器/embedding；下游多会话与时间推理。",
+      "scenarios_limits": "适合长期记忆研究。“训练元记忆”在此须按符号优化理解；泛化结论来自官方实验，不保证个人数据场景同等收益。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/MetaMem",
+      "default_branch": "main",
+      "revision": "66232c1cb33d3d7939d323b431f21c741785142e",
+      "pushed_at": "2026-07-02",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/MetaMem/blob/66232c1cb33d3d7939d323b431f21c741785142e/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "MiniCPM",
+      "category": "文本模型",
+      "purpose": "小参数文本模型家族与训练、适配、部署入口。",
+      "input_output": "文本上下文→续写、推理、代码或结构化调用文本；不同衍生 checkpoint 用途不同。",
+      "modules_workflow": "早期 μP/训练策略、小模型扩展到 MoE、稀疏 FFN；3 引入低秩注意力结构，4/4.1 有 InfLLM-V2，SALA 混合稀疏/线性注意力，5 为 Llama 兼容稠密架构。",
+      "llm_difference": "大多数仍是自回归 LLM，优势目标在参数效率及部署；不能用某一代架构概括全家族。",
+      "dependencies": "连接 BMCook/BMTrain 历史工具、CPM.cu、ArcLight、UltraEval 与数据项目；RAG Suite 还有 embedding/reranker。",
+      "scenarios_limits": "适合端侧文本与研究。当前主线含 MiniCPM5-1B/2B；量化、上下文上限、训练法和许可须按版本看，命名参数量并不总包含相同模块。",
+      "core_family": "★ 语言主线",
+      "url": "https://github.com/OpenBMB/MiniCPM",
+      "default_branch": "main",
+      "revision": "316cfb1cea39f39cfa16b4f5703b77495c2340be",
+      "pushed_at": "2026-09-21",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/README.md"
+        },
+        {
+          "label": "README README-cn.md",
+          "url": "https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/README-cn.md"
+        },
+        {
+          "label": "docs/README-minicpm1-en.md",
+          "url": "https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/docs/README-minicpm1-en.md"
+        },
+        {
+          "label": "docs/README-minicpm2-en.md",
+          "url": "https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/docs/README-minicpm2-en.md"
+        },
+        {
+          "label": "docs/README-minicpm3-en.md",
+          "url": "https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/docs/README-minicpm3-en.md"
+        },
+        {
+          "label": "minicpm_sala/README.md",
+          "url": "https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/minicpm_sala/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 4 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "MiniCPM-Desk-Pet",
+      "category": "Agent应用",
+      "purpose": "使用小模型的桌面宠物/助手应用。",
+      "input_output": "聊天、角色设置和桌面 Agent 活动→宠物反馈与对话。",
+      "modules_workflow": "本地模型加载、角色适配和桌面交互；默认示例使用 MiniCPM5-1B GGUF。",
+      "llm_difference": "将已有 LLM 放入桌面产品，不代表又训练了新基础模型。",
+      "dependencies": "上游 MiniCPM5 与本地推理；下游桌面伴侣体验。",
+      "scenarios_limits": "适合低成本本地交互。macOS、Windows 与 Linux 的发布状态有区别，应以各平台说明为准；拟人化表达不等同真实理解用户情绪。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/MiniCPM-Desk-Pet",
+      "default_branch": "main",
+      "revision": "87dc4d7c39f30f5d9a2753cd60559a0e90287839",
+      "pushed_at": "2026-08-18",
+      "archived": false,
+      "fork": false,
+      "github_license": "AGPL-3.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-Desk-Pet/blob/87dc4d7c39f30f5d9a2753cd60559a0e90287839/README.md"
+        },
+        {
+          "label": "README README.zh-CN.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-Desk-Pet/blob/87dc4d7c39f30f5d9a2753cd60559a0e90287839/README.zh-CN.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "MiniCPM-o-Demo",
+      "category": "示例与文档",
+      "purpose": "MiniCPM-o 实时音视频交互的官方演示应用。",
+      "input_output": "麦克风/摄像头和文本→实时文字/语音回应。",
+      "modules_workflow": "前后端、会话管理与实时接口连接模型，演示流式和全双工交互；PyTorch/CUDA 是一条明确部署路线。",
+      "llm_difference": "这是承载 omni 模型的应用，真正的感知与生成来自模型及对应服务。",
+      "dependencies": "上游 MiniCPM-o 权重和推理后端；下游浏览器或相关交互客户端。",
+      "scenarios_limits": "适合体验全双工。不能把某个 demo 的 CUDA 要求推广到所有后端，也不能把其他桌面/llama.cpp 版本功能自动算进这一版本。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/MiniCPM-o-Demo",
+      "default_branch": "main",
+      "revision": "47709a9210dfd71afa76c058e017fc8c4db5c8d2",
+      "pushed_at": "2026-09-15",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-o-Demo/blob/47709a9210dfd71afa76c058e017fc8c4db5c8d2/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-o-Demo/blob/47709a9210dfd71afa76c058e017fc8c4db5c8d2/README_zh.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "MiniCPM-Robot",
+      "category": "具身与科学",
+      "purpose": "包含机器人操作 Manip 与目标跟踪 Track 两条不同模型路线。",
+      "input_output": "Manip：多视角历史、指令、状态→动作块；Track：粗历史/精当前视觉与指令→连续轨迹。",
+      "modules_workflow": "Manip 采用 MiniCPM-V 4.6 路线与动作头；Track 配置使用 MiniCPM4-0.5B，视觉投影、时间标记、control query 和 FunnelTrajectoryHead。",
+      "llm_difference": "不止生成语言：输出必须通过动作归一化、坐标转换和机器人控制闭环；文本模型是部分骨干。",
+      "dependencies": "上游视觉编码器、文本/VLM 权重和机器人数据；下游机械臂或 Go2 跟踪部署。",
+      "scenarios_limits": "适合具身系统研究。Manip 1.5B 与 Track 0.9B 是官方整体规模；Track 配置的 8 个三维路点不能直接当 Manip 的关节动作。",
+      "core_family": "★ 具身主线",
+      "url": "https://github.com/OpenBMB/MiniCPM-Robot",
+      "default_branch": "main",
+      "revision": "f666593066641d2c0cef06bc17bfb1e954547674",
+      "pushed_at": "2026-08-25",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/README_zh.md"
+        },
+        {
+          "label": "MiniCPM-RobotManip/vla_infer_memvla.py",
+          "url": "https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/MiniCPM-RobotManip/vla_infer_memvla.py"
+        },
+        {
+          "label": "MiniCPM-RobotTrack/minicpm_robot_track/modeling.py",
+          "url": "https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/MiniCPM-RobotTrack/minicpm_robot_track/modeling.py"
+        },
+        {
+          "label": "MiniCPM-RobotTrack/minicpm_robot_track/config.py",
+          "url": "https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/MiniCPM-RobotTrack/minicpm_robot_track/config.py"
+        },
+        {
+          "label": "MiniCPM-RobotTrack/docs/GO2_DEPLOYMENT.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/MiniCPM-RobotTrack/docs/GO2_DEPLOYMENT.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 4 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "MiniCPM-V",
+      "category": "多模态模型",
+      "purpose": "视觉语言及 MiniCPM-o 全模态家族的主要发布入口。",
+      "input_output": "V：文本+图像/视频→文本；o：文本、图像、音视频流→文本和语音。",
+      "modules_workflow": "V4.6 使用浅层 ViT 内压缩、切片和 Qwen3.5 文本骨干；o4.5 组合视觉/音频编码器、语言骨干和语音生成，Omni-Flow 对齐实时流。",
+      "llm_difference": "输入不再只是文字；视觉 token、音频表示和时间调度增加算力与状态。o 的同时看听说也不同于轮流 ASR→LLM→TTS。",
+      "dependencies": "上游各代骨干不同；下游 V-Apps、o-Demo、RobotManip、VisRAG 等需按版本对应。",
+      "scenarios_limits": "适合图文、视频及实时语音。V4.6 官方 1.3B 与 o4.5 9B 不能直接按名字比；模型能力和手机后端实际支持须分开。",
+      "core_family": "★ 视觉/全模态主线",
+      "url": "https://github.com/OpenBMB/MiniCPM-V",
+      "default_branch": "main",
+      "revision": "6ada8e8ef5e2979670fc94406f02b87c3c7e7ee0",
+      "pushed_at": "2026-09-08",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-V/blob/6ada8e8ef5e2979670fc94406f02b87c3c7e7ee0/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-V/blob/6ada8e8ef5e2979670fc94406f02b87c3c7e7ee0/README_zh.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "MiniCPM-V-Apps",
+      "category": "Agent应用",
+      "purpose": "把 MiniCPM 多模态、文本及语音能力带到移动端的应用集合。",
+      "input_output": "手机文本、图像、音频等交互→相应对话或语音输出。",
+      "modules_workflow": "iOS/Android/Harmony 客户端和底层 llama.cpp-omni 相关运行库连接；支持列表跨 V、MiniCPM5 与 VoxCPM2。",
+      "llm_difference": "属于客户端与部署工程，不是新模型训练方法。",
+      "dependencies": "上游具体 GGUF/模型文件及 tc-mb/llama.cpp-omni 子模块；下游移动设备。",
+      "scenarios_limits": "适合实际端侧体验。不同平台与 checkpoint 的支持并非完全相同，需计入峰值内存、模型下载、发热和后台限制。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/MiniCPM-V-Apps",
+      "default_branch": "main",
+      "revision": "d1aac05eecaac64b7fc35f1cc93a06b726ce10e3",
+      "pushed_at": "2026-09-12",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-V-Apps/blob/d1aac05eecaac64b7fc35f1cc93a06b726ce10e3/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-V-Apps/blob/d1aac05eecaac64b7fc35f1cc93a06b726ce10e3/README_zh.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "MobileCPM",
+      "category": "Agent应用",
+      "purpose": "较早的移动端 LLM 应用开发工具。",
+      "input_output": "移动端提示和对话→本地生成及 UI 流式显示。",
+      "modules_workflow": "模型下载管理、提示型 Agent 和应用接口，README 主要围绕 iOS。",
+      "llm_difference": "解决嵌入应用的工程问题，不等于新的 MiniCPM 模型。",
+      "dependencies": "上游端侧模型和运行库；下游移动开发者。",
+      "scenarios_limits": "适合理解早期 iOS 集成。Android 在该 README 仍是计划项，不能套用 V-Apps 的最新覆盖；“零成本”不含设备、电力和开发费用。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/MobileCPM",
+      "default_branch": "main",
+      "revision": "3943591b2698ccb51f1d7e165d048d3ae68022d5",
+      "pushed_at": "2024-07-04",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/MobileCPM/blob/3943591b2698ccb51f1d7e165d048d3ae68022d5/README.md"
+        },
+        {
+          "label": "README README-cn.md",
+          "url": "https://github.com/OpenBMB/MobileCPM/blob/3943591b2698ccb51f1d7e165d048d3ae68022d5/README-cn.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "ModelCenter",
+      "category": "训练与压缩",
+      "purpose": "基于 BMTrain 的模型实现与训练组件库。",
+      "input_output": "模型配置、任务数据→模型前向、训练及任务输出。",
+      "modules_workflow": "提供通用层和 BERT、T5、LLaMA、ViT 等不同模型实现；源码含普通和稀疏注意力。",
+      "llm_difference": "是多架构模型库，不是一个单独的 decoder-only LLM；编码器与编码解码器也在范围内。",
+      "dependencies": "上游 BMTrain；下游任务训练、CPM 相关工具及压缩适配。",
+      "scenarios_limits": "适合研究分布式模型实现。模型类存在不代表所有外部 checkpoint 可无缝加载，需匹配配置和参数命名。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/ModelCenter",
+      "default_branch": "main",
+      "revision": "d0c176a20b5b0e241d591a374061aa8887116ae3",
+      "pushed_at": "2026-07-07",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/ModelCenter/blob/d0c176a20b5b0e241d591a374061aa8887116ae3/README.md"
+        },
+        {
+          "label": "README README-ZH.md",
+          "url": "https://github.com/OpenBMB/ModelCenter/blob/d0c176a20b5b0e241d591a374061aa8887116ae3/README-ZH.md"
+        },
+        {
+          "label": "model_center/layer/attention.py",
+          "url": "https://github.com/OpenBMB/ModelCenter/blob/d0c176a20b5b0e241d591a374061aa8887116ae3/model_center/layer/attention.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 1 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "MoRE",
+      "category": "检索与知识",
+      "purpose": "Mixture of Retrieval Experts，多模态检索专家路由。",
+      "input_output": "问题及检索状态→选择文本/图片/表格检索器、证据与答案。",
+      "modules_workflow": "用推理路由器选择异构检索专家，训练包括 Step-GRPO 等步骤级反馈。",
+      "llm_difference": "“专家”指外部检索模块，不是 Transformer FFN 内 MoE；目标是选择从哪里找信息。",
+      "dependencies": "上游文本、UniIR 图像、表格检索资源及 EasyR1 等；下游多模态 RAG。",
+      "scenarios_limits": "适合异构知识库。需要分别评价路由、召回与最终生成；某专家数据缺失时路由能力无法补齐内容。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/MoRE",
+      "default_branch": "main",
+      "revision": "2823013408bd52a77ab7b4634f334cef0fbf8f84",
+      "pushed_at": "2026-07-01",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/MoRE/blob/2823013408bd52a77ab7b4634f334cef0fbf8f84/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "OlympiadBench",
+      "category": "评测",
+      "purpose": "中英双语、多模态竞赛数学与物理基准。",
+      "input_output": "奥赛/高考题目及图像→模型解答和评测结果。",
+      "modules_workflow": "官方收录 8,476 题，包含数据整理、OCR/标注与开放答案评测流程。",
+      "llm_difference": "评估高难度推理，不是训练模型；自然语言推理与形式化证明是不同验证标准。",
+      "dependencies": "上游题源和待测 LLM/VLM；下游数学物理模型比较。",
+      "scenarios_limits": "适合分析语言与视觉条件下的推理。需区分开放答案与证明类题，旧榜单不代表当下能力排名。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/OlympiadBench",
+      "default_branch": "main",
+      "revision": "ba5b26a7e2849940b598a9159c1190daa2b9175f",
+      "pushed_at": "2025-06-08",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/OlympiadBench/blob/ba5b26a7e2849940b598a9159c1190daa2b9175f/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "Omni-DuplexEval",
+      "category": "评测",
+      "purpose": "全双工模型主动感知与时机选择的评测。",
+      "input_output": "带时间戳的模型预测 JSON 和视频/参考信息→描述、提醒、纠正等维度结果。",
+      "modules_workflow": "对实时事件与回应时机做对齐，结合视频处理及模型评判。",
+      "llm_difference": "不仅检查说得对不对，还看什么时候回应；与普通静态问答不同。",
+      "dependencies": "上游外部生成的模型预测、ffmpeg 和 judge；下游 full-duplex 系统比较。",
+      "scenarios_limits": "适合评估主动交互。仓库明确不含生成预测的推理代码，必须先用独立系统产出符合格式的轨迹。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/Omni-DuplexEval",
+      "default_branch": "main",
+      "revision": "962cec448ac37a377ffb963b476778777d11d346",
+      "pushed_at": "2026-05-19",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/Omni-DuplexEval/blob/962cec448ac37a377ffb963b476778777d11d346/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "OmniEvalKit",
+      "category": "评测",
+      "purpose": "音频和音视频理解评测工具包。",
+      "input_output": "数据集、模型配置与预测→任务级指标和汇总。",
+      "modules_workflow": "统一数据、模型适配器、分布式执行及 WER/CER、BLEU、VQA 或 LLM judge 等指标。",
+      "llm_difference": "是测试框架，不能把“omni”名字当全双工交互能力；理解任务与主动时机评测不同。",
+      "dependencies": "上游音视频数据和模型后端；下游评测报告。",
+      "scenarios_limits": "适合批量理解评测。模型依赖、预处理、采样和 judge 设置应保存，混合指标不能无解释求单一总分。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/OmniEvalKit",
+      "default_branch": "main",
+      "revision": "1adac0577258d539efc03f16d8a0f4b3f7df6c19",
+      "pushed_at": "2026-03-27",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/OmniEvalKit/blob/1adac0577258d539efc03f16d8a0f4b3f7df6c19/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/OmniEvalKit/blob/1adac0577258d539efc03f16d8a0f4b3f7df6c19/README_zh.md"
+        },
+        {
+          "label": "docs/development/ARCHITECTURE.md",
+          "url": "https://github.com/OpenBMB/OmniEvalKit/blob/1adac0577258d539efc03f16d8a0f4b3f7df6c19/docs/development/ARCHITECTURE.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 1 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "OpenAct",
+      "category": "Agent框架",
+      "purpose": "能自主集成新工具的 OpenAgent 与配套开放任务基准。",
+      "input_output": "复杂任务和可发现工具/代码→工具集成、执行步骤和结果。",
+      "modules_workflow": "层次化 Agent 检索并使用 GitHub 等工具资源，积累经验；README 提供 339 题、7 个领域。",
+      "llm_difference": "Act 指行动/工具使用，不是机器人控制模型；骨干 LLM 之外有代码与环境执行环节。",
+      "dependencies": "上游模型服务、GitHub 和 Docker 工具环境；下游开放工具任务。",
+      "scenarios_limits": "适合研究未知工具适配。工具可用性、依赖安装与权限决定上限，不能只看模型回答文本判定成功。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/OpenAct",
+      "default_branch": "main",
+      "revision": "a6ca7fd5ab2316c24cbee781fb3e15f77e11317b",
+      "pushed_at": "2025-10-09",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/OpenAct/blob/a6ca7fd5ab2316c24cbee781fb3e15f77e11317b/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "openbmb.github.io",
+      "category": "示例与文档",
+      "purpose": "OpenBMB 的静态展示站点源码。",
+      "input_output": "网页内容、模型介绍与资源链接→浏览器页面。",
+      "modules_workflow": "HTML/静态资源组织项目介绍和演示入口。",
+      "llm_difference": "没有独立模型推理能力，页面引用的模型属于相应仓库/权重发布。",
+      "dependencies": "上游各项目介绍和静态素材；下游访问者。",
+      "scenarios_limits": "适合作为导航。网页介绍可能落后于模型代码，模型结构以固定版本配置和源码为准。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/openbmb.github.io",
+      "default_branch": "main",
+      "revision": "612263d57c4a80a98fbee801381b7ac86a44ecaa",
+      "pushed_at": "2026-02-20",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/openbmb.github.io/blob/612263d57c4a80a98fbee801381b7ac86a44ecaa/README.md"
+        },
+        {
+          "label": "README readme_o.md",
+          "url": "https://github.com/OpenBMB/openbmb.github.io/blob/612263d57c4a80a98fbee801381b7ac86a44ecaa/readme_o.md"
+        },
+        {
+          "label": "README readme_o_zh.md",
+          "url": "https://github.com/OpenBMB/openbmb.github.io/blob/612263d57c4a80a98fbee801381b7ac86a44ecaa/readme_o_zh.md"
+        },
+        {
+          "label": "index.html",
+          "url": "https://github.com/OpenBMB/openbmb.github.io/blob/612263d57c4a80a98fbee801381b7ac86a44ecaa/index.html"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 1 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "PAGER",
+      "category": "检索与知识",
+      "purpose": "以结构化知识页面组织多轮检索证据。",
+      "input_output": "问题与外部语料→认知提纲、知识页和答案。",
+      "modules_workflow": "先建立待填信息槽，再检索、填充与修订页面，最后据页面回答。",
+      "llm_difference": "在模型外组织证据和工作记忆；不是 GPU paging，也不是修改 Transformer KV cache。",
+      "dependencies": "使用 Qwen3 Embedding、FAISS、vLLM、FlashRAG 等组件；下游知识问答。",
+      "scenarios_limits": "适合多跳和需要整合证据的问题。提纲漏项和检索缺失会限制答案，页面结构化并不自动保证引用正确。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/PAGER",
+      "default_branch": "main",
+      "revision": "2d9d6355435debbe08f85a139c472eb6be992b4c",
+      "pushed_at": "2026-01-16",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/PAGER/blob/2d9d6355435debbe08f85a139c472eb6be992b4c/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "ParamMute",
+      "category": "检索与知识",
+      "purpose": "在参数知识与上下文冲突时抑制部分 FFN 的方法。",
+      "input_output": "带检索上下文的问题→更依赖给定证据的回答。",
+      "modules_workflow": "研究中深层 FFN 与参数知识的关系，选择性抑制并适配，提供 CoConflictQA 等实验。",
+      "llm_difference": "改变模型内部激活/组件作用，而非只改提示或检索器；与外部 RAG 工作流不同。",
+      "dependencies": "上游修改版 Transformers 和基础模型；下游知识冲突研究。",
+      "scenarios_limits": "适合受控分析忠实性。官方观察的 70–90% 深度区间不是所有模型的普适规律，可能损害需要模型自身知识的任务。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/ParamMute",
+      "default_branch": "main",
+      "revision": "cc81d30145c145b660f732da2bdc0556b1f6acaf",
+      "pushed_at": "2026-07-07",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/ParamMute/blob/cc81d30145c145b660f732da2bdc0556b1f6acaf/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "PilotDeck",
+      "category": "Agent应用",
+      "purpose": "围绕工作区组织的长期 Agent 工作平台。",
+      "input_output": "任务、工作区资料、工具和记忆→持续执行、会话记录与产物。",
+      "modules_workflow": "组织 Web/CLI/消息入口、MCP、路由、可检查记忆与会话时间线。",
+      "llm_difference": "提供 Agent 的工作环境和状态管理；模型仍是可替换的推理部件。",
+      "dependencies": "上游模型服务、工具与文件工作区；下游个人/团队任务。",
+      "scenarios_limits": "适合需要可追踪过程的助手。持续运行的资源、失败恢复、外部工具副作用要按真实任务验证，界面透明不等于执行绝对可靠。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/PilotDeck",
+      "default_branch": "main",
+      "revision": "5a0efbc5106e7c80c3df8e20184c439ed3d0603b",
+      "pushed_at": "2026-09-22",
+      "archived": false,
+      "fork": false,
+      "github_license": "AGPL-3.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/README.md"
+        },
+        {
+          "label": "README README.zh.md",
+          "url": "https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/README.zh.md"
+        },
+        {
+          "label": "README README_DOCKER.md",
+          "url": "https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/README_DOCKER.md"
+        },
+        {
+          "label": "README README_DOCKER.zh.md",
+          "url": "https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/README_DOCKER.zh.md"
+        },
+        {
+          "label": "README README_SOURCE_INSTALL.md",
+          "url": "https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/README_SOURCE_INSTALL.md"
+        },
+        {
+          "label": "README README_SOURCE_INSTALL.zh.md",
+          "url": "https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/README_SOURCE_INSTALL.zh.md"
+        },
+        {
+          "label": "docs/architecture/session-timeline.md",
+          "url": "https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/docs/architecture/session-timeline.md"
+        },
+        {
+          "label": "package.json",
+          "url": "https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/package.json"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 2 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "ProAgent",
+      "category": "Agent框架",
+      "purpose": "以生成式模型构建和执行业务工作流的早期 Agent 框架。",
+      "input_output": "用户自动化需求→n8n 工作流及动态决策执行。",
+      "modules_workflow": "专门化 Agent 处理流程构建与执行，把 APA 与固定规则的 RPA 作比较。",
+      "llm_difference": "LLM 负责生成或调整流程，外部工作流引擎执行节点；不是新的基础模型。",
+      "dependencies": "上游模型 API、n8n 和工具节点；下游业务自动化实验。",
+      "scenarios_limits": "适合研究动态工作流。README 对早期 OpenAI 接口版本有特定约束，现有环境可能需要迁移；生成流程须验证具体节点行为。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/ProAgent",
+      "default_branch": "main",
+      "revision": "02a79ac62e7ad3ca2565e0e4fe5fc22824aaf079",
+      "pushed_at": "2023-12-27",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/ProAgent/blob/02a79ac62e7ad3ca2565e0e4fe5fc22824aaf079/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/ProAgent/blob/02a79ac62e7ad3ca2565e0e4fe5fc22824aaf079/README_zh.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "RaD-Agent",
+      "category": "Agent框架",
+      "purpose": "基于理性决策搜索的工具智能体。",
+      "input_output": "任务、候选动作和环境反馈→探索轨迹与最终策略结果。",
+      "modules_workflow": "把探索和效用学习结合，以成对比较/Elo 等信号估计动作或轨迹价值。",
+      "llm_difference": "改变推理时搜索与决策，不必然意味着对 LLM 权重进行再训练。",
+      "dependencies": "上游 LLM 与 Game24、WebShop、ToolBench、RestBench 等环境；下游工具规划研究。",
+      "scenarios_limits": "适合比较搜索策略。多次探索带来成本，受环境可重放性及价值估计噪声影响。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/RaD-Agent",
+      "default_branch": "main",
+      "revision": "7bff04ffe6dc9ce537c891432762ef029afed7f8",
+      "pushed_at": "2024-11-12",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/RaD-Agent/blob/7bff04ffe6dc9ce537c891432762ef029afed7f8/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "RAG-DDR",
+      "category": "检索与知识",
+      "purpose": "通过 Differentiable Data Rewards 对齐 RAG 模块偏好。",
+      "input_output": "检索内容、模块候选输出和答案监督→改进的精炼/生成模块。",
+      "modules_workflow": "rollout 采样候选扰动，评价对全链结果的影响，再用偏好信号优化各模块。",
+      "llm_difference": "不只是把文档塞进提示；通过训练使各模块产生对下游更有用的信息。",
+      "dependencies": "示例使用 Llama3/MiniCPM、检索组件和偏好训练脚本；下游知识密集问答。",
+      "scenarios_limits": "适合模块间不匹配的 RAG。论文“端到端对齐”不意味着普通检索 TopK 全程精确可微，奖励构造与训练实现应一起看。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/RAG-DDR",
+      "default_branch": "main",
+      "revision": "3bd09e69cf8efe89025dcc7f40b964c54812c8e0",
+      "pushed_at": "2024-10-28",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/RAG-DDR/blob/3bd09e69cf8efe89025dcc7f40b964c54812c8e0/README.md"
+        },
+        {
+          "label": "src/generator/train.py",
+          "url": "https://github.com/OpenBMB/RAG-DDR/blob/3bd09e69cf8efe89025dcc7f40b964c54812c8e0/src/generator/train.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 1 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "RAGEval",
+      "category": "评测",
+      "purpose": "面向特定领域合成 RAG 评测数据的框架。",
+      "input_output": "种子文档和领域设定→schema、合成文档、问题/参考/答案及评测指标。",
+      "modules_workflow": "schema 总结→配置/文档生成→QAR 构造；包括 DragonBall 数据与完整性、幻觉、无关性度量。",
+      "llm_difference": "建立测试材料和评价流程，不是提高模型上下文容量的算法。",
+      "dependencies": "上游生成/评判模型、领域种子材料；下游 RAG 系统比较。",
+      "scenarios_limits": "适合构建垂直领域测试。合成事实不等于真实业务事实，需控制生成器与被测模型共享偏差。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/RAGEval",
+      "default_branch": "main",
+      "revision": "c44aa98aea18362eb5e3751f11e13dbc8f6cab83",
+      "pushed_at": "2025-04-02",
+      "archived": false,
+      "fork": false,
+      "github_license": "NOASSERTION",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/RAGEval/blob/c44aa98aea18362eb5e3751f11e13dbc8f6cab83/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "RepoAgent",
+      "category": "Agent应用",
+      "purpose": "根据代码结构和变更生成、维护仓库文档。",
+      "input_output": "代码仓库及 Git diff→对象级 Markdown 文档与增量更新。",
+      "modules_workflow": "分析 AST 和双向调用关系，用 LLM 解释代码，按变更定位需要更新的文档。",
+      "llm_difference": "在 LLM 外增加代码结构与依赖分析，不是专门预训练的代码基础模型。",
+      "dependencies": "上游代码分析器、Git 和 LLM；下游开发文档。",
+      "scenarios_limits": "适合 Python 等支持范围内的项目文档。静态关系未必覆盖动态调用，生成说明仍需审查，不能代替测试或形式验证。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/RepoAgent",
+      "default_branch": "main",
+      "revision": "825d988127d7bfd757237d9c4e8678d9104030f0",
+      "pushed_at": "2024-12-23",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/RepoAgent/blob/825d988127d7bfd757237d9c4e8678d9104030f0/README.md"
+        },
+        {
+          "label": "README README_CN.md",
+          "url": "https://github.com/OpenBMB/RepoAgent/blob/825d988127d7bfd757237d9c4e8678d9104030f0/README_CN.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "RLPR",
+      "category": "训练与压缩",
+      "purpose": "使用参考答案概率构造奖励的强化学习方法。",
+      "input_output": "问题、参考答案和模型推理→基于参考概率的奖励及更新后的模型。",
+      "modules_workflow": "以生成推理后对参考答案的平均概率衡量收益，扩展到不易设计规则 verifier 的领域。",
+      "llm_difference": "修改奖励来源与训练流程，模型仍是自回归 LLM；“无需外部 verifier”不等于“无需参考答案”。",
+      "dependencies": "上游 Qwen/Llama/Gemma 等和带参考答案数据；下游一般领域推理。",
+      "scenarios_limits": "适合无法便宜验证中间步骤的任务。参考质量、答案表述和概率校准会影响奖励，不能视作直接真值验证。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/RLPR",
+      "default_branch": "main",
+      "revision": "235870e1a934b52ed28902d5d68ec8a811063cdc",
+      "pushed_at": "2025-08-12",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/RLPR/blob/235870e1a934b52ed28902d5d68ec8a811063cdc/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/RLPR/blob/235870e1a934b52ed28902d5d68ec8a811063cdc/README_zh.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "SciCore-Mol",
+      "category": "具身与科学",
+      "purpose": "把分子与反应专用模块接入语言模型的科学模型。",
+      "input_output": "自然语言、分子表示及反应信息→文本解释、分子生成或任务预测。",
+      "modules_workflow": "组合 GVP 分子编码器、扩散生成模块和数值反应模块，通过特殊 token/隐藏状态连接；包含预训练、跨模态对齐和任务适配。",
+      "llm_difference": "不只是让 LLM 阅读 SMILES 字符串：专用结构编码和生成器处理文字词表之外的科学对象。",
+      "dependencies": "上游分子模块、化学数据和基础 LLM；下游分子理解/生成研究。",
+      "scenarios_limits": "适合科学建模实验。生成分子的有效性、属性与真实可合成性是不同条件；README 的大显存训练配置不是所有推理场景最低要求。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/SciCore-Mol",
+      "default_branch": "main",
+      "revision": "37a7184af1c25d9854d8b027a16619b4b42a7c22",
+      "pushed_at": "2026-05-13",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/SciCore-Mol/blob/37a7184af1c25d9854d8b027a16619b4b42a7c22/README.md"
+        },
+        {
+          "label": "modules/mol_aware_lm.py",
+          "url": "https://github.com/OpenBMB/SciCore-Mol/blob/37a7184af1c25d9854d8b027a16619b4b42a7c22/modules/mol_aware_lm.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 1 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "Scicore-Omics",
+      "category": "具身与科学",
+      "purpose": "连接组织图像、空间转录组与生物语言的多模态科学模型。",
+      "input_output": "组织图像、基因表达 token 和文本→跨模态生物学任务输出。",
+      "modules_workflow": "NicheFormer 编码基因，GeneQFormer 交叉注意力压缩表示，再经投影接入 MiniCPM-V 类架构；包含蒸馏、SFT 与 RL 路线。",
+      "llm_difference": "增加基因模态和领域编码器，普通纯文本 LLM 无法直接把高维表达数据当作同等输入。",
+      "dependencies": "依赖 NicheFormer、QFormer、视觉语言骨干和训练框架；下游组学研究。",
+      "scenarios_limits": "适合探索多模态生物学。性能需要数据域和任务验证；研究输出不能自动外推到临床结论或实验因果关系。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/Scicore-Omics",
+      "default_branch": "main",
+      "revision": "32b0ef71fad37db9bda07b6959b644d8048e5978",
+      "pushed_at": "2026-06-03",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/Scicore-Omics/blob/32b0ef71fad37db9bda07b6959b644d8048e5978/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/Scicore-Omics/blob/32b0ef71fad37db9bda07b6959b644d8048e5978/README_zh.md"
+        },
+        {
+          "label": "model/gene_qformer_module.py",
+          "url": "https://github.com/OpenBMB/Scicore-Omics/blob/32b0ef71fad37db9bda07b6959b644d8048e5978/model/gene_qformer_module.py"
+        },
+        {
+          "label": "model/modeling_minicpmv.py",
+          "url": "https://github.com/OpenBMB/Scicore-Omics/blob/32b0ef71fad37db9bda07b6959b644d8048e5978/model/modeling_minicpmv.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 2 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "sglang",
+      "category": "推理基础设施",
+      "purpose": "OpenBMB 维护的 SGLang fork，父仓库为 sgl-project/sglang。",
+      "input_output": "模型、并发请求与服务配置→批量生成及服务指标。",
+      "modules_workflow": "继承 SGLang 的调度、缓存和模型服务体系；MiniCPM-SALA 使用专门分支，默认分支和适配分支需分开。",
+      "llm_difference": "是运行模型的引擎，不是 SGLang 自己的语言模型；服务优化影响吞吐与内存。",
+      "dependencies": "上游 sgl-project/sglang；下游 SALA 适配与相关测试工具。",
+      "scenarios_limits": "适合核对 OpenBMB 特定适配。默认 README 的上游支持矩阵不能证明 fork 每个分支都完整同步；需固定分支、提交和 kernel 版本。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/sglang",
+      "default_branch": "openbmb",
+      "revision": "7fc91fe148797c32b6e209d86b8dd50e0402815f",
+      "pushed_at": "2026-03-31",
+      "archived": false,
+      "fork": true,
+      "github_license": "Apache-2.0",
+      "fork_parent": "sgl-project/sglang",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/sglang/blob/7fc91fe148797c32b6e209d86b8dd50e0402815f/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "SHIFT",
+      "category": "检索与知识",
+      "purpose": "用轻量可学习门控调节模型对上下文的使用。",
+      "input_output": "问题、检索证据及参数知识冲突情形→更忠实于证据的生成。",
+      "modules_workflow": "冻结主模型，在注意力输出加入门控，通过 GRPO 等学习；源码可见 attention output 乘 sigmoid(gate_score)。",
+      "llm_difference": "改变模型内部信息流；区别于 ParamMute 的 FFN 抑制，也区别于仅提升检索召回。",
+      "dependencies": "上游 Qwen/Llama 修改实现、训练和推理适配；下游知识冲突型 RAG。",
+      "scenarios_limits": "适合研究参数高效忠实性适配。少量可训练参数不代表没有推理改动，后端需实现同一门控；遇到错误证据仍需判断。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/SHIFT",
+      "default_branch": "main",
+      "revision": "0c647191b3925a64303727625f44c7aba1793d69",
+      "pushed_at": "2026-07-03",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/SHIFT/blob/0c647191b3925a64303727625f44c7aba1793d69/README.md"
+        },
+        {
+          "label": "models/Qwen-3-0.6B/modeling_qwen3.py",
+          "url": "https://github.com/OpenBMB/SHIFT/blob/0c647191b3925a64303727625f44c7aba1793d69/models/Qwen-3-0.6B/modeling_qwen3.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 1 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "SimpleMemVLA",
+      "category": "具身与科学",
+      "purpose": "以原生视频格式保留历史的视觉语言动作模型。",
+      "input_output": "采样后的带时间戳视频历史、当前观察和任务→子任务表示及连续动作。",
+      "modules_workflow": "不专门训练记忆压缩器，历史直接送 VLM；生成子任务隐藏状态作为历史到 flow-matching 动作头的通道，共享前缀缓存降低重复计算。",
+      "llm_difference": "比纯文本 LLM 多视频和动作生成；所谓简单记忆不是向量数据库，而是利用骨干已学会的视频输入格式。",
+      "dependencies": "参考 Qwen3.5-4B、LeRobot 相关基础与 DiT 动作头；下游仿真/真机操作。",
+      "scenarios_limits": "适合长程部分可观测操作。保留的是采样历史而非无限原视频；官方有真机演示，但缓存收益、成功率受历史长度和硬件影响。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/SimpleMemVLA",
+      "default_branch": "main",
+      "revision": "404215d752704fd8d8157fa6b7ccdfafdb2bd44e",
+      "pushed_at": "2026-09-15",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/SimpleMemVLA/blob/404215d752704fd8d8157fa6b7ccdfafdb2bd44e/README.md"
+        },
+        {
+          "label": "simplememvla/model/modeling_simplememvla.py",
+          "url": "https://github.com/OpenBMB/SimpleMemVLA/blob/404215d752704fd8d8157fa6b7ccdfafdb2bd44e/simplememvla/model/modeling_simplememvla.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 1 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "SimpleNav",
+      "category": "具身与科学",
+      "purpose": "面向长程视觉语言导航的模型与数据框架。",
+      "input_output": "指令、当前多视角、选择后的历史及可选状态→连续相对路点块。",
+      "modules_workflow": "主路径 Qwen3.5-VL，BATS 选历史、TVI 编码时序/视角、视觉缓存、DiT-B 条件扩散动作头。",
+      "llm_difference": "输出是导航控制目标，不是导航建议文本；训练必须对齐坐标系、时间和动作归一化。",
+      "dependencies": "上游 VLM、LeRobot v3 数据适配及导航环境；下游空中/地面/室内任务的独立适配器。",
+      "scenarios_limits": "适合跨数据集导航研究。主协议为当前锚点机体系 8×4 路点，存储 pose、模型历史状态和未来动作不能混为一谈；世界模型等列为未来方向。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/SimpleNav",
+      "default_branch": "main",
+      "revision": "64925eab9136318ef90eddacf2aa7e9058311c0d",
+      "pushed_at": "2026-08-28",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/SimpleNav/blob/64925eab9136318ef90eddacf2aa7e9058311c0d/README.md"
+        },
+        {
+          "label": "README README_ZH.md",
+          "url": "https://github.com/OpenBMB/SimpleNav/blob/64925eab9136318ef90eddacf2aa7e9058311c0d/README_ZH.md"
+        },
+        {
+          "label": "docs/guides/MODEL_ARCHITECTURE.md",
+          "url": "https://github.com/OpenBMB/SimpleNav/blob/64925eab9136318ef90eddacf2aa7e9058311c0d/docs/guides/MODEL_ARCHITECTURE.md"
+        },
+        {
+          "label": "docs/guides/DATA_STRUCTURE.md",
+          "url": "https://github.com/OpenBMB/SimpleNav/blob/64925eab9136318ef90eddacf2aa7e9058311c0d/docs/guides/DATA_STRUCTURE.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 2 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "SOAR-Toolkit",
+      "category": "评测",
+      "purpose": "MiniCPM-SALA 推理优化赛事的自评工具。",
+      "input_output": "参赛推理服务和指定任务配置→正确性与性能评测记录。",
+      "modules_workflow": "公共检查集、隐藏测试约定及 SGLang 服务压测配合，强调比赛约束下的吞吐和正确性。",
+      "llm_difference": "检验推理实现，不是新模型或通用训练框架。",
+      "dependencies": "上游 MiniCPM-SALA、SGLang 和指定硬件环境；下游优化方案自测。",
+      "scenarios_limits": "适合复现赛事设定。公开集合不等于最终隐藏成绩；指定 RTX PRO 等资源限制是赛事条件，不是 SALA 普遍硬件需求。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/SOAR-Toolkit",
+      "default_branch": "main",
+      "revision": "2ed4ade13a601f2f8879c2bc482ed7d0f11c61ef",
+      "pushed_at": "2026-03-09",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/SOAR-Toolkit/blob/2ed4ade13a601f2f8879c2bc482ed7d0f11c61ef/README.md"
+        },
+        {
+          "label": "README README_EN.md",
+          "url": "https://github.com/OpenBMB/SOAR-Toolkit/blob/2ed4ade13a601f2f8879c2bc482ed7d0f11c61ef/README_EN.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "sparse_kernel",
+      "category": "推理基础设施",
+      "purpose": "SALA 相关稀疏索引表 CUDA 扩展。",
+      "input_output": "稀疏选择/索引张量→供注意力使用的表或索引结果。",
+      "modules_workflow": "get_table_kernel.cu 通过 PyBind 暴露表构建函数，配套 setup、性能和单测脚本。",
+      "llm_difference": "是注意力外围的细粒度 kernel，不是完整稀疏注意力模型，也不等于 infllmv2_cuda_impl 的全部算子。",
+      "dependencies": "与 OpenBMB/sglang 的 minicpm_sala 路径及相关依赖配套。",
+      "scenarios_limits": "适合核对稀疏表构造开销。README 短且接口窄，不能据名字推断支持所有稀疏模式、设备或训练阶段。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/sparse_kernel",
+      "default_branch": "main",
+      "revision": "bfa61186b2c87569185523a800780e997cbbf601",
+      "pushed_at": "2026-02-11",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/sparse_kernel/blob/bfa61186b2c87569185523a800780e997cbbf601/README.md"
+        },
+        {
+          "label": "get_table_kernel.cu",
+          "url": "https://github.com/OpenBMB/sparse_kernel/blob/bfa61186b2c87569185523a800780e997cbbf601/get_table_kernel.cu"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 1 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "StaffDeck",
+      "category": "Agent应用",
+      "purpose": "把岗位流程和知识组织成可执行 Agent 的平台。",
+      "input_output": "岗位任务、SOP、知识资料和工具权限→执行步骤、交接及反馈。",
+      "modules_workflow": "后端 harness 管理流程状态、文档知识索引、版本化技能、追踪与人工交接。",
+      "llm_difference": "属于业务运行层：使用可替换的 LLM，不是训练出一个具备真实员工身份的新模型。",
+      "dependencies": "上游模型服务、知识库与业务工具；下游岗位工作流程。",
+      "scenarios_limits": "适合流程明确的自动化研究。组织权限、失败处理和交接机制决定实际可用性，产品描述不证明可无人监管完成所有工作。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/StaffDeck",
+      "default_branch": "main",
+      "revision": "7adc7c84f61bd6cca13ff0380a811cbb3ae3c544",
+      "pushed_at": "2026-09-21",
+      "archived": false,
+      "fork": false,
+      "github_license": "AGPL-3.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/StaffDeck/blob/7adc7c84f61bd6cca13ff0380a811cbb3ae3c544/README.md"
+        },
+        {
+          "label": "README README.zh.md",
+          "url": "https://github.com/OpenBMB/StaffDeck/blob/7adc7c84f61bd6cca13ff0380a811cbb3ae3c544/README.zh.md"
+        },
+        {
+          "label": "backend/README.md",
+          "url": "https://github.com/OpenBMB/StaffDeck/blob/7adc7c84f61bd6cca13ff0380a811cbb3ae3c544/backend/README.md"
+        },
+        {
+          "label": "backend/app/core/harness_v2_engine.py",
+          "url": "https://github.com/OpenBMB/StaffDeck/blob/7adc7c84f61bd6cca13ff0380a811cbb3ae3c544/backend/app/core/harness_v2_engine.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 2 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "Tell_Me_More",
+      "category": "模型与Agent",
+      "purpose": "训练模型主动澄清不完整或含糊的用户需求。",
+      "input_output": "不明确的指令与交互历史→澄清问题，继而完成更明确的任务。",
+      "modules_workflow": "IN3 数据和 Mistral-Interact 微调，学习识别信息缺口并提问。",
+      "llm_difference": "仍是文本 LLM，但行为目标从直接回答扩展为先补齐需求；没有新增感知模态。",
+      "dependencies": "上游 Mistral7B 与交互数据；下游对话式需求澄清。",
+      "scenarios_limits": "适合低信息指令场景。提问次数与任务收益需权衡，不能把不断追问等同良好交互。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/Tell_Me_More",
+      "default_branch": "master",
+      "revision": "654fcec4da3b3465536d57b0d1995e8699a5a8f0",
+      "pushed_at": "2024-02-20",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/Tell_Me_More/blob/654fcec4da3b3465536d57b0d1995e8699a5a8f0/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "ToolBench",
+      "category": "模型与Agent",
+      "purpose": "ToolLLM 工具学习的数据、模型、检索与评测体系。",
+      "input_output": "用户目标、API 描述→工具检索、调用链和答案；训练用调用轨迹。",
+      "modules_workflow": "ToolBench 数据、ToolLLaMA、工具检索器及 ToolEval 形成链条；利用真实 API 环境构造轨迹。",
+      "llm_difference": "后训练赋予 LLM 工具使用行为，外部 API 负责实际执行；不同于模型仅凭参数生成答案。",
+      "dependencies": "上游 LLaMA、RapidAPI 等；下游工具 Agent。StableToolBench 是另一个相关项目，非本组织清单内新增仓库。",
+      "scenarios_limits": "适合工具学习研究。API 变化与不可用影响复现，LLM judge 也有偏差；成功的调用格式不保证结果事实正确。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/ToolBench",
+      "default_branch": "master",
+      "revision": "d56fdd89faf8c91fa135090b212bb9057ee5cfc2",
+      "pushed_at": "2025-05-21",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/ToolBench/blob/d56fdd89faf8c91fa135090b212bb9057ee5cfc2/README.md"
+        },
+        {
+          "label": "README README_ZH.md",
+          "url": "https://github.com/OpenBMB/ToolBench/blob/d56fdd89faf8c91fa135090b212bb9057ee5cfc2/README_ZH.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "UltraEval",
+      "category": "评测",
+      "purpose": "通用基础模型评测框架。",
+      "input_output": "模型后端、数据、提示配置→任务结果和指标汇总。",
+      "modules_workflow": "把数据、提示、推理与评分模块化，支持不同模型与运行方式。",
+      "llm_difference": "提供测量方法，不提供新基础模型；相同权重改变提示/评分也可能改变成绩。",
+      "dependencies": "上游 Transformers/vLLM 等及评测数据；下游 MiniCPM 等模型评估。",
+      "scenarios_limits": "适合统一评测流水线。应保存模板、模型版本和生成参数，不能将框架支持直接解释为每项任务均已测试。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/UltraEval",
+      "default_branch": "main",
+      "revision": "5d967b4ea5725ab1252904520bcaa87b40165b4b",
+      "pushed_at": "2024-10-30",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/UltraEval/blob/5d967b4ea5725ab1252904520bcaa87b40165b4b/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/UltraEval/blob/5d967b4ea5725ab1252904520bcaa87b40165b4b/README_zh.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "UltraEval-Audio",
+      "category": "评测",
+      "purpose": "覆盖音频模型及 TTS/ASR/codec 的评测工具。",
+      "input_output": "音频数据、模型和任务配置→质量、识别或相关任务指标。",
+      "modules_workflow": "README 列出 34 个 benchmark、12 类任务、10 种语言；新版本用独立推理进程/IPC 处理依赖隔离。",
+      "llm_difference": "与普通文本问答评测不同，需要音频预处理和任务特定指标；不是音频生成模型。",
+      "dependencies": "上游音频模型、数据集及各自依赖；下游 VoxCPM 等音频系统评价。",
+      "scenarios_limits": "适合多模型音频测量。版本与任务覆盖会变化，WER、音质、说话人相似度及延迟不可互相替代。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/UltraEval-Audio",
+      "default_branch": "main",
+      "revision": "bead726925d43f526bed48a4a6a827595169429d",
+      "pushed_at": "2026-09-16",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/UltraEval-Audio/blob/bead726925d43f526bed48a4a6a827595169429d/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/UltraEval-Audio/blob/bead726925d43f526bed48a4a6a827595169429d/README_zh.md"
+        },
+        {
+          "label": "pyproject.toml",
+          "url": "https://github.com/OpenBMB/UltraEval-Audio/blob/bead726925d43f526bed48a4a6a827595169429d/pyproject.toml"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 1 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "UltraFeedback",
+      "category": "数据与对齐",
+      "purpose": "多维细粒度偏好数据及奖励/评论模型。",
+      "input_output": "提示与多模型候选回答→评分、反馈和偏好样本。",
+      "modules_workflow": "官方约 64K prompts，利用 GPT 等给多维反馈；附 UltraRM、UltraCM 等相关训练产物。",
+      "llm_difference": "主要为 LLM 对齐提供监督，不是另一个从头预训练的聊天模型。",
+      "dependencies": "上游候选模型与评判模型；下游 DPO/RLHF、Eurus 等。",
+      "scenarios_limits": "适合偏好学习。README 记录过 overall_score 修正，使用数据需明确版本；自动反馈不是独立人工真值。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/UltraFeedback",
+      "default_branch": "main",
+      "revision": "bf80fd46a8c6ceecc86e8babb1ae8771f26a3cbb",
+      "pushed_at": "2023-12-29",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/UltraFeedback/blob/bf80fd46a8c6ceecc86e8babb1ae8771f26a3cbb/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "UltraLink",
+      "category": "数据与对齐",
+      "purpose": "结合语言特有知识的多语言对齐数据及模型研究。",
+      "input_output": "跨语言语料和知识→多语言指令/对话数据及 UltraLink-LM。",
+      "modules_workflow": "区分语言特有知识与语言无关冗余，构建约 5 种语言的训练材料。",
+      "llm_difference": "重点是训练数据覆盖和多语言对齐，通常保留既有 LLM 架构。",
+      "dependencies": "上游基础模型及语言知识资源；下游多语言交互研究。",
+      "scenarios_limits": "适合分析跨语言迁移。支持若干语言不意味着所有文化知识完整覆盖，语言间指标与数据量需分别看。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/UltraLink",
+      "default_branch": "main",
+      "revision": "6f967d8376eaa8371519ce8d9dd737c040026e50",
+      "pushed_at": "2025-01-19",
+      "archived": false,
+      "fork": false,
+      "github_license": "MIT",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/UltraLink/blob/6f967d8376eaa8371519ce8d9dd737c040026e50/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "UltraRAG",
+      "category": "检索与知识",
+      "purpose": "组织复杂 RAG 流程的框架，当前主线为 v3。",
+      "input_output": "知识库、问题及 YAML/流程配置→检索、生成、循环推理与结果。",
+      "modules_workflow": "MCP server 暴露 retriever、generation 等能力，客户端连接、编排条件和循环；支持多种检索与模型后端。",
+      "llm_difference": "是外部知识系统的装配层，不是一种统一新模型，也不等于某篇单一 RAG 算法。",
+      "dependencies": "连接 embedding、数据库、vLLM/OpenAI兼容/HF 等；AgentCPM-Report 等项目使用特定版本。",
+      "scenarios_limits": "适合搭建和比较 RAG。v1/v2/v3 接口不同，集成例子需匹配；可配置不代表默认检索质量或答案正确率有保证。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/UltraRAG",
+      "default_branch": "main",
+      "revision": "a763d34432007fcd1b261209f222bb10df907beb",
+      "pushed_at": "2026-09-21",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/UltraRAG/blob/a763d34432007fcd1b261209f222bb10df907beb/README.md"
+        },
+        {
+          "label": "src/ultrarag/api.py",
+          "url": "https://github.com/OpenBMB/UltraRAG/blob/a763d34432007fcd1b261209f222bb10df907beb/src/ultrarag/api.py"
+        },
+        {
+          "label": "servers/retriever/src/retriever.py",
+          "url": "https://github.com/OpenBMB/UltraRAG/blob/a763d34432007fcd1b261209f222bb10df907beb/servers/retriever/src/retriever.py"
+        },
+        {
+          "label": "servers/generation/src/generation.py",
+          "url": "https://github.com/OpenBMB/UltraRAG/blob/a763d34432007fcd1b261209f222bb10df907beb/servers/generation/src/generation.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 3 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "UltraX",
+      "category": "数据与对齐",
+      "purpose": "用程序化编辑提高大规模预训练语料质量。",
+      "input_output": "原文及教师改写→编辑监督；推理时原文→增删改操作→执行后的文本。",
+      "modules_workflow": "提示优化→教师精修→LAM 行对齐与 DCR 上下文替换→训练编辑器；滑窗预测、操作聚合和后处理执行。",
+      "llm_difference": "把 LLM 从逐字重写者变成编辑指令生成器，最终文本由程序执行；主要服务数据生产。",
+      "dependencies": "上游原始语料与教师模型；下游 MiniCPM 等预训练数据管线。",
+      "scenarios_limits": "适合大规模语料加工。程序能校验操作格式，不能保证修改后的事实正确；省 token 和质量收益属于具体语料实验结果。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/UltraX",
+      "default_branch": "main",
+      "revision": "cb0c2fae44c30b68e5e736a0255eef61e82f026b",
+      "pushed_at": "2026-07-15",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/UltraX/blob/cb0c2fae44c30b68e5e736a0255eef61e82f026b/README.md"
+        },
+        {
+          "label": "README README_ZH.md",
+          "url": "https://github.com/OpenBMB/UltraX/blob/cb0c2fae44c30b68e5e736a0255eef61e82f026b/README_ZH.md"
+        },
+        {
+          "label": "stage2_large_scale_execution/post_processing/post_process_and_execute.py",
+          "url": "https://github.com/OpenBMB/UltraX/blob/cb0c2fae44c30b68e5e736a0255eef61e82f026b/stage2_large_scale_execution/post_processing/post_process_and_execute.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 1 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "VisCPM",
+      "category": "多模态模型",
+      "purpose": "早期在 CPM-Bee 上扩展视觉能力的模型集合。",
+      "input_output": "Chat：图像+文字→双语回答；Paint：文字→生成图像。",
+      "modules_workflow": "Chat 使用视觉编码/连接模块接语言骨干；Paint 接扩散图像生成模块，是两条用途不同的路线。",
+      "llm_difference": "输入或输出增加视觉模态；不是一个模型同时天然具备所有 omni 能力。",
+      "dependencies": "上游 CPM-Bee10B、Muffin 相关视觉方案及扩散模块；下游图文交互研究。",
+      "scenarios_limits": "适合理解早期多模态迁移。英文训练到双语能力的结论有实验范围，不能等同全面多语言；Chat/Paint 权重和依赖要分别核对。",
+      "core_family": "历史多模态主线",
+      "url": "https://github.com/OpenBMB/VisCPM",
+      "default_branch": "main",
+      "revision": "d21f3ebda1d5195c49c9ca4cf6c1db8be50e0385",
+      "pushed_at": "2024-06-13",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/VisCPM/blob/d21f3ebda1d5195c49c9ca4cf6c1db8be50e0385/README.md"
+        },
+        {
+          "label": "README README_en.md",
+          "url": "https://github.com/OpenBMB/VisCPM/blob/d21f3ebda1d5195c49c9ca4cf6c1db8be50e0385/README_en.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "VisRAG",
+      "category": "检索与知识",
+      "purpose": "直接按文档页面图像进行检索与生成的视觉 RAG。",
+      "input_output": "文字问题和文档页面图像→页面向量检索、视觉证据及答案。",
+      "modules_workflow": "早期 Ret 基于 MiniCPM-V，Gen 用 VLM；2.0/EVisRAG 增加逐图证据提炼与 Reward-Scoped GRPO 等训练。",
+      "llm_difference": "避免先把页面彻底转成纯文本，保留布局、表格与图像；但仍需要检索器和生成器两类角色。",
+      "dependencies": "上游 MiniCPM-V/Qwen2.5-VL 等按版本区别；下游图表、扫描件和复杂版式问答。",
+      "scenarios_limits": "适合视觉信息重要的资料库。页面编码、分辨率与多图上下文有成本；保留原图不代表检索和读图完全无损。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/VisRAG",
+      "default_branch": "master",
+      "revision": "7205787862e35d70cee7ebfd8f2b58d3eb5d563b",
+      "pushed_at": "2026-08-09",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/VisRAG/blob/7205787862e35d70cee7ebfd8f2b58d3eb5d563b/README.md"
+        },
+        {
+          "label": "src/openmatch/modeling/modeling_visrag_ret/modeling_visrag_ret.py",
+          "url": "https://github.com/OpenBMB/VisRAG/blob/7205787862e35d70cee7ebfd8f2b58d3eb5d563b/src/openmatch/modeling/modeling_visrag_ret/modeling_visrag_ret.py"
+        },
+        {
+          "label": "src/rsgrpo/README.md",
+          "url": "https://github.com/OpenBMB/VisRAG/blob/7205787862e35d70cee7ebfd8f2b58d3eb5d563b/src/rsgrpo/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 2 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "VoxCPM",
+      "category": "多模态模型",
+      "purpose": "连续音频潜变量上的语音生成家族。",
+      "input_output": "文本、可选参考语音/风格条件→流式或完整语音波形。",
+      "modules_workflow": "文本语义 LM、残差声学 LM、局部扩散/flow matching 解码器和 AudioVAE；VoxCPM2 VAE 16kHz 编码、48kHz 解码。",
+      "llm_difference": "tokenizer-free 指不依赖外部离散语音 tokenizer，不是完全没有文本 tokenizer 或量化层；输出主要是语音而非问答文字。",
+      "dependencies": "MiniCPM 类骨干、AudioVAE 和本地 DiT；下游 TTS、克隆与 V-Apps。",
+      "scenarios_limits": "适合语音合成。0.5B、1.5、2 是不同版本，音质/语言/采样率不同；2B、30语言等为官方口径，延迟还取决于扩散步数与后端。",
+      "core_family": "★ 语音主线",
+      "url": "https://github.com/OpenBMB/VoxCPM",
+      "default_branch": "main",
+      "revision": "f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69",
+      "pushed_at": "2026-09-02",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/README.md"
+        },
+        {
+          "label": "README README_zh.md",
+          "url": "https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/README_zh.md"
+        },
+        {
+          "label": "src/voxcpm/model/voxcpm2.py",
+          "url": "https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/src/voxcpm/model/voxcpm2.py"
+        },
+        {
+          "label": "src/voxcpm/modules/audiovae/audio_vae_v2.py",
+          "url": "https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/src/voxcpm/modules/audiovae/audio_vae_v2.py"
+        },
+        {
+          "label": "src/voxcpm/modules/locdit/unified_cfm.py",
+          "url": "https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/src/voxcpm/modules/locdit/unified_cfm.py"
+        }
+      ],
+      "evidence": "官方 README 与目录核对；补查 3 个源码/文档文件",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "VoxCPM-demopage",
+      "category": "示例与文档",
+      "purpose": "VoxCPM 的静态音频样例展示页。",
+      "input_output": "预先制作的样例音频和说明→网页试听。",
+      "modules_workflow": "网页资源组织合成示例与介绍。",
+      "llm_difference": "不在浏览器里自动构成 VoxCPM 推理服务，也不是新增语音模型。",
+      "dependencies": "上游 VoxCPM 生成的展示材料；下游用户试听。",
+      "scenarios_limits": "适合感受样例。精选录音不能替代随机测试、延迟测量或失败率统计。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/VoxCPM-demopage",
+      "default_branch": "main",
+      "revision": "a08e4491b06136c198dd1c97ed0316393d54faca",
+      "pushed_at": "2025-09-17",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/VoxCPM-demopage/blob/a08e4491b06136c198dd1c97ed0316393d54faca/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "voxcpm2-demopage",
+      "category": "示例与文档",
+      "purpose": "VoxCPM2 的展示站点资源。",
+      "input_output": "Markdown/卡片、图片与音频→静态演示页面。",
+      "modules_workflow": "渲染脚本把说明与试听素材组装为页面。",
+      "llm_difference": "是发布与体验材料，不是训练、音频编码器或模型服务。",
+      "dependencies": "上游 VoxCPM2 样例；下游浏览者。",
+      "scenarios_limits": "适合查看版本能力演示。样例条件与默认推理配置可能不同，不应依据页面直接推断本机性能。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/voxcpm2-demopage",
+      "default_branch": "main",
+      "revision": "59b843d1830ec0f9fa44270d89e9dda95c641389",
+      "pushed_at": "2026-04-09",
+      "archived": false,
+      "fork": false,
+      "github_license": "未识别",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/voxcpm2-demopage/blob/59b843d1830ec0f9fa44270d89e9dda95c641389/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "WorkflowLLM",
+      "category": "模型与Agent",
+      "purpose": "学习生成复杂工作流的数据与模型项目。",
+      "input_output": "用户需求→分层计划及代码式工作流。",
+      "modules_workflow": "WorkflowBench 从 Apple Shortcuts 等流程构造数据，包含 API 及分层推理；WorkflowLlama 基于 Llama3.1-8B 微调。",
+      "llm_difference": "仍是文本/代码生成模型，但输出遵循可执行工作流结构；真正执行依赖 API 和引擎。",
+      "dependencies": "官方数据口径 106,763 样本、1,503 API、83 应用；下游自动化系统。",
+      "scenarios_limits": "适合工作流生成研究。代码合法性、API 可用性和业务效果须分开验证，生成流程不等于已执行成功。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/WorkflowLLM",
+      "default_branch": "main",
+      "revision": "2b5a2dee5fefbb6bf2fe68310393c3cf0c24cfcc",
+      "pushed_at": "2025-03-11",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.MD",
+          "url": "https://github.com/OpenBMB/WorkflowLLM/blob/2b5a2dee5fefbb6bf2fe68310393c3cf0c24cfcc/README.MD"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "XAgent",
+      "category": "Agent框架",
+      "purpose": "早期自主任务执行智能体框架。",
+      "input_output": "目标与执行环境→计划、工具操作、文件等结果。",
+      "modules_workflow": "Dispatcher、Planner、Actor 分工，Docker ToolServer 提供浏览器、文件与 Python 等环境，并支持人工协助。",
+      "llm_difference": "模型外增加规划、工具和反馈循环；不能把“解决任何任务”的愿景视作模型保证。",
+      "dependencies": "上游 LLM/API 与容器工具；下游自动执行实验，BMTools 后续路线指向此项目。",
+      "scenarios_limits": "适合追踪自主 Agent 架构。旧 API、环境和安全边界需维护，长链执行有累积误差。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/XAgent",
+      "default_branch": "main",
+      "revision": "0dea79924347fad46e114621d7334d1136b30691",
+      "pushed_at": "2026-07-31",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/XAgent/blob/0dea79924347fad46e114621d7334d1136b30691/README.md"
+        },
+        {
+          "label": "README README_JA.md",
+          "url": "https://github.com/OpenBMB/XAgent/blob/0dea79924347fad46e114621d7334d1136b30691/README_JA.md"
+        },
+        {
+          "label": "README README_ZH.md",
+          "url": "https://github.com/OpenBMB/XAgent/blob/0dea79924347fad46e114621d7334d1136b30691/README_ZH.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    },
+    {
+      "name": "XAgent-doc",
+      "category": "示例与文档",
+      "purpose": "XAgent 文档站点源码。",
+      "input_output": "文档及静态配置→使用说明网页。",
+      "modules_workflow": "组织安装、配置和使用文档的构建与发布。",
+      "llm_difference": "不含独立基础模型，不能与 XAgent 重复计算为两套智能体能力。",
+      "dependencies": "上游 XAgent 项目；下游使用者。",
+      "scenarios_limits": "适合阅读历史使用方法。文档版本与实现应对应，旧文档不能证明新环境开箱即用。",
+      "core_family": "",
+      "url": "https://github.com/OpenBMB/XAgent-doc",
+      "default_branch": "main",
+      "revision": "dec88eb9cc261c978fe8bbde3997913c88815e57",
+      "pushed_at": "2023-11-30",
+      "archived": false,
+      "fork": false,
+      "github_license": "Apache-2.0",
+      "sources": [
+        {
+          "label": "README README.md",
+          "url": "https://github.com/OpenBMB/XAgent-doc/blob/dec88eb9cc261c978fe8bbde3997913c88815e57/README.md"
+        }
+      ],
+      "evidence": "官方 README 与目录核对",
+      "claim_policy": "功能及训练/成绩属于官方说明；配置/代码直接体现的细节按源码确认；用途比较和局限属于分析；未运行模型。"
+    }
+  ]
+}

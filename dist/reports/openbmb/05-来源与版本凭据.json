@@ -1,0 +1,2614 @@
+{
+  "research_date": "2026-09-23",
+  "inventory_endpoints": [
+    "https://api.github.com/orgs/OpenBMB",
+    "https://api.github.com/orgs/OpenBMB/repos?type=public&per_page=100&page=1&sort=full_name",
+    "https://api.github.com/orgs/OpenBMB/repos?type=public&per_page=100&page=2&sort=full_name"
+  ],
+  "readmes": [
+    {
+      "name": "AceBench",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/AceBench/blob/9a17bc2c7ee3fab9ca023036b82a81898512a001/README.md",
+          "sha256": "2de6098befbbae61eb186fed7284e01fd8c1cfb09a0439847404b128880a0e34",
+          "bytes": 8977
+        }
+      ],
+      "errors": [],
+      "revision": "9a17bc2c7ee3fab9ca023036b82a81898512a001",
+      "committed": "2026-06-10",
+      "treeTruncated": false
+    },
+    {
+      "name": "AgentCPM",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/README.md",
+          "sha256": "749aef50a783ad3371f5898a830ade4008fba24135b2c72750aad8638cdd52cb",
+          "bytes": 12066
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/README_zh.md",
+          "sha256": "a70d04733c2e38df64d8afaa94b7255019d55201ad7d47cb79287057203c2e8e",
+          "bytes": 11857
+        }
+      ],
+      "errors": [],
+      "revision": "4a43561e790c154292798b3edd50171f71241cec",
+      "committed": "2026-02-09",
+      "treeTruncated": false
+    },
+    {
+      "name": "AgentCPM-GUI",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/AgentCPM-GUI/blob/2168ae21b1bed1cdb88736d422934825795a9fd7/README.md",
+          "sha256": "2cf79e21b5438bf6a2e6bd450ba8c4d86404560dfb61836f7e300112ce74a59d",
+          "bytes": 18056
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/AgentCPM-GUI/blob/2168ae21b1bed1cdb88736d422934825795a9fd7/README_zh.md",
+          "sha256": "b3fc94125da6e3dc91da7a69f90d51b20d5bd884f761ab46b3e1e50f3950559e",
+          "bytes": 17978
+        }
+      ],
+      "errors": [],
+      "revision": "2168ae21b1bed1cdb88736d422934825795a9fd7",
+      "committed": "2026-01-11",
+      "treeTruncated": false
+    },
+    {
+      "name": "AgentVerse",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/AgentVerse/blob/f90c4bd9680fdd3bcff8c52c9170911a59b23478/README.md",
+          "sha256": "4448f131566fe403d3980250871679b54d34d690aefe2856ba80a98ffbd6756b",
+          "bytes": 33111
+        },
+        {
+          "path": "README_simulation_cases.md",
+          "url": "https://github.com/OpenBMB/AgentVerse/blob/f90c4bd9680fdd3bcff8c52c9170911a59b23478/README_simulation_cases.md",
+          "sha256": "bed05a7345c945c5c5f5ae0495e2effeab2892120c53fac9d99ac62c4fc31f57",
+          "bytes": 4820
+        },
+        {
+          "path": "README_tasksolving_cases.md",
+          "url": "https://github.com/OpenBMB/AgentVerse/blob/f90c4bd9680fdd3bcff8c52c9170911a59b23478/README_tasksolving_cases.md",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/AgentVerse/blob/f90c4bd9680fdd3bcff8c52c9170911a59b23478/README_zh.md",
+          "sha256": "32ed1fe19dbc140f675f633cb28c75bd544b3222aa9a2cc7c7691785ff6f93d3",
+          "bytes": 21570
+        }
+      ],
+      "errors": [],
+      "revision": "f90c4bd9680fdd3bcff8c52c9170911a59b23478",
+      "committed": "2024-09-09",
+      "treeTruncated": false
+    },
+    {
+      "name": "AppCopilot",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/AppCopilot/blob/c23ab94bbcda95e82a7bc0e2798d5640cdc9b373/README.md",
+          "sha256": "2bb3ae4d814cf21ef2f70937c88eb4c35edf9556a42359a27ca1c4bd0283f5b3",
+          "bytes": 21718
+        }
+      ],
+      "errors": [],
+      "revision": "c23ab94bbcda95e82a7bc0e2798d5640cdc9b373",
+      "committed": "2025-11-18",
+      "treeTruncated": false
+    },
+    {
+      "name": "ArcLight",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/ArcLight/blob/558ef06dede9668c9560b87fe62b8eb2a8710d0f/README.md",
+          "sha256": "546d32d6cc1223fd52ef4c30f96a7a425fddda5f0f73644dcf93cea9bca249c6",
+          "bytes": 7585
+        }
+      ],
+      "errors": [],
+      "revision": "558ef06dede9668c9560b87fe62b8eb2a8710d0f",
+      "committed": "2026-05-30",
+      "treeTruncated": false
+    },
+    {
+      "name": "BMCook",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/BMCook/blob/9f32ec7e2250ce0deea96db9b2e753d2d7145b82/README.md",
+          "sha256": "c0ff0ac5e2ee2ad2006ba87197dba4b45a7734b11e26b2e4776f4911122c53a4",
+          "bytes": 10655
+        },
+        {
+          "path": "README-ZH.md",
+          "url": "https://github.com/OpenBMB/BMCook/blob/9f32ec7e2250ce0deea96db9b2e753d2d7145b82/README-ZH.md",
+          "sha256": "50efa0f8555fee0c85d45ceb27813c5f908ecc7b9f7c977213770412aea0a264",
+          "bytes": 6741
+        }
+      ],
+      "errors": [],
+      "revision": "9f32ec7e2250ce0deea96db9b2e753d2d7145b82",
+      "committed": "2026-07-07",
+      "treeTruncated": false
+    },
+    {
+      "name": "BMInf",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/BMInf/blob/a9aec55b1d019069762420b002d39ccccb54f577/README.md",
+          "sha256": "0e0849140edbd8b54aa7b6d1bf4b80e20e5e432e25bc27730f96c823918befc6",
+          "bytes": 6286
+        },
+        {
+          "path": "README-ZH.md",
+          "url": "https://github.com/OpenBMB/BMInf/blob/a9aec55b1d019069762420b002d39ccccb54f577/README-ZH.md",
+          "sha256": "d0e8a1ddfd016523c3a3adc36a75106a4494a03e0ad3d63f0df3b65c3107d32f",
+          "bytes": 5461
+        }
+      ],
+      "errors": [],
+      "revision": "a9aec55b1d019069762420b002d39ccccb54f577",
+      "committed": "2026-07-07",
+      "treeTruncated": false
+    },
+    {
+      "name": "BMInf-demos",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/BMInf-demos/blob/0a55d22905515c87656d1adb790a8d54017b828e/README.md",
+          "sha256": "8ee8465591f371c3e045fb78048f7521f579b7e32678f2fe41d1fd079512a05c",
+          "bytes": 1272
+        }
+      ],
+      "errors": [],
+      "revision": "0a55d22905515c87656d1adb790a8d54017b828e",
+      "committed": "2021-10-14",
+      "treeTruncated": false
+    },
+    {
+      "name": "BMList",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/BMList/blob/491a9c392463949d398bb75e8d64a30914fcb94d/README.md",
+          "sha256": "437aac5640f2ba932fcf05f3970c7b582f590bd77815f4bba6879b88be863435",
+          "bytes": 2008
+        }
+      ],
+      "errors": [],
+      "revision": "491a9c392463949d398bb75e8d64a30914fcb94d",
+      "committed": "2026-07-07",
+      "treeTruncated": false
+    },
+    {
+      "name": "BMPrinciples",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/BMPrinciples/blob/b8c8826e5ea400ac496a377740225d9809a3e320/README.md",
+          "sha256": "3e271aec52e855eb13658fd743769a3827990d0846e86da13190ba6c529a2665",
+          "bytes": 9957
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/BMPrinciples/blob/b8c8826e5ea400ac496a377740225d9809a3e320/README_zh.md",
+          "sha256": "f31ab3cfced98cb31a76105ee62fb76fd6d4745b5d303e67e4cfabd855423d15",
+          "bytes": 717
+        }
+      ],
+      "errors": [],
+      "revision": "b8c8826e5ea400ac496a377740225d9809a3e320",
+      "committed": "2023-08-13",
+      "treeTruncated": false
+    },
+    {
+      "name": "BMTools",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/BMTools/blob/85869fc6e26616508f5dfafa551546993ab35f52/README.md",
+          "sha256": "a2d844626e32fa8ab3d7e89f0ebe138d171f56fd4bb8e7dfdc5ae75965d2528e",
+          "bytes": 8936
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/BMTools/blob/85869fc6e26616508f5dfafa551546993ab35f52/README_zh.md",
+          "sha256": "038c67ba7aef9605d904ae709706ec1bf93a25e374fd3e0c652a199d86a7038a",
+          "bytes": 8412
+        }
+      ],
+      "errors": [],
+      "revision": "85869fc6e26616508f5dfafa551546993ab35f52",
+      "committed": "2023-12-05",
+      "treeTruncated": false
+    },
+    {
+      "name": "BMTrain",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/BMTrain/blob/36a44fe525342f84b082682aaabbe30ae5e22a14/README.md",
+          "sha256": "69353327c5b8c1e635da6ff3a81d3a995e56dfd9b9cdb4ce70efbd1fbd8d8d36",
+          "bytes": 13792
+        },
+        {
+          "path": "README-ZH.md",
+          "url": "https://github.com/OpenBMB/BMTrain/blob/36a44fe525342f84b082682aaabbe30ae5e22a14/README-ZH.md",
+          "sha256": "131836484c3c183541154ec8ea47b1931733400f5125f7789cbba6499d3c0f78",
+          "bytes": 12923
+        }
+      ],
+      "errors": [],
+      "revision": "36a44fe525342f84b082682aaabbe30ae5e22a14",
+      "committed": "2026-07-07",
+      "treeTruncated": false
+    },
+    {
+      "name": "ChatDev",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/ChatDev/blob/4fb2db0ea90375ce1059f44fe03ffbd191a7a169/README.md",
+          "sha256": "0f1bdd4ad88f9e2be3c05a1dd37670b11caaf8bf433eec1a862d44a872f48daf",
+          "bytes": 24370
+        },
+        {
+          "path": "README-zh.md",
+          "url": "https://github.com/OpenBMB/ChatDev/blob/4fb2db0ea90375ce1059f44fe03ffbd191a7a169/README-zh.md",
+          "sha256": "acf02018f4b497603ad0e8d081e1ce589888b9b91701bd5159ce2c29736664ce",
+          "bytes": 23428
+        }
+      ],
+      "errors": [],
+      "revision": "4fb2db0ea90375ce1059f44fe03ffbd191a7a169",
+      "committed": "2026-07-24",
+      "treeTruncated": false
+    },
+    {
+      "name": "ClawXMemory",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/ClawXMemory/blob/bcd66c5d8611413ad29354819b448e20dd51d480/README.md",
+          "sha256": "fa9905edf1db8fd6134149c9d4df33cedc94954c7baa138d3b5e4f44c0764d92",
+          "bytes": 7684
+        }
+      ],
+      "errors": [],
+      "revision": "bcd66c5d8611413ad29354819b448e20dd51d480",
+      "committed": "2026-04-15",
+      "treeTruncated": false
+    },
+    {
+      "name": "ClawXRouter",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/ClawXRouter/blob/6acac9f8ae1a8c2c236b84deb68b5df4d2d6336f/README.md",
+          "sha256": "fafb763d0f9148bb197ac90a5fee6d51139dc9fc9cf663ddcafbc717ab595c7d",
+          "bytes": 27326
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/ClawXRouter/blob/6acac9f8ae1a8c2c236b84deb68b5df4d2d6336f/README_zh.md",
+          "sha256": "20919cfbba745aeaf6a61b89697120014ff81e7e4f22e8d9d5eeacef3bc59dfb",
+          "bytes": 25182
+        }
+      ],
+      "errors": [],
+      "revision": "6acac9f8ae1a8c2c236b84deb68b5df4d2d6336f",
+      "committed": "2026-03-31",
+      "treeTruncated": false
+    },
+    {
+      "name": "ConsJudge",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/ConsJudge/blob/951d1748a94268b4eb83f1455fd2849a31d3ad35/README.md",
+          "sha256": "6afdf3486ddea8cfa08b077629978a7cc48ff512fa7b6c8680fd81b6482d336d",
+          "bytes": 5230
+        }
+      ],
+      "errors": [],
+      "revision": "951d1748a94268b4eb83f1455fd2849a31d3ad35",
+      "committed": "2025-03-23",
+      "treeTruncated": false
+    },
+    {
+      "name": "CPM-Bee",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/CPM-Bee/blob/be2b6a904f596bfd0328cb5e9020a84db44f9629/README.md",
+          "sha256": "ac5f04ac4bce510e5b8d96dcf31947a91c3194d2b400ba2ec0d72ce06457a5a3",
+          "bytes": 35955
+        },
+        {
+          "path": "README_en.md",
+          "url": "https://github.com/OpenBMB/CPM-Bee/blob/be2b6a904f596bfd0328cb5e9020a84db44f9629/README_en.md",
+          "sha256": "260ceba87cefd3d46ec542f27001a1e620e0dfccf4eaf91aa61116b24c1dfa15",
+          "bytes": 20207
+        }
+      ],
+      "errors": [],
+      "revision": "be2b6a904f596bfd0328cb5e9020a84db44f9629",
+      "committed": "2026-07-07",
+      "treeTruncated": false
+    },
+    {
+      "name": "CPM-Live",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/CPM-Live/blob/3b27173f67827faf329ab649ee1d0cb2a873e56b/README.md",
+          "sha256": "27fb112fb3cb1953fb0b616e8f8bc92ab1893eb59a03c437b5f194849db15efd",
+          "bytes": 3873
+        },
+        {
+          "path": "README-ZH.md",
+          "url": "https://github.com/OpenBMB/CPM-Live/blob/3b27173f67827faf329ab649ee1d0cb2a873e56b/README-ZH.md",
+          "sha256": "02427c6cf554ada07c38eaeb1d738062e586de96d94425b4f9f9edcba592a407",
+          "bytes": 3625
+        }
+      ],
+      "errors": [],
+      "revision": "3b27173f67827faf329ab649ee1d0cb2a873e56b",
+      "committed": "2026-07-07",
+      "treeTruncated": false
+    },
+    {
+      "name": "CPM.cu",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/CPM.cu/blob/23aa7b7fefc537113166691cec63d5baa5209ebe/README.md",
+          "sha256": "000598b5c0e2d62ee1fe777f14ae78c70d13c458075e3ff2dffa7e93c5161e1d",
+          "bytes": 12061
+        },
+        {
+          "path": "README_ZH.md",
+          "url": "https://github.com/OpenBMB/CPM.cu/blob/23aa7b7fefc537113166691cec63d5baa5209ebe/README_ZH.md",
+          "sha256": "e9d35a1a38a66677229e7a64222d33a9a84b0389cc96fd8666ce7850b4f28e67",
+          "bytes": 11363
+        }
+      ],
+      "errors": [],
+      "revision": "23aa7b7fefc537113166691cec63d5baa5209ebe",
+      "committed": "2026-01-14",
+      "treeTruncated": false
+    },
+    {
+      "name": "cpm_kernels",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/cpm_kernels/blob/277a0eddd6d264c6b9b9477fa47cc00880d581c0/README.md",
+          "sha256": "b163e4e5b997340dfcb33b7d9128b1da0b4052c405519af9c6987631cc1eb188",
+          "bytes": 36
+        }
+      ],
+      "errors": [],
+      "revision": "277a0eddd6d264c6b9b9477fa47cc00880d581c0",
+      "committed": "2022-03-07",
+      "treeTruncated": false
+    },
+    {
+      "name": "CPO",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/CPO/blob/10c4480326cd02a35e0221ccf40ed63eb79bef7f/README.md",
+          "sha256": "610e3c7927c617ef3f0067724474f88dc4f856ccdcd9a9ac8e3eb5d472982ab1",
+          "bytes": 4753
+        }
+      ],
+      "errors": [],
+      "revision": "10c4480326cd02a35e0221ccf40ed63eb79bef7f",
+      "committed": "2024-07-16",
+      "treeTruncated": false
+    },
+    {
+      "name": "DEBATER",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/DEBATER/blob/377a1421a094976009fa1c59dda1cb3659548355/README.md",
+          "sha256": "ef10ce8e903ddff09aaf6272a87b1eeecb891e29fae3e2c65149270fb5387518",
+          "bytes": 4598
+        }
+      ],
+      "errors": [],
+      "revision": "377a1421a094976009fa1c59dda1cb3659548355",
+      "committed": "2025-03-02",
+      "treeTruncated": false
+    },
+    {
+      "name": "DecorateLM",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/DecorateLM/blob/357555cac4409a56aac42f69d6a8e49f361c4e31/README.md",
+          "sha256": "d14203707e956729290787576b6108b730149da32d10149a9add5a9513ed19f0",
+          "bytes": 6071
+        }
+      ],
+      "errors": [],
+      "revision": "357555cac4409a56aac42f69d6a8e49f361c4e31",
+      "committed": "2024-12-17",
+      "treeTruncated": false
+    },
+    {
+      "name": "DecT",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/DecT/blob/a2aa29570c19d066aaa4b01fac278bf65ac37afb/README.md",
+          "sha256": "837292d841d77379e1509356818d40004a0bbcc32fd308a0a801318863122ba1",
+          "bytes": 1777
+        }
+      ],
+      "errors": [],
+      "revision": "a2aa29570c19d066aaa4b01fac278bf65ac37afb",
+      "committed": "2023-06-25",
+      "treeTruncated": false
+    },
+    {
+      "name": "DeepThinkVLA",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/DeepThinkVLA/blob/ff271e7c024422581c9875d96250f99dd0b743d1/README.md",
+          "sha256": "8149cdac7de1d4452b25f2494e2713eff42713a1b65f6e588b996e05fe69041d",
+          "bytes": 13540
+        }
+      ],
+      "errors": [],
+      "revision": "ff271e7c024422581c9875d96250f99dd0b743d1",
+      "committed": "2026-09-08",
+      "treeTruncated": false
+    },
+    {
+      "name": "EdgeClaw",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/EdgeClaw/blob/5e461861b370f5677d2eb6b35499764632989279/README.md",
+          "sha256": "4f0653be07f3e8df353ee1f6e5c511321dbe5e391e482c286edae8999f9e9985",
+          "bytes": 30771
+        },
+        {
+          "path": "readme_zh.md",
+          "url": "https://github.com/OpenBMB/EdgeClaw/blob/5e461861b370f5677d2eb6b35499764632989279/readme_zh.md",
+          "sha256": "21a45f3a17f326fb5676b0e30c40e998b37b0501d3a6e556d854c1103f6eee09",
+          "bytes": 28324
+        }
+      ],
+      "errors": [],
+      "revision": "5e461861b370f5677d2eb6b35499764632989279",
+      "committed": "2026-04-15",
+      "treeTruncated": false
+    },
+    {
+      "name": "Eurus",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/Eurus/blob/fd72db1861ef009fede0dbe5bcc9893c9012dacf/README.md",
+          "sha256": "43b2ed91c1deb97ab98c374286b70fd4c94f4e01b06dd57901cb1493fc30afed",
+          "bytes": 19955
+        }
+      ],
+      "errors": [],
+      "revision": "fd72db1861ef009fede0dbe5bcc9893c9012dacf",
+      "committed": "2024-09-18",
+      "treeTruncated": false
+    },
+    {
+      "name": "ForgeStencil",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/ForgeStencil/blob/1c8311c8a79abaedd40fc6609d888a4f88dea3a2/README.md",
+          "sha256": "a10c0bd730626109e6dab331ea724e1bb57b8b137604f1d3027b4ce418032060",
+          "bytes": 19480
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/ForgeStencil/blob/1c8311c8a79abaedd40fc6609d888a4f88dea3a2/README_zh.md",
+          "sha256": "2b76f550f1455b68c49635a0df408170872de1392dc984398c167d9fee3d395c",
+          "bytes": 18327
+        }
+      ],
+      "errors": [],
+      "revision": "1c8311c8a79abaedd40fc6609d888a4f88dea3a2",
+      "committed": "2026-08-04",
+      "treeTruncated": false
+    },
+    {
+      "name": "ForgeTrain",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/ForgeTrain/blob/3242a5cd74851a14a7e0c1ebbfb19decdafd2cde/README.md",
+          "sha256": "5736c442a74823426d132b303ddc09427b9c6dac76b3acd38bc341de8c4ba6f9",
+          "bytes": 12994
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/ForgeTrain/blob/3242a5cd74851a14a7e0c1ebbfb19decdafd2cde/README_zh.md",
+          "sha256": "44c8ba9d2089a8483aedde60e6d6f9cf49328d85da620e3cb403bcd876a717b5",
+          "bytes": 13100
+        }
+      ],
+      "errors": [],
+      "revision": "3242a5cd74851a14a7e0c1ebbfb19decdafd2cde",
+      "committed": "2026-08-20",
+      "treeTruncated": false
+    },
+    {
+      "name": "General-Model-License",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/General-Model-License/blob/e4eb9be48f2cfe8367205208516440fa186e8ae3/README.md",
+          "sha256": "707a847f13b6511bcc3e60ce96afd9774ff88a9b6e9eea69c58c07292fb062d7",
+          "bytes": 4406
+        }
+      ],
+      "errors": [],
+      "revision": "e4eb9be48f2cfe8367205208516440fa186e8ae3",
+      "committed": "2023-05-27",
+      "treeTruncated": false
+    },
+    {
+      "name": "HerculesBench",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/HerculesBench/blob/5efa6bc7d1cdff270934034bf16c93f86d226ba1/README.md",
+          "sha256": "9364307163209f5195ad2acc1648d6d716a92d91530a3fc905867d95e9e7cd2f",
+          "bytes": 16
+        }
+      ],
+      "errors": [],
+      "revision": "5efa6bc7d1cdff270934034bf16c93f86d226ba1",
+      "committed": "2024-07-13",
+      "treeTruncated": false
+    },
+    {
+      "name": "InfiniteBench",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/InfiniteBench/blob/51d9b37b0f1790ead936df2243abbf7f0420e439/README.md",
+          "sha256": "ae3bfd502be4afc97f77f7adfdd30115c6243fc9e1390fa6eba7a3bafb69f97d",
+          "bytes": 11852
+        },
+        {
+          "path": "README_ZH.md",
+          "url": "https://github.com/OpenBMB/InfiniteBench/blob/51d9b37b0f1790ead936df2243abbf7f0420e439/README_ZH.md",
+          "sha256": "67a688374a56008bce26178e376d368d666e950f3cb2b8afae03925ec5b9e0da",
+          "bytes": 9886
+        }
+      ],
+      "errors": [],
+      "revision": "51d9b37b0f1790ead936df2243abbf7f0420e439",
+      "committed": "2024-09-25",
+      "treeTruncated": false
+    },
+    {
+      "name": "infllmv2_cuda_impl",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/infllmv2_cuda_impl/blob/93cf2ec28e5a7acebe3f0bb7329b6c73a1be91f6/README.md",
+          "sha256": "49e982dbb449d926a56528b59f9bcb93d20e17c98d49951c34170552f8a2c6b7",
+          "bytes": 9341
+        }
+      ],
+      "errors": [],
+      "revision": "93cf2ec28e5a7acebe3f0bb7329b6c73a1be91f6",
+      "committed": "2026-02-11",
+      "treeTruncated": false
+    },
+    {
+      "name": "IoA",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/IoA/blob/9d78e88e47160eb42ee1ee8538c05e1c2c47877a/README.md",
+          "sha256": "28f5e1812ebe693b4637d6d4e8a9ea81106366e1e18b3ab6d90b683acb18e76f",
+          "bytes": 6923
+        }
+      ],
+      "errors": [],
+      "revision": "9d78e88e47160eb42ee1ee8538c05e1c2c47877a",
+      "committed": "2025-10-04",
+      "treeTruncated": false
+    },
+    {
+      "name": "Locret",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/Locret/blob/28995c5ad6e6cc263913eb73fb76a4942f3dbf75/README.md",
+          "sha256": "788445d749987073b2efca0d155e90af17a05ff792b3973f2cf5759939002657",
+          "bytes": 3862
+        }
+      ],
+      "errors": [],
+      "revision": "28995c5ad6e6cc263913eb73fb76a4942f3dbf75",
+      "committed": "2024-10-03",
+      "treeTruncated": false
+    },
+    {
+      "name": "MA-ProofBench",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/MA-ProofBench/blob/31bab4c78fd1b0c464e767d62e9202163d1e9029/README.md",
+          "sha256": "3f891d7103a55011cade5dddfae77af8311df346de2e008a5439472150fae81e",
+          "bytes": 4507
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/MA-ProofBench/blob/31bab4c78fd1b0c464e767d62e9202163d1e9029/README_zh.md",
+          "sha256": "799ff8fd463bfe3722d60b0d2371927ae603fb497c96c9e028c780273f38a48d",
+          "bytes": 4127
+        }
+      ],
+      "errors": [],
+      "revision": "31bab4c78fd1b0c464e767d62e9202163d1e9029",
+      "committed": "2026-08-26",
+      "treeTruncated": false
+    },
+    {
+      "name": "MathForm",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/MathForm/blob/360487f264e801ee08de0f49b12e57fcc600e5ca/README.md",
+          "sha256": "9179c1a1095f684693e7cfbd4830be7d0fc548029a986e7661534293be0062e2",
+          "bytes": 7217
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/MathForm/blob/360487f264e801ee08de0f49b12e57fcc600e5ca/README_zh.md",
+          "sha256": "70931eb1706b16b12cf4afc5938eec5b1982675aa3da3a45dd09e98ad2133ad5",
+          "bytes": 6787
+        }
+      ],
+      "errors": [],
+      "revision": "360487f264e801ee08de0f49b12e57fcc600e5ca",
+      "committed": "2026-08-17",
+      "treeTruncated": false
+    },
+    {
+      "name": "Meshy",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/Meshy/blob/04e145c6282c9d8cbea99e692256a027c83a7673/README.md",
+          "sha256": "d4e5f7fcc070f8467b193f9fa0b93af2cd98be539b18ff1408ce7ac8fd5092b2",
+          "bytes": 10732
+        }
+      ],
+      "errors": [],
+      "revision": "04e145c6282c9d8cbea99e692256a027c83a7673",
+      "committed": "2026-09-21",
+      "treeTruncated": false
+    },
+    {
+      "name": "MetaMem",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/MetaMem/blob/66232c1cb33d3d7939d323b431f21c741785142e/README.md",
+          "sha256": "65c26233ad0c8d354045a8fdae57a5b16ea75d7cacfa71cc8b624763accf5f66",
+          "bytes": 5961
+        }
+      ],
+      "errors": [],
+      "revision": "66232c1cb33d3d7939d323b431f21c741785142e",
+      "committed": "2026-07-02",
+      "treeTruncated": false
+    },
+    {
+      "name": "MiniCPM",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/README.md",
+          "sha256": "e75f229c6adb113dae909da22a55958e30b2a189022eb0f61e08a83eca918f38",
+          "bytes": 78468
+        },
+        {
+          "path": "README-cn.md",
+          "url": "https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/README-cn.md",
+          "sha256": "4db7e34179563dc029b5fe8662434e159380506ee5c33401f5b4af9b7225ebdc",
+          "bytes": 77973
+        }
+      ],
+      "errors": [],
+      "revision": "316cfb1cea39f39cfa16b4f5703b77495c2340be",
+      "committed": "2026-09-21",
+      "treeTruncated": false
+    },
+    {
+      "name": "MiniCPM-Desk-Pet",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-Desk-Pet/blob/87dc4d7c39f30f5d9a2753cd60559a0e90287839/README.md",
+          "sha256": "948e2c91653eef85bca5418d3b381a386b43891e3a309c7437ba83c652b9dcba",
+          "bytes": 6108
+        },
+        {
+          "path": "README.zh-CN.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-Desk-Pet/blob/87dc4d7c39f30f5d9a2753cd60559a0e90287839/README.zh-CN.md",
+          "sha256": "8e15b2826f7cad502a51dd14e52055ce4689b8ffcf621e514eca9a284450f31c",
+          "bytes": 5769
+        }
+      ],
+      "errors": [],
+      "revision": "87dc4d7c39f30f5d9a2753cd60559a0e90287839",
+      "committed": "2026-08-18",
+      "treeTruncated": false
+    },
+    {
+      "name": "MiniCPM-o-Demo",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-o-Demo/blob/47709a9210dfd71afa76c058e017fc8c4db5c8d2/README.md",
+          "sha256": "4c944e01ef7d5b745a75ff49e9d5dc787bef487e171305559b8dab0d7904c18f",
+          "bytes": 13532
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-o-Demo/blob/47709a9210dfd71afa76c058e017fc8c4db5c8d2/README_zh.md",
+          "sha256": "44313a6e3b324e62a776e24f24c976bab09543d8a00d178b1373f11521aef87a",
+          "bytes": 12438
+        }
+      ],
+      "errors": [],
+      "revision": "47709a9210dfd71afa76c058e017fc8c4db5c8d2",
+      "committed": "2026-09-15",
+      "treeTruncated": false
+    },
+    {
+      "name": "MiniCPM-Robot",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/README.md",
+          "sha256": "4ce42cbf64d8e23249863c09745eb0629e28685745cc969853caa2ceb97ce4b7",
+          "bytes": 22647
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/README_zh.md",
+          "sha256": "69b56486953b2ac2d33af6c10a9af639943fe0d6d47e93f0d45bc8e4a8343afa",
+          "bytes": 21668
+        }
+      ],
+      "errors": [],
+      "revision": "f666593066641d2c0cef06bc17bfb1e954547674",
+      "committed": "2026-08-25",
+      "treeTruncated": false
+    },
+    {
+      "name": "MiniCPM-V",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-V/blob/6ada8e8ef5e2979670fc94406f02b87c3c7e7ee0/README.md",
+          "sha256": "978333665b038c2fd4c5e5da7260edbef7043d3b1f53d2dc1a89cbe2202efcec",
+          "bytes": 122707
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-V/blob/6ada8e8ef5e2979670fc94406f02b87c3c7e7ee0/README_zh.md",
+          "sha256": "6be1f6277bd2dff0856bd2dde203203579b5581dd7af36c21717ea6b78a8174a",
+          "bytes": 120656
+        }
+      ],
+      "errors": [],
+      "revision": "6ada8e8ef5e2979670fc94406f02b87c3c7e7ee0",
+      "committed": "2026-09-08",
+      "treeTruncated": false
+    },
+    {
+      "name": "MiniCPM-V-Apps",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-V-Apps/blob/d1aac05eecaac64b7fc35f1cc93a06b726ce10e3/README.md",
+          "sha256": "faba69e6bc2788d59d473b85bcfcf6226865fa046e8b8986387119c06362ead9",
+          "bytes": 11944
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/MiniCPM-V-Apps/blob/d1aac05eecaac64b7fc35f1cc93a06b726ce10e3/README_zh.md",
+          "sha256": "b65cc2aa9f1d5b803315705babdc8dbb8709095ee8bd6a110f0ae5d33cbe7c2b",
+          "bytes": 11340
+        }
+      ],
+      "errors": [],
+      "revision": "d1aac05eecaac64b7fc35f1cc93a06b726ce10e3",
+      "committed": "2026-09-11",
+      "treeTruncated": false
+    },
+    {
+      "name": "MobileCPM",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/MobileCPM/blob/3943591b2698ccb51f1d7e165d048d3ae68022d5/README.md",
+          "sha256": "9f78463e9fa161c68029cf09b9f122511d316bc8a2563f05fae6d5db1b509d61",
+          "bytes": 11394
+        },
+        {
+          "path": "README-cn.md",
+          "url": "https://github.com/OpenBMB/MobileCPM/blob/3943591b2698ccb51f1d7e165d048d3ae68022d5/README-cn.md",
+          "sha256": "8d2f770eb838656015857e57c1b030651d3c55f97473831ff672452dfb5373e7",
+          "bytes": 10738
+        }
+      ],
+      "errors": [],
+      "revision": "3943591b2698ccb51f1d7e165d048d3ae68022d5",
+      "committed": "2024-07-04",
+      "treeTruncated": false
+    },
+    {
+      "name": "ModelCenter",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/ModelCenter/blob/d0c176a20b5b0e241d591a374061aa8887116ae3/README.md",
+          "sha256": "59a2c4a39e8171019f2d9d7dc2ab0476db61ca0a1a05834786eba4429ac90741",
+          "bytes": 13361
+        },
+        {
+          "path": "README-ZH.md",
+          "url": "https://github.com/OpenBMB/ModelCenter/blob/d0c176a20b5b0e241d591a374061aa8887116ae3/README-ZH.md",
+          "sha256": "c91c3f8936d714b54149453c29a5320c6616a76c266c1ee201771c78d0584137",
+          "bytes": 13687
+        }
+      ],
+      "errors": [],
+      "revision": "d0c176a20b5b0e241d591a374061aa8887116ae3",
+      "committed": "2026-07-07",
+      "treeTruncated": false
+    },
+    {
+      "name": "MoRE",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/MoRE/blob/2823013408bd52a77ab7b4634f334cef0fbf8f84/README.md",
+          "sha256": "6dca52036a8d4edc04b23a00fa883ede839de80cacffb1df1d516b4a1e491ae9",
+          "bytes": 5114
+        }
+      ],
+      "errors": [],
+      "revision": "2823013408bd52a77ab7b4634f334cef0fbf8f84",
+      "committed": "2026-07-01",
+      "treeTruncated": false
+    },
+    {
+      "name": "OlympiadBench",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/OlympiadBench/blob/ba5b26a7e2849940b598a9159c1190daa2b9175f/README.md",
+          "sha256": "e113ccb1a464ba76f05786832017cf58122478d849f3198b2829104b948635d3",
+          "bytes": 8148
+        }
+      ],
+      "errors": [],
+      "revision": "ba5b26a7e2849940b598a9159c1190daa2b9175f",
+      "committed": "2025-06-08",
+      "treeTruncated": false
+    },
+    {
+      "name": "Omni-DuplexEval",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/Omni-DuplexEval/blob/962cec448ac37a377ffb963b476778777d11d346/README.md",
+          "sha256": "1ed198d4a8ba64e74d43372aa65561698a814041c29cc7791c3519d4ca0d5d73",
+          "bytes": 6341
+        }
+      ],
+      "errors": [],
+      "revision": "962cec448ac37a377ffb963b476778777d11d346",
+      "committed": "2026-05-19",
+      "treeTruncated": false
+    },
+    {
+      "name": "OmniEvalKit",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/OmniEvalKit/blob/1adac0577258d539efc03f16d8a0f4b3f7df6c19/README.md",
+          "sha256": "2e22d31095e75c0593842e62737208291a8325998c4b226aa5787bf2acc18de3",
+          "bytes": 7727
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/OmniEvalKit/blob/1adac0577258d539efc03f16d8a0f4b3f7df6c19/README_zh.md",
+          "sha256": "b845d3d9f1078221dbfbda2cfba726b8fddce5c41b4ae608af4e3ef2e1d5c9b6",
+          "bytes": 7545
+        }
+      ],
+      "errors": [],
+      "revision": "1adac0577258d539efc03f16d8a0f4b3f7df6c19",
+      "committed": "2026-03-27",
+      "treeTruncated": false
+    },
+    {
+      "name": "OpenAct",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/OpenAct/blob/a6ca7fd5ab2316c24cbee781fb3e15f77e11317b/README.md",
+          "sha256": "5526e2ea8eb7298ac7016bbc8baf420084ceb218b7497e83ba50e6d6b9d9a67d",
+          "bytes": 6850
+        }
+      ],
+      "errors": [],
+      "revision": "a6ca7fd5ab2316c24cbee781fb3e15f77e11317b",
+      "committed": "2025-10-09",
+      "treeTruncated": false
+    },
+    {
+      "name": "openbmb.github.io",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/openbmb.github.io/blob/612263d57c4a80a98fbee801381b7ac86a44ecaa/README.md",
+          "sha256": "5e89872c2d1bcdb6fcec7fe9b0af1e31c76f5908b86312dcd378d383b524c800",
+          "bytes": 19
+        },
+        {
+          "path": "readme_o.md",
+          "url": "https://github.com/OpenBMB/openbmb.github.io/blob/612263d57c4a80a98fbee801381b7ac86a44ecaa/readme_o.md",
+          "sha256": "edbdcce7b850a25228ed2c3a4f28b22ee53fea76d75e53c236b60ebdfeb9a74e",
+          "bytes": 12324
+        },
+        {
+          "path": "readme_o_zh.md",
+          "url": "https://github.com/OpenBMB/openbmb.github.io/blob/612263d57c4a80a98fbee801381b7ac86a44ecaa/readme_o_zh.md",
+          "sha256": "d406f581aeede3a988cd69a3e228daa22c4c72438bf7cd596f4c62934bc04c7b",
+          "bytes": 12511
+        }
+      ],
+      "errors": [],
+      "revision": "612263d57c4a80a98fbee801381b7ac86a44ecaa",
+      "committed": "2026-02-20",
+      "treeTruncated": false
+    },
+    {
+      "name": "PAGER",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/PAGER/blob/2d9d6355435debbe08f85a139c472eb6be992b4c/README.md",
+          "sha256": "06815816dea7d5ec6664db78c4fc69ac010cef64bab79f16b98dd17b9d1a60c8",
+          "bytes": 6542
+        }
+      ],
+      "errors": [],
+      "revision": "2d9d6355435debbe08f85a139c472eb6be992b4c",
+      "committed": "2026-01-16",
+      "treeTruncated": false
+    },
+    {
+      "name": "ParamMute",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/ParamMute/blob/cc81d30145c145b660f732da2bdc0556b1f6acaf/README.md",
+          "sha256": "62048be4aa00ea476137a35fca9c974cffc0245cb3f267021e4d6bcb341eeb72",
+          "bytes": 11096
+        }
+      ],
+      "errors": [],
+      "revision": "cc81d30145c145b660f732da2bdc0556b1f6acaf",
+      "committed": "2026-07-07",
+      "treeTruncated": false
+    },
+    {
+      "name": "PilotDeck",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/README.md",
+          "sha256": "ed8f4ca5a48705042d28b3d66c2e2f0969a7b9de6a4a28d8987515bc3e22a42f",
+          "bytes": 22857
+        },
+        {
+          "path": "README.zh.md",
+          "url": "https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/README.zh.md",
+          "sha256": "4ac2333601b1a0d151143977c8690d04f735e38d479c0caabd191b44959e0a5b",
+          "bytes": 25988
+        },
+        {
+          "path": "README_DOCKER.md",
+          "url": "https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/README_DOCKER.md",
+          "sha256": "78ed0fd27ba5757252824403ff29fe1e96a72e0b254cef5e67712378553c96be",
+          "bytes": 6248
+        },
+        {
+          "path": "README_DOCKER.zh.md",
+          "url": "https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/README_DOCKER.zh.md",
+          "sha256": "16eae80f8d6deeab5a704191bd2f9452d92f4c9ddf74d8cce407c1883b613941",
+          "bytes": 6097
+        },
+        {
+          "path": "README_SOURCE_INSTALL.md",
+          "url": "https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/README_SOURCE_INSTALL.md",
+          "sha256": "f983183162315e6447dda5edb6a8f059108f354727cb1bda62a681f08fbe7e0d",
+          "bytes": 13542
+        },
+        {
+          "path": "README_SOURCE_INSTALL.zh.md",
+          "url": "https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/README_SOURCE_INSTALL.zh.md",
+          "sha256": "6e64d4289e6544fb0388772efed8b7dd2e93c90e51fe23962116dd0c69b0ed64",
+          "bytes": 13908
+        }
+      ],
+      "errors": [],
+      "revision": "5a0efbc5106e7c80c3df8e20184c439ed3d0603b",
+      "committed": "2026-09-22",
+      "treeTruncated": false
+    },
+    {
+      "name": "ProAgent",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/ProAgent/blob/02a79ac62e7ad3ca2565e0e4fe5fc22824aaf079/README.md",
+          "sha256": "6f1f6d76e5f715a9d54d101907611b4f3084d120753cadc0fd1e5d08857aca67",
+          "bytes": 5878
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/ProAgent/blob/02a79ac62e7ad3ca2565e0e4fe5fc22824aaf079/README_zh.md",
+          "sha256": "67212e3c95c50fc15e8cc1c7806c6245e85b01bc5758148375374332d69fc1b3",
+          "bytes": 5769
+        }
+      ],
+      "errors": [],
+      "revision": "02a79ac62e7ad3ca2565e0e4fe5fc22824aaf079",
+      "committed": "2023-12-27",
+      "treeTruncated": false
+    },
+    {
+      "name": "RaD-Agent",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/RaD-Agent/blob/7bff04ffe6dc9ce537c891432762ef029afed7f8/README.md",
+          "sha256": "8aededf43cd6439b531887c03a8653964b9e94b1a63e5fefd8f1261862f5e8d2",
+          "bytes": 8774
+        }
+      ],
+      "errors": [],
+      "revision": "7bff04ffe6dc9ce537c891432762ef029afed7f8",
+      "committed": "2024-11-12",
+      "treeTruncated": false
+    },
+    {
+      "name": "RAG-DDR",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/RAG-DDR/blob/3bd09e69cf8efe89025dcc7f40b964c54812c8e0/README.md",
+          "sha256": "aa69014379abfa87a4ec1afbb4c6a9e22f2c002b6d4efb781a69bb7a6d870934",
+          "bytes": 8597
+        }
+      ],
+      "errors": [],
+      "revision": "3bd09e69cf8efe89025dcc7f40b964c54812c8e0",
+      "committed": "2024-10-28",
+      "treeTruncated": false
+    },
+    {
+      "name": "RAGEval",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/RAGEval/blob/c44aa98aea18362eb5e3751f11e13dbc8f6cab83/README.md",
+          "sha256": "4464d6513c85b90b185e18a745c0f788e2b4e860ca556ad6b53846b7336afc61",
+          "bytes": 4926
+        }
+      ],
+      "errors": [],
+      "revision": "c44aa98aea18362eb5e3751f11e13dbc8f6cab83",
+      "committed": "2025-02-01",
+      "treeTruncated": false
+    },
+    {
+      "name": "RepoAgent",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/RepoAgent/blob/825d988127d7bfd757237d9c4e8678d9104030f0/README.md",
+          "sha256": "303a6163e318726aa5bcb2adcdd19b6f3640feab1213faab34826fb0300bc1cc",
+          "bytes": 12976
+        },
+        {
+          "path": "README_CN.md",
+          "url": "https://github.com/OpenBMB/RepoAgent/blob/825d988127d7bfd757237d9c4e8678d9104030f0/README_CN.md",
+          "sha256": "0f001193d6506c7e6b4e2d5d4109a693d9da21ea0ac18dbc31e955ad4b03166c",
+          "bytes": 11019
+        }
+      ],
+      "errors": [],
+      "revision": "825d988127d7bfd757237d9c4e8678d9104030f0",
+      "committed": "2024-12-23",
+      "treeTruncated": false
+    },
+    {
+      "name": "RLPR",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/RLPR/blob/235870e1a934b52ed28902d5d68ec8a811063cdc/README.md",
+          "sha256": "5e3482604efdd0e285ebdea7579d9d44665440048a0072b8caa6cf12142fc56b",
+          "bytes": 7341
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/RLPR/blob/235870e1a934b52ed28902d5d68ec8a811063cdc/README_zh.md",
+          "sha256": "fce3424da207f986e3bbe60aa0c3d3cb5525f6a38e79ae5b75deed00dab76a0d",
+          "bytes": 7291
+        }
+      ],
+      "errors": [],
+      "revision": "235870e1a934b52ed28902d5d68ec8a811063cdc",
+      "committed": "2025-08-12",
+      "treeTruncated": false
+    },
+    {
+      "name": "SciCore-Mol",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/SciCore-Mol/blob/37a7184af1c25d9854d8b027a16619b4b42a7c22/README.md",
+          "sha256": "ad099274a3be42e6822da919901e679d1b5c6eb8489c911c8ec70cad7cd3b98b",
+          "bytes": 10306
+        }
+      ],
+      "errors": [],
+      "revision": "37a7184af1c25d9854d8b027a16619b4b42a7c22",
+      "committed": "2026-05-13",
+      "treeTruncated": false
+    },
+    {
+      "name": "Scicore-Omics",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/Scicore-Omics/blob/32b0ef71fad37db9bda07b6959b644d8048e5978/README.md",
+          "sha256": "52cb337dbcae0544ff399628c258d758767a57e2ab15971fe8b87fd1aa349eb0",
+          "bytes": 19522
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/Scicore-Omics/blob/32b0ef71fad37db9bda07b6959b644d8048e5978/README_zh.md",
+          "sha256": "28b30579598a956fcd0415901fd8eda4206791bcca00a5cd2073ee1b0f14bdde",
+          "bytes": 17263
+        }
+      ],
+      "errors": [],
+      "revision": "32b0ef71fad37db9bda07b6959b644d8048e5978",
+      "committed": "2026-06-03",
+      "treeTruncated": false
+    },
+    {
+      "name": "sglang",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/sglang/blob/7fc91fe148797c32b6e209d86b8dd50e0402815f/README.md",
+          "sha256": "ef4bfe89a8971ca394d9244570900b68d4f886a72b118033e25b5687027503b3",
+          "bytes": 6838
+        }
+      ],
+      "errors": [],
+      "revision": "7fc91fe148797c32b6e209d86b8dd50e0402815f",
+      "committed": "2025-06-05",
+      "treeTruncated": false
+    },
+    {
+      "name": "SHIFT",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/SHIFT/blob/0c647191b3925a64303727625f44c7aba1793d69/README.md",
+          "sha256": "b1dcec44caa0afa4fe7faae220aec4e3d07cc05e5f833cde7981ac662d3aac13",
+          "bytes": 5049
+        }
+      ],
+      "errors": [],
+      "revision": "0c647191b3925a64303727625f44c7aba1793d69",
+      "committed": "2026-07-03",
+      "treeTruncated": false
+    },
+    {
+      "name": "SimpleMemVLA",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/SimpleMemVLA/blob/404215d752704fd8d8157fa6b7ccdfafdb2bd44e/README.md",
+          "sha256": "e1051e129f3e99244d7d63d4d9bab801a79eaadae24b5f41d859a58ced259a82",
+          "bytes": 37258
+        }
+      ],
+      "errors": [],
+      "revision": "404215d752704fd8d8157fa6b7ccdfafdb2bd44e",
+      "committed": "2026-09-15",
+      "treeTruncated": false
+    },
+    {
+      "name": "SimpleNav",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/SimpleNav/blob/64925eab9136318ef90eddacf2aa7e9058311c0d/README.md",
+          "sha256": "585d9ab0b9960a10164d7fb1c051a15bbe2a149ace8d0f2dea6b8bfdf93d8dc3",
+          "bytes": 17570
+        },
+        {
+          "path": "README_ZH.md",
+          "url": "https://github.com/OpenBMB/SimpleNav/blob/64925eab9136318ef90eddacf2aa7e9058311c0d/README_ZH.md",
+          "sha256": "90081289c48eba0cbe1f5e615ab80caabce5b7220052447d84b686d8f0dc767b",
+          "bytes": 16212
+        }
+      ],
+      "errors": [],
+      "revision": "64925eab9136318ef90eddacf2aa7e9058311c0d",
+      "committed": "2026-08-28",
+      "treeTruncated": false
+    },
+    {
+      "name": "SOAR-Toolkit",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/SOAR-Toolkit/blob/2ed4ade13a601f2f8879c2bc482ed7d0f11c61ef/README.md",
+          "sha256": "501659adfb47564eb1284a57f42b23878988a836ba04c1203b758199a141daa4",
+          "bytes": 17695
+        },
+        {
+          "path": "README_EN.md",
+          "url": "https://github.com/OpenBMB/SOAR-Toolkit/blob/2ed4ade13a601f2f8879c2bc482ed7d0f11c61ef/README_EN.md",
+          "sha256": "f0a71560b637fce2516a2b35b9de5b6c07c89c762ab1a4fe635aa6f55a9c7bba",
+          "bytes": 20600
+        }
+      ],
+      "errors": [],
+      "revision": "2ed4ade13a601f2f8879c2bc482ed7d0f11c61ef",
+      "committed": "2026-02-28",
+      "treeTruncated": false
+    },
+    {
+      "name": "sparse_kernel",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/sparse_kernel/blob/bfa61186b2c87569185523a800780e997cbbf601/README.md",
+          "sha256": "fc38463efe87dfe30b89f811d1b250bb3b8f769fb355837b3559bf2af021a701",
+          "bytes": 3246
+        }
+      ],
+      "errors": [],
+      "revision": "bfa61186b2c87569185523a800780e997cbbf601",
+      "committed": "2026-02-11",
+      "treeTruncated": false
+    },
+    {
+      "name": "StaffDeck",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/StaffDeck/blob/7adc7c84f61bd6cca13ff0380a811cbb3ae3c544/README.md",
+          "sha256": "29b03141f2f0814d0f8ff2b0fa52f272a6e981ceb6ec02001856ff561686f7df",
+          "bytes": 19282
+        },
+        {
+          "path": "README.zh.md",
+          "url": "https://github.com/OpenBMB/StaffDeck/blob/7adc7c84f61bd6cca13ff0380a811cbb3ae3c544/README.zh.md",
+          "sha256": "ea68d3c21c3967e2fe7a3d6850aed9f20703c5ea1d85ab339255f6670583f37d",
+          "bytes": 18121
+        }
+      ],
+      "errors": [],
+      "revision": "7adc7c84f61bd6cca13ff0380a811cbb3ae3c544",
+      "committed": "2026-09-11",
+      "treeTruncated": false
+    },
+    {
+      "name": "Tell_Me_More",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/Tell_Me_More/blob/654fcec4da3b3465536d57b0d1995e8699a5a8f0/README.md",
+          "sha256": "95a0d43bdf625a6845c8fd2ded35f86dfb2db4cc8ff7fd53da746de82cec5d40",
+          "bytes": 12157
+        }
+      ],
+      "errors": [],
+      "revision": "654fcec4da3b3465536d57b0d1995e8699a5a8f0",
+      "committed": "2024-02-20",
+      "treeTruncated": false
+    },
+    {
+      "name": "ToolBench",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/ToolBench/blob/d56fdd89faf8c91fa135090b212bb9057ee5cfc2/README.md",
+          "sha256": "bb3ec8d8ab48fa998b0b6eea440f3e799cd0f06f242be7e1b383850ad2cc41f0",
+          "bytes": 32745
+        },
+        {
+          "path": "README_ZH.md",
+          "url": "https://github.com/OpenBMB/ToolBench/blob/d56fdd89faf8c91fa135090b212bb9057ee5cfc2/README_ZH.md",
+          "sha256": "061b6f0c9cf052142f985f61e489ec75c2ca9cefea819c719134a801f6c8efce",
+          "bytes": 30862
+        }
+      ],
+      "errors": [],
+      "revision": "d56fdd89faf8c91fa135090b212bb9057ee5cfc2",
+      "committed": "2025-05-21",
+      "treeTruncated": false
+    },
+    {
+      "name": "UltraEval",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/UltraEval/blob/5d967b4ea5725ab1252904520bcaa87b40165b4b/README.md",
+          "sha256": "41664292c6cb0299ae13e26c18e3c12da68936a75dff3e597cc1551ebe89f753",
+          "bytes": 11074
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/UltraEval/blob/5d967b4ea5725ab1252904520bcaa87b40165b4b/README_zh.md",
+          "sha256": "d0a93c3101ce9bf046109b6866c3593873fba9cf42cd63e88150c137afa67bf9",
+          "bytes": 9482
+        }
+      ],
+      "errors": [],
+      "revision": "5d967b4ea5725ab1252904520bcaa87b40165b4b",
+      "committed": "2024-09-17",
+      "treeTruncated": false
+    },
+    {
+      "name": "UltraEval-Audio",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/UltraEval-Audio/blob/bead726925d43f526bed48a4a6a827595169429d/README.md",
+          "sha256": "25d8974b8dacf3ef8b6b703047f1292e224aa8be791347b1a79fde724d8c213b",
+          "bytes": 24987
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/UltraEval-Audio/blob/bead726925d43f526bed48a4a6a827595169429d/README_zh.md",
+          "sha256": "9fd73b4a106a2dc51107c00d17f1c5e83c7b6b62b3e0f1f7253fcbc0312260fe",
+          "bytes": 24025
+        }
+      ],
+      "errors": [],
+      "revision": "bead726925d43f526bed48a4a6a827595169429d",
+      "committed": "2026-09-16",
+      "treeTruncated": false
+    },
+    {
+      "name": "UltraFeedback",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/UltraFeedback/blob/bf80fd46a8c6ceecc86e8babb1ae8771f26a3cbb/README.md",
+          "sha256": "ecf2a9052bbdcf4630fc97c400866d733643b9084c64b04c7f6bce73dbcc356a",
+          "bytes": 19180
+        }
+      ],
+      "errors": [],
+      "revision": "bf80fd46a8c6ceecc86e8babb1ae8771f26a3cbb",
+      "committed": "2023-12-29",
+      "treeTruncated": false
+    },
+    {
+      "name": "UltraLink",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/UltraLink/blob/6f967d8376eaa8371519ce8d9dd737c040026e50/README.md",
+          "sha256": "99ac8830f543cc1baae91c74e25564624271003eceb25cae2c0fca7b09d97bab",
+          "bytes": 71440
+        }
+      ],
+      "errors": [],
+      "revision": "6f967d8376eaa8371519ce8d9dd737c040026e50",
+      "committed": "2025-01-19",
+      "treeTruncated": false
+    },
+    {
+      "name": "UltraRAG",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/UltraRAG/blob/a763d34432007fcd1b261209f222bb10df907beb/README.md",
+          "sha256": "5c60bf703691b68b7cafc29f52984be8d2239b57bf0c15fd25b82815f41c3cc9",
+          "bytes": 17294
+        }
+      ],
+      "errors": [],
+      "revision": "a763d34432007fcd1b261209f222bb10df907beb",
+      "committed": "2026-09-19",
+      "treeTruncated": false
+    },
+    {
+      "name": "UltraX",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/UltraX/blob/cb0c2fae44c30b68e5e736a0255eef61e82f026b/README.md",
+          "sha256": "361e6bc28050c7b3403205328574dab105b930aa3b6fdb20b6bbbc9673ff219a",
+          "bytes": 9868
+        },
+        {
+          "path": "README_ZH.md",
+          "url": "https://github.com/OpenBMB/UltraX/blob/cb0c2fae44c30b68e5e736a0255eef61e82f026b/README_ZH.md",
+          "sha256": "83f22529a22015022306280ee8194ce24488d8c02430c9c2d485ef8beaa3a658",
+          "bytes": 9043
+        }
+      ],
+      "errors": [],
+      "revision": "cb0c2fae44c30b68e5e736a0255eef61e82f026b",
+      "committed": "2026-07-15",
+      "treeTruncated": false
+    },
+    {
+      "name": "VisCPM",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/VisCPM/blob/d21f3ebda1d5195c49c9ca4cf6c1db8be50e0385/README.md",
+          "sha256": "a86fefca35a26e66cd62777032d3b76b1105dd455a3229cbe894aaa2241ff60a",
+          "bytes": 26884
+        },
+        {
+          "path": "README_en.md",
+          "url": "https://github.com/OpenBMB/VisCPM/blob/d21f3ebda1d5195c49c9ca4cf6c1db8be50e0385/README_en.md",
+          "sha256": "278cb4c791335fdb33070ab55c33c7a3f248bcc5d37e11e91b9f85a299ea555c",
+          "bytes": 30314
+        }
+      ],
+      "errors": [],
+      "revision": "d21f3ebda1d5195c49c9ca4cf6c1db8be50e0385",
+      "committed": "2024-06-13",
+      "treeTruncated": false
+    },
+    {
+      "name": "VisRAG",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/VisRAG/blob/7205787862e35d70cee7ebfd8f2b58d3eb5d563b/README.md",
+          "sha256": "09c1400dce6358a4319f4b74d75ba46c7293bf1bb26e2b306566df434d0d60f8",
+          "bytes": 18998
+        }
+      ],
+      "errors": [],
+      "revision": "7205787862e35d70cee7ebfd8f2b58d3eb5d563b",
+      "committed": "2026-08-09",
+      "treeTruncated": false
+    },
+    {
+      "name": "VoxCPM",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/README.md",
+          "sha256": "f670fdf5f3faea03a71f717d25057b3bc100742edd9feb24d375443b091cc61f",
+          "bytes": 42395
+        },
+        {
+          "path": "README_zh.md",
+          "url": "https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/README_zh.md",
+          "sha256": "b616c735bb908ef3d4d4a5acc5e5e79bc7331730f513558b1a03104851a44553",
+          "bytes": 31630
+        }
+      ],
+      "errors": [],
+      "revision": "f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69",
+      "committed": "2026-09-02",
+      "treeTruncated": false
+    },
+    {
+      "name": "VoxCPM-demopage",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/VoxCPM-demopage/blob/a08e4491b06136c198dd1c97ed0316393d54faca/README.md",
+          "sha256": "86ad437f21cbd30f034a8330a7488aef75d52a0f92ddc5938b84d3abf0db7852",
+          "bytes": 16
+        }
+      ],
+      "errors": [],
+      "revision": "a08e4491b06136c198dd1c97ed0316393d54faca",
+      "committed": "2025-09-17",
+      "treeTruncated": false
+    },
+    {
+      "name": "voxcpm2-demopage",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/voxcpm2-demopage/blob/59b843d1830ec0f9fa44270d89e9dda95c641389/README.md",
+          "sha256": "740be91eb503e0e7fbe06c3525f9898085a6cbf97d744f9280f80a3aa45a70ce",
+          "bytes": 1194
+        }
+      ],
+      "errors": [],
+      "revision": "59b843d1830ec0f9fa44270d89e9dda95c641389",
+      "committed": "2026-04-09",
+      "treeTruncated": false
+    },
+    {
+      "name": "WorkflowLLM",
+      "files": [
+        {
+          "path": "README.MD",
+          "url": "https://github.com/OpenBMB/WorkflowLLM/blob/2b5a2dee5fefbb6bf2fe68310393c3cf0c24cfcc/README.MD",
+          "sha256": "dd9bbf76d2b569db77d223043d2480a1c606190af458328d1fc47d99d25a370a",
+          "bytes": 13054
+        }
+      ],
+      "errors": [],
+      "revision": "2b5a2dee5fefbb6bf2fe68310393c3cf0c24cfcc",
+      "committed": "2025-03-11",
+      "treeTruncated": false
+    },
+    {
+      "name": "XAgent",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/XAgent/blob/0dea79924347fad46e114621d7334d1136b30691/README.md",
+          "sha256": "3b6098c278a6a3f10e48aea9cb9ad3b145afe4284c369d62e7f522192a96063c",
+          "bytes": 12127
+        },
+        {
+          "path": "README_JA.md",
+          "url": "https://github.com/OpenBMB/XAgent/blob/0dea79924347fad46e114621d7334d1136b30691/README_JA.md",
+          "sha256": "7acc460e5aabe080ab3f95be2a16a253aa78fb4c904195dae4b69b958aa3723c",
+          "bytes": 15608
+        },
+        {
+          "path": "README_ZH.md",
+          "url": "https://github.com/OpenBMB/XAgent/blob/0dea79924347fad46e114621d7334d1136b30691/README_ZH.md",
+          "sha256": "9a477df3dc397956d73b33428f20f4f8733ca8fb579c39682847cb6b96235a2b",
+          "bytes": 10395
+        }
+      ],
+      "errors": [],
+      "revision": "0dea79924347fad46e114621d7334d1136b30691",
+      "committed": "2026-07-31",
+      "treeTruncated": false
+    },
+    {
+      "name": "XAgent-doc",
+      "files": [
+        {
+          "path": "README.md",
+          "url": "https://github.com/OpenBMB/XAgent-doc/blob/dec88eb9cc261c978fe8bbde3997913c88815e57/README.md",
+          "sha256": "78515aa3917b53b45c97c8c7ea06893421cceb4bca1458dac890a937607671da",
+          "bytes": 908
+        }
+      ],
+      "errors": [],
+      "revision": "dec88eb9cc261c978fe8bbde3997913c88815e57",
+      "committed": "2023-11-30",
+      "treeTruncated": false
+    }
+  ],
+  "additional_code_documents": [
+    {
+      "repo": "MiniCPM",
+      "revision": "316cfb1cea39f39cfa16b4f5703b77495c2340be",
+      "path": "docs/README-minicpm1-en.md",
+      "url": "https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/docs/README-minicpm1-en.md",
+      "sha256": "a670fc0346dc3d3af164d8913b56b1da30ed5eee5d0168f5870624017fbeb65d",
+      "bytes": 10537
+    },
+    {
+      "repo": "MiniCPM",
+      "revision": "316cfb1cea39f39cfa16b4f5703b77495c2340be",
+      "path": "docs/README-minicpm2-en.md",
+      "url": "https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/docs/README-minicpm2-en.md",
+      "sha256": "dd45d49e60aa734d5df346ba007a9b490c7d8f42311f59d701cbe8279fd7407b",
+      "bytes": 9819
+    },
+    {
+      "repo": "MiniCPM",
+      "revision": "316cfb1cea39f39cfa16b4f5703b77495c2340be",
+      "path": "docs/README-minicpm3-en.md",
+      "url": "https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/docs/README-minicpm3-en.md",
+      "sha256": "56eabca79f398de6b6a6ab3dfa4cf893b3c0e12a1fc7c5a83e3a495e32cc74d8",
+      "bytes": 14838
+    },
+    {
+      "repo": "MiniCPM",
+      "revision": "316cfb1cea39f39cfa16b4f5703b77495c2340be",
+      "path": "minicpm_sala/README.md",
+      "url": "https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/minicpm_sala/README.md",
+      "sha256": "ed5162a5c5ddcd1f681928766e58ea5b658d95983269d744b4a962fd7b65ff48",
+      "bytes": 3796
+    },
+    {
+      "repo": "AgentCPM",
+      "revision": "4a43561e790c154292798b3edd50171f71241cec",
+      "path": "AgentCPM-Explore/README.md",
+      "url": "https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Explore/README.md",
+      "sha256": "ef2ba2d045a13b7564e52d59323192cc31870388d21f963f385763278787cc3f",
+      "bytes": 18094
+    },
+    {
+      "repo": "AgentCPM",
+      "revision": "4a43561e790c154292798b3edd50171f71241cec",
+      "path": "AgentCPM-Explore/AgentDock/README.md",
+      "url": "https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Explore/AgentDock/README.md",
+      "sha256": "38c8bd990a25b28fa6cfaf05699b8eecbcbc002b089c933e724ba08f5d3c04fe",
+      "bytes": 6465
+    },
+    {
+      "repo": "AgentCPM",
+      "revision": "4a43561e790c154292798b3edd50171f71241cec",
+      "path": "AgentCPM-Explore/AgentRL/README.md",
+      "url": "https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Explore/AgentRL/README.md",
+      "sha256": "70f56c0aa2086a2038081899f4158d8ed5ac1cd905ef58c62ce34abfff0ad41a",
+      "bytes": 15541
+    },
+    {
+      "repo": "AgentCPM",
+      "revision": "4a43561e790c154292798b3edd50171f71241cec",
+      "path": "AgentCPM-Explore/AgentToLeaP/README.md",
+      "url": "https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Explore/AgentToLeaP/README.md",
+      "sha256": "26d3ade9e605c6246c5ee9191d19c330be0938c2058b0329e11c73247de2307c",
+      "bytes": 9539
+    },
+    {
+      "repo": "AgentCPM",
+      "revision": "4a43561e790c154292798b3edd50171f71241cec",
+      "path": "AgentCPM-Report/README.md",
+      "url": "https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Report/README.md",
+      "sha256": "7d2a5c0f67de7b05c53c41262a75610276a5466ae00fc5343154d2cf10fc3489",
+      "bytes": 13626
+    },
+    {
+      "repo": "AgentCPM",
+      "revision": "4a43561e790c154292798b3edd50171f71241cec",
+      "path": "AgentCPM-Explore/AgentRL/src/rollout/scheduler.py",
+      "url": "https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Explore/AgentRL/src/rollout/scheduler.py",
+      "sha256": "c4d4598cf3ce9def3305624ba61c0f83528d7ff36d608572522beb36d68a5ec7",
+      "bytes": 7930
+    },
+    {
+      "repo": "VoxCPM",
+      "revision": "f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69",
+      "path": "src/voxcpm/model/voxcpm2.py",
+      "url": "https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/src/voxcpm/model/voxcpm2.py",
+      "sha256": "31ad554bc15a4da18cf820c6fda97a5b2c56ac8e9a5e66031a264d363661575c",
+      "bytes": 54715
+    },
+    {
+      "repo": "VoxCPM",
+      "revision": "f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69",
+      "path": "src/voxcpm/modules/audiovae/audio_vae_v2.py",
+      "url": "https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/src/voxcpm/modules/audiovae/audio_vae_v2.py",
+      "sha256": "2efdff1708d8ec1471624aae6f232d0f933de26b788b6901c434246847e2d3a8",
+      "bytes": 19201
+    },
+    {
+      "repo": "VoxCPM",
+      "revision": "f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69",
+      "path": "src/voxcpm/modules/locdit/unified_cfm.py",
+      "url": "https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/src/voxcpm/modules/locdit/unified_cfm.py",
+      "sha256": "e4535337024cf44b6888eccfd39ccbe98684e302dd1836e05f940b4d626dcfdf",
+      "bytes": 8714
+    },
+    {
+      "repo": "MiniCPM-Robot",
+      "revision": "f666593066641d2c0cef06bc17bfb1e954547674",
+      "path": "MiniCPM-RobotManip/vla_infer_memvla.py",
+      "url": "https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/MiniCPM-RobotManip/vla_infer_memvla.py",
+      "sha256": "42b282ebd977b163f0b225bf62c8602f1332c950bef63c3c8162ff13267ef2aa",
+      "bytes": 11484
+    },
+    {
+      "repo": "MiniCPM-Robot",
+      "revision": "f666593066641d2c0cef06bc17bfb1e954547674",
+      "path": "MiniCPM-RobotTrack/minicpm_robot_track/modeling.py",
+      "url": "https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/MiniCPM-RobotTrack/minicpm_robot_track/modeling.py",
+      "sha256": "7bfafc575fa6d3e2dec3a65487fe13ad0c779be24991d00da239f174aa628e2e",
+      "bytes": 12089
+    },
+    {
+      "repo": "MiniCPM-Robot",
+      "revision": "f666593066641d2c0cef06bc17bfb1e954547674",
+      "path": "MiniCPM-RobotTrack/minicpm_robot_track/config.py",
+      "url": "https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/MiniCPM-RobotTrack/minicpm_robot_track/config.py",
+      "sha256": "45b52d63db5129a4247bcc0c2469aa59bb8d45651313b13b4cc757500b13168e",
+      "bytes": 3001
+    },
+    {
+      "repo": "MiniCPM-Robot",
+      "revision": "f666593066641d2c0cef06bc17bfb1e954547674",
+      "path": "MiniCPM-RobotTrack/docs/GO2_DEPLOYMENT.md",
+      "url": "https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/MiniCPM-RobotTrack/docs/GO2_DEPLOYMENT.md",
+      "sha256": "800dc129493fc2c54c78263b00dbfd1de8f7da411b93daa5f4663c21df668d49",
+      "bytes": 11504
+    },
+    {
+      "repo": "DeepThinkVLA",
+      "revision": "ff271e7c024422581c9875d96250f99dd0b743d1",
+      "path": "src/sft/modeling_deepthinkvla.py",
+      "url": "https://github.com/OpenBMB/DeepThinkVLA/blob/ff271e7c024422581c9875d96250f99dd0b743d1/src/sft/modeling_deepthinkvla.py",
+      "sha256": "9e3e0e2a2f46ceec5625963458c84f09866d1e66f88144957ffa4523320d47c1",
+      "bytes": 37570
+    },
+    {
+      "repo": "SimpleNav",
+      "revision": "64925eab9136318ef90eddacf2aa7e9058311c0d",
+      "path": "docs/guides/MODEL_ARCHITECTURE.md",
+      "url": "https://github.com/OpenBMB/SimpleNav/blob/64925eab9136318ef90eddacf2aa7e9058311c0d/docs/guides/MODEL_ARCHITECTURE.md",
+      "sha256": "5fcd28296bc979513ca067920ad10ac326e52600466fe7f5544610bbc0f6c34b",
+      "bytes": 5260
+    },
+    {
+      "repo": "SimpleNav",
+      "revision": "64925eab9136318ef90eddacf2aa7e9058311c0d",
+      "path": "docs/guides/DATA_STRUCTURE.md",
+      "url": "https://github.com/OpenBMB/SimpleNav/blob/64925eab9136318ef90eddacf2aa7e9058311c0d/docs/guides/DATA_STRUCTURE.md",
+      "sha256": "660d75d87a13d11ebc45bba9117586964c24c8529eb1569f8adaac97d8e30046",
+      "bytes": 4775
+    },
+    {
+      "repo": "BMTrain",
+      "revision": "36a44fe525342f84b082682aaabbe30ae5e22a14",
+      "path": "docs/UPDATE_1.0.0.md",
+      "url": "https://github.com/OpenBMB/BMTrain/blob/36a44fe525342f84b082682aaabbe30ae5e22a14/docs/UPDATE_1.0.0.md",
+      "sha256": "e559387e03addd6dba3189a80af82d9ecbbc72eb8d79f8fd2040620460cd95c1",
+      "bytes": 2713
+    },
+    {
+      "repo": "BMTrain",
+      "revision": "36a44fe525342f84b082682aaabbe30ae5e22a14",
+      "path": "bmtrain/block_layer.py",
+      "url": "https://github.com/OpenBMB/BMTrain/blob/36a44fe525342f84b082682aaabbe30ae5e22a14/bmtrain/block_layer.py",
+      "sha256": "58176dff7c602b5097b171b846862ee0c1f9e7a20d499830fccea93b93ddced1",
+      "bytes": 28489
+    },
+    {
+      "repo": "BMCook",
+      "revision": "9f32ec7e2250ce0deea96db9b2e753d2d7145b82",
+      "path": "bmcook/trainer.py",
+      "url": "https://github.com/OpenBMB/BMCook/blob/9f32ec7e2250ce0deea96db9b2e753d2d7145b82/bmcook/trainer.py",
+      "sha256": "ac211962c4fc04acc99a1c31184aa796257496192538e0a16409a1022390e427",
+      "bytes": 5267
+    },
+    {
+      "repo": "BMCook",
+      "revision": "9f32ec7e2250ce0deea96db9b2e753d2d7145b82",
+      "path": "bmcook/moefication/README.md",
+      "url": "https://github.com/OpenBMB/BMCook/blob/9f32ec7e2250ce0deea96db9b2e753d2d7145b82/bmcook/moefication/README.md",
+      "sha256": "48d27e6c4d623f4e1e565fb2a09fdf01b7586fe3705d83b9860324ecb42d21e7",
+      "bytes": 1835
+    },
+    {
+      "repo": "BMCook",
+      "revision": "9f32ec7e2250ce0deea96db9b2e753d2d7145b82",
+      "path": "bmcook/pruning/sprune/README.md",
+      "url": "https://github.com/OpenBMB/BMCook/blob/9f32ec7e2250ce0deea96db9b2e753d2d7145b82/bmcook/pruning/sprune/README.md",
+      "sha256": "09b92d5bae7c6ae73af54421061a31d6978f2f61daba4adc995007c94153754a",
+      "bytes": 1389
+    },
+    {
+      "repo": "BMInf",
+      "revision": "a9aec55b1d019069762420b002d39ccccb54f577",
+      "path": "bminf/wrapper.py",
+      "url": "https://github.com/OpenBMB/BMInf/blob/a9aec55b1d019069762420b002d39ccccb54f577/bminf/wrapper.py",
+      "sha256": "6893fb34082d9ea139cb2ad707083a65e5b2ed08ea5fa3cf102dd6ad21b96fd7",
+      "bytes": 2255
+    },
+    {
+      "repo": "ModelCenter",
+      "revision": "d0c176a20b5b0e241d591a374061aa8887116ae3",
+      "path": "model_center/layer/attention.py",
+      "url": "https://github.com/OpenBMB/ModelCenter/blob/d0c176a20b5b0e241d591a374061aa8887116ae3/model_center/layer/attention.py",
+      "sha256": "9b93dc4e373a8e252738e666649b96c49a05986c1b31cfca7d8e9e4e5255528d",
+      "bytes": 35659
+    },
+    {
+      "repo": "CPM.cu",
+      "revision": "23aa7b7fefc537113166691cec63d5baa5209ebe",
+      "path": "cpmcu/llm.py",
+      "url": "https://github.com/OpenBMB/CPM.cu/blob/23aa7b7fefc537113166691cec63d5baa5209ebe/cpmcu/llm.py",
+      "sha256": "0b6fda849f3fbe9cf48fe65d1e8e9d7f8cea39bc5f898667e5ca886221ab124e",
+      "bytes": 17174
+    },
+    {
+      "repo": "CPM.cu",
+      "revision": "23aa7b7fefc537113166691cec63d5baa5209ebe",
+      "path": "cpmcu/speculative/eagle.py",
+      "url": "https://github.com/OpenBMB/CPM.cu/blob/23aa7b7fefc537113166691cec63d5baa5209ebe/cpmcu/speculative/eagle.py",
+      "sha256": "531e722634eedb2d6e7cd47f049ae3acc5612c005f40749fc509afcbbac54576",
+      "bytes": 6721
+    },
+    {
+      "repo": "ArcLight",
+      "revision": "558ef06dede9668c9560b87fe62b8eb2a8710d0f",
+      "path": "models/minicpm5.cpp",
+      "url": "https://github.com/OpenBMB/ArcLight/blob/558ef06dede9668c9560b87fe62b8eb2a8710d0f/models/minicpm5.cpp",
+      "sha256": "ba3cabe1bb94d6a160d461b611062c4b231fd5ab0493de14b751c0dd8b136282",
+      "bytes": 9876
+    },
+    {
+      "repo": "ArcLight",
+      "revision": "558ef06dede9668c9560b87fe62b8eb2a8710d0f",
+      "path": "nnml/include/scheduler.h",
+      "url": "https://github.com/OpenBMB/ArcLight/blob/558ef06dede9668c9560b87fe62b8eb2a8710d0f/nnml/include/scheduler.h",
+      "sha256": "4be4b334e1696ffad8ec44349503b704848e68e4e5c9487efae201187317b803",
+      "bytes": 2124
+    },
+    {
+      "repo": "cpm_kernels",
+      "revision": "277a0eddd6d264c6b9b9477fa47cc00880d581c0",
+      "path": "cpm_kernels/torch/gemm.py",
+      "url": "https://github.com/OpenBMB/cpm_kernels/blob/277a0eddd6d264c6b9b9477fa47cc00880d581c0/cpm_kernels/torch/gemm.py",
+      "sha256": "54799f962a4285bcf8e9640df5933031f03163c61869941a0c74e9897a027239",
+      "bytes": 8462
+    },
+    {
+      "repo": "cpm_kernels",
+      "revision": "277a0eddd6d264c6b9b9477fa47cc00880d581c0",
+      "path": "cuda/layernorm.cu",
+      "url": "https://github.com/OpenBMB/cpm_kernels/blob/277a0eddd6d264c6b9b9477fa47cc00880d581c0/cuda/layernorm.cu",
+      "sha256": "c7e57b0fac57521e8d680dc4ddff946da19dd8de95aebdc99ac5fd6427211ed8",
+      "bytes": 14377
+    },
+    {
+      "repo": "Meshy",
+      "revision": "04e145c6282c9d8cbea99e692256a027c83a7673",
+      "path": "docs/architecture_services.md",
+      "url": "https://github.com/OpenBMB/Meshy/blob/04e145c6282c9d8cbea99e692256a027c83a7673/docs/architecture_services.md",
+      "sha256": "20cd6034a2dec36c0d62a000b117729f60304fd95b5a5a069b3ae3a00e720db3",
+      "bytes": 11782
+    },
+    {
+      "repo": "Meshy",
+      "revision": "04e145c6282c9d8cbea99e692256a027c83a7673",
+      "path": "meshy/service/topology.py",
+      "url": "https://github.com/OpenBMB/Meshy/blob/04e145c6282c9d8cbea99e692256a027c83a7673/meshy/service/topology.py",
+      "sha256": "70b99b6fbbd462e79db58814938b4a8d0846f1c4a8368ff61c4dc1be92744c7d",
+      "bytes": 18469
+    },
+    {
+      "repo": "Meshy",
+      "revision": "04e145c6282c9d8cbea99e692256a027c83a7673",
+      "path": "meshy/service/colocation.py",
+      "url": "https://github.com/OpenBMB/Meshy/blob/04e145c6282c9d8cbea99e692256a027c83a7673/meshy/service/colocation.py",
+      "sha256": "bb7fd3f923beefa99d88d5c6027ebeb38b99e1cfaeef63c7a12d5e26c851d227",
+      "bytes": 22222
+    },
+    {
+      "repo": "ForgeTrain",
+      "revision": "3242a5cd74851a14a7e0c1ebbfb19decdafd2cde",
+      "path": "exports/train_engine_0.5B/README.md",
+      "url": "https://github.com/OpenBMB/ForgeTrain/blob/3242a5cd74851a14a7e0c1ebbfb19decdafd2cde/exports/train_engine_0.5B/README.md",
+      "sha256": "0ea2346abb5f5ab57db4f560217fb644ba661804d6e90fe7f344a41df8c1c105",
+      "bytes": 12403
+    },
+    {
+      "repo": "UltraRAG",
+      "revision": "a763d34432007fcd1b261209f222bb10df907beb",
+      "path": "src/ultrarag/api.py",
+      "url": "https://github.com/OpenBMB/UltraRAG/blob/a763d34432007fcd1b261209f222bb10df907beb/src/ultrarag/api.py",
+      "sha256": "07194ce9b3ddad13c9c3b3466919e1e8ae83ef858219e360bdd98c0d2fdea243",
+      "bytes": 7979
+    },
+    {
+      "repo": "UltraRAG",
+      "revision": "a763d34432007fcd1b261209f222bb10df907beb",
+      "path": "servers/retriever/src/retriever.py",
+      "url": "https://github.com/OpenBMB/UltraRAG/blob/a763d34432007fcd1b261209f222bb10df907beb/servers/retriever/src/retriever.py",
+      "sha256": "8f449d294076ff5bdb4a2ab86e66e75986b72c6d52fbc2c6b9c739c4daff9e85",
+      "bytes": 52364
+    },
+    {
+      "repo": "UltraRAG",
+      "revision": "a763d34432007fcd1b261209f222bb10df907beb",
+      "path": "servers/generation/src/generation.py",
+      "url": "https://github.com/OpenBMB/UltraRAG/blob/a763d34432007fcd1b261209f222bb10df907beb/servers/generation/src/generation.py",
+      "sha256": "2a1894b4765dc2b05f5a364f2c69e18d8f124aab34c0b31c1b5dce04b6d8e155",
+      "bytes": 29654
+    },
+    {
+      "repo": "VisRAG",
+      "revision": "7205787862e35d70cee7ebfd8f2b58d3eb5d563b",
+      "path": "src/openmatch/modeling/modeling_visrag_ret/modeling_visrag_ret.py",
+      "url": "https://github.com/OpenBMB/VisRAG/blob/7205787862e35d70cee7ebfd8f2b58d3eb5d563b/src/openmatch/modeling/modeling_visrag_ret/modeling_visrag_ret.py",
+      "sha256": "a77e4bac36cf33c85c0f14cf193cde057bf18caba7413dd38b52e39e6e697c88",
+      "bytes": 4543
+    },
+    {
+      "repo": "VisRAG",
+      "revision": "7205787862e35d70cee7ebfd8f2b58d3eb5d563b",
+      "path": "src/rsgrpo/README.md",
+      "url": "https://github.com/OpenBMB/VisRAG/blob/7205787862e35d70cee7ebfd8f2b58d3eb5d563b/src/rsgrpo/README.md",
+      "sha256": "8cf29fe6e3f69d17c2abeb5fed3f53df25c299b0b189b6d28cc8a7d107786e72",
+      "bytes": 11488
+    },
+    {
+      "repo": "DEBATER",
+      "revision": "377a1421a094976009fa1c59dda1cb3659548355",
+      "path": "llm2vec/llm2vec.py",
+      "url": "https://github.com/OpenBMB/DEBATER/blob/377a1421a094976009fa1c59dda1cb3659548355/llm2vec/llm2vec.py",
+      "sha256": "d099261679447a1caa005fc2d1bd96766db5deaec06a4273001e52f4ecaaea52",
+      "bytes": 14987
+    },
+    {
+      "repo": "Locret",
+      "revision": "28995c5ad6e6cc263913eb73fb76a4942f3dbf75",
+      "path": "locret/inference/infer.py",
+      "url": "https://github.com/OpenBMB/Locret/blob/28995c5ad6e6cc263913eb73fb76a4942f3dbf75/locret/inference/infer.py",
+      "sha256": "a0cf894651efbcb82c23deb23d77bc72980c561a9bdca4df4a230ed3e4de7ff1",
+      "bytes": 3153
+    },
+    {
+      "repo": "RAG-DDR",
+      "revision": "3bd09e69cf8efe89025dcc7f40b964c54812c8e0",
+      "path": "src/generator/train.py",
+      "url": "https://github.com/OpenBMB/RAG-DDR/blob/3bd09e69cf8efe89025dcc7f40b964c54812c8e0/src/generator/train.py",
+      "sha256": "ef33b5c65e328706c0dd9d64b2019bb927dc1afeee5218e4ed5190078f3d9fa4",
+      "bytes": 8231
+    },
+    {
+      "repo": "SHIFT",
+      "revision": "0c647191b3925a64303727625f44c7aba1793d69",
+      "path": "models/Qwen-3-0.6B/modeling_qwen3.py",
+      "url": "https://github.com/OpenBMB/SHIFT/blob/0c647191b3925a64303727625f44c7aba1793d69/models/Qwen-3-0.6B/modeling_qwen3.py",
+      "sha256": "e0beb5cc58a311ff9352c16e9900ec0965263ab1bc95b81fc29d9ad3f1fc07b4",
+      "bytes": 74003
+    },
+    {
+      "repo": "PilotDeck",
+      "revision": "5a0efbc5106e7c80c3df8e20184c439ed3d0603b",
+      "path": "docs/architecture/session-timeline.md",
+      "url": "https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/docs/architecture/session-timeline.md",
+      "sha256": "75bfcfc01198c65ed3be738746cd3b8ea2af239c4547d335c59ac8b2c0d58758",
+      "bytes": 5209
+    },
+    {
+      "repo": "PilotDeck",
+      "revision": "5a0efbc5106e7c80c3df8e20184c439ed3d0603b",
+      "path": "package.json",
+      "url": "https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/package.json",
+      "sha256": "7fbffe213c50602f522fd6f728460422f8262e304a88cea390afb42d1a6c2b40",
+      "bytes": 2800
+    },
+    {
+      "repo": "StaffDeck",
+      "revision": "7adc7c84f61bd6cca13ff0380a811cbb3ae3c544",
+      "path": "backend/README.md",
+      "url": "https://github.com/OpenBMB/StaffDeck/blob/7adc7c84f61bd6cca13ff0380a811cbb3ae3c544/backend/README.md",
+      "sha256": "1183d04b6aed0d5b1bcac64040cb41d3c405b9232f061a4bf9728b63131ccab6",
+      "bytes": 3686
+    },
+    {
+      "repo": "StaffDeck",
+      "revision": "7adc7c84f61bd6cca13ff0380a811cbb3ae3c544",
+      "path": "backend/app/core/harness_v2_engine.py",
+      "url": "https://github.com/OpenBMB/StaffDeck/blob/7adc7c84f61bd6cca13ff0380a811cbb3ae3c544/backend/app/core/harness_v2_engine.py",
+      "sha256": "d1b51e6e843b4365c9ff63c9599a37e43b7b3c35b3f69e3e8c2171b0f34e7cfe",
+      "bytes": 82241
+    },
+    {
+      "repo": "Scicore-Omics",
+      "revision": "32b0ef71fad37db9bda07b6959b644d8048e5978",
+      "path": "model/gene_qformer_module.py",
+      "url": "https://github.com/OpenBMB/Scicore-Omics/blob/32b0ef71fad37db9bda07b6959b644d8048e5978/model/gene_qformer_module.py",
+      "sha256": "a144bc6c5af8263ba0a05bcd9917366a3c8e0676caff1303bf4346fb3b9457c8",
+      "bytes": 6820
+    },
+    {
+      "repo": "Scicore-Omics",
+      "revision": "32b0ef71fad37db9bda07b6959b644d8048e5978",
+      "path": "model/modeling_minicpmv.py",
+      "url": "https://github.com/OpenBMB/Scicore-Omics/blob/32b0ef71fad37db9bda07b6959b644d8048e5978/model/modeling_minicpmv.py",
+      "sha256": "ed9884b2ba237ee5e8c48ffb6a5c0c7c5bb44513f2a37dd64eeabee08d407277",
+      "bytes": 23066
+    },
+    {
+      "repo": "SciCore-Mol",
+      "revision": "37a7184af1c25d9854d8b027a16619b4b42a7c22",
+      "path": "modules/mol_aware_lm.py",
+      "url": "https://github.com/OpenBMB/SciCore-Mol/blob/37a7184af1c25d9854d8b027a16619b4b42a7c22/modules/mol_aware_lm.py",
+      "sha256": "fbdf474ddfa9188a2293139dd7d2a5e77719c856e610b60004c1d47ccba1a48f",
+      "bytes": 65060
+    },
+    {
+      "repo": "HerculesBench",
+      "revision": "5efa6bc7d1cdff270934034bf16c93f86d226ba1",
+      "path": "inference/readme.md",
+      "url": "https://github.com/OpenBMB/HerculesBench/blob/5efa6bc7d1cdff270934034bf16c93f86d226ba1/inference/readme.md",
+      "sha256": "be0e545b4fffa75ac14a7820e34b06291c7c2becfab1cfb2844834f4b0bebc0d",
+      "bytes": 3179
+    },
+    {
+      "repo": "openbmb.github.io",
+      "revision": "612263d57c4a80a98fbee801381b7ac86a44ecaa",
+      "path": "index.html",
+      "url": "https://github.com/OpenBMB/openbmb.github.io/blob/612263d57c4a80a98fbee801381b7ac86a44ecaa/index.html",
+      "sha256": "dc31f846d4dcd615190e84fd29310a12c1c1ff24c4c75982a4b2e9c1afdb77a6",
+      "bytes": 4608
+    },
+    {
+      "repo": "OmniEvalKit",
+      "revision": "1adac0577258d539efc03f16d8a0f4b3f7df6c19",
+      "path": "docs/development/ARCHITECTURE.md",
+      "url": "https://github.com/OpenBMB/OmniEvalKit/blob/1adac0577258d539efc03f16d8a0f4b3f7df6c19/docs/development/ARCHITECTURE.md",
+      "sha256": "a63c702ea6ec789058c94ba8adcb62741cb8925472ddd39e8db7efb20632149b",
+      "bytes": 6141
+    },
+    {
+      "repo": "UltraEval-Audio",
+      "revision": "bead726925d43f526bed48a4a6a827595169429d",
+      "path": "pyproject.toml",
+      "url": "https://github.com/OpenBMB/UltraEval-Audio/blob/bead726925d43f526bed48a4a6a827595169429d/pyproject.toml",
+      "sha256": "c6fc34ea0f7f86f9d31975e9e6e369f6cbb85f1507942d71f47e391de69dbb14",
+      "bytes": 1465
+    },
+    {
+      "repo": "SimpleMemVLA",
+      "revision": "404215d752704fd8d8157fa6b7ccdfafdb2bd44e",
+      "path": "simplememvla/model/modeling_simplememvla.py",
+      "url": "https://github.com/OpenBMB/SimpleMemVLA/blob/404215d752704fd8d8157fa6b7ccdfafdb2bd44e/simplememvla/model/modeling_simplememvla.py",
+      "sha256": "39b7c1c3b9e1dcab13d1e3f3107149d42c8b112dba4d8a50d23a6a9b9c56532f",
+      "bytes": 15126
+    },
+    {
+      "repo": "ChatDev",
+      "revision": "4fb2db0ea90375ce1059f44fe03ffbd191a7a169",
+      "path": "workflow/executor/dag_executor.py",
+      "url": "https://github.com/OpenBMB/ChatDev/blob/4fb2db0ea90375ce1059f44fe03ffbd191a7a169/workflow/executor/dag_executor.py",
+      "sha256": "f89f0442fc0406de69a62858c08021082857be0235a89ddd851fd1c828f3c831",
+      "bytes": 1914
+    },
+    {
+      "repo": "ClawXMemory",
+      "revision": "bcd66c5d8611413ad29354819b448e20dd51d480",
+      "path": "clawxmemory/src/core/file-memory.ts",
+      "url": "https://github.com/OpenBMB/ClawXMemory/blob/bcd66c5d8611413ad29354819b448e20dd51d480/clawxmemory/src/core/file-memory.ts",
+      "sha256": "c52000f562aedb549fb5ce30e3aa066ee49d2d0929d6ecdb1cb83580868016cf",
+      "bytes": 82548
+    },
+    {
+      "repo": "UltraX",
+      "revision": "cb0c2fae44c30b68e5e736a0255eef61e82f026b",
+      "path": "stage2_large_scale_execution/post_processing/post_process_and_execute.py",
+      "url": "https://github.com/OpenBMB/UltraX/blob/cb0c2fae44c30b68e5e736a0255eef61e82f026b/stage2_large_scale_execution/post_processing/post_process_and_execute.py",
+      "sha256": "84a7501766e15c90cc837d6748a664d49605c08cc8381981d367a96a250b86b0",
+      "bytes": 29550
+    },
+    {
+      "repo": "DecT",
+      "revision": "a2aa29570c19d066aaa4b01fac278bf65ac37afb",
+      "path": "src/dect_verbalizer.py",
+      "url": "https://github.com/OpenBMB/DecT/blob/a2aa29570c19d066aaa4b01fac278bf65ac37afb/src/dect_verbalizer.py",
+      "sha256": "c137f93c6b184e1dfe44e768364471c81e6de52837ab1763c687b7279556313b",
+      "bytes": 17176
+    },
+    {
+      "repo": "DecT",
+      "revision": "a2aa29570c19d066aaa4b01fac278bf65ac37afb",
+      "path": "src/dect_trainer.py",
+      "url": "https://github.com/OpenBMB/DecT/blob/a2aa29570c19d066aaa4b01fac278bf65ac37afb/src/dect_trainer.py",
+      "sha256": "9c91ef3646ec83845abc76beb4cbdcb285edd7558bffdd25ec10734ce23f3bb3",
+      "bytes": 3712
+    },
+    {
+      "repo": "sparse_kernel",
+      "revision": "bfa61186b2c87569185523a800780e997cbbf601",
+      "path": "get_table_kernel.cu",
+      "url": "https://github.com/OpenBMB/sparse_kernel/blob/bfa61186b2c87569185523a800780e997cbbf601/get_table_kernel.cu",
+      "sha256": "11079819fddf6598132b31c708f11547cf74c45a9df027a916a4311e6ac0d8c2",
+      "bytes": 12459
+    }
+  ],
+  "huggingface_models": [
+    {
+      "model": "MiniCPM-2B-sft-bf16",
+      "files": [
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16/resolve/4ec16344ac13e6ef5010aeecaa533369ac8eb53c/config.json",
+          "sha256": "41cf26cfdca93f49209a6c0c26c00b281d6408e010ddc8cca9531c825cc17fc4"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16/resolve/4ec16344ac13e6ef5010aeecaa533369ac8eb53c/README.md",
+          "sha256": "0c2b81fcbb9e14a1a8800c5ea0b3b6555c654a55d72d7e664cc75fe2d1dae5e8"
+        }
+      ],
+      "revision": "4ec16344ac13e6ef5010aeecaa533369ac8eb53c"
+    },
+    {
+      "model": "MiniCPM-MoE-8x2B",
+      "files": [
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/openbmb/MiniCPM-MoE-8x2B/resolve/7495286593bc56a524a42e26eeaee5e185cb7f9c/config.json",
+          "sha256": "53b88ed7486134b3281d389bb5169b734861d7569f359327478e32677686acf9"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/openbmb/MiniCPM-MoE-8x2B/resolve/7495286593bc56a524a42e26eeaee5e185cb7f9c/README.md",
+          "sha256": "fd4d56ed98bd89210af2afda329547ce14618e0040024041c6a97ca3731f3bba"
+        }
+      ],
+      "revision": "7495286593bc56a524a42e26eeaee5e185cb7f9c"
+    },
+    {
+      "model": "MiniCPM3-4B",
+      "files": [
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/openbmb/MiniCPM3-4B/resolve/d6b14ddaefdb11c624dd75c3c779549bc90b08cb/config.json",
+          "sha256": "cf1d08cb7c1815c676e685bd6ce94eb8b85a57d53871e6e159ee8c650717d98a"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/openbmb/MiniCPM3-4B/resolve/d6b14ddaefdb11c624dd75c3c779549bc90b08cb/README.md",
+          "sha256": "d7faca2192643f3adbf0268f7e0a29725890965c47ade5cf8c4a6e41901f6d08"
+        }
+      ],
+      "revision": "d6b14ddaefdb11c624dd75c3c779549bc90b08cb"
+    },
+    {
+      "model": "MiniCPM4-8B",
+      "files": [
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/openbmb/MiniCPM4-8B/resolve/bb2ae14cf59d4ca769c4e42ece54cc3b82a58ef7/config.json",
+          "sha256": "783a765d0ec9a3319316aa03809ec5d60a73673b45e3a830585535c6c9b1b87d"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/openbmb/MiniCPM4-8B/resolve/bb2ae14cf59d4ca769c4e42ece54cc3b82a58ef7/README.md",
+          "sha256": "6fb0dbf01b589c1ce3a80a2d058b0c6b17616e1b4d8357741fda91bf6c6b6fac"
+        }
+      ],
+      "revision": "bb2ae14cf59d4ca769c4e42ece54cc3b82a58ef7"
+    },
+    {
+      "model": "MiniCPM4.1-8B",
+      "files": [
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/openbmb/MiniCPM4.1-8B/resolve/3a8dfed9c79a45e07dbff95bcd49d792343fa1a3/config.json",
+          "sha256": "2e6184e20da805d284b0ebba0bf5cf55bb561c6f333b66119fd2cc3f45a7ba15"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/openbmb/MiniCPM4.1-8B/resolve/3a8dfed9c79a45e07dbff95bcd49d792343fa1a3/README.md",
+          "sha256": "9be2cdf7cdc40cddd0503972829c51c61c1532960d963e93dbc58aa3467539e5"
+        }
+      ],
+      "revision": "3a8dfed9c79a45e07dbff95bcd49d792343fa1a3"
+    },
+    {
+      "model": "MiniCPM-SALA",
+      "files": [
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/openbmb/MiniCPM-SALA/resolve/9180fe1db74f71fb81bc7105efe88f6b19c959b0/config.json",
+          "sha256": "cd6d042c4d8d5e32f7809c366d209bb183704bc2917bec5f162f36fb7439955c"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/openbmb/MiniCPM-SALA/resolve/9180fe1db74f71fb81bc7105efe88f6b19c959b0/README.md",
+          "sha256": "1011dc15ae0051403227e7feeaeba79f9635028549cdb105f79718e6551a1b0d"
+        }
+      ],
+      "revision": "9180fe1db74f71fb81bc7105efe88f6b19c959b0"
+    },
+    {
+      "model": "MiniCPM5-1B",
+      "files": [
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/openbmb/MiniCPM5-1B/resolve/87179e5c1f455ef22e6223592d2d61351b525bfc/config.json",
+          "sha256": "6a6509b646cb3169616c5ffc3196e7ccaf9d4d6bc17b266581d241a31c217714"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/openbmb/MiniCPM5-1B/resolve/87179e5c1f455ef22e6223592d2d61351b525bfc/README.md",
+          "sha256": "b032e36400dc26ba8d78aa5ad63e4cf8bd17f70bf8551e500335185d8e7d061a"
+        }
+      ],
+      "revision": "87179e5c1f455ef22e6223592d2d61351b525bfc"
+    },
+    {
+      "model": "MiniCPM5-2B",
+      "files": [
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/openbmb/MiniCPM5-2B/resolve/12a3808a956f869c767195e9266b59c4d21d92e2/config.json",
+          "sha256": "59613157e5357d62bcb121e04cb90f2170b43d789b142380c12c3d4277d95180"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/openbmb/MiniCPM5-2B/resolve/12a3808a956f869c767195e9266b59c4d21d92e2/README.md",
+          "sha256": "674de0c58b2f7f3bedec4b296c20afbebdf17be9654bd39de242a3597aa40e45"
+        }
+      ],
+      "revision": "12a3808a956f869c767195e9266b59c4d21d92e2"
+    },
+    {
+      "model": "MiniCPM-V-4.6",
+      "files": [
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/openbmb/MiniCPM-V-4.6/resolve/36f34a661a4bd35d0dc2294cb044d2584646c7d3/config.json",
+          "sha256": "72d83ac9089bebddf28131b9953908acaf0a5740b868263c8aaac7c40b97991c"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/openbmb/MiniCPM-V-4.6/resolve/36f34a661a4bd35d0dc2294cb044d2584646c7d3/README.md",
+          "sha256": "d08f69f90aa371f85fccb9369eb43d9261bed706a9b48e73f0a4553f6a954e50"
+        }
+      ],
+      "revision": "36f34a661a4bd35d0dc2294cb044d2584646c7d3"
+    },
+    {
+      "model": "MiniCPM-o-4_5",
+      "files": [
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/openbmb/MiniCPM-o-4_5/resolve/503e754207c94da6bb26850b4469f367c9ea3582/config.json",
+          "sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/openbmb/MiniCPM-o-4_5/resolve/503e754207c94da6bb26850b4469f367c9ea3582/README.md",
+          "sha256": "4afc013f5f1e4471bdbee28515eb5be802ea2c80c8d89d4107c4d4aec439577a"
+        }
+      ],
+      "revision": "503e754207c94da6bb26850b4469f367c9ea3582"
+    },
+    {
+      "model": "VoxCPM-0.5B",
+      "files": [
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/openbmb/VoxCPM-0.5B/resolve/b2e656f7524303fdaf84591c75bbb87203d7c98d/config.json",
+          "sha256": "3e4c4501e1b712e18f302b69944c6b82cf374098ad0e1a991506e55416dbc947"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/openbmb/VoxCPM-0.5B/resolve/b2e656f7524303fdaf84591c75bbb87203d7c98d/README.md",
+          "sha256": "cf9fb5d410b6209c435e8bff3b4055b11998042973f69a40f3f1d39c9c1d700c"
+        }
+      ],
+      "revision": "b2e656f7524303fdaf84591c75bbb87203d7c98d"
+    },
+    {
+      "model": "VoxCPM1.5",
+      "files": [
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/openbmb/VoxCPM1.5/resolve/8cdc403854cda0e3af12252d27da038fda5982ac/config.json",
+          "sha256": "2459071497a422bf25fb0f47ff8bd30181dbf62ef7903b293bcff59a615eda26"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/openbmb/VoxCPM1.5/resolve/8cdc403854cda0e3af12252d27da038fda5982ac/README.md",
+          "sha256": "1d904700b1df2e244a90e2efce39ab4b6cf46f96863219aa9850ba04b03522af"
+        }
+      ],
+      "revision": "8cdc403854cda0e3af12252d27da038fda5982ac"
+    },
+    {
+      "model": "VoxCPM2",
+      "files": [
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/openbmb/VoxCPM2/resolve/32279effe8c19989596f05d353d1447f51d9e915/config.json",
+          "sha256": "405f0dcd92f7feba6011ed4eac5c8d4f74cba9712f07fd5cfa3063bbdd95402c"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/openbmb/VoxCPM2/resolve/32279effe8c19989596f05d353d1447f51d9e915/README.md",
+          "sha256": "c18d2ffbfb2f0aec770481c967842aee6c200cde65f6b033efd892a849986fda"
+        }
+      ],
+      "revision": "32279effe8c19989596f05d353d1447f51d9e915"
+    },
+    {
+      "model": "MiniCPM-RobotManip",
+      "files": [
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/openbmb/MiniCPM-RobotManip/resolve/29cb257541e9f96f493abe21174f8892e5dffe3f/config.json",
+          "sha256": "9fd8d0c167ff8e79939d3e5ad7b37dd0a6ef83a00ddea1d9f6d7be79959a19a4"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/openbmb/MiniCPM-RobotManip/resolve/29cb257541e9f96f493abe21174f8892e5dffe3f/README.md",
+          "sha256": "61e0a3b25e7765d4b80bbd5c45a93d6630ac2d5a7434675dfe0fad6a7f20fa36"
+        }
+      ],
+      "revision": "29cb257541e9f96f493abe21174f8892e5dffe3f"
+    },
+    {
+      "model": "MiniCPM-RobotTrack",
+      "files": [
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/openbmb/MiniCPM-RobotTrack/resolve/80d32d0b091c3b340a1e4a6c78d441e8af19590e/config.json",
+          "sha256": "5afa7d676c379adb9c934efb198c526ee6b87be01c2f533bcc500d36586530fc"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/openbmb/MiniCPM-RobotTrack/resolve/80d32d0b091c3b340a1e4a6c78d441e8af19590e/README.md",
+          "sha256": "6f54c275437d00fb69cafc117c6c5040ff6006d92e0e68f66f4270a32a015566"
+        }
+      ],
+      "revision": "80d32d0b091c3b340a1e4a6c78d441e8af19590e"
+    },
+    {
+      "model": "AgentCPM-Explore",
+      "files": [
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/openbmb/AgentCPM-Explore/resolve/f528bbb55317bd291387ba3347551dd3414e698e/config.json",
+          "sha256": "4ca339ac76a475603caf526c2c1f21df1c419e9dfcfae5b512dcad6a34dbe4a1"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/openbmb/AgentCPM-Explore/resolve/f528bbb55317bd291387ba3347551dd3414e698e/README.md",
+          "sha256": "7460c87eea71726207f3e1fa781214953b9a99fe9603edcec0ad878fefdd920e"
+        }
+      ],
+      "revision": "f528bbb55317bd291387ba3347551dd3414e698e"
+    },
+    {
+      "model": "AgentCPM-Report",
+      "files": [
+        {
+          "path": "config.json",
+          "url": "https://huggingface.co/openbmb/AgentCPM-Report/resolve/c6232d64a47ccfa0c4aed240d325cbc0fb9cbc62/config.json",
+          "sha256": "aa9013cd28da50fd8408b340d06fb68d7fcaae625550ed43582d68152cd35d8e"
+        },
+        {
+          "path": "README.md",
+          "url": "https://huggingface.co/openbmb/AgentCPM-Report/resolve/c6232d64a47ccfa0c4aed240d325cbc0fb9cbc62/README.md",
+          "sha256": "f1791aa6f40e2894222f6f027b0504eae11c142e1ed42d28cd6fd602e128e87f"
+        }
+      ],
+      "revision": "c6232d64a47ccfa0c4aed240d325cbc0fb9cbc62"
+    }
+  ],
+  "paper_abstract_receipts": [
+    {
+      "name": "MiniCPM",
+      "id": "2404.06395",
+      "url": "https://arxiv.org/abs/2404.06395",
+      "error": "HTTP Error 406: Not Acceptable",
+      "fallback": "官方全文已成功读取，且浏览工具核验摘要；初次直接请求摘要返回406。"
+    },
+    {
+      "name": "MiniCPM-V",
+      "id": "2605.08985",
+      "url": "https://arxiv.org/abs/2605.08985",
+      "title": "[2605.08985] LLaVA-UHD v4: What Makes Efficient Visual Encoding in MLLMs?",
+      "sha256": "470c961ba21d8cd33c0aabedfaf8b192637bedbdf40af3ecae872608c913540a"
+    },
+    {
+      "name": "MiniCPM-o",
+      "id": "2604.27393",
+      "url": "https://arxiv.org/abs/2604.27393",
+      "title": "[2604.27393] MiniCPM-o 4.5: Towards Real-Time Full-Duplex Omni-Modal Interaction",
+      "sha256": "117874ccf7d7699cb340db409736a7e38554ebb3f80adba45e72b88bc6e5ba82"
+    },
+    {
+      "name": "VoxCPM",
+      "id": "2509.24650",
+      "url": "https://arxiv.org/abs/2509.24650",
+      "title": "[2509.24650] VoxCPM: Tokenizer-Free TTS for Context-Aware Speech Generation and True-to-Life Voice Cloning",
+      "sha256": "652fecaa9f1361884d8fe598b122edd9bd880fdfd0fe9ef92e4932a24c626feb"
+    },
+    {
+      "name": "VoxCPM2",
+      "id": "2606.06928",
+      "url": "https://arxiv.org/abs/2606.06928",
+      "title": "[2606.06928] VoxCPM2 Technical Report",
+      "sha256": "afc83092a1ae323254fe78cb150d3d3de503769214dd2e780311748a8d07debc"
+    },
+    {
+      "name": "AgentCPM",
+      "id": "2602.06485",
+      "url": "https://arxiv.org/abs/2602.06485",
+      "title": "[2602.06485] AgentCPM-Explore: Realizing Long-Horizon Deep Exploration for Edge-Scale Agents",
+      "sha256": "d63b130a9f17604e888e3cf0512e5493d43062d565c9c92e5b03184e874f099c"
+    },
+    {
+      "name": "AgentCPM-Report",
+      "id": "2602.06540",
+      "url": "https://arxiv.org/abs/2602.06540",
+      "title": "[2602.06540] AgentCPM-Report: Interleaving Drafting and Deepening for Open-Ended Deep Research",
+      "sha256": "4adfacbe611d8145f84121df7f8996221a95d9987a647c124cf18e6592ccc1af"
+    },
+    {
+      "name": "VisRAG",
+      "id": "2410.10594",
+      "url": "https://arxiv.org/abs/2410.10594",
+      "title": "[2410.10594] VisRAG: Vision-based Retrieval-augmented Generation on Multi-modality Documents",
+      "sha256": "f2446f9f44556ed547b9225c5a40559d0378be2da06a5b673a557c85ac8de0d0"
+    },
+    {
+      "name": "DEBATER",
+      "id": "2502.12974",
+      "url": "https://arxiv.org/abs/2502.12974",
+      "title": "[2502.12974] Learning Refined Document Representations for Dense Retrieval via Deliberate Thinking",
+      "sha256": "3cc2ca37860182a9c86bd7831d26e35ecfd9d25781450cfd753509af93fdbb68"
+    },
+    {
+      "name": "Locret",
+      "id": "2410.01805",
+      "url": "https://arxiv.org/abs/2410.01805",
+      "title": "[2410.01805] Locret: Enhancing Eviction in Long-Context LLM Inference with Trained Retaining Heads on Consumer-Grade Devices",
+      "sha256": "97a1c3d0ffd3e7c5a3195dc3aca401fe9c35bfef2649a3ee2d9c620eb152417b"
+    },
+    {
+      "name": "RAG-DDR",
+      "id": "2410.13509",
+      "url": "https://arxiv.org/abs/2410.13509",
+      "title": "[2410.13509] RAG-DDR: Optimizing Retrieval-Augmented Generation Using Differentiable Data Rewards",
+      "sha256": "47b80efd2c4d68e85c9b429b77e980fa34c1135dbf45d336ea2bb7321fd8fcb6"
+    },
+    {
+      "name": "DecT",
+      "id": "2212.08408",
+      "url": "https://arxiv.org/abs/2212.08408",
+      "title": "[2212.08408] Decoder Tuning: Efficient Language Understanding as Decoding",
+      "sha256": "776bfe783275d4c88b855b12d98fa0bf1eb4bf9506dc7c2edbd26a9db8eee182"
+    },
+    {
+      "name": "SimpleMemVLA",
+      "id": "2609.05533",
+      "url": "https://arxiv.org/abs/2609.05533",
+      "title": "[2609.05533] SimpleMemVLA: A Simple but Effective Native-Video Memory for Vision-Language-Action Models",
+      "sha256": "f1865a17ca7973c6f3b3e94990c0d1d9c48eb820c8e8f2388604c50111e533f9"
+    },
+    {
+      "name": "MiniCPM4",
+      "id": "2509.24663",
+      "url": "https://arxiv.org/abs/2509.24663",
+      "title": "[2509.24663] InfLLM-V2: Dense-Sparse Switchable Attention for Seamless Short-to-Long Adaptation",
+      "sha256": "f6fe5a633aafed215511ebb8638c5dd616e10e5fbef14d656c588bda7a283a6f"
+    },
+    {
+      "name": "UltraX",
+      "id": "2607.08646",
+      "url": "https://arxiv.org/abs/2607.08646",
+      "title": "[2607.08646] UltraX: Refining Pre-Training Data at Scale with Adaptive Programmatic Editing",
+      "sha256": "4d21eb4e0daf4d537beb9e8d8c4c9fa333777d0370ba091b89fbf359bd0c067f"
+    }
+  ],
+  "paper_fulltext_receipts": [
+    {
+      "id": "2404.06395",
+      "url": "https://arxiv.org/html/2404.06395",
+      "sha256": "6929d6b12e0340edfc7bb46895fb4319809a2f21974083779cf9824b16ce8599",
+      "sections": 19
+    },
+    {
+      "id": "2509.24663",
+      "url": "https://arxiv.org/html/2509.24663",
+      "sha256": "0e8e8a7ebf88971d786eb38bfc0bd236adf4baa67ac44e81423c4c82d68797e7",
+      "sections": 9
+    },
+    {
+      "id": "2604.27393",
+      "url": "https://arxiv.org/html/2604.27393",
+      "sha256": "3ec0da8abac4c13a73b1acdf197ddae8a7ab116297064510df303092edf3b151",
+      "sections": 12
+    },
+    {
+      "id": "2609.05533",
+      "url": "https://arxiv.org/html/2609.05533",
+      "sha256": "28c8c43e387ec2a36f55da5b4d7e108414e5202982d7e88d04b777057240698f",
+      "sections": 12
+    },
+    {
+      "id": "2602.06485",
+      "url": "https://arxiv.org/html/2602.06485",
+      "sha256": "173c5f92b75c6d25f7c610cdacef80939bf7e95e17d9f4e1bd18f4124f6c17cd",
+      "sections": 9
+    },
+    {
+      "id": "2602.06540",
+      "url": "https://arxiv.org/html/2602.06540",
+      "sha256": "4bd8f21be9b2070bd7234a6fd02a0b2f29a9bb6a883e90f2862b2fb80882094d",
+      "sections": 9
+    }
+  ],
+  "ascend_and_provenance_web_sources": [
+    {
+      "id": "llama3-v25",
+      "url": "https://huggingface.co/openbmb/MiniCPM-Llama3-V-2_5",
+      "checked_date": "2026-09-23",
+      "scope": "在线模型卡；Llama3-8B-Instruct + SigLip-400M",
+      "access": "浏览工具核验；未保存原始响应，未声称SHA固定或文件哈希验证"
+    },
+    {
+      "id": "ascend-storage",
+      "url": "https://www.hiascend.com/document/detail/en/canncommercial/800/opdevg/Ascendcopdevg/atlas_ascendc_10_0010.html",
+      "checked_date": "2026-09-23",
+      "scope": "CANN 8.0.0 文档；存储单元/搬运与硬件差异",
+      "access": "浏览工具核验；未保存原始响应，未声称SHA固定或文件哈希验证"
+    },
+    {
+      "id": "ascend-double-buffer",
+      "url": "https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/80RC3alpha003/devguide/opdevg/ascendcbestP/atlas_ascendc_best_practices_10_0031.html",
+      "checked_date": "2026-09-23",
+      "scope": "CANN 8.0.RC3.alpha003；搜索返回正文片段，页面直接读取失败；只引用其流水原理",
+      "access": "浏览工具核验；未保存原始响应，未声称SHA固定或文件哈希验证"
+    },
+    {
+      "id": "minicpm5-ascend",
+      "url": "https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/vllm_ascend.md",
+      "checked_date": "2026-09-23",
+      "scope": "main 可变页面；基础0.18.0示例和工具调用0.23.0要求分开；作者声明后者完整环境未在所述硬件验证",
+      "access": "浏览工具核验；未保存原始响应，未声称SHA固定或文件哈希验证"
+    },
+    {
+      "id": "vllm-ascend-models",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/main/docs/source/user_guide/support_matrix/supported_models.md",
+      "checked_date": "2026-09-23",
+      "scope": "main 可变页面；MiniCPM-V 实验性/A2,A3，无具体checkpoint或全双工功能保证",
+      "access": "浏览工具核验；未保存原始响应，未声称SHA固定或文件哈希验证"
+    }
+  ],
+  "update_scope": "模型来源与团队贡献、Ascend工程推断、已有适配边界；未执行硬件测试",
+  "reading_scope": "全部README初读与针对性复读；附加源码重点段落与结构检查；6篇重点论文方法章节，其余核对摘要。没有全量代码审计、模型执行或基准复现。"
+}

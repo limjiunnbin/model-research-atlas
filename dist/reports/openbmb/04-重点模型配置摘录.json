@@ -1,0 +1,470 @@
+[
+  {
+    "model": "MiniCPM-2B-sft-bf16",
+    "revision": "4ec16344ac13e6ef5010aeecaa533369ac8eb53c",
+    "config_source": "https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16/resolve/4ec16344ac13e6ef5010aeecaa533369ac8eb53c/config.json",
+    "selected_config": {
+      "architectures": [
+        "MiniCPMForCausalLM"
+      ],
+      "hidden_size": 2304,
+      "max_position_embeddings": 4096,
+      "num_attention_heads": 36,
+      "num_hidden_layers": 40,
+      "num_key_value_heads": 36
+    }
+  },
+  {
+    "model": "MiniCPM-MoE-8x2B",
+    "revision": "7495286593bc56a524a42e26eeaee5e185cb7f9c",
+    "config_source": "https://huggingface.co/openbmb/MiniCPM-MoE-8x2B/resolve/7495286593bc56a524a42e26eeaee5e185cb7f9c/config.json",
+    "selected_config": {
+      "architectures": [
+        "MiniCPMForCausalLM"
+      ],
+      "hidden_size": 2304,
+      "max_position_embeddings": 4096,
+      "num_attention_heads": 36,
+      "num_hidden_layers": 40,
+      "num_key_value_heads": 36,
+      "num_experts": 8,
+      "num_experts_per_tok": 2
+    }
+  },
+  {
+    "model": "MiniCPM3-4B",
+    "revision": "d6b14ddaefdb11c624dd75c3c779549bc90b08cb",
+    "config_source": "https://huggingface.co/openbmb/MiniCPM3-4B/resolve/d6b14ddaefdb11c624dd75c3c779549bc90b08cb/config.json",
+    "selected_config": {
+      "architectures": [
+        "MiniCPM3ForCausalLM"
+      ],
+      "hidden_size": 2560,
+      "num_hidden_layers": 62,
+      "max_position_embeddings": 32768,
+      "model_type": "minicpm3",
+      "num_attention_heads": 40,
+      "num_key_value_heads": 40,
+      "q_lora_rank": 768,
+      "kv_lora_rank": 256
+    }
+  },
+  {
+    "model": "MiniCPM4-8B",
+    "revision": "bb2ae14cf59d4ca769c4e42ece54cc3b82a58ef7",
+    "config_source": "https://huggingface.co/openbmb/MiniCPM4-8B/resolve/bb2ae14cf59d4ca769c4e42ece54cc3b82a58ef7/config.json",
+    "selected_config": {
+      "architectures": [
+        "MiniCPMForCausalLM"
+      ],
+      "hidden_size": 4096,
+      "max_position_embeddings": 32768,
+      "model_type": "minicpm",
+      "num_attention_heads": 32,
+      "num_hidden_layers": 32,
+      "num_key_value_heads": 2
+    }
+  },
+  {
+    "model": "MiniCPM4.1-8B",
+    "revision": "3a8dfed9c79a45e07dbff95bcd49d792343fa1a3",
+    "config_source": "https://huggingface.co/openbmb/MiniCPM4.1-8B/resolve/3a8dfed9c79a45e07dbff95bcd49d792343fa1a3/config.json",
+    "selected_config": {
+      "architectures": [
+        "MiniCPMForCausalLM"
+      ],
+      "hidden_size": 4096,
+      "max_position_embeddings": 65536,
+      "model_type": "minicpm",
+      "num_attention_heads": 32,
+      "num_hidden_layers": 32,
+      "num_key_value_heads": 2
+    }
+  },
+  {
+    "model": "MiniCPM-SALA",
+    "revision": "9180fe1db74f71fb81bc7105efe88f6b19c959b0",
+    "config_source": "https://huggingface.co/openbmb/MiniCPM-SALA/resolve/9180fe1db74f71fb81bc7105efe88f6b19c959b0/config.json",
+    "selected_config": {
+      "architectures": [
+        "MiniCPMSALAForCausalLM"
+      ],
+      "head_dim": 128,
+      "hidden_size": 4096,
+      "max_position_embeddings": 524288,
+      "model_type": "minicpm_sala",
+      "mixer_types": [
+        "minicpm4",
+        "lightning-attn",
+        "lightning-attn",
+        "lightning-attn",
+        "lightning-attn",
+        "lightning-attn",
+        "lightning-attn",
+        "lightning-attn",
+        "lightning-attn",
+        "minicpm4",
+        "lightning-attn",
+        "lightning-attn",
+        "lightning-attn",
+        "lightning-attn",
+        "lightning-attn",
+        "lightning-attn",
+        "minicpm4",
+        "minicpm4",
+        "lightning-attn",
+        "lightning-attn",
+        "lightning-attn",
+        "lightning-attn",
+        "minicpm4",
+        "lightning-attn",
+        "lightning-attn",
+        "lightning-attn",
+        "lightning-attn",
+        "lightning-attn",
+        "lightning-attn",
+        "minicpm4",
+        "minicpm4",
+        "minicpm4"
+      ],
+      "sparse_config": {},
+      "num_attention_heads": 32,
+      "num_hidden_layers": 32,
+      "num_key_value_heads": 2
+    }
+  },
+  {
+    "model": "MiniCPM5-1B",
+    "revision": "87179e5c1f455ef22e6223592d2d61351b525bfc",
+    "config_source": "https://huggingface.co/openbmb/MiniCPM5-1B/resolve/87179e5c1f455ef22e6223592d2d61351b525bfc/config.json",
+    "selected_config": {
+      "architectures": [
+        "LlamaForCausalLM"
+      ],
+      "hidden_size": 1536,
+      "max_position_embeddings": 131072,
+      "model_type": "llama",
+      "num_attention_heads": 16,
+      "num_hidden_layers": 24,
+      "num_key_value_heads": 2,
+      "head_dim": 128
+    }
+  },
+  {
+    "model": "MiniCPM5-2B",
+    "revision": "12a3808a956f869c767195e9266b59c4d21d92e2",
+    "config_source": "https://huggingface.co/openbmb/MiniCPM5-2B/resolve/12a3808a956f869c767195e9266b59c4d21d92e2/config.json",
+    "selected_config": {
+      "architectures": [
+        "LlamaForCausalLM"
+      ],
+      "hidden_size": 2048,
+      "max_position_embeddings": 131072,
+      "model_type": "llama",
+      "num_attention_heads": 16,
+      "num_hidden_layers": 42,
+      "num_key_value_heads": 2,
+      "head_dim": 128
+    }
+  },
+  {
+    "model": "MiniCPM-V-4.6",
+    "revision": "36f34a661a4bd35d0dc2294cb044d2584646c7d3",
+    "config_source": "https://huggingface.co/openbmb/MiniCPM-V-4.6/resolve/36f34a661a4bd35d0dc2294cb044d2584646c7d3/config.json",
+    "selected_config": {
+      "architectures": [
+        "MiniCPMV4_6ForConditionalGeneration"
+      ],
+      "model_type": "minicpmv4_6",
+      "vision_config": {
+        "hidden_size": 1152,
+        "model_type": "minicpmv4_6_vision",
+        "num_attention_heads": 16,
+        "num_hidden_layers": 27,
+        "patch_size": 14
+      },
+      "text_config": {
+        "head_dim": 256,
+        "hidden_size": 1024,
+        "layer_types": [
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention"
+        ],
+        "max_position_embeddings": 262144,
+        "num_attention_heads": 8,
+        "num_hidden_layers": 24,
+        "num_key_value_heads": 2,
+        "model_type": "qwen3_5_text"
+      },
+      "insert_layer_id": 6
+    }
+  },
+  {
+    "model": "MiniCPM-o-4_5",
+    "revision": "503e754207c94da6bb26850b4469f367c9ea3582",
+    "config_source": "https://huggingface.co/openbmb/MiniCPM-o-4_5/resolve/503e754207c94da6bb26850b4469f367c9ea3582/config.json",
+    "selected_config": {
+      "architectures": [
+        "MiniCPMO"
+      ],
+      "head_dim": 128,
+      "hidden_size": 4096,
+      "max_position_embeddings": 40960,
+      "model_type": "minicpmo",
+      "num_attention_heads": 32,
+      "num_hidden_layers": 36,
+      "num_key_value_heads": 8,
+      "patch_size": 14,
+      "vision_config": {
+        "hidden_size": 1152,
+        "model_type": "siglip_vision_model",
+        "num_attention_heads": 16,
+        "num_hidden_layers": 27,
+        "patch_size": 14
+      }
+    }
+  },
+  {
+    "model": "VoxCPM-0.5B",
+    "revision": "b2e656f7524303fdaf84591c75bbb87203d7c98d",
+    "config_source": "https://huggingface.co/openbmb/VoxCPM-0.5B/resolve/b2e656f7524303fdaf84591c75bbb87203d7c98d/config.json",
+    "selected_config": {
+      "lm_config": {
+        "hidden_size": 1024,
+        "max_position_embeddings": 32768,
+        "num_attention_heads": 16,
+        "num_hidden_layers": 24,
+        "num_key_value_heads": 2
+      },
+      "patch_size": 2,
+      "feat_dim": 64,
+      "residual_lm_num_layers": 6
+    }
+  },
+  {
+    "model": "VoxCPM1.5",
+    "revision": "8cdc403854cda0e3af12252d27da038fda5982ac",
+    "config_source": "https://huggingface.co/openbmb/VoxCPM1.5/resolve/8cdc403854cda0e3af12252d27da038fda5982ac/config.json",
+    "selected_config": {
+      "lm_config": {
+        "hidden_size": 1024,
+        "max_position_embeddings": 32768,
+        "num_attention_heads": 16,
+        "num_hidden_layers": 24,
+        "num_key_value_heads": 2
+      },
+      "patch_size": 4,
+      "feat_dim": 64,
+      "residual_lm_num_layers": 8,
+      "audio_vae_config": {
+        "sample_rate": 44100
+      }
+    }
+  },
+  {
+    "model": "VoxCPM2",
+    "revision": "32279effe8c19989596f05d353d1447f51d9e915",
+    "config_source": "https://huggingface.co/openbmb/VoxCPM2/resolve/32279effe8c19989596f05d353d1447f51d9e915/config.json",
+    "selected_config": {
+      "lm_config": {
+        "hidden_size": 2048,
+        "max_position_embeddings": 32768,
+        "num_attention_heads": 16,
+        "num_hidden_layers": 28,
+        "num_key_value_heads": 2
+      },
+      "patch_size": 4,
+      "feat_dim": 64,
+      "residual_lm_num_layers": 8,
+      "audio_vae_config": {
+        "sample_rate": 16000,
+        "out_sample_rate": 48000
+      }
+    }
+  },
+  {
+    "model": "MiniCPM-RobotManip",
+    "revision": "29cb257541e9f96f493abe21174f8892e5dffe3f",
+    "config_source": "https://huggingface.co/openbmb/MiniCPM-RobotManip/resolve/29cb257541e9f96f493abe21174f8892e5dffe3f/config.json",
+    "selected_config": {
+      "action_dim": 80,
+      "action_horizon": 30,
+      "architectures": [
+        "MiniCPMV_VLA"
+      ],
+      "max_num_embodiments": 32,
+      "model_type": "minicpm_vla",
+      "state_dim": 80,
+      "vlm_config": {
+        "architectures": [
+          "MiniCPMV4_6ForConditionalGeneration"
+        ],
+        "insert_layer_id": 6,
+        "model_type": "minicpmv4_6",
+        "patch_size": 14,
+        "text_config": {
+          "architectures": null,
+          "head_dim": 256,
+          "hidden_size": 1024,
+          "layer_types": [
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention",
+            "linear_attention",
+            "linear_attention",
+            "linear_attention",
+            "full_attention"
+          ],
+          "max_position_embeddings": 262144,
+          "model_type": "qwen3_5_text",
+          "num_attention_heads": 8,
+          "num_hidden_layers": 24,
+          "num_key_value_heads": 2
+        },
+        "vision_config": {
+          "architectures": null,
+          "hidden_size": 1152,
+          "insert_layer_id": 6,
+          "num_attention_heads": 16,
+          "num_hidden_layers": 27,
+          "patch_size": 14
+        }
+      }
+    }
+  },
+  {
+    "model": "MiniCPM-RobotTrack",
+    "revision": "80d32d0b091c3b340a1e4a6c78d441e8af19590e",
+    "config_source": "https://huggingface.co/openbmb/MiniCPM-RobotTrack/resolve/80d32d0b091c3b340a1e4a6c78d441e8af19590e/config.json",
+    "selected_config": {
+      "architectures": [
+        "MiniCPMRobotTrackModel"
+      ],
+      "model_type": "minicpm_robottrack",
+      "backbone_name": "openbmb/MiniCPM4-0.5B",
+      "backbone_config": {
+        "hidden_size": 1024,
+        "max_position_embeddings": 32768,
+        "num_attention_heads": 16,
+        "num_hidden_layers": 24,
+        "num_key_value_heads": 2
+      },
+      "history_frames": 31,
+      "coarse_tokens_per_frame": 4,
+      "fine_tokens_current_frame": 64,
+      "num_waypoints": 8,
+      "action_dim": 3
+    }
+  },
+  {
+    "model": "AgentCPM-Explore",
+    "revision": "f528bbb55317bd291387ba3347551dd3414e698e",
+    "config_source": "https://huggingface.co/openbmb/AgentCPM-Explore/resolve/f528bbb55317bd291387ba3347551dd3414e698e/config.json",
+    "selected_config": {
+      "architectures": [
+        "Qwen3ForCausalLM"
+      ],
+      "head_dim": 128,
+      "hidden_size": 2560,
+      "layer_types": [
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention",
+        "full_attention"
+      ],
+      "max_position_embeddings": 262144,
+      "model_type": "qwen3",
+      "num_attention_heads": 32,
+      "num_hidden_layers": 36,
+      "num_key_value_heads": 8
+    }
+  },
+  {
+    "model": "AgentCPM-Report",
+    "revision": "c6232d64a47ccfa0c4aed240d325cbc0fb9cbc62",
+    "config_source": "https://huggingface.co/openbmb/AgentCPM-Report/resolve/c6232d64a47ccfa0c4aed240d325cbc0fb9cbc62/config.json",
+    "selected_config": {
+      "architectures": [
+        "MiniCPMForCausalLM"
+      ],
+      "hidden_size": 4096,
+      "max_position_embeddings": 65536,
+      "model_type": "minicpm",
+      "num_attention_heads": 32,
+      "num_hidden_layers": 32,
+      "num_key_value_heads": 2,
+      "sparse_config": null
+    }
+  }
+]

@@ -1,6 +1,17 @@
 # 模型研究图谱
 
-独立、本地优先的中文模型研究网站。入口是模型家族；当前真实收录 Kimi，未添加虚构家族。无需安装 npm 包或下载权重，浏览器端不依赖 CDN。
+独立、本地优先的中文模型研究网站。动态模型家族入口收录 Kimi；另有独立的 OpenBMB 组织研究报告。无需安装 npm 包或下载权重，浏览器端不依赖 CDN。
+
+## OpenBMB 主模型与技术演进
+
+研究日期：2026-09-23。覆盖 88 个公开仓库，按主模型家族优先阅读，包含模型来源与团队贡献、昇腾 Ascend NPU 的算子和编译优化分析。
+
+- [在线阅读与下载](https://limjiunnbin.github.io/model-research-atlas/reports/openbmb/)
+- [仓库中的报告资料](dist/reports/openbmb/)
+- [深度分析 Markdown](dist/reports/openbmb/01-深度分析.md)
+- [完整报告包](dist/reports/openbmb/OpenBMB-研究报告包.zip)
+
+单文件 HTML、总览、88 仓库附录与索引、配置摘录、来源凭据、校验结果和谱系图均在独立目录中。该报告不改变 Kimi 的动态模型结构与数据；工程分析不等于硬件实测。
 
 ## 运行
 

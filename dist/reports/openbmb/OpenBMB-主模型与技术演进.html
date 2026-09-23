@@ -1,0 +1,1122 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OpenBMB 主模型与技术演进</title><style>a[id],section{scroll-margin-top:110px}.ascend-flow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}.ascend-flow div{background:#e0f0ee;border:1px solid #a9c9cd;padding:18px;border-radius:12px}.ascend-flow strong{display:block;font-size:19px}.ascend-flow span{font-size:14px}.diagram svg{max-width:100%}@media(max-width:650px){.ascend-flow{grid-template-columns:1fr}}body{overflow-wrap:anywhere;margin:0;background:#f6f8fa;color:#172d3d;font:17px/1.8 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}main{max-width:1120px;margin:auto;padding:35px 28px 90px}nav{position:sticky;top:0;background:#fffef5eb;backdrop-filter:blur(8px);padding:12px 22px;border-bottom:1px solid #d7e2e4;z-index:2;display:flex;gap:22px;flex-wrap:wrap}a{color:#176e85;text-decoration:none}a:hover{text-decoration:underline}h1{font-size:34px;line-height:1.4}h2{font-size:25px;margin-top:44px;border-bottom:1px solid #c9dadd;padding-bottom:8px}h3{font-size:21px;margin-top:30px}p{margin:14px 0}strong{color:#153e4c}.tablewrap{overflow:auto;border:1px solid #d1dfe3;border-radius:10px}table{border-collapse:collapse;width:100%;font-size:15px;background:white}th,td{padding:12px;min-width:110px;text-align:left;vertical-align:top;border-bottom:1px solid #dfE6e9}th{background:#e8f1f2}tr:last-child td{border:0}img{max-width:100%;height:auto}code{font-size:.86em;background:#eaf0f2;padding:2px 4px;overflow-wrap:anywhere}details{margin:12px 0;background:#fff;border:1px solid #d2e0e4;border-radius:10px;padding:15px 20px}summary{cursor:pointer;font-weight:650}input,select{padding:12px;font:inherit;border:1px solid #9eb4bf;border-radius:8px;background:white}input{width:min(580px,80%)}.muted{color:#526773;font-size:14px}.sources{font-size:13px;overflow-wrap:anywhere}.badge{display:inline-block;background:#e0f0ee;border-radius:6px;padding:2px 8px;font-size:13px}.hero{background:#e7f2f1;padding:22px;border-radius:14px}.tools{display:flex;flex-wrap:wrap;gap:12px;position:sticky;top:64px;background:#f6f8fa;padding:12px 0;z-index:1}@media(max-width:650px){main{padding:22px 15px}h1{font-size:27px}nav{font-size:14px;gap:14px}.tools{position:static}th,td{min-width:145px}}@media print{nav,.tools{display:none}main{max-width:none;padding:0}body{font-size:11pt;background:white}details{break-inside:avoid}h2{break-after:avoid}.tablewrap{overflow:visible}a{color:inherit}}</style><nav><a href="#overview">主模型总览</a><a href="#deep">深度分析</a><a href="#provenance">来源与贡献</a><a href="#ascend">昇腾开发</a><a href="#catalog">88仓库检索</a><a href="00-主模型与演进总览.md">总览原文</a></nav><main>
+<section id="overview"><h1>OpenBMB：先看主模型，再看技术演进</h1>
+<p>研究快照：2026-09-23。<strong>不必先读 88 个仓库：先看下面 4 条主模型路线和 1 条 Agent 衍生线。</strong>“主模型”是本报告为便于阅读选定的核心家族，不是官方发布的统一等级。88 个公开仓库的完整说明放在附录，示例、工具、fork 和历史仓库均保留。</p>
+<h2>1. 哪些才是真正需要先理解的模型？</h2>
+<div class="tablewrap"><table>
+<tr><th>优先读的家族</th><th>当前重点版本</th><th>它做什么</th><th>与普通纯文本 LLM 的关键差异</th></tr>
+<tr><td><strong>★ MiniCPM：语言主线</strong></td><td>MiniCPM5-1B/2B；长上下文另看 SALA、4.1</td><td>文本对话、代码、推理及工具调用文本</td><td>多数仍是自回归 Transformer；重点在小参数训练、数据质量、稀疏/线性注意力分支和部署效率</td></tr>
+<tr><td><strong>★ MiniCPM-V / o：视觉与全模态主线</strong></td><td>V4.6；o4.5</td><td>V 看图/视频后回答；o 同时看、听、说</td><td>增加视觉/音频编码、语音输出与时间同步；V 和 o 的版本号不是一条升级顺序</td></tr>
+<tr><td><strong>★ VoxCPM：语音主线</strong></td><td>VoxCPM2</td><td>文本转语音、参考声音克隆、声音/风格控制</td><td>语义 LM + 声学 LM + 局部扩散 + AudioVAE，最终生成波形，不是普通文字问答</td></tr>
+<tr><td><strong>★ MiniCPM-Robot：具身主线</strong></td><td>RobotManip；RobotTrack</td><td>机械臂操作、目标跟踪</td><td>视觉/语言表示进入动作头，输出连续控制量；需要机器人闭环和坐标协议</td></tr>
+<tr><td><strong>☆ AgentCPM：任务后训练衍生线</strong></td><td>Explore；Report；GUI 单独仓库</td><td>搜索、报告、手机界面操作</td><td>保留 LLM/VLM 骨干，通过交互训练和工具环境学会持续行动；不是一个统一底座</td></tr>
+</table></div>
+<p>版本与用途由 <a href="https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/README.md">MiniCPM README</a>、<a href="https://github.com/OpenBMB/MiniCPM-V/blob/6ada8e8ef5e2979670fc94406f02b87c3c7e7ee0/README.md">MiniCPM-V README</a>、<a href="https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/README.md">VoxCPM README</a>、<a href="https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/README.md">MiniCPM-Robot README</a> 和 <a href="https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/README.md">AgentCPM README</a> 核对。参数量、成绩及“端侧”定位属于官方口径；本次没有运行模型测评。</p>
+<h2>2. 技术谱系：实线才表示确认的骨干或初始化关系</h2>
+<p><div class="diagram"><svg xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto" viewBox="0 0 1320 1420" role="img" aria-label="OpenBMB主模型技术谱系">
+<defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0L10 4L0 8" fill="#346b80"/></marker></defs>
+<rect style="width:100%;height:auto" fill="#f6f8fa"/>
+<style>text{font-family:"PingFang SC","Noto Sans CJK SC",sans-serif;fill:#172d3d}.title{font-size:30px;font-weight:700}.sub{font-size:17px;fill:#516674}.node{font-size:20px;font-weight:600}.small{font-size:15px;fill:#516674}</style>
+<text x="38" y="52" class="title">主模型谱系：把“确实基于”与“同一家族”分开</text>
+<text x="38" y="87" class="sub">实线＝官方确认的骨干/初始化/转换　　虚线＝家族版本先后，不承诺权重继承</text>
+<rect x="38" y="120" width="460" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="54" y="150" class="node">CPM-Bee 10B</text><text x="54" y="175" class="small">历史语言底座</text>
+<rect x="760" y="120" width="510" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="776" y="150" class="node">VisCPM</text><text x="776" y="175" class="small">Chat / Paint 多模态路线</text>
+<path d="M507 158H749" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="628.0" y="146" text-anchor="middle" class="small">基于</text>
+<rect x="38" y="228" width="460" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="54" y="258" class="node">MiniCPM-2B</text><text x="54" y="283" class="small">稠密语言模型</text>
+<rect x="760" y="228" width="510" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="776" y="258" class="node">MiniCPM-MoE-8x2B</text><text x="776" y="283" class="small">8 专家 / 每 token 选择 2</text>
+<path d="M507 266H749" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="628.0" y="254" text-anchor="middle" class="small">Upcycling</text>
+<rect x="38" y="336" width="460" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="54" y="366" class="node">MiniCPM4</text><text x="54" y="391" class="small">稠密预训练起点</text>
+<rect x="760" y="336" width="510" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="776" y="366" class="node">MiniCPM-SALA</text><text x="776" y="391" class="small">25% 稀疏 + 75% 线性注意力</text>
+<path d="M507 374H749" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="628.0" y="362" text-anchor="middle" class="small">架构转换</text>
+<rect x="38" y="444" width="460" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="54" y="474" class="node">MiniCPM4.1-8B</text><text x="54" y="499" class="small">语言骨干</text>
+<rect x="760" y="444" width="510" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="776" y="474" class="node">AgentCPM-Report</text><text x="776" y="499" class="small">检索—写作—提纲深化</text>
+<path d="M507 482H749" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="628.0" y="470" text-anchor="middle" class="small">后训练</text>
+<rect x="38" y="552" width="460" height="74" rx="12" fill="#e8edf2" stroke="#c4d3d9"/>
+<text x="54" y="582" class="node">Qwen3-4B-Thinking-2507</text><text x="54" y="607" class="small">外部骨干</text>
+<rect x="760" y="552" width="510" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="776" y="582" class="node">AgentCPM-Explore</text><text x="776" y="607" class="small">长程搜索与工具交互</text>
+<path d="M507 590H749" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="628.0" y="578" text-anchor="middle" class="small">基于</text>
+<rect x="38" y="668" width="330" height="74" rx="12" fill="#e8edf2" stroke="#c4d3d9"/>
+<text x="54" y="698" class="node">Qwen3-8B</text><text x="54" y="723" class="small">外部语言骨干</text>
+<rect x="492" y="668" width="330" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="508" y="698" class="node">MiniCPM-V 4.5</text><text x="508" y="723" class="small">视觉语言预训练 checkpoint</text>
+<rect x="930" y="668" width="350" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="946" y="698" class="node">MiniCPM-o 4.5</text><text x="946" y="723" class="small">加语音；Omni-Flow 全双工</text>
+<path d="M378 706H482" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="430.0" y="694" text-anchor="middle" class="small">基于</text>
+<path d="M832 706H920" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="876.0" y="694" text-anchor="middle" class="small">初始化</text>
+<rect x="38" y="786" width="330" height="74" rx="12" fill="#e8edf2" stroke="#c4d3d9"/>
+<text x="54" y="816" class="node">Qwen3.5-0.8B</text><text x="54" y="841" class="small">外部语言骨干</text>
+<rect x="492" y="786" width="330" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="508" y="816" class="node">MiniCPM-V 4.6</text><text x="508" y="841" class="small">SigLIP2 + ViT 内早压缩</text>
+<rect x="930" y="786" width="350" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="946" y="816" class="node">RobotManip</text><text x="946" y="841" class="small">V4.6 + 操作动作头</text>
+<path d="M378 824H482" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="430.0" y="812" text-anchor="middle" class="small">基于</text>
+<path d="M832 824H920" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="876.0" y="812" text-anchor="middle" class="small">配置</text>
+<rect x="38" y="904" width="460" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="54" y="934" class="node">MiniCPM4-0.5B</text><text x="54" y="959" class="small">文本骨干</text>
+<rect x="760" y="904" width="510" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="776" y="934" class="node">RobotTrack</text><text x="776" y="959" class="small">时间/视觉投影 + 轨迹头</text>
+<path d="M507 942H749" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="628.0" y="930" text-anchor="middle" class="small">基于</text>
+<rect x="38" y="1012" width="460" height="74" rx="12" fill="#e8edf2" stroke="#c4d3d9"/>
+<text x="54" y="1042" class="node">Qwen3.5-4B</text><text x="54" y="1067" class="small">外部 VLM 骨干</text>
+<rect x="760" y="1012" width="510" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="776" y="1042" class="node">SimpleMemVLA</text><text x="776" y="1067" class="small">原生视频历史 + flow-matching 动作头</text>
+<path d="M507 1050H749" fill="none" stroke="#346b80" stroke-width="2"  marker-end="url(#arrow)"/>
+<text x="628.0" y="1038" text-anchor="middle" class="small">基于</text>
+<rect x="38" y="1130" width="330" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="54" y="1160" class="node">VoxCPM-0.5B</text><text x="54" y="1185" class="small">2025-09</text>
+<rect x="492" y="1130" width="330" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="508" y="1160" class="node">VoxCPM1.5</text><text x="508" y="1185" class="small">2025-12</text>
+<rect x="930" y="1130" width="350" height="74" rx="12" fill="#e0f0ee" stroke="#c4d3d9"/>
+<text x="946" y="1160" class="node">VoxCPM2</text><text x="946" y="1185" class="small">2026-04 · 2B / 48kHz</text>
+<path d="M378 1168H482" fill="none" stroke="#346b80" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<text x="430.0" y="1156" text-anchor="middle" class="small">版本</text>
+<path d="M832 1168H920" fill="none" stroke="#346b80" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<text x="876.0" y="1156" text-anchor="middle" class="small">版本</text>
+<rect x="38" y="1250" width="1242" height="122" rx="12" fill="#fff3d8"/>
+<text x="56" y="1282" class="node">特别注意：MiniCPM5 是稠密 Llama 兼容架构；未画 SALA → MiniCPM5 实线。</text>
+<text x="56" y="1315" class="sub">CPM → MiniCPM 是研究路线延续；没有证据证明 MiniCPM 是直接压缩 CPM-Bee 权重所得。</text>
+<text x="56" y="1347" class="sub">来源：固定版本 README、Hugging Face 配置与官方论文。各条证据和日期见配套报告。快照 2026-09-23。</text>
+</svg></div></p>
+<p><strong>实线：官方明确说明基于该骨干或从该 checkpoint 初始化。虚线：产品/研究路线的先后，不承诺权重连续继承。</strong>VoxCPM 版本间、MiniCPM 各代间的先后见时间线；没有证据的继承关系不画实线。图中的 Qwen、SigLIP、Whisper 等是外部骨干，不计为 OpenBMB 新仓库。</p>
+<p class="bullet">• <strong>CPM → MiniCPM 是研究路线延续，不能直接说 MiniCPM 是把 CPM-Bee 压缩而成。</strong>CPM-Live/Bee 体现早期大模型公开训练，MiniCPM 转向小模型训练规律与端侧成本。<a href="https://github.com/OpenBMB/CPM-Live/blob/3b27173f67827faf329ab649ee1d0cb2a873e56b/README.md">CPM-Live README</a>；<a href="https://arxiv.org/html/2404.06395">官方论文 2404.06395</a></p>
+<p class="bullet">• <strong>MiniCPM4 → SALA 有明确转换路线。</strong>SALA 从稠密模型进行混合注意力适配，32 层配置中 8 层 <code>minicpm4</code>、24 层 <code>lightning-attn</code>。但 <strong>MiniCPM5 又采用标准 Llama 稠密架构</strong>；“5 比 SALA 晚”不等于它继承 SALA。<a href="https://huggingface.co/openbmb/MiniCPM-SALA/resolve/9180fe1db74f71fb81bc7105efe88f6b19c959b0/config.json">MiniCPM-SALA 配置</a>；<a href="https://huggingface.co/openbmb/MiniCPM5-2B/resolve/12a3808a956f869c767195e9266b59c4d21d92e2/config.json">MiniCPM5-2B 配置</a></p>
+<p class="bullet">• <strong>V4.5 → o4.5 有官方初始化证据；V4.6 是更轻的另一分支。</strong>o4.5 论文第 5 节明确使用 V4.5 预训练 checkpoint；V4.6 用 Qwen3.5-0.8B + SigLIP2-400M，不是给 o4.5 减一个音频模块。<a href="https://arxiv.org/html/2604.27393">官方论文 2604.27393</a>；<a href="https://github.com/OpenBMB/MiniCPM-V/blob/6ada8e8ef5e2979670fc94406f02b87c3c7e7ee0/README.md">MiniCPM-V README</a></p>
+<p class="bullet">• <strong>AgentCPM 也没有统一的 MiniCPM 底座。</strong>Explore 用 Qwen3-4B，Report 用 MiniCPM4.1-8B；RobotTrack 用 MiniCPM4-0.5B，RobotManip 接 V4.6。<a href="https://huggingface.co/openbmb/AgentCPM-Explore/resolve/f528bbb55317bd291387ba3347551dd3414e698e/config.json">AgentCPM-Explore 配置</a>；<a href="https://huggingface.co/openbmb/AgentCPM-Report/resolve/c6232d64a47ccfa0c4aed240d325cbc0fb9cbc62/config.json">AgentCPM-Report 配置</a>；<a href="https://huggingface.co/openbmb/MiniCPM-RobotTrack/resolve/80d32d0b091c3b340a1e4a6c78d441e8af19590e/config.json">MiniCPM-RobotTrack 配置</a>；<a href="https://huggingface.co/openbmb/MiniCPM-RobotManip/resolve/29cb257541e9f96f493abe21174f8892e5dffe3f/config.json">MiniCPM-RobotManip 配置</a></p>
+<h2>3. 时间线：每次变化解决什么问题，又付出什么代价？</h2>
+<p>日期为 README 发布记录，论文发布日期与模型开放日期可能不同。下面的“解决问题/代价”是结合结构作出的分析，不是额外实测。</p>
+<div class="tablewrap"><table>
+<tr><th>时间</th><th>节点与变化</th><th>为什么需要这一步</th><th>代价或边界</th></tr>
+<tr><td>2022-09 / 10</td><td>CPM-Ant / Ant+；公开训练、扩展双语</td><td>建立可观察的训练过程和双语基础</td><td>仍以较大模型和训练资源为中心</td></tr>
+<tr><td>2023-05 / 06</td><td>CPM-Bee10B；随后 VisCPM</td><td>从语言基础扩展到看图回答、文生图</td><td>视觉编码或扩散组件增加；Chat/Paint 不是同一输出头</td></tr>
+<tr><td>2024-02</td><td>MiniCPM-2B</td><td>用小模型实验、μP 和 WSD 提高参数/训练效率</td><td>小参数不等于低训练数据成本，也不消除知识容量限制</td></tr>
+<tr><td>2024-04 / 07</td><td>128K、MoE-8x2B、1B、S-1B 分支</td><td>分别探索长输入、容量、小体积和 FFN 稀疏效率</td><td>MoE 总参数与激活参数不同；稀疏需要匹配内核</td></tr>
+<tr><td>2024-09</td><td>MiniCPM3-4B</td><td>增强文本能力和低秩注意力表示，原生 32K</td><td>长文分治框架与原生窗口不能混算</td></tr>
+<tr><td>2025-06 / 09</td><td>MiniCPM4 / 4.1</td><td>把长序列的注意力成本降下来；InfLLM-V2 稠密/稀疏切换</td><td>选块和稀疏内核有开销，短序列并非越稀疏越快</td></tr>
+<tr><td>2026-02</td><td>MiniCPM-SALA</td><td>稀疏层保留选择性读取，线性层降低长程状态开销</td><td>需要混合架构适配与专用后端；百万上下文宣称不等于配置默认值</td></tr>
+<tr><td>2026-05 / 09</td><td>MiniCPM5-1B / 2B</td><td>稠密小模型配高质量数据、SFT/RL/OPD，强化本地能力</td><td>不是“更大窗口优先”路线；更强训练也不替代任务实测</td></tr>
+<tr><td>2024-04 → 2025-08</td><td>V2.0 → 2.5 → 2.6 → 4.0 / 4.5</td><td>从高分辨率/OCR走向多图、视频和更高效率</td><td>各代骨干会变；视觉压缩可能损失细节</td></tr>
+<tr><td>2025-01 → 2026-02</td><td>o2.6 → o4.5</td><td>从多模态交互走向共享时间轴上的全双工与主动响应</td><td>常开感知、语音生成、时序缓存和网络共同决定延迟</td></tr>
+<tr><td>2026-05</td><td>V4.6：ViT 内早压缩，1.3B</td><td>不仅减少进入 LLM 的 token，也减少视觉编码本身计算</td><td>4×/16×压缩是细节与效率之间的选择</td></tr>
+<tr><td>2025-09 → 12 → 2026-04</td><td>VoxCPM0.5B → 1.5 → 2</td><td>连续声学建模扩展到多语言、控制和48kHz输出</td><td>模型与声学解码规模增长；扩散步数影响速度/质量</td></tr>
+<tr><td>2026-07；08–09</td><td>RobotManip/Track；SimpleMemVLA</td><td>从“看懂”走向“执行”，处理长程历史与部分可观测性</td><td>动作坐标、控制频率和闭环错误成为关键；不同机器人不可直接共用动作</td></tr>
+</table></div>
+<p>时间来源：<a href="https://github.com/OpenBMB/CPM-Live/blob/3b27173f67827faf329ab649ee1d0cb2a873e56b/README.md">CPM-Live README</a>、<a href="https://github.com/OpenBMB/CPM-Bee/blob/be2b6a904f596bfd0328cb5e9020a84db44f9629/README.md">CPM-Bee README</a>、<a href="https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/README.md">MiniCPM README</a>、<a href="https://github.com/OpenBMB/MiniCPM-V/blob/6ada8e8ef5e2979670fc94406f02b87c3c7e7ee0/README.md">MiniCPM-V README</a>、<a href="https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/README.md">VoxCPM README</a>、<a href="https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/README.md">MiniCPM-Robot README</a>、<a href="https://github.com/OpenBMB/SimpleMemVLA/blob/404215d752704fd8d8157fa6b7ccdfafdb2bd44e/README.md">SimpleMemVLA README</a>。</p>
+<h2>4. 其余仓库挂在哪一环？</h2>
+<div class="tablewrap"><table>
+<tr><th>环节</th><th>重点仓库</th><th>与主模型的关系</th></tr>
+<tr><td>数据与对齐</td><td>UltraX、DecorateLM、UltraFeedback、UltraLink、CPO、RLPR</td><td>改变训练材料、偏好或奖励；不是统一的一条默认训练流水线</td></tr>
+<tr><td>训练与压缩</td><td>BMTrain、ModelCenter、BMCook、Meshy、ForgeTrain</td><td>从分布式训练、压缩到 RL 系统与 Agent 生成训练软件</td></tr>
+<tr><td>推理执行</td><td>BMInf、cpm_kernels、CPM.cu、ArcLight、sglang、infllmv2_cuda_impl、sparse_kernel、Locret</td><td>分别处理量化/搬运、GPU/CPU执行、稀疏注意力与缓存淘汰</td></tr>
+<tr><td>外部知识</td><td>UltraRAG、VisRAG、DEBATER、MoRE、PAGER、RAG-DDR、SHIFT、ParamMute、MetaMem</td><td>覆盖检索、证据组织、训练对齐和忠实性；解决的问题不同</td></tr>
+<tr><td>Agent 产品</td><td>ChatDev、XAgent、EdgeClaw、ClawXMemory/Router、PilotDeck、StaffDeck、AppCopilot</td><td>给模型接工具、持久状态、工作流与设备；不能与模型参数量混为一谈</td></tr>
+<tr><td>评测与客户端</td><td>UltraEval、InfiniteBench、OlympiadBench、Omni 系评测、V-Apps、o-Demo、Desk-Pet</td><td>分别负责测量和把模型能力呈现给用户</td></tr>
+</table></div>
+<p>这个环节表是阅读地图，不宣称表中每个工具都已直接接入每个主模型。完整依赖与限制见逐仓库附录。</p>
+<p><strong>建议阅读顺序：本总览 → 深度报告中你关心的路线 → 用附录检索具体仓库。</strong>如果只关心“跟普通大模型有什么区别”，先抓住三个变化：输入从文字扩展到视觉/音频/状态，输出从文字扩展到语音/动作，模型外增加检索、工具与执行反馈。另有一组项目专门降低训练与推理成本，它们本身不增加新的智能任务。</p>
+<h2>5. 从模型理解走到昇腾开发</h2>
+<p>深度分析新增两个专题：<a href="#provenance">模型来源与团队贡献</a>，分清语言权重、视觉/音频组件和团队新增工作；<a href="#ascend">华为昇腾 Ascend NPU 工程分析</a>，把早压缩、稀疏/线性注意力、低精度、全双工和机器人闭环对应到算子、子图融合、分块及搬运。HTML 顶部提供直接入口。</p>
+<p>这些内容是从模型机制推导开发需求，并列出已有适配证据与验证方法；没有指定或实测某代昇腾芯片，不把 CUDA 加速比当作昇腾结论。</p></section>
+<section id="deep"><h1>OpenBMB 主模型与技术演进：深度分析</h1>
+<h2>范围与证据口径</h2>
+<p>本报告回答“主模型是什么、各模块做什么、与普通大模型有什么区别”，不把 88 个仓库当作 88 个模型。2026-09-23 核对 GitHub 组织公开仓库分页：第一页 88 条、第二页 0 条，组织 <code>public_repos</code> 同为 88。包含 <strong>86 个非 fork、2 个 fork（EdgeClaw、sglang），0 个 GitHub archived 标记</strong>。历史项目即使未被标记归档，也可能采用旧依赖。范围是快照时仍公开可见的组织仓库；README 引用的外部库、旧重定向地址、Hugging Face 权重及分支不额外计入 88。来源：<a href="https://github.com/orgs/OpenBMB/repositories?type=all">GitHub 组织仓库页</a>。</p>
+<p>本次对全部仓库的 README 作初读、目录检查与针对性复读，保存 140 份 README；补充关键源码/文档及 17 个 Hugging Face 模型的配置和模型卡。重点论文阅读方法章节，其他论文核对摘要。没有下载权重、跑模型、编译内核、执行机器人或复现榜单，也没有逐行审计整个组织代码。</p>
+<p class="bullet">• <strong>源码/配置确认</strong>：本地保存的固定提交源码或模型配置直接体现的结构和接口。</p>
+<p class="bullet">• <strong>官方说明/官方宣称</strong>：README、模型卡、论文所述功能、训练数据及实验结果。公开写出不等于本次独立验证。</p>
+<p class="bullet">• <strong>分析推断</strong>：解释技术动机、取舍和应用边界，不能当作作者确认的权重继承关系。</p>
+<p class="bullet">• <strong>信息不足</strong>：公开材料不能支撑的结论，保留空白而不补造。HerculesBench 的根 README 尤其不足。</p>
+<p>逐仓库附录为每项提供定位、输入输出、关键模块、LLM 差异、上下游和局限，并链接固定 SHA 的证据。论文与配置采用各自发布快照，并非同一时间训练出的统一版本。</p>
+<h2>一、先定义比较基准：普通纯文本自回归 Transformer</h2>
+<p>这里的基准是：文本被分词为 token，经 embedding、因果注意力和 FFN 后预测下一个 token；推理时保存 KV cache 避免重算，训练通常经历预训练与后训练。现代普通 LLM 也可能使用 GQA、MoE、工具调用或推理训练，因此“不同”不一定是 OpenBMB 独有发明，而是该仓库主要改变了哪一层。</p>
+<div class="tablewrap"><table>
+<tr><th>变化层</th><th>代表项目</th><th>实际改变</th></tr>
+<tr><td>训练数据/目标</td><td>UltraX、UltraFeedback、CPO、RLPR</td><td>让模型学什么，以及如何奖励行为</td></tr>
+<tr><td>模型内部结构</td><td>MiniCPM-SALA、MiniCPM-V、VoxCPM、Robot</td><td>注意力、模态编码或输出头</td></tr>
+<tr><td>运行时效率</td><td>CPM.cu、ArcLight、Locret</td><td>相同或适配权重怎样更省内存、更快执行</td></tr>
+<tr><td>外部知识与行动</td><td>UltraRAG、ChatDev、EdgeClaw</td><td>把模型接入可检索资料、工具、状态和反馈循环</td></tr>
+<tr><td>测量/呈现</td><td>UltraEval、Omni-DuplexEval、Demo/App</td><td>如何测、如何使用，不是重新产生模型知识</td></tr>
+</table></div>
+<p>因而，“一个系统会搜索”可能来自 Agent harness，“模型能输出工具调用”可能来自后训练；二者不能互相替代。具体分类和来源见附录各条。</p>
+<a id="provenance"></a>
+<h2>专题一、模型来源与团队贡献：名字、结构和权重是三种证据</h2>
+<p><strong>没有 Qwen 标签，不等于整个模型从零自研；配置写着 Llama，也不等于使用了 Meta 的预训练权重。</strong>核验时分开问：语言权重从哪里初始化，视觉/音频模块来自哪里，团队新增了什么结构、数据、训练与运行流程。只有模型卡、论文或训练说明明确写出初始化来源，才能画权重继承实线。<code>LlamaForCausalLM</code> 首先说明软件实现接口与结构兼容；单靠类名无法证明权重来源。</p>
+<div class="tablewrap"><table>
+<tr><th>具体版本</th><th>语言与其他组件来源</th><th>该团队工作应如何理解</th><th>不能推出什么</th></tr>
+<tr><td>MiniCPM-Llama3-V 2.5</td><td>官方模型卡明确写 Llama3-8B-Instruct 与 SigLip-400M</td><td>在现成语言/视觉底座上开展视觉语言连接、训练和高分辨率输入适配；不是仅改模型名</td><td>不能把语言底座的全部预训练归于 OpenBMB，也不能把整个 V 系列都认作 Llama3 权重</td></tr>
+<tr><td>MiniCPM-V 4.6</td><td>Qwen3.5-0.8B 文本骨干、SigLIP2-400M 视觉编码器</td><td>LLaVA-UHD v4 路线将视觉压缩前移，并配合多模态训练与推理组织</td><td>没有 Qwen 产品名不影响其使用 Qwen 权重；其线性/全注意力混合骨干也不能都算作 OpenBMB 新发明</td></tr>
+<tr><td>MiniCPM-o 4.5</td><td>从 V4.5 预训练 checkpoint 初始化；语言骨干 Qwen3-8B，视觉 SigLIP2，输入语音 Whisper-medium，输出借助 CosyVoice2 相关组件</td><td>扩展并训练在线音视频与语音输出，Omni-Flow 统一时间片，联合学习内容和发声时机</td><td>“端到端”不表示每个组件都由团队从零预训练，也不表示只连接几个 API 就获得同样能力</td></tr>
+<tr><td>MiniCPM5 1B/2B</td><td>配置是 Llama 兼容稠密结构，官方另有自己的模型训练阶段说明</td><td>贡献按数据、训练策略、后训练和发布 checkpoint 的证据认定</td><td><code>LlamaForCausalLM</code> 不证明 Meta 权重继承，也不证明来自 SALA 转换</td></tr>
+</table></div>
+<p>来源：<a href="https://huggingface.co/openbmb/MiniCPM-Llama3-V-2_5">Llama3-V2.5 官方模型卡</a>；<a href="https://github.com/OpenBMB/MiniCPM-V/blob/6ada8e8ef5e2979670fc94406f02b87c3c7e7ee0/README.md">MiniCPM-V README</a>；<a href="https://huggingface.co/openbmb/MiniCPM-V-4.6/resolve/36f34a661a4bd35d0dc2294cb044d2584646c7d3/config.json">MiniCPM-V-4.6 配置</a>；<a href="https://arxiv.org/html/2604.27393">官方论文 2604.27393</a>；<a href="https://huggingface.co/openbmb/MiniCPM5-2B/resolve/12a3808a956f869c767195e9266b59c4d21d92e2/README.md">MiniCPM5-2B 模型卡</a>。本专题的来源表是组件级梳理，未做权重逐张量相似度或训练数据审计。</p>
+<h3>从“缺什么”追到“改什么”：核心路线的因果链</h3>
+<p>下表的机制依据各主线源码、配置及论文；“为什么、收益与代价”是本报告的工程分析。Transformer、ViT、线性注意力、蒸馏、flow matching、工具调用等已有技术，不应因出现在这些项目中就全部记作团队原创。应识别具体组合、适配方法、训练配方和验证范围。</p>
+<div class="tablewrap"><table>
+<tr><th>路线</th><th>原骨干的缺口或成本</th><th>新增机制与实现方式</th><th>为什么这样做；收益与代价</th></tr>
+<tr><td>视觉早压缩与对齐</td><td>纯文本骨干不直接理解像素；只在 LLM 入口压缩，前面 ViT 仍处理长序列</td><td>视觉编码、切片、连接/投影与多模态对齐；V4.6 在 ViT 较浅层插入压缩，后续视觉层和 LLM 接收更短表示</td><td>同时减少后续视觉与语言计算；对齐训练让视觉特征能被语言模型利用。压缩会损失细粒度信息，OCR/小物体需单独检查</td></tr>
+<tr><td>全双工时间片</td><td>普通轮流问答只在完整输入后作答，不会自动学会持续听看与插话</td><td>o4.5 将环境视觉、音频、输出流组织到共享时间片；语音预训练、联合预训练、SFT/RL 适配，并用流式解码输出语音</td><td>内容和响应时机共同学习，支持连续交互；额外引入状态管理、音画同步和解码调度，切片过大增加等待、过小增加调度成本</td></tr>
+<tr><td>稀疏注意力</td><td>长序列中让每个查询读取大量 KV，计算和读带宽都昂贵</td><td>InfLLM-V2 相关性/聚合后经外部 TopK 选块，再计算局部窗口与所选远程块注意力</td><td>减少实际参与读取与运算的块；索引、评分、聚集成本及漏选信息风险同时存在，短序列未必划算</td></tr>
+<tr><td>稀疏与线性混合</td><td>完整 KV 随长度增长；完全压入有限状态又可能限制精确检索</td><td>SALA 从 MiniCPM4 适配，用多数线性层与少数稀疏层分工，并进行蒸馏和训练</td><td>用状态压缩承担大部分层的历史信息，用稀疏层选择性访问上下文；不是无损删掉 KV，表达能力、数值误差及适配成本需验证</td></tr>
+<tr><td>小模型训练</td><td>小参数预算限制容量；沿用大模型训练配方可能没有充分利用预算</td><td>MiniCPM 的风洞实验、μP/WSD 等训练设计；MiniCPM5 的分阶段数据、SFT/RL 与蒸馏路线</td><td>用训练质量换取较小推理体积；训练投入没有消失，小模型也不保证覆盖大模型的所有复杂任务。参数更少与精度位数更低是独立选择</td></tr>
+<tr><td>Agent</td><td>语言生成不自动等于可靠的多步工具执行</td><td>Explore/Report 等用交互轨迹后训练，结合工具沙箱、检索、执行反馈和状态；某些 Agent 框架只组织调用</td><td>将语言决策接到外部信息和动作；长链错误与工具等待会累积。训练后的模型能力与运行框架贡献需分别测量</td></tr>
+<tr><td>机器人动作头</td><td>VLM 的文字输出不能直接表达控制器所需连续动作/轨迹</td><td>RobotManip 接操作动作头；RobotTrack 接视觉/时间表征及轨迹头；SimpleMemVLA 从视频历史表征接 flow-matching 动作头</td><td>把感知语义变为可执行空间，需要动作数据、坐标/归一化和控制接口适配；动作头维度不等于物理自由度，闭环误差与观察时效决定结果</td></tr>
+<tr><td>连续语音生成</td><td>文字骨干缺少音色、韵律和波形输出能力</td><td>VoxCPM 用语义与声学模型、局部生成模块和 AudioVAE，把条件变成连续音频潜变量再还原波形</td><td>避免完全依赖外部离散语音码本，但仍有文本 tokenizer；音质、实时解码成本与长音频稳定性必须同时验证</td></tr>
+</table></div>
+<p>对应证据：<a href="https://arxiv.org/abs/2605.08985">官方论文 2605.08985</a>；<a href="https://arxiv.org/html/2604.27393">官方论文 2604.27393</a>；<a href="https://github.com/OpenBMB/infllmv2_cuda_impl/blob/93cf2ec28e5a7acebe3f0bb7329b6c73a1be91f6/README.md">infllmv2_cuda_impl README</a>；<a href="https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/minicpm_sala/README.md">MiniCPM / minicpm_sala/README.md</a>；<a href="https://arxiv.org/html/2404.06395">官方论文 2404.06395</a>；<a href="https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/README.md">AgentCPM README</a>；<a href="https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/README.md">MiniCPM-Robot README</a>；<a href="https://github.com/OpenBMB/SimpleMemVLA/blob/404215d752704fd8d8157fa6b7ccdfafdb2bd44e/README.md">SimpleMemVLA README</a>；<a href="https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/src/voxcpm/model/voxcpm2.py">VoxCPM / src/voxcpm/model/voxcpm2.py</a>。后文各主线保留版本、参数与源码细节。</p>
+<h2>二、语言主线：从训练可观察性，到小参数效率，再分出长上下文路线</h2>
+<h3>2.1 CPM-Live / Bee 与 MiniCPM 不是已确认的压缩继承链</h3>
+<p>CPM-Live 公布 CPM-Ant、Ant+、Bee 的训练阶段；Bee 是中英双语 10B 基础模型。VisCPM 明确建立在 Bee 上，因此这一多模态扩展可以画实线。MiniCPM 则将重点转为小模型实验与可扩展训练策略：用“模型风洞”寻找稳定超参数，并使用 Warmup-Stable-Decay，让稳定训练和末段衰减分开，便于从已有训练进度继续扩展数据预算。<a href="https://github.com/OpenBMB/CPM-Live/blob/3b27173f67827faf329ab649ee1d0cb2a873e56b/README.md">CPM-Live README</a>；<a href="https://github.com/OpenBMB/CPM-Bee/blob/be2b6a904f596bfd0328cb5e9020a84db44f9629/README.md">CPM-Bee README</a>；<a href="https://github.com/OpenBMB/VisCPM/blob/d21f3ebda1d5195c49c9ca4cf6c1db8be50e0385/README.md">VisCPM README</a>；<a href="https://arxiv.org/html/2404.06395">官方论文 2404.06395</a></p>
+<p><strong>分析：</strong>这解决的是“小模型能力与训练预算利用”，不证明小模型的所有知识容量都等同大模型。MiniCPM 早期命名中的“2B”与总参数口径也不同：官方 1.0 文档写非 embedding 约 2.4B、总量约 2.7B。不能直接拿模型名乘 2 字节当精确占用。<a href="https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/docs/README-minicpm1-en.md">MiniCPM / docs/README-minicpm1-en.md</a></p>
+<h3>2.2 同一产品家族，结构并不统一</h3>
+<p>下表读自固定版本 <code>config.json</code>。窗口字段是配置值，不等于经过验证的最长可用输入；尤其 LongRoPE、服务参数、内存和训练分布可能另有限制。</p>
+<div class="tablewrap"><table>
+<tr><th>模型</th><th>配置中确认的关键结构</th><th>理解重点</th></tr>
+<tr><td>MiniCPM-2B-sft</td><td>40 层、hidden 2304、36 attention heads、μP 缩放字段</td><td>早期稠密语言模型</td></tr>
+<tr><td>MiniCPM-MoE-8x2B</td><td>8 专家，每 token 选 2</td><td>增加总容量但稀疏激活；不是把 8 个完整聊天模型同时调用</td></tr>
+<tr><td>MiniCPM3-4B</td><td>62 层、hidden 2560、<code>q_lora_rank=768</code>、<code>kv_lora_rank=256</code></td><td>低秩 Q/KV 表示；不能沿用普通全 KV 实现的内存估算</td></tr>
+<tr><td>MiniCPM4.1-8B</td><td>32 层、hidden 4096、32 Q heads / 2 KV heads；窗口字段 65536</td><td>GQA 减少 KV；稀疏路径还要匹配实现/开关</td></tr>
+<tr><td>MiniCPM-SALA</td><td>32 层：8 稀疏类型、24 Lightning；窗口字段 524288</td><td>混合结构；官方百万上下文能力并非 config 中直接写 1,000,000</td></tr>
+<tr><td>MiniCPM5-1B</td><td><code>LlamaForCausalLM</code>；24 层、hidden 1536、2 KV heads；窗口字段 131072</td><td>标准兼容架构下的小模型训练与部署路线</td></tr>
+<tr><td>MiniCPM5-2B</td><td><code>LlamaForCausalLM</code>；42 层、hidden 2048、2 KV heads；窗口字段 131072</td><td>同代稠密扩展，不是 SALA 的后续混合模型</td></tr>
+</table></div>
+<p>来源：<a href="https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16/resolve/4ec16344ac13e6ef5010aeecaa533369ac8eb53c/config.json">MiniCPM-2B-sft-bf16 配置</a>、<a href="https://huggingface.co/openbmb/MiniCPM-MoE-8x2B/resolve/7495286593bc56a524a42e26eeaee5e185cb7f9c/config.json">MiniCPM-MoE-8x2B 配置</a>、<a href="https://huggingface.co/openbmb/MiniCPM3-4B/resolve/d6b14ddaefdb11c624dd75c3c779549bc90b08cb/config.json">MiniCPM3-4B 配置</a>、<a href="https://huggingface.co/openbmb/MiniCPM4.1-8B/resolve/3a8dfed9c79a45e07dbff95bcd49d792343fa1a3/config.json">MiniCPM4.1-8B 配置</a>、<a href="https://huggingface.co/openbmb/MiniCPM-SALA/resolve/9180fe1db74f71fb81bc7105efe88f6b19c959b0/config.json">MiniCPM-SALA 配置</a>、<a href="https://huggingface.co/openbmb/MiniCPM5-1B/resolve/87179e5c1f455ef22e6223592d2d61351b525bfc/config.json">MiniCPM5-1B 配置</a>、<a href="https://huggingface.co/openbmb/MiniCPM5-2B/resolve/12a3808a956f869c767195e9266b59c4d21d92e2/config.json">MiniCPM5-2B 配置</a>。</p>
+<p>MiniCPM 2.x 的几条分支要分开理解：128K 处理窗口；MoE 扩展容量；S-1B 减少 FFN 激活计算；它们不是同一个 checkpoint 同时拥有全部特性。MiniCPM3 的 MapReduce 使用外部切分与聚合，也不等于原生单次无限上下文。<a href="https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/docs/README-minicpm2-en.md">MiniCPM / docs/README-minicpm2-en.md</a>；<a href="https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/docs/README-minicpm3-en.md">MiniCPM / docs/README-minicpm3-en.md</a></p>
+<h3>2.3 InfLLM-V2、SALA、Locret：三种不同的效率问题</h3>
+<p><strong>InfLLM-V2：让注意力选择更少的内容。</strong>论文方法节说明，稠密与稀疏路径共享 KV 投影；把选中的远处块与局部窗口合并，不再让压缩注意力单独产生一份最终输出。短序列保留稠密计算，长序列切换稀疏，以减少从短文预训练到长文适配的结构冲突。CUDA 仓库拆成相关性/聚合和选块注意力两阶段，TopK 选择在外部。<a href="https://arxiv.org/html/2509.24663">官方论文 2509.24663</a>；<a href="https://github.com/OpenBMB/infllmv2_cuda_impl/blob/93cf2ec28e5a7acebe3f0bb7329b6c73a1be91f6/README.md">infllmv2_cuda_impl README</a></p>
+<p><strong>SALA：让多数层改用线性注意力。</strong>官方以 MiniCPM4 为起点进行 Transformer-to-hybrid 适配；25% 稀疏层负责有选择地读取长程信息，75% 线性层降低状态和计算随长度增长的压力，配合 HyPE 和蒸馏/适配方案。这是模型结构变化，不能只替换一个普通 attention kernel 就得到同等效果。<a href="https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/minicpm_sala/README.md">MiniCPM / minicpm_sala/README.md</a>；<a href="https://huggingface.co/openbmb/MiniCPM-SALA/resolve/9180fe1db74f71fb81bc7105efe88f6b19c959b0/config.json">MiniCPM-SALA 配置</a></p>
+<p><strong>Locret：决定哪些 KV 值可以丢弃。</strong>源码在分块 prefill 中汇总分数，保护临近区间，TopK 保留缓存条目并 gather K/V。它不是外部文档检索，也不等同 SALA 的递归状态。论文报告的压缩收益有给定模型和误差范围，迁移到其他结构需要重新适配。<a href="https://github.com/OpenBMB/Locret/blob/28995c5ad6e6cc263913eb73fb76a4942f3dbf75/locret/inference/infer.py">Locret / locret/inference/infer.py</a>；<a href="https://arxiv.org/abs/2410.01805">官方论文 2410.01805</a></p>
+<p><strong>分析：</strong>三者都可降低长上下文成本，但付出的代价不同：选块可能漏掉远处信息；线性状态需要重新适配表达；KV 淘汰会不可逆地移除当前缓存中的内容。是否更快取决于序列长度、索引开销、batch 和硬件，不能只比较 FLOPs。</p>
+<h3>2.4 MiniCPM5 为什么回到稠密架构？</h3>
+<p>配置确认它采用标准 Llama 实现；官方训练说明强调分级数据、base/mid/post training、SFT、多个领域 RL 教师与 On-Policy Distillation。1B 与 2B 发布了不同阶段 checkpoint，2B 还强调代码与 Agent 数据。<a href="https://huggingface.co/openbmb/MiniCPM5-1B/resolve/87179e5c1f455ef22e6223592d2d61351b525bfc/README.md">MiniCPM5-1B 模型卡</a>；<a href="https://huggingface.co/openbmb/MiniCPM5-2B/resolve/12a3808a956f869c767195e9266b59c4d21d92e2/README.md">MiniCPM5-2B 模型卡</a></p>
+<p><strong>分析：</strong>这是一种工程取舍：小型稠密架构容易接成熟后端，性能增益更多交给数据和后训练。它不否定 SALA，也不表示稠密在百万 token 情形更优；两者服务的计算预算和目标不同。官方材料没有证明“MiniCPM5 是由 SALA 权重改回稠密”，本报告不画该继承边。</p>
+<h2>三、视觉与全模态主线：压缩视觉成本，与改变交互范式</h2>
+<h3>3.1 MiniCPM-V 4.6：压缩不只发生在 LLM 入口</h3>
+<p>普通 VLM 常先用 ViT 编码较长的视觉 token 序列，最后压缩再送 LLM。这样减少了语言模型成本，却仍先支付完整视觉编码成本。LLaVA-UHD v4 把压缩提前到浅层 ViT，并结合切片编码。V4.6 官方结构为 SigLIP2-400M + Qwen3.5-0.8B，总规模约 1.3B，支持 4×/16× 混合压缩。<a href="https://github.com/OpenBMB/MiniCPM-V/blob/6ada8e8ef5e2979670fc94406f02b87c3c7e7ee0/README.md">MiniCPM-V README</a>；<a href="https://arxiv.org/abs/2605.08985">官方论文 2605.08985</a></p>
+<p>配置进一步确认：ViT 27 层、<code>insert_layer_id=6</code>；文本 24 层，每四层中前三层 linear attention、第四层 full attention。<strong>因此 V4.6 的“MiniCPM”是产品家族名，其文本核心并非 MiniCPM5。</strong><a href="https://huggingface.co/openbmb/MiniCPM-V-4.6/resolve/36f34a661a4bd35d0dc2294cb044d2584646c7d3/config.json">MiniCPM-V-4.6 配置</a></p>
+<p><strong>分析：</strong>压缩率更高能容纳更多图片/视频或减小推理开销，但细小文字、空间细节和复杂页面可能更敏感，应按任务选压缩路径；“视觉编码 FLOPs 减少”不是完整应用延迟按同百分比下降。</p>
+<h3>3.2 MiniCPM-o 4.5：从轮流对话到共享时间轴</h3>
+<p>o4.5 论文确认从 V4.5 预训练 checkpoint 初始化：先冻结已有部分做语音预训练，再联合预训练、SFT 和 RL。视觉/音频编码、Qwen3-8B 语言骨干与语音生成模块组成约 9B 模型。音频输入经 Whisper-medium 编码与投影压缩；输出包括自回归离散语音 token 解码器及流式 flow-matching 波形解码。<a href="https://arxiv.org/html/2604.27393">官方论文 2604.27393</a>；<a href="https://huggingface.co/openbmb/MiniCPM-o-4_5/resolve/503e754207c94da6bb26850b4469f367c9ea3582/config.json">MiniCPM-o-4_5 配置</a></p>
+<p>Omni-Flow 将 env-visual、env-audio、out-stream 按时间片串行化；该发声时产生输出，不发声时可使用 listen 标志。这样在持续输入中更新响应，并学习何时主动提醒。仍可使用因果语言模型处理序列，但<strong>问题从“轮到我时说什么”，扩展到“持续变化中是否、何时说”。</strong><a href="https://arxiv.org/html/2604.27393">官方论文 2604.27393</a></p>
+<p><strong>分析：</strong>全双工是模型、数据格式和运行时共同实现的能力。网络、采样、回声处理、缓存管理和语音解码都会影响实际体验。静态音视频 QA 分数不能证明主动打断/提醒时机优秀，所以需要 Omni-DuplexEval；后者接收已有预测，不负责生成完整推理轨迹。<a href="https://github.com/OpenBMB/Omni-DuplexEval/blob/962cec448ac37a377ffb963b476778777d11d346/README.md">Omni-DuplexEval README</a>；<a href="https://github.com/OpenBMB/OmniEvalKit/blob/1adac0577258d539efc03f16d8a0f4b3f7df6c19/README.md">OmniEvalKit README</a>；<a href="https://github.com/OpenBMB/MiniCPM-o-Demo/blob/47709a9210dfd71afa76c058e017fc8c4db5c8d2/README.md">MiniCPM-o-Demo README</a></p>
+<h3>3.3 历史版本与客户端不能混写</h3>
+<p>V2.0、Llama3-V2.5、V2.6、V4.0/4.5/4.6 与 o2.6/o4.5 应分别记录。某时点官方后端支持尚未合入而要求 fork，是历史事实，不应覆盖后来已合入状态，也不能反向认为早期版本一直受支持。V-Apps、MobileCPM 与 o-Demo 属于应用层，各自平台和模型矩阵不同。<a href="https://github.com/OpenBMB/MiniCPM-V/blob/6ada8e8ef5e2979670fc94406f02b87c3c7e7ee0/README.md">MiniCPM-V README</a>；<a href="https://github.com/OpenBMB/MiniCPM-V-Apps/blob/d1aac05eecaac64b7fc35f1cc93a06b726ce10e3/README.md">MiniCPM-V-Apps README</a>；<a href="https://github.com/OpenBMB/MobileCPM/blob/3943591b2698ccb51f1d7e165d048d3ae68022d5/README.md">MobileCPM README</a></p>
+<h2>四、VoxCPM：生成语音，不是给聊天模型外挂朗读按钮</h2>
+<p>源码把 VoxCPM2 分为 Text-Semantic LM、Residual Acoustic LM、Local Encoder、Local DiT/UnifiedCFM、投影与 stop predictor、AudioVAE。前向过程中，文本 embedding 与音频特征组成序列；语义和残差模型产生条件，局部解码器计算扩散/flow matching 损失，停止头使用分类损失。最终 AudioVAE 把潜变量变成波形。<a href="https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/src/voxcpm/model/voxcpm2.py">VoxCPM / src/voxcpm/model/voxcpm2.py</a></p>
+<p><strong>Tokenizer-free 的准确含义</strong>：不依赖外部离散语音 tokenizer。代码仍使用文本 tokenizer，也有 ScalarQuantizationLayer 作为可微瓶颈。说“完全没有 tokenizer/量化”是错误的。它也不同于 o4.5 的离散 speech token + flow-matching 输出路径。<a href="https://arxiv.org/abs/2509.24650">官方论文 2509.24650</a>；<a href="https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/src/voxcpm/model/voxcpm2.py">VoxCPM / src/voxcpm/model/voxcpm2.py</a>；<a href="https://arxiv.org/html/2604.27393">官方论文 2604.27393</a></p>
+<div class="tablewrap"><table>
+<tr><th>版本</th><th>配置/官方说明中的变化</th><th>带来的用途</th></tr>
+<tr><td>VoxCPM-0.5B</td><td>较小语义/声学模型，局部解码器与连续潜变量</td><td>双语 TTS、参考声音克隆</td></tr>
+<tr><td>VoxCPM1.5</td><td>局部编码/解码及残差层数扩展；VAE 44.1kHz</td><td>质量与微调能力扩展</td></tr>
+<tr><td>VoxCPM2</td><td>2B 官方规模；VAE 16kHz 编码、48kHz 解码，残差 LM 8 层</td><td>多语言、声音设计、风格控制与延续式克隆</td></tr>
+</table></div>
+<p>来源：<a href="https://huggingface.co/openbmb/VoxCPM-0.5B/resolve/b2e656f7524303fdaf84591c75bbb87203d7c98d/config.json">VoxCPM-0.5B 配置</a>、<a href="https://huggingface.co/openbmb/VoxCPM1.5/resolve/8cdc403854cda0e3af12252d27da038fda5982ac/config.json">VoxCPM1.5 配置</a>、<a href="https://huggingface.co/openbmb/VoxCPM2/resolve/32279effe8c19989596f05d353d1447f51d9e915/config.json">VoxCPM2 配置</a>；<a href="https://arxiv.org/abs/2606.06928">官方论文 2606.06928</a>。</p>
+<p><strong>分析：</strong>把声音编码为连续潜变量能保留丰富声学信息，但需要局部生成过程和波形解码，质量、首次出声延迟、实时因子、流式稳定性要分别测。Demo page 的精选音频不能证明全部文本输入的成功率；UltraEval-Audio 用来覆盖不同音频任务，不能只看一个分数。<a href="https://github.com/OpenBMB/VoxCPM-demopage/blob/a08e4491b06136c198dd1c97ed0316393d54faca/README.md">VoxCPM-demopage README</a>；<a href="https://github.com/OpenBMB/voxcpm2-demopage/blob/59b843d1830ec0f9fa44270d89e9dda95c641389/README.md">voxcpm2-demopage README</a>；<a href="https://github.com/OpenBMB/UltraEval-Audio/blob/bead726925d43f526bed48a4a6a827595169429d/README.md">UltraEval-Audio README</a></p>
+<h2>五、机器人与科学模型：输出接口决定它能做什么</h2>
+<h3>5.1 RobotManip 与 RobotTrack 的骨干、动作空间都不同</h3>
+<p>RobotManip 配置嵌入 V4.6，设置 <code>action_horizon=30</code>、<code>action_dim=80</code>、<code>state_dim=80</code>、最多 32 种 embodiment；这些是统一模型接口/填充容量，不表示每台机械臂都实际有 80 个自由度。推理脚本接收多视角历史、任务、状态和 embodiment ID。<a href="https://huggingface.co/openbmb/MiniCPM-RobotManip/resolve/29cb257541e9f96f493abe21174f8892e5dffe3f/config.json">MiniCPM-RobotManip 配置</a>；<a href="https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/MiniCPM-RobotManip/vla_infer_memvla.py">MiniCPM-Robot / MiniCPM-RobotManip/vla_infer_memvla.py</a></p>
+<p>RobotTrack 配置使用 MiniCPM4-0.5B，历史帧预算 31、每历史帧 4 个粗 token、当前帧 64 个精 token，预测 8 个三维路点。源码把文字、历史、当前与 control query 拼成序列，最后一个 hidden state 进入 FunnelTrajectoryHead。<strong>这里没有让模型逐 token 写出一篇“该怎么追踪”的答案。</strong><a href="https://huggingface.co/openbmb/MiniCPM-RobotTrack/resolve/80d32d0b091c3b340a1e4a6c78d441e8af19590e/config.json">MiniCPM-RobotTrack 配置</a>；<a href="https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/MiniCPM-RobotTrack/minicpm_robot_track/modeling.py">MiniCPM-Robot / MiniCPM-RobotTrack/minicpm_robot_track/modeling.py</a></p>
+<h3>5.2 三种长程具身路线，不能都称为同一种“记忆”</h3>
+<div class="tablewrap"><table>
+<tr><th>项目</th><th>关键机制</th><th>主要区别/限制</th></tr>
+<tr><td>SimpleMemVLA</td><td>采样历史按原生带时间戳视频输入；子任务 hidden state 条件化 flow-matching 动作头；复用共同前缀</td><td>保留窗口内采样信息，让模型在读取时选择；不是专门的检索/压缩记忆模块。无穷流式是论文附录探索路径，不能说默认无限历史</td></tr>
+<tr><td>SimpleNav</td><td>BATS 选历史、TVI 时间/视角、视觉缓存、DiT-B 路点生成</td><td>导航协议是当前锚点机体系相对动作；当前观察与冻结历史缓存路径不同</td></tr>
+<tr><td>DeepThinkVLA</td><td>自回归思考后用修改注意力掩码预测动作，配合 SFT/RL</td><td>强调推理到动作，不能把其并行动作预测简单描述成普通逐字续写；真机开放状态与其他项目分开</td></tr>
+</table></div>
+<p>来源：<a href="https://arxiv.org/html/2609.05533">官方论文 2609.05533</a>、<a href="https://github.com/OpenBMB/SimpleMemVLA/blob/404215d752704fd8d8157fa6b7ccdfafdb2bd44e/simplememvla/model/modeling_simplememvla.py">SimpleMemVLA / simplememvla/model/modeling_simplememvla.py</a>、<a href="https://github.com/OpenBMB/SimpleNav/blob/64925eab9136318ef90eddacf2aa7e9058311c0d/docs/guides/MODEL_ARCHITECTURE.md">SimpleNav / docs/guides/MODEL_ARCHITECTURE.md</a>、<a href="https://github.com/OpenBMB/SimpleNav/blob/64925eab9136318ef90eddacf2aa7e9058311c0d/docs/guides/DATA_STRUCTURE.md">SimpleNav / docs/guides/DATA_STRUCTURE.md</a>、<a href="https://github.com/OpenBMB/DeepThinkVLA/blob/ff271e7c024422581c9875d96250f99dd0b743d1/src/sft/modeling_deepthinkvla.py">DeepThinkVLA / src/sft/modeling_deepthinkvla.py</a>。</p>
+<p><strong>分析：</strong>机器人可靠性还取决于采样是否遗漏关键事件、动作归一化、机体系到世界系转换、控制频率和执行误差。SimpleNav 文档明确区分存储 pose、模型状态、未来动作；把三者都当 <code>[x,y,z,yaw]</code> 直接传递，会破坏行为语义。</p>
+<h3>5.3 科学模态也不是“给 LLM 更多文字”</h3>
+<p>SciCore-Mol 接入分子编码器、扩散生成与反应模块；Scicore-Omics 源码明确初始化 NicheFormer、GeneQFormer、GeneProjector，将基因表示接入视觉语言骨干。二者处理的对象与模型输出协议不同，不能因都是科学任务而合并。MathForm 又是另一类：它把数学陈述转 Lean，MA-ProofBench 检查 Lean 证明；编译成功不等于陈述忠实，陈述形式化也不等于证明完成。<a href="https://github.com/OpenBMB/SciCore-Mol/blob/37a7184af1c25d9854d8b027a16619b4b42a7c22/modules/mol_aware_lm.py">SciCore-Mol / modules/mol_aware_lm.py</a>；<a href="https://github.com/OpenBMB/Scicore-Omics/blob/32b0ef71fad37db9bda07b6959b644d8048e5978/model/modeling_minicpmv.py">Scicore-Omics / model/modeling_minicpmv.py</a>；<a href="https://github.com/OpenBMB/MathForm/blob/360487f264e801ee08de0f49b12e57fcc600e5ca/README.md">MathForm README</a>；<a href="https://github.com/OpenBMB/MA-ProofBench/blob/31bab4c78fd1b0c464e767d62e9202163d1e9029/README.md">MA-ProofBench README</a></p>
+<h2>六、Agent 与 RAG：有些改变模型，有些只改变系统</h2>
+<h3>6.1 AgentCPM 的训练与应用框架是两层</h3>
+<p>Explore 基于 Qwen3-4B-Thinking-2507，论文针对小模型 SFT 遗忘/过拟合、RL 奖励噪声和长上下文污染，采用模型合并、奖励去噪和上下文精炼。Report 基于 MiniCPM4.1-8B，WARP 在检索、写作、提纲扩展之间循环，而不是一次计划后一直写；训练从冷启动到原子技能 RL，再到整体流水线 RL。<a href="https://arxiv.org/html/2602.06485">官方论文 2602.06485</a>；<a href="https://arxiv.org/html/2602.06540">官方论文 2602.06540</a></p>
+<p>AgentDock、AgentRL、AgentToLeaP 分别服务工具沙箱、异步交互训练和评测。模型生成 action 后，还要执行器去调用工具；工具超时、结果截断和重试都会影响结果。论文中的 pass@64 等指标代表多次尝试预算，不得说成一次成功率。<a href="https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Explore/AgentDock/README.md">AgentCPM / AgentCPM-Explore/AgentDock/README.md</a>；<a href="https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Explore/AgentRL/README.md">AgentCPM / AgentCPM-Explore/AgentRL/README.md</a>；<a href="https://arxiv.org/html/2602.06485">官方论文 2602.06485</a></p>
+<p>ChatDev、AgentVerse、IoA、XAgent、RaD-Agent 等主要改变任务分解、团队协作或搜索流程；ToolBench、Eurus、Tell_Me_More、WorkflowLLM 则包含专门数据/后训练模型。EdgeClaw、ClawXMemory/Router、PilotDeck、StaffDeck、AppCopilot 更贴近运行产品。完整差异见附录，不把“Agent”当作相同技术。<a href="https://github.com/OpenBMB/ChatDev/blob/4fb2db0ea90375ce1059f44fe03ffbd191a7a169/README.md">ChatDev README</a>；<a href="https://github.com/OpenBMB/ToolBench/blob/d56fdd89faf8c91fa135090b212bb9057ee5cfc2/README.md">ToolBench README</a>；<a href="https://github.com/OpenBMB/EdgeClaw/blob/5e461861b370f5677d2eb6b35499764632989279/README.md">EdgeClaw README</a></p>
+<h3>6.2 RAG 的模块边界</h3>
+<div class="tablewrap"><table>
+<tr><th>要解决的问题</th><th>项目</th><th>核心差异</th></tr>
+<tr><td>搭建可组合流程</td><td>UltraRAG</td><td>MCP 组件与流程编排，不是固定一种检索算法</td></tr>
+<tr><td>得到更好的向量</td><td>DEBATER、MiniCPM Embedding/Reranker</td><td>embedding 输出向量；reranker 输出相关性/顺序；与生成器不同</td></tr>
+<tr><td>保留页面图像信息</td><td>VisRAG</td><td>按视觉页面检索，再用 VLM 读证据，减少 OCR/结构解析环节损失</td></tr>
+<tr><td>选择知识源</td><td>MoRE</td><td>文本/图片/表格检索器是“外部专家”，不是 FFN MoE</td></tr>
+<tr><td>组织长期证据</td><td>PAGER、MetaMem</td><td>知识页与记忆利用经验属于外部状态，不是 KV cache</td></tr>
+<tr><td>优化模块配合</td><td>RAG-DDR、ConsJudge</td><td>训练生成/精炼偏好，或改进评判与偏好数据</td></tr>
+<tr><td>减少参数知识压过证据</td><td>ParamMute、SHIFT</td><td>抑制 FFN 或训练注意力门控，属于模型内部干预</td></tr>
+<tr><td>构造领域测试</td><td>RAGEval</td><td>生成 schema、文档和 QAR，测知识使用能力</td></tr>
+</table></div>
+<p>来源：附录各同名项目。DEBATER 的 pooling/encode 接口、VisRAG 的图文隐藏状态和 UltraRAG 的后端适配已补查源码。<a href="https://github.com/OpenBMB/DEBATER/blob/377a1421a094976009fa1c59dda1cb3659548355/llm2vec/llm2vec.py">DEBATER / llm2vec/llm2vec.py</a>；<a href="https://github.com/OpenBMB/VisRAG/blob/7205787862e35d70cee7ebfd8f2b58d3eb5d563b/src/openmatch/modeling/modeling_visrag_ret/modeling_visrag_ret.py">VisRAG / src/openmatch/modeling/modeling_visrag_ret/modeling_visrag_ret.py</a>；<a href="https://github.com/OpenBMB/UltraRAG/blob/a763d34432007fcd1b261209f222bb10df907beb/servers/retriever/src/retriever.py">UltraRAG / servers/retriever/src/retriever.py</a></p>
+<p><strong>分析：</strong>检索召回正确、模型读懂证据、回答引用正确是三个条件。提升其中一环不证明全链正确。让模型更加服从上下文还可能放大错误文档的影响；此处“忠实性”与“事实真实性”要分开。</p>
+<h2>七、训练—压缩—推理—评测如何挂在模型周围</h2>
+<p>BMTrain 负责分布式参数与通信，ModelCenter 提供模型层/结构，BMCook 接入蒸馏、剪枝、量化与 MoEfication。BMCook 源码对教师/学生 forward 参数做兼容检查，并依次挂接剪枝、蒸馏、量化及专家相关处理，说明它不是一个对任意模型自动无损压缩的黑盒。<a href="https://github.com/OpenBMB/BMTrain/blob/36a44fe525342f84b082682aaabbe30ae5e22a14/bmtrain/block_layer.py">BMTrain / bmtrain/block_layer.py</a>；<a href="https://github.com/OpenBMB/ModelCenter/blob/d0c176a20b5b0e241d591a374061aa8887116ae3/model_center/layer/attention.py">ModelCenter / model_center/layer/attention.py</a>；<a href="https://github.com/OpenBMB/BMCook/blob/9f32ec7e2250ce0deea96db9b2e753d2d7145b82/bmcook/trainer.py">BMCook / bmcook/trainer.py</a></p>
+<p>Meshy 与 AgentRL 都涉及 RL 基础设施，但组织不同：Meshy 的服务通过 TransferQueue 的数据就绪和门控协调，同卡资源用 token ring；AgentRL 提供模型/工具沙箱的交互采样和训练解耦。不能因为都有异步，就推断共享实现。ForgeTrain 是 Agent 构建训练软件的路线，ForgeStencil 则优化数值 stencil 应用；它们也不是同一个模型训练库。<a href="https://github.com/OpenBMB/Meshy/blob/04e145c6282c9d8cbea99e692256a027c83a7673/docs/architecture_services.md">Meshy / docs/architecture_services.md</a>；<a href="https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Explore/AgentRL/README.md">AgentCPM / AgentCPM-Explore/AgentRL/README.md</a>；<a href="https://github.com/OpenBMB/ForgeTrain/blob/3242a5cd74851a14a7e0c1ebbfb19decdafd2cde/README.md">ForgeTrain README</a>；<a href="https://github.com/OpenBMB/ForgeStencil/blob/1c8311c8a79abaedd40fc6609d888a4f88dea3a2/README.md">ForgeStencil README</a></p>
+<p>推理层中，BMInf 的 CPU/GPU 层调度和量化、CPM.cu 的 CUDA 优化、ArcLight 的 CPU/NUMA 路线、SGLang 的服务调度、InfLLM-V2 内核、sparse_kernel 的块表构建有不同粒度。<code>sparse_kernel</code> 的导出仅是 <code>get_block_table_v1/v2/v3</code>，不能把它描述成完整模型推理引擎。<a href="https://github.com/OpenBMB/BMInf/blob/a9aec55b1d019069762420b002d39ccccb54f577/bminf/wrapper.py">BMInf / bminf/wrapper.py</a>；<a href="https://github.com/OpenBMB/CPM.cu/blob/23aa7b7fefc537113166691cec63d5baa5209ebe/cpmcu/llm.py">CPM.cu / cpmcu/llm.py</a>；<a href="https://github.com/OpenBMB/ArcLight/blob/558ef06dede9668c9560b87fe62b8eb2a8710d0f/README.md">ArcLight README</a>；<a href="https://github.com/OpenBMB/sparse_kernel/blob/bfa61186b2c87569185523a800780e997cbbf601/get_table_kernel.cu">sparse_kernel / get_table_kernel.cu</a></p>
+<p>评测层至少区分文本通用、长上下文、竞赛推理、形式化证明、音频理解/生成、全双工时机、Agent 工具成功与隐私路由。UltraEval、InfiniteBench、OlympiadBench、MA-ProofBench、UltraEval-Audio、OmniEvalKit、Omni-DuplexEval、AceBench 的指标不是一条统一智力排名。HerculesBench 的补充文档确实描述 OlympiadBench Evaluation，但根说明不足以确认它的独立产品定位。<a href="https://github.com/OpenBMB/HerculesBench/blob/5efa6bc7d1cdff270934034bf16c93f86d226ba1/inference/readme.md">HerculesBench / inference/readme.md</a></p>
+<h2>八、怎样理解效率与选型，而不被仓库名字误导</h2>
+<p>下面是结构推导与测量原则，非本次实测建议结果。</p>
+<p class="bullet">• 权重占用近似“总参数×存储字节”，还要加量化尺度、临时缓冲、KV/递归状态、视觉音频组件和并发。MoE 活跃参数少不意味着所有专家权重不占内存。</p>
+<p class="bullet">• 标准注意力完整 prefill 的计算随序列长度可呈平方增长；KV 缓存随 token 数、层数、KV heads 和 head dim 增长。GQA、低秩 KV、线性状态、选块和淘汰分别改变不同项。</p>
+<p class="bullet">• 小模型的推理 token 更多、工具回合更多，也可能抵消单次便宜的优势。Agent 应统计完成一个任务的总延迟、总调用与成功率。</p>
+<p class="bullet">• 端侧产品需测首 token/首次出声延迟、持续速度、峰值内存和热稳定性；机器人还要测观测到动作的延迟与闭环成功。内核微基准不能替代完整应用指标。</p>
+<p class="bullet">• Base、SFT、RL/OPD、量化版和不同后端必须单独标版本。官方“超过某大模型”通常仅对特定基准、提示、预算成立，不能推广为全任务更强。</p>
+<p>阅读选择也应按需求：只需文本先看 MiniCPM5；超长上下文研究看 4.1/SALA；图文看 V；实时看听说看 o；只生成声音看 VoxCPM；输出物理动作看 Robot 及对应控制协议；已有模型但想接资料/工具，再看 RAG/Agent 框架。此处是功能定位，不是本次经过硬件测评的性能推荐。</p>
+<a id="ascend"></a>
+<h2>专题二、从模型机制到华为昇腾 Ascend NPU 的工程问题</h2>
+<p><strong>本章是面向昇腾算子与 AI 编译器开发的需求分析，不是昇腾性能测试或全系列支持保证。</strong>未指定芯片代际，因而不假定片上容量、原生数据类型、计算峰值或特定搬运路径。下文先用通用分层方法提出问题，再落到 Ascend 的计算单元、存储与运行时；不能把 CUDA 内核或其他硬件上的加速比直接搬过来。</p>
+<h3>A. 三层问题必须接起来</h3>
+<div class="ascend-flow" role="img" aria-label="模型机制到系统状态再到昇腾算子编译与搬运"><div><strong>1 · 模型机制 →</strong><span>压缩、选块、线性状态<br>决定参与计算的信息</span></div><div><strong>2 · 系统与状态 →</strong><span>缓存、时间片、调度<br>决定何时读写和执行</span></div><div><strong>3 · 昇腾执行</strong><span>Cube / Vector · 分块与融合<br>片上复用 ↔ GM 搬运</span></div></div>
+<p>模型层决定“哪些信息参与计算”，系统层决定“状态何时更新、请求如何排队”，算子与编译层决定“同一计算怎样分块、复用和搬运”。压缩 token、稀疏选块、转换线性注意力、量化通常改变信息或数值表达，需要相应训练/校准/适配及质量检查；并非每种后训练量化都必须重训。保持语义的 tiling、布局变换和融合一般不要求重训，但还要验证浮点归约顺序、边界 mask、数值容差与实际执行路径。</p>
+<p>Ascend 的 Cube 负责矩阵类计算，Vector 处理向量计算；二者间的归一化、激活、归约与数据组织也影响整体耗时。官方 CANN 8.0 存储说明区分 GM 与片上 L1/L0/UB：L0A/B 面向 Cube 输入，L0C 保存其输出/累加，UB 承接 Vector 数据，MTE 负责搬运。不同处理器容量与路径有差别，应查询目标设备，不能套用固定片上容量。<a href="https://www.hiascend.com/document/detail/en/canncommercial/800/opdevg/Ascendcopdevg/atlas_ascendc_10_0010.html">CANN 存储单元说明</a></p>
+<p>分块的目的不只是让张量放得下，还包括提高片上复用、减少重复读 GM。双缓冲让当前块计算与下一块搬入具备重叠机会，但占用更多缓冲空间；数据依赖、同步和资源竞争可能使重叠失效。官方示例以 CopyIn/Compute/CopyOut 说明不同指令队列的流水关系，这不意味着任意模型都能获得同样收益。<a href="https://www.hiascend.com/document/detail/zh/CANNCommunityEdition/80RC3alpha003/devguide/opdevg/ascendcbestP/atlas_ascendc_best_practices_10_0031.html">Ascend C 双缓冲说明</a></p>
+<h3>B. 模型机制 → 昇腾实现关注点 → 收益失效条件</h3>
+<p>下表是基于前文模型结构和上述硬件概念的<strong>工程推断与待验证需求</strong>，不是声明已有这些 Ascend 优化内核。任何收益都要同时覆盖计算、索引、状态与搬运。</p>
+<div class="tablewrap"><table>
+<tr><th>模型机制与目标</th><th>算子/子图和数据路径</th><th>Ascend 开发关注点</th><th>可能失效的原因与检查</th></tr>
+<tr><td>V4.6 视觉早压缩：减少后续 token</td><td>切片/重排 → 视觉编码 → 压缩/投影 → 后续 ViT/LLM</td><td>检查压缩邻接算子的布局与融合；按分辨率/token 数分桶，量化 padding 成本；让可复用中间结果留在片上，避免反复 GM 落地或主机搬运</td><td>重排/拷贝抵消节省；大量 padding 仍做无效矩阵计算；小字/小目标信息丢失。比较全视觉链延迟与 OCR 等质量</td></tr>
+<tr><td>InfLLM-V2：少读少算注意力块</td><td>相关性评分/聚合 → 外部 TopK → 块索引 → selected attention</td><td>评分/归约与 TopK 的 Vector 工作；块矩阵计算的 Cube 利用率；索引表与 KV 布局、非连续读取和块大小；有依赖的评分与选块不可任意并行</td><td>只将 mask 置零再做稠密 attention 不会减少实际工作；选块太碎使访存低效，索引开销大于省下的计算。TopK 必须计入全路径</td></tr>
+<tr><td>SALA：混合稀疏与线性层</td><td>稀疏层保留选块/KV 路径；线性层维护递归状态</td><td>分别设计 chunk-parallel prefill 与 decode 状态更新；检查状态形状、读写量、累加精度和片上容量；分块需维护跨块依赖，不能沿时间轴随意并行</td><td>状态大到反复读写 GM，或更新粒度太小导致启动占主导；数值误差在长序列累积。不能将整模型当成无 KV、恒定内存</td></tr>
+<tr><td>小模型与低精度：两条独立降本路线</td><td>较小权重/激活；或量化权重与缩放、反量化/重排</td><td>单独评估权重带宽与 Cube 利用率；按目标芯片核验原生精度支持；若需反量化或布局转换，将额外算子、读写、缩放元数据计入</td><td>小矩阵未充分利用硬件；低位存储却转成高精度计算；反量化成本吃掉带宽收益。相同位宽不保证相同格式，质量与溢出必须验证</td></tr>
+<tr><td>o4.5 全双工音视频：低交互延迟</td><td>持续输入编码 → 时间片/语言状态 → 语音 token 与波形流</td><td>流水调度、状态复用、小块启动成本；让独立阶段异步运行，同时维护事件依赖；检查视觉大算子与语音小任务争抢计算/内存资源</td><td>总吞吐提高但首音频更慢；批处理等待、排队或并发造成尾延迟；新输入到达时状态更新不及时。测首音频与持续输出间隙</td></tr>
+<tr><td>Robot：稳定控制周期</td><td>观察/预处理 → 模型与动作头 → 传输 → 控制执行 → 新观察</td><td>小 batch 延迟、状态复用、动作头融合/布局；限制流水队列中的过期观察；为感知和控制预留资源与调度余量</td><td>平均推理快而个别周期超时，动作依据陈旧画面；模型延迟省下的时间被传输/执行吃掉。测观察年龄、周期抖动与最坏观测延迟</td></tr>
+<tr><td>VoxCPM：持续输出音频</td><td>语义/声学模型 → 局部生成 → VAE 波形解码</td><td>复用跨块条件与状态；评估短音频块的调度/启动、局部迭代与解码融合机会</td><td>局部内核加速却被采样、缓存或波形解码限制；块变大使首音频等待增加。质量、首包与稳态速度共同检查</td></tr>
+</table></div>
+<p>注意 SALA 的线性层与 V4.6 文本骨干的线性注意力不能只因都叫“线性”就共用一套状态更新实现。必须比较实际公式、状态维度、归一化、门控、位置编码与累加精度。类似地，RobotManip 的动作头与 RobotTrack 的路点头也不是同一个接口。</p>
+<h3>C. 给算子开发与 AI 编译器的具体需求单</h3>
+<p><strong>先定义工作负载，再划子图。</strong>至少把长序列 prefill 的吞吐目标、逐 token decode 的带宽/启动目标、实时音视频和机器人小 batch 的响应目标分开。统一只报 tokens/s 会掩盖交互退化；不同阶段应有不同形状、分块与调度策略。</p>
+<div class="tablewrap"><table>
+<tr><th>工作项</th><th>开发时需要的输入</th><th>应交付的判断依据</th></tr>
+<tr><td>形状与算子清单</td><td>典型和边界形状，动态分辨率、序列长度、TopK、状态维度、精度与 mask</td><td>哪些形状可专门优化；分桶/padding 后实际计算量；支持与回退路径</td></tr>
+<tr><td>子图切分与融合</td><td>生产者—消费者关系、布局、读写次数、片上占用与 live range</td><td>融合能否省去中间 GM 写回；是否因生命周期变长、缓冲不足或低并行度反而变慢</td></tr>
+<tr><td>tiling 与搬运</td><td>Cube/Vector 分工、可复用维度、对齐要求、目标容量</td><td>每块有效运算/实际搬运比；尾块成本、重复读量、双缓冲额外空间</td></tr>
+<tr><td>异步执行与调度</td><td>数据依赖、事件、并发流、主机工作、共享资源</td><td>允许重叠的阶段以及真实关键路径；资源竞争下的尾延迟，不能只把各阶段时间相加预测重叠后的结果</td></tr>
+<tr><td>状态与缓存</td><td>KV/递归状态/音频缓存的布局、寿命、更新频率与请求隔离</td><td>状态读写字节量、复用命中、缓存失效行为；多请求切换不能串状态</td></tr>
+</table></div>
+<p><strong>假设例子，非实测：</strong>基线完整路径耗时 10 ms；新方法把核心计算降到 3 ms，但不可重叠的索引、搬运和同步又耗时 8 ms，合计反而是 11 ms。这里的 3+8 只为解释关键路径，真实异步系统要看时间线。FLOPs 减少、稀疏率提高或某个 kernel 更快，都不足以单独证明端到端收益。</p>
+<h3>D. 已有昇腾适配证据：明确模型、后端和版本范围</h3>
+<div class="tablewrap"><table>
+<tr><th>证据</th><th>已确认的范围</th><th>仍不能据此保证</th></tr>
+<tr><td>OpenBMB MiniCPM5 昇腾部署说明</td><td>MiniCPM5-2B 经 vLLM-Ascend 通用 Llama 路径；基础示例使用 vLLM/vLLM-Ascend 0.18.0。工具调用另列 0.23.0、CANN 9.1.0、torch 2.10.0 / torch-npu 2.10.0.post4</td><td>文档明确说展示的工具调用响应来自旧版加兼容层，完整 0.23.0 栈未在所述测试硬件可用；不能写成该整套版本已完成硬件验证，更不能外推所有 MiniCPM 模型</td></tr>
+<tr><td>vLLM-Ascend 支持矩阵</td><td>2026-09-23 查阅的 main 页面将 MiniCPM-V 列为 Extended Compatible、实验性，硬件栏 A2/A3</td><td>未细分 V4.6 与 o4.5 的所有模态/流式功能；不是全双工语音链路支持证明。main 是可变文档，部署时须固定发布版/提交再复核</td></tr>
+<tr><td>OpenBMB MiniCPM-V 固定 README 的 FlagOS 段落</td><td>明确列 MiniCPM-o-4.5-ascend-FlagOS 与 Ascend-A3；包含 Transformers-FlagOS 的 Video-MME 质量对照。组件表列 FlagGems 4.2.1rc0、FlagTree 0.4.0+3.5，以及 vLLM 0.13.0 / vllm_fl 0.0.0</td><td>组件表也含 CUDA 信息，不能直接视为 Ascend 专用完整安装锁定；文中的 6% 加速属于 NVIDIA，不能移作昇腾结果。视频问答质量对照不证明昇腾全双工链路或实时性能</td></tr>
+</table></div>
+<p>来源：<a href="https://github.com/OpenBMB/MiniCPM/blob/main/docs/deployment/vllm_ascend.md">MiniCPM5 官方昇腾部署文档</a>；<a href="https://github.com/vllm-project/vllm-ascend/blob/main/docs/source/user_guide/support_matrix/supported_models.md">vLLM-Ascend 官方支持矩阵</a>；<a href="https://github.com/OpenBMB/MiniCPM-V/blob/6ada8e8ef5e2979670fc94406f02b87c3c7e7ee0/README.md">MiniCPM-V README</a>。前两份是本次浏览核验的在线页面，来源凭据明确记录其可变版本性质；FlagOS 证据来自已经保存、校验哈希的 OpenBMB README。<strong>能加载、能完成某项任务、质量对齐、速度优化、实时系统达标，是逐级不同的证据。</strong>本报告未在昇腾上运行这些路径。</p>
+<h3>E. 如何验证一次昇腾优化是否有价值</h3>
+<p>先固定模型 checkpoint、任务/输入集合、质量门槛、精度和生成设置；记录芯片型号/卡数、驱动/固件、CANN、框架、后端与算子版本。结构变化、不同量化和不同任务质量必须分组报告，避免把降质收益冒充等质量加速。</p>
+<p>记录 batch、文本长度、prefill/decode 长度、图片数量/分辨率、视频帧数/采样率、音频时长/块大小、稀疏选择参数和状态形状；覆盖短/长及边界输入。分开冷启动/编译与暖态，给出重复次数和波动，防止只挑最好的一次。</p>
+<p>测量完整输入到结果的端到端延迟，以及编码、选块、注意力、状态更新、解码、主机处理和传输等阶段。报告 prefill 吞吐、decode 单 token 延迟，音视频首音频/尾延迟与输出间隙，机器人观察年龄/周期抖动及最坏观测延迟；最坏观测值不能当作硬实时上界证明。</p>
+<p>同时记录峰值设备内存、实际数据搬运量和时间线中的同步等待；能测到设备功率/能耗且边界一致时再报能耗，不能用 FLOPs 推算实测能效。检查不同并发和资源争用下的表现；恢复完整质量评测，特别是细节识别、长程检索、流式打断与动作闭环。最后把结论限定为这套硬件、软件、形状和质量门槛，不跨平台搬用速度比。</p>
+<h2>九、仍需保留的不确定性</h2>
+<p>1. 完整仓库覆盖不等于全部历史 commit、分支、权重及外链都穷尽。默认 HEAD 已固定，涉及其他分支仅按明确说明报告。</p>
+<p>2. 性能、数据规模和真机成功率属于官方实验；训练全量数据、具体部署条件与实际任务上的可复现性没有在本次运行验证。</p>
+<p>3. GML 等许可证、模型卡许可证和仓库代码许可证可能不同。索引保留 API 识别结果，但不把自动识别值当全部权利条件。</p>
+<p>4. <code>max_position_embeddings</code> 不是统一的长上下文能力证明，发布能力与默认配置的差异已特别标记。</p>
+<p>5. 主模型谱系只把明确骨干/初始化画实线。共享作者、同名家族、相近版本号、互相引用或发布时间先后均不足以证明权重继承。</p>
+<p>全部 88 项及逐项来源见《全部仓库附录》，重点版本配置摘录和证据凭据可供继续核验。本次产物为本地分析文档，未修改或发布原有网站。</p></section>
+<section id="catalog"><h1>88 个仓库：按需检索</h1><p>四条主模型路线优先；其余仓库作为配套与专题。搜索同时检查名称、用途、依赖与局限。</p><div class="tools"><input id="search" type="search" placeholder="输入模型、模块或问题，例如：语音 / 缓存 / Qwen"><select id="category"><option value="">全部类型</option><option>Agent应用</option><option>Agent框架</option><option>具身与科学</option><option>多模态模型</option><option>推理基础设施</option><option>数据与对齐</option><option>文本模型</option><option>检索与知识</option><option>模型与Agent</option><option>示例与文档</option><option>编程与优化</option><option>训练与压缩</option><option>评测</option><option>资料与治理</option></select><span id="count">88 / 88</span></div>
+<details data-category="评测" data-search="AceBench 评测 边云协同 Agent 的效用、成本与隐私评测。 输入可执行任务、隐私标注和路由策略；输出任务成功率、调用成本、隐私相关指标及重复执行一致性。 在 OpenClaw 环境运行任务轨迹，对比本地、云端与混合策略，检查中途发往云端的上下文。 它测量使用 LLM 的系统，不提供新的语言模型；比较对象包含路由及工具执行，不能只归因于模型参数。 上游 OpenClaw 和本地/云模型；下游边云路由选择，可与 ClawXRouter 的目标对应，但不等于自动集成。 适合验证边云策略。README 列出 128 个任务、100 个隐私标注任务；这些是官方基准规模，隐私分数不是零泄漏证明。  README README.md"><summary>01. AceBench <span class="badge">评测</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>边云协同 Agent 的效用、成本与隐私评测。</p>
+<p><strong>输入 → 输出：</strong>输入可执行任务、隐私标注和路由策略；输出任务成功率、调用成本、隐私相关指标及重复执行一致性。</p>
+<p><strong>关键模块与流程：</strong>在 OpenClaw 环境运行任务轨迹，对比本地、云端与混合策略，检查中途发往云端的上下文。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>它测量使用 LLM 的系统，不提供新的语言模型；比较对象包含路由及工具执行，不能只归因于模型参数。</p>
+<p><strong>上下游与依赖：</strong>上游 OpenClaw 和本地/云模型；下游边云路由选择，可与 ClawXRouter 的目标对应，但不等于自动集成。</p>
+<p><strong>适用场景与局限：</strong>适合验证边云策略。README 列出 128 个任务、100 个隐私标注任务；这些是官方基准规模，隐私分数不是零泄漏证明。</p>
+<p class="sources">固定提交 9a17bc2c7ee3fab9ca023036b82a81898512a001<br><a href="https://github.com/OpenBMB/AceBench/blob/9a17bc2c7ee3fab9ca023036b82a81898512a001/README.md">README README.md</a></p></details>
+<details data-category="模型与Agent" data-search="AgentCPM 模型与Agent 面向长程工具交互和深度报告的模型家族，同时发布训练与运行基础设施。 Explore：问题与工具观察→后续工具调用/答案；Report：写作要求与知识库→检索过程和长报告。 Explore 基于 Qwen3-4B-Thinking-2507；AgentDock 管理工具沙箱，AgentRL 异步强化学习，AgentToLeaP 评测。Report 基于 MiniCPM4.1-8B 并接 UltraRAG。 骨干仍是自回归 LLM；差别主要是交互轨迹训练、奖励和执行循环。AgentCPM 名字不意味着所有子模型都基于 MiniCPM。 上游 Qwen3/MiniCPM4.1 与工具服务；Report 示例使用 UltraRAG、vLLM、Milvus，也有 llama.cpp 路径。 适合深搜及本地资料报告。长链成功、低成本与隐私均依赖工具和部署；官方成绩未复测。Report 示例锁定 UltraRAG2.0，不应直接套用 v3 接口。 ☆ Agent衍生主线 README README.md README README_zh.md AgentCPM-Explore/README.md AgentCPM-Explore/AgentDock/README.md AgentCPM-Explore/AgentRL/README.md AgentCPM-Explore/AgentToLeaP/README.md AgentCPM-Report/README.md AgentCPM-Explore/AgentRL/src/rollout/scheduler.py"><summary>02. AgentCPM <span class="badge">☆ Agent衍生主线</span></summary>
+<p class="muted">官方 README 与目录核对；补查 6 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>面向长程工具交互和深度报告的模型家族，同时发布训练与运行基础设施。</p>
+<p><strong>输入 → 输出：</strong>Explore：问题与工具观察→后续工具调用/答案；Report：写作要求与知识库→检索过程和长报告。</p>
+<p><strong>关键模块与流程：</strong>Explore 基于 Qwen3-4B-Thinking-2507；AgentDock 管理工具沙箱，AgentRL 异步强化学习，AgentToLeaP 评测。Report 基于 MiniCPM4.1-8B 并接 UltraRAG。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>骨干仍是自回归 LLM；差别主要是交互轨迹训练、奖励和执行循环。AgentCPM 名字不意味着所有子模型都基于 MiniCPM。</p>
+<p><strong>上下游与依赖：</strong>上游 Qwen3/MiniCPM4.1 与工具服务；Report 示例使用 UltraRAG、vLLM、Milvus，也有 llama.cpp 路径。</p>
+<p><strong>适用场景与局限：</strong>适合深搜及本地资料报告。长链成功、低成本与隐私均依赖工具和部署；官方成绩未复测。Report 示例锁定 UltraRAG2.0，不应直接套用 v3 接口。</p>
+<p class="sources">固定提交 4a43561e790c154292798b3edd50171f71241cec<br><a href="https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/README_zh.md">README README_zh.md</a> · <a href="https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Explore/README.md">AgentCPM-Explore/README.md</a> · <a href="https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Explore/AgentDock/README.md">AgentCPM-Explore/AgentDock/README.md</a> · <a href="https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Explore/AgentRL/README.md">AgentCPM-Explore/AgentRL/README.md</a> · <a href="https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Explore/AgentToLeaP/README.md">AgentCPM-Explore/AgentToLeaP/README.md</a> · <a href="https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Report/README.md">AgentCPM-Report/README.md</a> · <a href="https://github.com/OpenBMB/AgentCPM/blob/4a43561e790c154292798b3edd50171f71241cec/AgentCPM-Explore/AgentRL/src/rollout/scheduler.py">AgentCPM-Explore/AgentRL/src/rollout/scheduler.py</a></p></details>
+<details data-category="模型与Agent" data-search="AgentCPM-GUI 模型与Agent 面向手机图形界面的视觉动作模型。 截图和任务→单步结构化 JSON 动作、坐标及可选思考；环境执行后回传新截图。 基于 MiniCPM-V 系列 8B 视觉语言骨干，经 GUI 数据监督微调及强化微调，进行界面定位和动作预测。 比纯文本 LLM 多视觉编码与操作空间训练；输出点击/滑动等动作描述，不是仅给用户操作建议。 上游 MiniCPM-V 和 CAGUI 数据；下游设备执行器、Android 环境及评测脚本。 适合 GUI 自动化研究。坐标采用 0–1000 相对尺度，仍需正确映射屏幕；界面变化、权限弹窗和长程误差会影响成功率。 ☆ GUI衍生 README README.md README README_zh.md"><summary>03. AgentCPM-GUI <span class="badge">☆ GUI衍生</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>面向手机图形界面的视觉动作模型。</p>
+<p><strong>输入 → 输出：</strong>截图和任务→单步结构化 JSON 动作、坐标及可选思考；环境执行后回传新截图。</p>
+<p><strong>关键模块与流程：</strong>基于 MiniCPM-V 系列 8B 视觉语言骨干，经 GUI 数据监督微调及强化微调，进行界面定位和动作预测。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>比纯文本 LLM 多视觉编码与操作空间训练；输出点击/滑动等动作描述，不是仅给用户操作建议。</p>
+<p><strong>上下游与依赖：</strong>上游 MiniCPM-V 和 CAGUI 数据；下游设备执行器、Android 环境及评测脚本。</p>
+<p><strong>适用场景与局限：</strong>适合 GUI 自动化研究。坐标采用 0–1000 相对尺度，仍需正确映射屏幕；界面变化、权限弹窗和长程误差会影响成功率。</p>
+<p class="sources">固定提交 2168ae21b1bed1cdb88736d422934825795a9fd7<br><a href="https://github.com/OpenBMB/AgentCPM-GUI/blob/2168ae21b1bed1cdb88736d422934825795a9fd7/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/AgentCPM-GUI/blob/2168ae21b1bed1cdb88736d422934825795a9fd7/README_zh.md">README README_zh.md</a></p></details>
+<details data-category="Agent框架" data-search="AgentVerse Agent框架 多智能体协作求解和社会模拟框架。 角色、任务、环境配置→多 Agent 对话、协作结果或模拟轨迹。 区分 task-solving 与 simulation；组织角色、消息和环境反馈，部分示例如 Minecraft 使用单独分支。 主要改变 LLM 调用与协作流程，通常不改变 Transformer 或重新训练基础权重。 上游模型 API 与任务环境；下游协作实验和模拟研究。 适合比较协作机制。历史 simulation 发布版及分支应分别读取；多 Agent 数量增加不保证答案更准确，且增加调用成本。  README README.md README README_simulation_cases.md README README_tasksolving_cases.md README README_zh.md"><summary>04. AgentVerse <span class="badge">Agent框架</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>多智能体协作求解和社会模拟框架。</p>
+<p><strong>输入 → 输出：</strong>角色、任务、环境配置→多 Agent 对话、协作结果或模拟轨迹。</p>
+<p><strong>关键模块与流程：</strong>区分 task-solving 与 simulation；组织角色、消息和环境反馈，部分示例如 Minecraft 使用单独分支。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>主要改变 LLM 调用与协作流程，通常不改变 Transformer 或重新训练基础权重。</p>
+<p><strong>上下游与依赖：</strong>上游模型 API 与任务环境；下游协作实验和模拟研究。</p>
+<p><strong>适用场景与局限：</strong>适合比较协作机制。历史 simulation 发布版及分支应分别读取；多 Agent 数量增加不保证答案更准确，且增加调用成本。</p>
+<p class="sources">固定提交 f90c4bd9680fdd3bcff8c52c9170911a59b23478<br><a href="https://github.com/OpenBMB/AgentVerse/blob/f90c4bd9680fdd3bcff8c52c9170911a59b23478/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/AgentVerse/blob/f90c4bd9680fdd3bcff8c52c9170911a59b23478/README_simulation_cases.md">README README_simulation_cases.md</a> · <a href="https://github.com/OpenBMB/AgentVerse/blob/f90c4bd9680fdd3bcff8c52c9170911a59b23478/README_tasksolving_cases.md">README README_tasksolving_cases.md</a> · <a href="https://github.com/OpenBMB/AgentVerse/blob/f90c4bd9680fdd3bcff8c52c9170911a59b23478/README_zh.md">README README_zh.md</a></p></details>
+<details data-category="Agent应用" data-search="AppCopilot Agent应用 跨应用的手机任务自动执行系统。 用户目标、屏幕观察→规划、手机操作和执行反馈。 分层规划、多 Agent 协同、跨设备控制；设备端通过 ADB 等接口执行动作，推理服务可用 vLLM。 它组合视觉语言模型、控制器和运行环境；手机上有客户端不代表全部模型都在手机本地推理。 上游 AppCopilot 模型和推理服务；下游 Android 设备与实际应用。 适合手机流程自动化。需设备连接、应用权限及匹配环境；跨应用任务的可靠性须按完整流程评估。  README README.md"><summary>05. AppCopilot <span class="badge">Agent应用</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>跨应用的手机任务自动执行系统。</p>
+<p><strong>输入 → 输出：</strong>用户目标、屏幕观察→规划、手机操作和执行反馈。</p>
+<p><strong>关键模块与流程：</strong>分层规划、多 Agent 协同、跨设备控制；设备端通过 ADB 等接口执行动作，推理服务可用 vLLM。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>它组合视觉语言模型、控制器和运行环境；手机上有客户端不代表全部模型都在手机本地推理。</p>
+<p><strong>上下游与依赖：</strong>上游 AppCopilot 模型和推理服务；下游 Android 设备与实际应用。</p>
+<p><strong>适用场景与局限：</strong>适合手机流程自动化。需设备连接、应用权限及匹配环境；跨应用任务的可靠性须按完整流程评估。</p>
+<p class="sources">固定提交 c23ab94bbcda95e82a7bc0e2798d5640cdc9b373<br><a href="https://github.com/OpenBMB/AppCopilot/blob/c23ab94bbcda95e82a7bc0e2798d5640cdc9b373/README.md">README README.md</a></p></details>
+<details data-category="推理基础设施" data-search="ArcLight 推理基础设施 面向 CPU 与统一内存环境的 C/C++ 大模型推理引擎。 模型权重、文本与运行配置→生成 token 和性能记录。 支持 GGUF、ARM/x86，针对 NUMA、调度和跨节点张量并行优化；包含 MiniCPM5 等模型实现。 改变算子、内存和执行方式，不是新预训练模型；同一权重换引擎主要影响速度、内存和数值实现。 上游模型/GGUF 权重；下游本地或 CPU 服务。与 CPM.cu 的 CUDA 路线不同。 适合无大显卡或统一内存部署。硬件拓扑、量化与上下文长度决定效果；官方速度不能直接迁移到任意机器。  README README.md models/minicpm5.cpp nnml/include/scheduler.h"><summary>06. ArcLight <span class="badge">推理基础设施</span></summary>
+<p class="muted">官方 README 与目录核对；补查 2 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>面向 CPU 与统一内存环境的 C/C++ 大模型推理引擎。</p>
+<p><strong>输入 → 输出：</strong>模型权重、文本与运行配置→生成 token 和性能记录。</p>
+<p><strong>关键模块与流程：</strong>支持 GGUF、ARM/x86，针对 NUMA、调度和跨节点张量并行优化；包含 MiniCPM5 等模型实现。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>改变算子、内存和执行方式，不是新预训练模型；同一权重换引擎主要影响速度、内存和数值实现。</p>
+<p><strong>上下游与依赖：</strong>上游模型/GGUF 权重；下游本地或 CPU 服务。与 CPM.cu 的 CUDA 路线不同。</p>
+<p><strong>适用场景与局限：</strong>适合无大显卡或统一内存部署。硬件拓扑、量化与上下文长度决定效果；官方速度不能直接迁移到任意机器。</p>
+<p class="sources">固定提交 558ef06dede9668c9560b87fe62b8eb2a8710d0f<br><a href="https://github.com/OpenBMB/ArcLight/blob/558ef06dede9668c9560b87fe62b8eb2a8710d0f/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/ArcLight/blob/558ef06dede9668c9560b87fe62b8eb2a8710d0f/models/minicpm5.cpp">models/minicpm5.cpp</a> · <a href="https://github.com/OpenBMB/ArcLight/blob/558ef06dede9668c9560b87fe62b8eb2a8710d0f/nnml/include/scheduler.h">nnml/include/scheduler.h</a></p></details>
+<details data-category="训练与压缩" data-search="BMCook 训练与压缩 把蒸馏、剪枝、量化与 MoEfication 接入训练的压缩工具。 教师/学生模型、训练数据、压缩配置→压缩后的模型与训练产物。 CookTrainer 组织附加损失和压缩钩子；提供结构/非结构剪枝及将稠密 FFN 转成专家的方案。 通常不替代 LLM 功能，而改变模型体积、激活计算或训练目标；蒸馏把教师行为迁移给学生。 与 BMTrain、ModelCenter 体系配合；下游需要支持相应量化或稀疏格式的推理实现。 适合压缩实验。稀疏率不等于实际加速；README 对 MoEfication 与蒸馏同时使用有组合限制，不能把所有方法任意叠加。  README README.md README README-ZH.md bmcook/trainer.py bmcook/moefication/README.md bmcook/pruning/sprune/README.md"><summary>07. BMCook <span class="badge">训练与压缩</span></summary>
+<p class="muted">官方 README 与目录核对；补查 3 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>把蒸馏、剪枝、量化与 MoEfication 接入训练的压缩工具。</p>
+<p><strong>输入 → 输出：</strong>教师/学生模型、训练数据、压缩配置→压缩后的模型与训练产物。</p>
+<p><strong>关键模块与流程：</strong>CookTrainer 组织附加损失和压缩钩子；提供结构/非结构剪枝及将稠密 FFN 转成专家的方案。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>通常不替代 LLM 功能，而改变模型体积、激活计算或训练目标；蒸馏把教师行为迁移给学生。</p>
+<p><strong>上下游与依赖：</strong>与 BMTrain、ModelCenter 体系配合；下游需要支持相应量化或稀疏格式的推理实现。</p>
+<p><strong>适用场景与局限：</strong>适合压缩实验。稀疏率不等于实际加速；README 对 MoEfication 与蒸馏同时使用有组合限制，不能把所有方法任意叠加。</p>
+<p class="sources">固定提交 9f32ec7e2250ce0deea96db9b2e753d2d7145b82<br><a href="https://github.com/OpenBMB/BMCook/blob/9f32ec7e2250ce0deea96db9b2e753d2d7145b82/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/BMCook/blob/9f32ec7e2250ce0deea96db9b2e753d2d7145b82/README-ZH.md">README README-ZH.md</a> · <a href="https://github.com/OpenBMB/BMCook/blob/9f32ec7e2250ce0deea96db9b2e753d2d7145b82/bmcook/trainer.py">bmcook/trainer.py</a> · <a href="https://github.com/OpenBMB/BMCook/blob/9f32ec7e2250ce0deea96db9b2e753d2d7145b82/bmcook/moefication/README.md">bmcook/moefication/README.md</a> · <a href="https://github.com/OpenBMB/BMCook/blob/9f32ec7e2250ce0deea96db9b2e753d2d7145b82/bmcook/pruning/sprune/README.md">bmcook/pruning/sprune/README.md</a></p></details>
+<details data-category="推理基础设施" data-search="BMInf 推理基础设施 早期低显存模型推理及量化、层调度工具。 PyTorch 模型、显存预算和输入→受预算约束的生成结果。 wrapper 替换 Linear 为 QuantizedLinear、ModuleList 为 TransformerBlockList；块内参数保留 CPU，由调度器处理。 不训练新的知识；以量化和 CPU/GPU 内存调度降低显存占用，可能付出传输或精度代价。 依赖 PyTorch、CUDA、cpm_kernels；历史 CPM 模型与 BMInf-demos 展示其使用。 适合研究低显存设计。代码明确不支持嵌套 ModuleList；旧版兼容范围不能视为支持全部当前模型。  README README.md README README-ZH.md bminf/wrapper.py"><summary>08. BMInf <span class="badge">推理基础设施</span></summary>
+<p class="muted">官方 README 与目录核对；补查 1 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>早期低显存模型推理及量化、层调度工具。</p>
+<p><strong>输入 → 输出：</strong>PyTorch 模型、显存预算和输入→受预算约束的生成结果。</p>
+<p><strong>关键模块与流程：</strong>wrapper 替换 Linear 为 QuantizedLinear、ModuleList 为 TransformerBlockList；块内参数保留 CPU，由调度器处理。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>不训练新的知识；以量化和 CPU/GPU 内存调度降低显存占用，可能付出传输或精度代价。</p>
+<p><strong>上下游与依赖：</strong>依赖 PyTorch、CUDA、cpm_kernels；历史 CPM 模型与 BMInf-demos 展示其使用。</p>
+<p><strong>适用场景与局限：</strong>适合研究低显存设计。代码明确不支持嵌套 ModuleList；旧版兼容范围不能视为支持全部当前模型。</p>
+<p class="sources">固定提交 a9aec55b1d019069762420b002d39ccccb54f577<br><a href="https://github.com/OpenBMB/BMInf/blob/a9aec55b1d019069762420b002d39ccccb54f577/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/BMInf/blob/a9aec55b1d019069762420b002d39ccccb54f577/README-ZH.md">README README-ZH.md</a> · <a href="https://github.com/OpenBMB/BMInf/blob/a9aec55b1d019069762420b002d39ccccb54f577/bminf/wrapper.py">bminf/wrapper.py</a></p></details>
+<details data-category="示例与文档" data-search="BMInf-demos 示例与文档 BMInf 的网页和容器演示集合。 文本提示→CPM1 故事续写、CPM2.1 填空或 EVA 对话界面结果。 把历史模型、推理后端与 Web/Docker 服务连接起来。 是应用包装和示例，不是额外训练的一套通用 LLM。 上游 BMInf 及 CPM/EVA 权重；下游交互演示。 适合追踪历史部署方式。依赖、权重地址和旧容器需重新验证，不宜据演示界面推断当前生产能力。  README README.md"><summary>09. BMInf-demos <span class="badge">示例与文档</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>BMInf 的网页和容器演示集合。</p>
+<p><strong>输入 → 输出：</strong>文本提示→CPM1 故事续写、CPM2.1 填空或 EVA 对话界面结果。</p>
+<p><strong>关键模块与流程：</strong>把历史模型、推理后端与 Web/Docker 服务连接起来。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>是应用包装和示例，不是额外训练的一套通用 LLM。</p>
+<p><strong>上下游与依赖：</strong>上游 BMInf 及 CPM/EVA 权重；下游交互演示。</p>
+<p><strong>适用场景与局限：</strong>适合追踪历史部署方式。依赖、权重地址和旧容器需重新验证，不宜据演示界面推断当前生产能力。</p>
+<p class="sources">固定提交 0a55d22905515c87656d1adb790a8d54017b828e<br><a href="https://github.com/OpenBMB/BMInf-demos/blob/0a55d22905515c87656d1adb790a8d54017b828e/README.md">README README.md</a></p></details>
+<details data-category="资料与治理" data-search="BMList 资料与治理 公开大模型目录。 模型资料和人工整理条目→可浏览的模型清单。 按模型名称、规模、来源等汇总公开信息和链接。 没有训练/推理模块，不是评测排名，也不构成模型实现。 上游各机构模型发布；下游资料检索。 适合历史索引。README 的收录门槛及历史更新范围不代表当前所有模型，缺失条目不表示模型不存在。  README README.md"><summary>10. BMList <span class="badge">资料与治理</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>公开大模型目录。</p>
+<p><strong>输入 → 输出：</strong>模型资料和人工整理条目→可浏览的模型清单。</p>
+<p><strong>关键模块与流程：</strong>按模型名称、规模、来源等汇总公开信息和链接。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>没有训练/推理模块，不是评测排名，也不构成模型实现。</p>
+<p><strong>上下游与依赖：</strong>上游各机构模型发布；下游资料检索。</p>
+<p><strong>适用场景与局限：</strong>适合历史索引。README 的收录门槛及历史更新范围不代表当前所有模型，缺失条目不表示模型不存在。</p>
+<p class="sources">固定提交 491a9c392463949d398bb75e8d64a30914fcb94d<br><a href="https://github.com/OpenBMB/BMList/blob/491a9c392463949d398bb75e8d64a30914fcb94d/README.md">README README.md</a></p></details>
+<details data-category="资料与治理" data-search="BMPrinciples 资料与治理 大模型训练规律与相关论文的资料集合。 论文和经验资料→主题索引与阅读入口。 整理 scaling、训练现象等研究内容。 提供研究材料，不是可直接训练的模型，也不是被普遍证明的定律集合。 上游研究论文；下游训练设计与文献调查。 适合了解研究线索。每条结论需回到原论文的规模、数据和实验设定，不能从目录标题外推。  README README.md README README_zh.md"><summary>11. BMPrinciples <span class="badge">资料与治理</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>大模型训练规律与相关论文的资料集合。</p>
+<p><strong>输入 → 输出：</strong>论文和经验资料→主题索引与阅读入口。</p>
+<p><strong>关键模块与流程：</strong>整理 scaling、训练现象等研究内容。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>提供研究材料，不是可直接训练的模型，也不是被普遍证明的定律集合。</p>
+<p><strong>上下游与依赖：</strong>上游研究论文；下游训练设计与文献调查。</p>
+<p><strong>适用场景与局限：</strong>适合了解研究线索。每条结论需回到原论文的规模、数据和实验设定，不能从目录标题外推。</p>
+<p class="sources">固定提交 b8c8826e5ea400ac496a377740225d9809a3e320<br><a href="https://github.com/OpenBMB/BMPrinciples/blob/b8c8826e5ea400ac496a377740225d9809a3e320/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/BMPrinciples/blob/b8c8826e5ea400ac496a377740225d9809a3e320/README_zh.md">README README_zh.md</a></p></details>
+<details data-category="Agent框架" data-search="BMTools Agent框架 早期让 LLM 发现和调用外部工具的框架。 用户请求与工具描述→工具选择、参数和工具结果支持的回答。 通过插件/API 包装和递归工具使用把语言输出接到外部功能。 增加的是工具接口与控制流程，模型本体仍负责生成和决策；工具结果可提供模型参数外的信息。 受 LangChain、早期 ChatGPT 插件接口启发；README 将后续功能指向 XAgent。 适合研究早期工具调用设计。历史协议和 API 可能需要迁移；不能将其视为当前所有插件协议的实现。  README README.md README README_zh.md"><summary>12. BMTools <span class="badge">Agent框架</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>早期让 LLM 发现和调用外部工具的框架。</p>
+<p><strong>输入 → 输出：</strong>用户请求与工具描述→工具选择、参数和工具结果支持的回答。</p>
+<p><strong>关键模块与流程：</strong>通过插件/API 包装和递归工具使用把语言输出接到外部功能。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>增加的是工具接口与控制流程，模型本体仍负责生成和决策；工具结果可提供模型参数外的信息。</p>
+<p><strong>上下游与依赖：</strong>受 LangChain、早期 ChatGPT 插件接口启发；README 将后续功能指向 XAgent。</p>
+<p><strong>适用场景与局限：</strong>适合研究早期工具调用设计。历史协议和 API 可能需要迁移；不能将其视为当前所有插件协议的实现。</p>
+<p class="sources">固定提交 85869fc6e26616508f5dfafa551546993ab35f52<br><a href="https://github.com/OpenBMB/BMTools/blob/85869fc6e26616508f5dfafa551546993ab35f52/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/BMTools/blob/85869fc6e26616508f5dfafa551546993ab35f52/README_zh.md">README README_zh.md</a></p></details>
+<details data-category="训练与压缩" data-search="BMTrain 训练与压缩 大模型分布式训练基础库。 模型定义、训练样本与并行配置→梯度更新、检查点和训练日志。 DistributedParameter、Block/TransformerBlockList 管理参数；ZeRO 分片、计算通信重叠，1.0 文档加入张量并行。 解决多卡内存与吞吐，不定义模型用途；相同 LLM 可在不同训练引擎上训练。 上游 PyTorch/CUDA/NCCL；下游 ModelCenter、BMCook、CPM 系列历史训练。 适合分布式训练开发。需遵守其参数和通信约定，不能随意混用 torch.distributed；加速取决于规模与互联。  README README.md README README-ZH.md docs/UPDATE_1.0.0.md bmtrain/block_layer.py"><summary>13. BMTrain <span class="badge">训练与压缩</span></summary>
+<p class="muted">官方 README 与目录核对；补查 2 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>大模型分布式训练基础库。</p>
+<p><strong>输入 → 输出：</strong>模型定义、训练样本与并行配置→梯度更新、检查点和训练日志。</p>
+<p><strong>关键模块与流程：</strong>DistributedParameter、Block/TransformerBlockList 管理参数；ZeRO 分片、计算通信重叠，1.0 文档加入张量并行。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>解决多卡内存与吞吐，不定义模型用途；相同 LLM 可在不同训练引擎上训练。</p>
+<p><strong>上下游与依赖：</strong>上游 PyTorch/CUDA/NCCL；下游 ModelCenter、BMCook、CPM 系列历史训练。</p>
+<p><strong>适用场景与局限：</strong>适合分布式训练开发。需遵守其参数和通信约定，不能随意混用 torch.distributed；加速取决于规模与互联。</p>
+<p class="sources">固定提交 36a44fe525342f84b082682aaabbe30ae5e22a14<br><a href="https://github.com/OpenBMB/BMTrain/blob/36a44fe525342f84b082682aaabbe30ae5e22a14/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/BMTrain/blob/36a44fe525342f84b082682aaabbe30ae5e22a14/README-ZH.md">README README-ZH.md</a> · <a href="https://github.com/OpenBMB/BMTrain/blob/36a44fe525342f84b082682aaabbe30ae5e22a14/docs/UPDATE_1.0.0.md">docs/UPDATE_1.0.0.md</a> · <a href="https://github.com/OpenBMB/BMTrain/blob/36a44fe525342f84b082682aaabbe30ae5e22a14/bmtrain/block_layer.py">bmtrain/block_layer.py</a></p></details>
+<details data-category="Agent框架" data-search="ChatDev Agent框架 当前主线是 ChatDev 2.0/DevAll 多 Agent 工作流平台。 任务、可视化/配置工作流、工具与模型设置→节点执行结果及产物。 DAG、动态边、循环和并行执行器组织 Agent；节点有 memory、thinking、tool、provider 等组件。 是 LLM 工作流与应用搭建层，不是一种新的语言模型架构。 上游模型服务和工具；下游自定义 Agent 应用。1.0 虚拟软件公司在 chatdev1.0 分支。 适合搭建可复用协作流程。不能只用早期“虚拟软件公司”概括现主线；不同分支的研究机制不能混算为默认功能。  README README.md README README-zh.md workflow/executor/dag_executor.py"><summary>14. ChatDev <span class="badge">Agent框架</span></summary>
+<p class="muted">官方 README 与目录核对；补查 1 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>当前主线是 ChatDev 2.0/DevAll 多 Agent 工作流平台。</p>
+<p><strong>输入 → 输出：</strong>任务、可视化/配置工作流、工具与模型设置→节点执行结果及产物。</p>
+<p><strong>关键模块与流程：</strong>DAG、动态边、循环和并行执行器组织 Agent；节点有 memory、thinking、tool、provider 等组件。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>是 LLM 工作流与应用搭建层，不是一种新的语言模型架构。</p>
+<p><strong>上下游与依赖：</strong>上游模型服务和工具；下游自定义 Agent 应用。1.0 虚拟软件公司在 chatdev1.0 分支。</p>
+<p><strong>适用场景与局限：</strong>适合搭建可复用协作流程。不能只用早期“虚拟软件公司”概括现主线；不同分支的研究机制不能混算为默认功能。</p>
+<p class="sources">固定提交 4fb2db0ea90375ce1059f44fe03ffbd191a7a169<br><a href="https://github.com/OpenBMB/ChatDev/blob/4fb2db0ea90375ce1059f44fe03ffbd191a7a169/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/ChatDev/blob/4fb2db0ea90375ce1059f44fe03ffbd191a7a169/README-zh.md">README README-zh.md</a> · <a href="https://github.com/OpenBMB/ChatDev/blob/4fb2db0ea90375ce1059f44fe03ffbd191a7a169/workflow/executor/dag_executor.py">workflow/executor/dag_executor.py</a></p></details>
+<details data-category="Agent框架" data-search="ClawXMemory Agent框架 OpenClaw 的持久记忆插件。 对话/执行经验→按人物、项目、反馈组织的 Markdown 记忆及检索结果。 文件为记忆主体，索引和 Dream 整理支持重组与召回；SQLite 用于运行控制状态。 这是模型外的持久存储，不是增大上下文窗口、修改权重或保存每层 KV cache。 上游 OpenClaw/EdgeClaw 和语言模型；下游后续任务的上下文召回。 适合长期个人/项目记忆。效果依赖记录选择、整理与召回；旧事实和跨项目误召回仍需控制。  README README.md clawxmemory/src/core/file-memory.ts"><summary>15. ClawXMemory <span class="badge">Agent框架</span></summary>
+<p class="muted">官方 README 与目录核对；补查 1 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>OpenClaw 的持久记忆插件。</p>
+<p><strong>输入 → 输出：</strong>对话/执行经验→按人物、项目、反馈组织的 Markdown 记忆及检索结果。</p>
+<p><strong>关键模块与流程：</strong>文件为记忆主体，索引和 Dream 整理支持重组与召回；SQLite 用于运行控制状态。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>这是模型外的持久存储，不是增大上下文窗口、修改权重或保存每层 KV cache。</p>
+<p><strong>上下游与依赖：</strong>上游 OpenClaw/EdgeClaw 和语言模型；下游后续任务的上下文召回。</p>
+<p><strong>适用场景与局限：</strong>适合长期个人/项目记忆。效果依赖记录选择、整理与召回；旧事实和跨项目误召回仍需控制。</p>
+<p class="sources">固定提交 bcd66c5d8611413ad29354819b448e20dd51d480<br><a href="https://github.com/OpenBMB/ClawXMemory/blob/bcd66c5d8611413ad29354819b448e20dd51d480/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/ClawXMemory/blob/bcd66c5d8611413ad29354819b448e20dd51d480/clawxmemory/src/core/file-memory.ts">clawxmemory/src/core/file-memory.ts</a></p></details>
+<details data-category="Agent框架" data-search="ClawXRouter Agent框架 OpenClaw 的隐私和复杂度路由插件。 请求、上下文和策略→云端、本地或脱敏后云端的执行路径。 S1 云端、S2 脱敏后云端、S3 本地三层隐私策略，叠加复杂度分级、规则和本地模型判断。 在调用 LLM 之前做分流；不是更聪明的 Transformer，也不自动改变被选模型的能力。 上游 OpenClaw/EdgeClaw、本地模型及云 API；下游实际模型调用。 适合边云成本和数据流控制。脱敏与分类会误判，README 的隐私目标不能当作安全证明，需检查完整轨迹实际发出的内容。  README README.md README README_zh.md"><summary>16. ClawXRouter <span class="badge">Agent框架</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>OpenClaw 的隐私和复杂度路由插件。</p>
+<p><strong>输入 → 输出：</strong>请求、上下文和策略→云端、本地或脱敏后云端的执行路径。</p>
+<p><strong>关键模块与流程：</strong>S1 云端、S2 脱敏后云端、S3 本地三层隐私策略，叠加复杂度分级、规则和本地模型判断。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>在调用 LLM 之前做分流；不是更聪明的 Transformer，也不自动改变被选模型的能力。</p>
+<p><strong>上下游与依赖：</strong>上游 OpenClaw/EdgeClaw、本地模型及云 API；下游实际模型调用。</p>
+<p><strong>适用场景与局限：</strong>适合边云成本和数据流控制。脱敏与分类会误判，README 的隐私目标不能当作安全证明，需检查完整轨迹实际发出的内容。</p>
+<p class="sources">固定提交 6acac9f8ae1a8c2c236b84deb68b5df4d2d6336f<br><a href="https://github.com/OpenBMB/ClawXRouter/blob/6acac9f8ae1a8c2c236b84deb68b5df4d2d6336f/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/ClawXRouter/blob/6acac9f8ae1a8c2c236b84deb68b5df4d2d6336f/README_zh.md">README README_zh.md</a></p></details>
+<details data-category="检索与知识" data-search="ConsJudge 检索与知识 利用一致性改进 RAG 评判模型的方法。 问题、候选答案及评判数据→更一致的 judge 与偏好数据。 构造多选/对比评判任务，以一致性筛选和训练改进 judge，进一步给 RAG 生成器产生 DPO 信号。 模型角色从回答者变为评判者；优化的是评价一致性，仍可能稳定地判断错误。 使用 MiniCPM Embedding 等数据构造组件与 LLaMA-Factory；下游 RAG 对齐。 适合研究低成本偏好标注。没有人工真值的地方不能把 judge 一致性等同事实正确性。  README README.md"><summary>17. ConsJudge <span class="badge">检索与知识</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>利用一致性改进 RAG 评判模型的方法。</p>
+<p><strong>输入 → 输出：</strong>问题、候选答案及评判数据→更一致的 judge 与偏好数据。</p>
+<p><strong>关键模块与流程：</strong>构造多选/对比评判任务，以一致性筛选和训练改进 judge，进一步给 RAG 生成器产生 DPO 信号。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>模型角色从回答者变为评判者；优化的是评价一致性，仍可能稳定地判断错误。</p>
+<p><strong>上下游与依赖：</strong>使用 MiniCPM Embedding 等数据构造组件与 LLaMA-Factory；下游 RAG 对齐。</p>
+<p><strong>适用场景与局限：</strong>适合研究低成本偏好标注。没有人工真值的地方不能把 judge 一致性等同事实正确性。</p>
+<p class="sources">固定提交 951d1748a94268b4eb83f1455fd2849a31d3ad35<br><a href="https://github.com/OpenBMB/ConsJudge/blob/951d1748a94268b4eb83f1455fd2849a31d3ad35/README.md">README README.md</a></p></details>
+<details data-category="文本模型" data-search="CPM-Bee 文本模型 历史中英双语 10B 自回归基础语言模型。 结构化文本输入→文本续写或任务输出。 Transformer 语言建模结合结构化输入约定；在 OpenBMB 训练、压缩、微调与推理工具链内使用。 本质仍是自回归 LLM，差异主要是双语训练、输入组织及实现约定，不是视觉/语音模型。 上游 CPM-Live 训练计划、BMTrain 等；下游 VisCPM 及适配训练。 适合研究 CPM 系列演化。基础模型不等同聊天对齐版；权重及 GML 许可条款需按具体版本阅读。 历史主模型 README README.md README README_en.md"><summary>18. CPM-Bee <span class="badge">历史主模型</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>历史中英双语 10B 自回归基础语言模型。</p>
+<p><strong>输入 → 输出：</strong>结构化文本输入→文本续写或任务输出。</p>
+<p><strong>关键模块与流程：</strong>Transformer 语言建模结合结构化输入约定；在 OpenBMB 训练、压缩、微调与推理工具链内使用。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>本质仍是自回归 LLM，差异主要是双语训练、输入组织及实现约定，不是视觉/语音模型。</p>
+<p><strong>上下游与依赖：</strong>上游 CPM-Live 训练计划、BMTrain 等；下游 VisCPM 及适配训练。</p>
+<p><strong>适用场景与局限：</strong>适合研究 CPM 系列演化。基础模型不等同聊天对齐版；权重及 GML 许可条款需按具体版本阅读。</p>
+<p class="sources">固定提交 be2b6a904f596bfd0328cb5e9020a84db44f9629<br><a href="https://github.com/OpenBMB/CPM-Bee/blob/be2b6a904f596bfd0328cb5e9020a84db44f9629/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/CPM-Bee/blob/be2b6a904f596bfd0328cb5e9020a84db44f9629/README_en.md">README README_en.md</a></p></details>
+<details data-category="训练与压缩" data-search="CPM-Live 训练与压缩 公开训练过程与模型演进的项目入口。 训练方案、模型定义和数据流程→CPM-Ant、Ant+、Bee 等阶段的记录与模型产物。 公开训练计划、过程更新和相应实现，强调可观察的模型成长过程。 是训练项目及历史组织方式，不是一个独立于各阶段模型的统一架构。 连接 CPM 系列及 BMTrain 等基础设施；下游历史模型和研究复现。 适合理解训练演化。分支和阶段名称不能额外计入组织仓库总数，也不能用后来 Bee 能力回填早期 Ant。 历史训练主线 README README.md README README-ZH.md"><summary>19. CPM-Live <span class="badge">历史训练主线</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>公开训练过程与模型演进的项目入口。</p>
+<p><strong>输入 → 输出：</strong>训练方案、模型定义和数据流程→CPM-Ant、Ant+、Bee 等阶段的记录与模型产物。</p>
+<p><strong>关键模块与流程：</strong>公开训练计划、过程更新和相应实现，强调可观察的模型成长过程。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>是训练项目及历史组织方式，不是一个独立于各阶段模型的统一架构。</p>
+<p><strong>上下游与依赖：</strong>连接 CPM 系列及 BMTrain 等基础设施；下游历史模型和研究复现。</p>
+<p><strong>适用场景与局限：</strong>适合理解训练演化。分支和阶段名称不能额外计入组织仓库总数，也不能用后来 Bee 能力回填早期 Ant。</p>
+<p class="sources">固定提交 3b27173f67827faf329ab649ee1d0cb2a873e56b<br><a href="https://github.com/OpenBMB/CPM-Live/blob/3b27173f67827faf329ab649ee1d0cb2a873e56b/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/CPM-Live/blob/3b27173f67827faf329ab649ee1d0cb2a873e56b/README-ZH.md">README README-ZH.md</a></p></details>
+<details data-category="推理基础设施" data-search="CPM.cu 推理基础设施 MiniCPM 等模型的 CUDA 推理优化实现。 模型权重、提示和生成配置→token 流及执行性能。 组织算子、KV cache、CUDA Graph、分块 prefill；提供 InfLLMv2 稀疏注意力和 MTP/EAGLE 等推测解码路径。 加速执行既有模型；推测解码由草稿与目标验证配合，不能直接等同减少模型参数或改变知识。 依赖 CUDA 及相关量化/内核实现；上游 MiniCPM 权重，下游 GPU 推理服务。 适合 NVIDIA 平台性能研究。不同模型、量化格式与推测路径的支持需逐项核对；不要将单项最佳速度当整体加速。  README README.md README README_ZH.md cpmcu/llm.py cpmcu/speculative/eagle.py"><summary>20. CPM.cu <span class="badge">推理基础设施</span></summary>
+<p class="muted">官方 README 与目录核对；补查 2 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>MiniCPM 等模型的 CUDA 推理优化实现。</p>
+<p><strong>输入 → 输出：</strong>模型权重、提示和生成配置→token 流及执行性能。</p>
+<p><strong>关键模块与流程：</strong>组织算子、KV cache、CUDA Graph、分块 prefill；提供 InfLLMv2 稀疏注意力和 MTP/EAGLE 等推测解码路径。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>加速执行既有模型；推测解码由草稿与目标验证配合，不能直接等同减少模型参数或改变知识。</p>
+<p><strong>上下游与依赖：</strong>依赖 CUDA 及相关量化/内核实现；上游 MiniCPM 权重，下游 GPU 推理服务。</p>
+<p><strong>适用场景与局限：</strong>适合 NVIDIA 平台性能研究。不同模型、量化格式与推测路径的支持需逐项核对；不要将单项最佳速度当整体加速。</p>
+<p class="sources">固定提交 23aa7b7fefc537113166691cec63d5baa5209ebe<br><a href="https://github.com/OpenBMB/CPM.cu/blob/23aa7b7fefc537113166691cec63d5baa5209ebe/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/CPM.cu/blob/23aa7b7fefc537113166691cec63d5baa5209ebe/README_ZH.md">README README_ZH.md</a> · <a href="https://github.com/OpenBMB/CPM.cu/blob/23aa7b7fefc537113166691cec63d5baa5209ebe/cpmcu/llm.py">cpmcu/llm.py</a> · <a href="https://github.com/OpenBMB/CPM.cu/blob/23aa7b7fefc537113166691cec63d5baa5209ebe/cpmcu/speculative/eagle.py">cpmcu/speculative/eagle.py</a></p></details>
+<details data-category="推理基础设施" data-search="cpm_kernels 推理基础设施 CPM 工具链使用的底层 CUDA 算子集合。 GPU 张量→矩阵运算、归一化、激活、嵌入等张量结果。 Python/Torch 绑定调用 CUDA/C 接口，目录含 GEMM/GEMV、layernorm、softmax 等。 粒度低于 Transformer 层；不具备独立理解或生成能力。 供 BMInf 等上层模块使用；依赖 CUDA 与张量布局约定。 适合底层算子复用或研究。README 很短，本报告补查 GEMM 绑定和 layernorm 源码；不据目录推断任意 dtype/shape 均受支持。  README README.md cpm_kernels/torch/gemm.py cuda/layernorm.cu"><summary>21. cpm_kernels <span class="badge">推理基础设施</span></summary>
+<p class="muted">官方 README 与目录核对；补查 2 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>CPM 工具链使用的底层 CUDA 算子集合。</p>
+<p><strong>输入 → 输出：</strong>GPU 张量→矩阵运算、归一化、激活、嵌入等张量结果。</p>
+<p><strong>关键模块与流程：</strong>Python/Torch 绑定调用 CUDA/C 接口，目录含 GEMM/GEMV、layernorm、softmax 等。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>粒度低于 Transformer 层；不具备独立理解或生成能力。</p>
+<p><strong>上下游与依赖：</strong>供 BMInf 等上层模块使用；依赖 CUDA 与张量布局约定。</p>
+<p><strong>适用场景与局限：</strong>适合底层算子复用或研究。README 很短，本报告补查 GEMM 绑定和 layernorm 源码；不据目录推断任意 dtype/shape 均受支持。</p>
+<p class="sources">固定提交 277a0eddd6d264c6b9b9477fa47cc00880d581c0<br><a href="https://github.com/OpenBMB/cpm_kernels/blob/277a0eddd6d264c6b9b9477fa47cc00880d581c0/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/cpm_kernels/blob/277a0eddd6d264c6b9b9477fa47cc00880d581c0/cpm_kernels/torch/gemm.py">cpm_kernels/torch/gemm.py</a> · <a href="https://github.com/OpenBMB/cpm_kernels/blob/277a0eddd6d264c6b9b9477fa47cc00880d581c0/cuda/layernorm.cu">cuda/layernorm.cu</a></p></details>
+<details data-category="训练与压缩" data-search="CPO 训练与压缩 Controllable Preference Optimization，可控偏好对齐。 带偏好维度的数据、控制条件→能按条件调整偏好的微调模型。 通过 CPSFT、CDPO 等训练将帮助性、安全性等目标的控制信号纳入优化；提供 UltraSafety 相关数据。 不增加新的输入模态，主要修改对齐数据和目标；仍由自回归 LLM 生成回答。 上游基础 LLM 与偏好数据；下游可控对齐实验。 适合多目标偏好研究。这里 CPO 指该仓库定义的方法，不应与同缩写的其他算法混淆；控制值不保证所有情境达标。  README README.md"><summary>22. CPO <span class="badge">训练与压缩</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>Controllable Preference Optimization，可控偏好对齐。</p>
+<p><strong>输入 → 输出：</strong>带偏好维度的数据、控制条件→能按条件调整偏好的微调模型。</p>
+<p><strong>关键模块与流程：</strong>通过 CPSFT、CDPO 等训练将帮助性、安全性等目标的控制信号纳入优化；提供 UltraSafety 相关数据。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>不增加新的输入模态，主要修改对齐数据和目标；仍由自回归 LLM 生成回答。</p>
+<p><strong>上下游与依赖：</strong>上游基础 LLM 与偏好数据；下游可控对齐实验。</p>
+<p><strong>适用场景与局限：</strong>适合多目标偏好研究。这里 CPO 指该仓库定义的方法，不应与同缩写的其他算法混淆；控制值不保证所有情境达标。</p>
+<p class="sources">固定提交 10c4480326cd02a35e0221ccf40ed63eb79bef7f<br><a href="https://github.com/OpenBMB/CPO/blob/10c4480326cd02a35e0221ccf40ed63eb79bef7f/README.md">README README.md</a></p></details>
+<details data-category="检索与知识" data-search="DEBATER 检索与知识 用“思考链式嵌入”和自蒸馏改进文本向量。 查询/文档文本→用于相似度检索的稠密向量。 Chain of Deliberation 增强表示；自蒸馏把多步表示收益压到高效单次嵌入，LLM2Vec 包装提供 pooling 与 encode。 骨干来自 LLM，但最终主要输出向量而非自然语言答案；用途是检索，不是聊天。 上游 MiniCPM2B/3-4B、LLM2Vec；下游向量检索、MTEB 类评测及 RAG。 适合研究 LLM 转 embedding。查询与文档模板、pooling 和训练域需匹配；更强 embedding 不直接保证最终回答忠实。  README README.md llm2vec/llm2vec.py"><summary>23. DEBATER <span class="badge">检索与知识</span></summary>
+<p class="muted">官方 README 与目录核对；补查 1 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>用“思考链式嵌入”和自蒸馏改进文本向量。</p>
+<p><strong>输入 → 输出：</strong>查询/文档文本→用于相似度检索的稠密向量。</p>
+<p><strong>关键模块与流程：</strong>Chain of Deliberation 增强表示；自蒸馏把多步表示收益压到高效单次嵌入，LLM2Vec 包装提供 pooling 与 encode。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>骨干来自 LLM，但最终主要输出向量而非自然语言答案；用途是检索，不是聊天。</p>
+<p><strong>上下游与依赖：</strong>上游 MiniCPM2B/3-4B、LLM2Vec；下游向量检索、MTEB 类评测及 RAG。</p>
+<p><strong>适用场景与局限：</strong>适合研究 LLM 转 embedding。查询与文档模板、pooling 和训练域需匹配；更强 embedding 不直接保证最终回答忠实。</p>
+<p class="sources">固定提交 377a1421a094976009fa1c59dda1cb3659548355<br><a href="https://github.com/OpenBMB/DEBATER/blob/377a1421a094976009fa1c59dda1cb3659548355/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/DEBATER/blob/377a1421a094976009fa1c59dda1cb3659548355/llm2vec/llm2vec.py">llm2vec/llm2vec.py</a></p></details>
+<details data-category="数据与对齐" data-search="DecorateLM 数据与对齐 预训练语料的评级、标注和编辑流程。 原始文本→质量/属性标签及编辑后的训练文本。 Rate 使用成对评价和 Bradley–Terry 等评分，Tag 构建属性分类，Edit 改写语料。 主要改变喂给 LLM 的数据，不是另一个负责回答问题的基础模型。 上游教师模型和原始语料；下游预训练数据选择与加工。 适合数据质量实验。教师偏差、过度改写和领域分布变化可能传入训练集，不能把加工后文本默认当事实核验结果。  README README.md"><summary>24. DecorateLM <span class="badge">数据与对齐</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>预训练语料的评级、标注和编辑流程。</p>
+<p><strong>输入 → 输出：</strong>原始文本→质量/属性标签及编辑后的训练文本。</p>
+<p><strong>关键模块与流程：</strong>Rate 使用成对评价和 Bradley–Terry 等评分，Tag 构建属性分类，Edit 改写语料。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>主要改变喂给 LLM 的数据，不是另一个负责回答问题的基础模型。</p>
+<p><strong>上下游与依赖：</strong>上游教师模型和原始语料；下游预训练数据选择与加工。</p>
+<p><strong>适用场景与局限：</strong>适合数据质量实验。教师偏差、过度改写和领域分布变化可能传入训练集，不能把加工后文本默认当事实核验结果。</p>
+<p class="sources">固定提交 357555cac4409a56aac42f69d6a8e49f361c4e31<br><a href="https://github.com/OpenBMB/DecorateLM/blob/357555cac4409a56aac42f69d6a8e49f361c4e31/README.md">README README.md</a></p></details>
+<details data-category="训练与压缩" data-search="DecT 训练与压缩 少样本语言理解任务的 Decoder Tuning。 少量带标签文本和提示模板→类别预测及轻量任务适配参数。 冻结预训练模型，提取提示激活的输出分数与隐藏表示；训练输出侧任务解码网络/verbalizer，缓存特征用于少样本分类。 名称中的 decoder tuning 不意味着从头训练一个 decoder-only 大模型；支持 MLM、LM、chat 等骨干。 依赖 PyTorch、Transformers、OpenPrompt；示例包括 RoBERTa、LLaMA、Alpaca、Vicuna。 适合少样本分类研究。聊天模板和维度必须匹配模型；分类准确率不能泛化为开放式生成能力。  README README.md src/dect_verbalizer.py src/dect_trainer.py"><summary>25. DecT <span class="badge">训练与压缩</span></summary>
+<p class="muted">官方 README 与目录核对；补查 2 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>少样本语言理解任务的 Decoder Tuning。</p>
+<p><strong>输入 → 输出：</strong>少量带标签文本和提示模板→类别预测及轻量任务适配参数。</p>
+<p><strong>关键模块与流程：</strong>冻结预训练模型，提取提示激活的输出分数与隐藏表示；训练输出侧任务解码网络/verbalizer，缓存特征用于少样本分类。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>名称中的 decoder tuning 不意味着从头训练一个 decoder-only 大模型；支持 MLM、LM、chat 等骨干。</p>
+<p><strong>上下游与依赖：</strong>依赖 PyTorch、Transformers、OpenPrompt；示例包括 RoBERTa、LLaMA、Alpaca、Vicuna。</p>
+<p><strong>适用场景与局限：</strong>适合少样本分类研究。聊天模板和维度必须匹配模型；分类准确率不能泛化为开放式生成能力。</p>
+<p class="sources">固定提交 a2aa29570c19d066aaa4b01fac278bf65ac37afb<br><a href="https://github.com/OpenBMB/DecT/blob/a2aa29570c19d066aaa4b01fac278bf65ac37afb/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/DecT/blob/a2aa29570c19d066aaa4b01fac278bf65ac37afb/src/dect_verbalizer.py">src/dect_verbalizer.py</a> · <a href="https://github.com/OpenBMB/DecT/blob/a2aa29570c19d066aaa4b01fac278bf65ac37afb/src/dect_trainer.py">src/dect_trainer.py</a></p></details>
+<details data-category="具身与科学" data-search="DeepThinkVLA 具身与科学 把显式推理与机器人动作预测连接起来的 VLA。 视觉观察和语言任务→思考 token，随后预测动作序列。 基于 pi0-FAST/PaliGemma 路线；先自回归思考，再通过混合注意力掩码并行预测动作；配合 CoT SFT 和结果导向 RL。 输出空间包含机器人动作，训练监督及注意力模式有别于纯文本逐 token 续写。 上游视觉语言骨干、机器人数据和仿真；下游动作解码及控制执行。 适合检验推理对操作任务的帮助。当前 README 的真机及部分仿真事项仍列 TODO，不能把已有仿真成绩描述为全部完成真机验证。  README README.md src/sft/modeling_deepthinkvla.py"><summary>26. DeepThinkVLA <span class="badge">具身与科学</span></summary>
+<p class="muted">官方 README 与目录核对；补查 1 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>把显式推理与机器人动作预测连接起来的 VLA。</p>
+<p><strong>输入 → 输出：</strong>视觉观察和语言任务→思考 token，随后预测动作序列。</p>
+<p><strong>关键模块与流程：</strong>基于 pi0-FAST/PaliGemma 路线；先自回归思考，再通过混合注意力掩码并行预测动作；配合 CoT SFT 和结果导向 RL。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>输出空间包含机器人动作，训练监督及注意力模式有别于纯文本逐 token 续写。</p>
+<p><strong>上下游与依赖：</strong>上游视觉语言骨干、机器人数据和仿真；下游动作解码及控制执行。</p>
+<p><strong>适用场景与局限：</strong>适合检验推理对操作任务的帮助。当前 README 的真机及部分仿真事项仍列 TODO，不能把已有仿真成绩描述为全部完成真机验证。</p>
+<p class="sources">固定提交 ff271e7c024422581c9875d96250f99dd0b743d1<br><a href="https://github.com/OpenBMB/DeepThinkVLA/blob/ff271e7c024422581c9875d96250f99dd0b743d1/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/DeepThinkVLA/blob/ff271e7c024422581c9875d96250f99dd0b743d1/src/sft/modeling_deepthinkvla.py">src/sft/modeling_deepthinkvla.py</a></p></details>
+<details data-category="Agent应用" data-search="EdgeClaw Agent应用 基于 OpenClaw 的边云智能体平台，GitHub 标记为 fork。 用户任务和环境观察→经过路由、记忆及工具控制的执行结果。 集成 ClawXMemory、ClawXRouter，并组织持续任务循环、工具治理、沙箱、技能和上下文模块。 属于 Agent 运行系统；记忆、隐私路由与工具执行不等于新训练的模型。 GitHub parent 明确为 openclaw/openclaw；结合 ClawXMemory、ClawXRouter 与模型/工具服务，下游为边云 Agent。 适合边云 Agent 集成。名称与扩展功能不能抹去 fork 来源；本地运行也需核对模型端点和工具数据流。  README README.md README readme_zh.md"><summary>27. EdgeClaw <span class="badge">Agent应用</span></summary>
+<p class="muted">官方 README 与目录核对 · fork: openclaw/openclaw · 未归档</p>
+<p><strong>定位与解决的问题：</strong>基于 OpenClaw 的边云智能体平台，GitHub 标记为 fork。</p>
+<p><strong>输入 → 输出：</strong>用户任务和环境观察→经过路由、记忆及工具控制的执行结果。</p>
+<p><strong>关键模块与流程：</strong>集成 ClawXMemory、ClawXRouter，并组织持续任务循环、工具治理、沙箱、技能和上下文模块。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>属于 Agent 运行系统；记忆、隐私路由与工具执行不等于新训练的模型。</p>
+<p><strong>上下游与依赖：</strong>GitHub parent 明确为 openclaw/openclaw；结合 ClawXMemory、ClawXRouter 与模型/工具服务，下游为边云 Agent。</p>
+<p><strong>适用场景与局限：</strong>适合边云 Agent 集成。名称与扩展功能不能抹去 fork 来源；本地运行也需核对模型端点和工具数据流。</p>
+<p class="sources">固定提交 5e461861b370f5677d2eb6b35499764632989279<br><a href="https://github.com/OpenBMB/EdgeClaw/blob/5e461861b370f5677d2eb6b35499764632989279/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/EdgeClaw/blob/5e461861b370f5677d2eb6b35499764632989279/readme_zh.md">README readme_zh.md</a></p></details>
+<details data-category="模型与Agent" data-search="Eurus 模型与Agent 面向推理任务的后训练模型和偏好数据。 数学、代码等问题→推理与答案；训练输入含偏好轨迹。 使用 UltraInteract 的多轮轨迹树及 UltraFeedback，训练 Eurus 模型/奖励模型，涉及 KTO/NCA 等目标。 主要改进现有骨干的后训练与数据，不是新发明一套 Transformer。 Eurus 使用 Mistral7B、CodeLlama70B；Eurux 使用 Mixtral8x22B。下游推理与奖励评估。 适合研究偏好与交互数据对推理的作用。必须区分 Eurus/Eurux 版本、基础权重与训练目标；历史成绩不代表当前排名。  README README.md"><summary>28. Eurus <span class="badge">模型与Agent</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>面向推理任务的后训练模型和偏好数据。</p>
+<p><strong>输入 → 输出：</strong>数学、代码等问题→推理与答案；训练输入含偏好轨迹。</p>
+<p><strong>关键模块与流程：</strong>使用 UltraInteract 的多轮轨迹树及 UltraFeedback，训练 Eurus 模型/奖励模型，涉及 KTO/NCA 等目标。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>主要改进现有骨干的后训练与数据，不是新发明一套 Transformer。</p>
+<p><strong>上下游与依赖：</strong>Eurus 使用 Mistral7B、CodeLlama70B；Eurux 使用 Mixtral8x22B。下游推理与奖励评估。</p>
+<p><strong>适用场景与局限：</strong>适合研究偏好与交互数据对推理的作用。必须区分 Eurus/Eurux 版本、基础权重与训练目标；历史成绩不代表当前排名。</p>
+<p class="sources">固定提交 fd72db1861ef009fede0dbe5bcc9893c9012dacf<br><a href="https://github.com/OpenBMB/Eurus/blob/fd72db1861ef009fede0dbe5bcc9893c9012dacf/README.md">README README.md</a></p></details>
+<details data-category="编程与优化" data-search="ForgeStencil 编程与优化 用 Agent 优化 stencil 数值计算内核与应用集成的研究系统。 应用、基线内核、硬件和正确性约束→候选 CUDA 优化、集成补丁与测量记录。 内核 Agent 规划/编码/性能分析，应用 Agent 集成和校验；保存实验来源和交错计时结果。 LLM 是编程优化助手，被优化对象是数值 stencil，不是语言模型注意力或预训练本身。 上游模型服务、CUDA 编译器、A100/H100/B200 等硬件任务；下游科学计算应用。 适合研究自动内核优化。性能须以同硬件完整应用和正确性测量为准；仓库报告不等于本次已验证全部应用。  README README.md README README_zh.md"><summary>29. ForgeStencil <span class="badge">编程与优化</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>用 Agent 优化 stencil 数值计算内核与应用集成的研究系统。</p>
+<p><strong>输入 → 输出：</strong>应用、基线内核、硬件和正确性约束→候选 CUDA 优化、集成补丁与测量记录。</p>
+<p><strong>关键模块与流程：</strong>内核 Agent 规划/编码/性能分析，应用 Agent 集成和校验；保存实验来源和交错计时结果。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>LLM 是编程优化助手，被优化对象是数值 stencil，不是语言模型注意力或预训练本身。</p>
+<p><strong>上下游与依赖：</strong>上游模型服务、CUDA 编译器、A100/H100/B200 等硬件任务；下游科学计算应用。</p>
+<p><strong>适用场景与局限：</strong>适合研究自动内核优化。性能须以同硬件完整应用和正确性测量为准；仓库报告不等于本次已验证全部应用。</p>
+<p class="sources">固定提交 1c8311c8a79abaedd40fc6609d888a4f88dea3a2<br><a href="https://github.com/OpenBMB/ForgeStencil/blob/1c8311c8a79abaedd40fc6609d888a4f88dea3a2/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/ForgeStencil/blob/1c8311c8a79abaedd40fc6609d888a4f88dea3a2/README_zh.md">README README_zh.md</a></p></details>
+<details data-category="训练与压缩" data-search="ForgeTrain 训练与压缩 以自主 Agent 循环构建的 LLM 预训练引擎及研究材料。 训练数据、MiniCPM 配置、H100 资源→训练检查点与性能/损失记录。 公开导出的训练引擎，覆盖 MiniCPM4-0.5B/8B 的特定并行路径和算子优化；完整 agent harness 的开放状态需单独看。 成果是训练软件，不是另一个通用 LLM；“AI 编写”描述开发流程，不代表数学架构不同。 上游 PyTorch、CUDA、CuTeDSL、FlashAttention 等；下游 MiniCPM 预训练。 适合研究 Agent 编写高性能训练系统。44.13% MFU 等为官方 H100 条件结果；子项目明确排除移植上游代码于自主编写口径之外。  README README.md README README_zh.md exports/train_engine_0.5B/README.md"><summary>30. ForgeTrain <span class="badge">训练与压缩</span></summary>
+<p class="muted">官方 README 与目录核对；补查 1 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>以自主 Agent 循环构建的 LLM 预训练引擎及研究材料。</p>
+<p><strong>输入 → 输出：</strong>训练数据、MiniCPM 配置、H100 资源→训练检查点与性能/损失记录。</p>
+<p><strong>关键模块与流程：</strong>公开导出的训练引擎，覆盖 MiniCPM4-0.5B/8B 的特定并行路径和算子优化；完整 agent harness 的开放状态需单独看。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>成果是训练软件，不是另一个通用 LLM；“AI 编写”描述开发流程，不代表数学架构不同。</p>
+<p><strong>上下游与依赖：</strong>上游 PyTorch、CUDA、CuTeDSL、FlashAttention 等；下游 MiniCPM 预训练。</p>
+<p><strong>适用场景与局限：</strong>适合研究 Agent 编写高性能训练系统。44.13% MFU 等为官方 H100 条件结果；子项目明确排除移植上游代码于自主编写口径之外。</p>
+<p class="sources">固定提交 3242a5cd74851a14a7e0c1ebbfb19decdafd2cde<br><a href="https://github.com/OpenBMB/ForgeTrain/blob/3242a5cd74851a14a7e0c1ebbfb19decdafd2cde/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/ForgeTrain/blob/3242a5cd74851a14a7e0c1ebbfb19decdafd2cde/README_zh.md">README README_zh.md</a> · <a href="https://github.com/OpenBMB/ForgeTrain/blob/3242a5cd74851a14a7e0c1ebbfb19decdafd2cde/exports/train_engine_0.5B/README.md">exports/train_engine_0.5B/README.md</a></p></details>
+<details data-category="资料与治理" data-search="General-Model-License 资料与治理 通用模型许可文本与版本材料。 许可条款和使用条件→模型发布时可引用的许可文件。 组织许可文案及适用约定，不执行训练或推理。 治理层材料，没有模型输入输出或参数。 与采用 GML 的模型发布相关；下游发布者和使用者。 适合定位原始许可。仓库代码许可证与权重许可证可能不同；本报告只标出来源，不替代具体条款解释。  README README.md"><summary>31. General-Model-License <span class="badge">资料与治理</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>通用模型许可文本与版本材料。</p>
+<p><strong>输入 → 输出：</strong>许可条款和使用条件→模型发布时可引用的许可文件。</p>
+<p><strong>关键模块与流程：</strong>组织许可文案及适用约定，不执行训练或推理。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>治理层材料，没有模型输入输出或参数。</p>
+<p><strong>上下游与依赖：</strong>与采用 GML 的模型发布相关；下游发布者和使用者。</p>
+<p><strong>适用场景与局限：</strong>适合定位原始许可。仓库代码许可证与权重许可证可能不同；本报告只标出来源，不替代具体条款解释。</p>
+<p class="sources">固定提交 e4eb9be48f2cfe8367205208516440fa186e8ae3<br><a href="https://github.com/OpenBMB/General-Model-License/blob/e4eb9be48f2cfe8367205208516440fa186e8ae3/README.md">README README.md</a></p></details>
+<details data-category="评测" data-search="HerculesBench 评测 公开内容说明不足的历史评测代码仓库。 可见推理脚本接收题目和模型配置并保存回答；完整正式任务定义未能由根 README 确认。 根 README 只有“OlympiadBench-”；inference/readme.md 明确描述 OlympiadBench Evaluation 的提示、模型调用、保存与自动评分代码。 可确认它不是一个发布了完整模型卡的新通用 LLM；不能仅凭 Hercules 名字发明其任务能力。 与 OlympiadBench 命名和评测代码有关系线索；缺少足够说明，不能断言是其正式新版或替代品。 适合历史代码考察。该条明确列为信息不足：数据范围、正式指标和维护意图待作者进一步文档确认。  README README.md inference/readme.md"><summary>32. HerculesBench <span class="badge">评测</span></summary>
+<p class="muted">官方 README 与目录核对；补查 1 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>公开内容说明不足的历史评测代码仓库。</p>
+<p><strong>输入 → 输出：</strong>可见推理脚本接收题目和模型配置并保存回答；完整正式任务定义未能由根 README 确认。</p>
+<p><strong>关键模块与流程：</strong>根 README 只有“OlympiadBench-”；inference/readme.md 明确描述 OlympiadBench Evaluation 的提示、模型调用、保存与自动评分代码。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>可确认它不是一个发布了完整模型卡的新通用 LLM；不能仅凭 Hercules 名字发明其任务能力。</p>
+<p><strong>上下游与依赖：</strong>与 OlympiadBench 命名和评测代码有关系线索；缺少足够说明，不能断言是其正式新版或替代品。</p>
+<p><strong>适用场景与局限：</strong>适合历史代码考察。该条明确列为信息不足：数据范围、正式指标和维护意图待作者进一步文档确认。</p>
+<p class="sources">固定提交 5efa6bc7d1cdff270934034bf16c93f86d226ba1<br><a href="https://github.com/OpenBMB/HerculesBench/blob/5efa6bc7d1cdff270934034bf16c93f86d226ba1/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/HerculesBench/blob/5efa6bc7d1cdff270934034bf16c93f86d226ba1/inference/readme.md">inference/readme.md</a></p></details>
+<details data-category="评测" data-search="InfiniteBench 评测 评估 100K+ 长上下文理解的基准。 超长文本、问题和模型输出→各任务分数。 包含长书问答/摘要、长对话、检索、代码和数学等 12 类任务，混合真实与合成样本。 检验 LLM 使用长输入的能力，不提供让模型窗口自动变长的算法。 上游待测模型与数据集；下游长上下文模型及系统比较。 适合发现“支持长窗口但用不好信息”的差异。成绩受截断、模板、生成预算及 MapReduce 等外部流程影响，必须分开报告。  README README.md README README_ZH.md"><summary>33. InfiniteBench <span class="badge">评测</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>评估 100K+ 长上下文理解的基准。</p>
+<p><strong>输入 → 输出：</strong>超长文本、问题和模型输出→各任务分数。</p>
+<p><strong>关键模块与流程：</strong>包含长书问答/摘要、长对话、检索、代码和数学等 12 类任务，混合真实与合成样本。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>检验 LLM 使用长输入的能力，不提供让模型窗口自动变长的算法。</p>
+<p><strong>上下游与依赖：</strong>上游待测模型与数据集；下游长上下文模型及系统比较。</p>
+<p><strong>适用场景与局限：</strong>适合发现“支持长窗口但用不好信息”的差异。成绩受截断、模板、生成预算及 MapReduce 等外部流程影响，必须分开报告。</p>
+<p class="sources">固定提交 51d9b37b0f1790ead936df2243abbf7f0420e439<br><a href="https://github.com/OpenBMB/InfiniteBench/blob/51d9b37b0f1790ead936df2243abbf7f0420e439/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/InfiniteBench/blob/51d9b37b0f1790ead936df2243abbf7f0420e439/README_ZH.md">README README_ZH.md</a></p></details>
+<details data-category="推理基础设施" data-search="infllmv2_cuda_impl 推理基础设施 InfLLM-V2 稀疏注意力的 CUDA 实现。 Q/K/V 与块选择信息→选定块上的注意力输出及训练所需梯度。 第一阶段计算相关性及聚合，外部 TopK 选块，第二阶段执行稀疏注意力；支持稠密到稀疏的长短序列适配。 改变注意力访问方式，仍保留语言建模框架；不是 MoE 的 FFN 专家路由，也不是把文本摘要成更短提示。 上游 MiniCPM/InfLLM-V2 与 FlashAttention 相关代码；下游匹配的训练和推理后端。 适合注意力内核研究。TopK 并非全由此仓库包办；训练与 feature_infer 等分支应按需求固定，不可混用接口。  README README.md"><summary>34. infllmv2_cuda_impl <span class="badge">推理基础设施</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>InfLLM-V2 稀疏注意力的 CUDA 实现。</p>
+<p><strong>输入 → 输出：</strong>Q/K/V 与块选择信息→选定块上的注意力输出及训练所需梯度。</p>
+<p><strong>关键模块与流程：</strong>第一阶段计算相关性及聚合，外部 TopK 选块，第二阶段执行稀疏注意力；支持稠密到稀疏的长短序列适配。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>改变注意力访问方式，仍保留语言建模框架；不是 MoE 的 FFN 专家路由，也不是把文本摘要成更短提示。</p>
+<p><strong>上下游与依赖：</strong>上游 MiniCPM/InfLLM-V2 与 FlashAttention 相关代码；下游匹配的训练和推理后端。</p>
+<p><strong>适用场景与局限：</strong>适合注意力内核研究。TopK 并非全由此仓库包办；训练与 feature_infer 等分支应按需求固定，不可混用接口。</p>
+<p class="sources">固定提交 93cf2ec28e5a7acebe3f0bb7329b6c73a1be91f6<br><a href="https://github.com/OpenBMB/infllmv2_cuda_impl/blob/93cf2ec28e5a7acebe3f0bb7329b6c73a1be91f6/README.md">README README.md</a></p></details>
+<details data-category="Agent框架" data-search="IoA Agent框架 连接异构智能体的 Internet of Agents 框架。 任务和可发现的 Agent 能力→跨 Agent 协作轨迹及结果。 异步通信、动态团队与嵌套组织，连接不同实现的智能体。 主要解决 Agent 之间互操作，不是模型内部的 attention 通信，也不等于参数共享的多专家模型。 可对接 AutoGPT、OpenInterpreter 等系统；示例依赖 Docker/Milvus 等服务。 适合跨框架协作实验。能力描述、协议和环境权限需一致，异步并发也会增加追踪与失败恢复复杂度。  README README.md"><summary>35. IoA <span class="badge">Agent框架</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>连接异构智能体的 Internet of Agents 框架。</p>
+<p><strong>输入 → 输出：</strong>任务和可发现的 Agent 能力→跨 Agent 协作轨迹及结果。</p>
+<p><strong>关键模块与流程：</strong>异步通信、动态团队与嵌套组织，连接不同实现的智能体。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>主要解决 Agent 之间互操作，不是模型内部的 attention 通信，也不等于参数共享的多专家模型。</p>
+<p><strong>上下游与依赖：</strong>可对接 AutoGPT、OpenInterpreter 等系统；示例依赖 Docker/Milvus 等服务。</p>
+<p><strong>适用场景与局限：</strong>适合跨框架协作实验。能力描述、协议和环境权限需一致，异步并发也会增加追踪与失败恢复复杂度。</p>
+<p class="sources">固定提交 9d78e88e47160eb42ee1ee8538c05e1c2c47877a<br><a href="https://github.com/OpenBMB/IoA/blob/9d78e88e47160eb42ee1ee8538c05e1c2c47877a/README.md">README README.md</a></p></details>
+<details data-category="推理基础设施" data-search="Locret 推理基础设施 以训练过的 retaining heads 决定 KV cache 淘汰。 长上下文及缓存预算→压缩后的 KV 和后续生成。 分块 prefill 时给缓存单元打分，TopK 保留重要单元并保护临近区间，再进行生成。 改的是注意力缓存保留策略，不是模型外文档检索；压缩可能丢失后来需要的信息。 README 主要覆盖 Phi-3-mini-128k 与 Llama3.1-8B；与保持完整 KV 的普通解码对比。 适合消费级显卡长上下文研究。不能把路线图中的 MiniCPM 当已支持；示例存在固定维度等假设，迁移需改代码和重新验证。  README README.md locret/inference/infer.py"><summary>36. Locret <span class="badge">推理基础设施</span></summary>
+<p class="muted">官方 README 与目录核对；补查 1 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>以训练过的 retaining heads 决定 KV cache 淘汰。</p>
+<p><strong>输入 → 输出：</strong>长上下文及缓存预算→压缩后的 KV 和后续生成。</p>
+<p><strong>关键模块与流程：</strong>分块 prefill 时给缓存单元打分，TopK 保留重要单元并保护临近区间，再进行生成。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>改的是注意力缓存保留策略，不是模型外文档检索；压缩可能丢失后来需要的信息。</p>
+<p><strong>上下游与依赖：</strong>README 主要覆盖 Phi-3-mini-128k 与 Llama3.1-8B；与保持完整 KV 的普通解码对比。</p>
+<p><strong>适用场景与局限：</strong>适合消费级显卡长上下文研究。不能把路线图中的 MiniCPM 当已支持；示例存在固定维度等假设，迁移需改代码和重新验证。</p>
+<p class="sources">固定提交 28995c5ad6e6cc263913eb73fb76a4942f3dbf75<br><a href="https://github.com/OpenBMB/Locret/blob/28995c5ad6e6cc263913eb73fb76a4942f3dbf75/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/Locret/blob/28995c5ad6e6cc263913eb73fb76a4942f3dbf75/locret/inference/infer.py">locret/inference/infer.py</a></p></details>
+<details data-category="评测" data-search="MA-ProofBench 评测 数学分析领域 Lean4 形式化证明基准。 形式化定理与证明尝试→Lean 编译/证明检查结果。 官方列出 200 道题、两个难度层及多类数学分析主题，使用 Kimina Lean 服务等执行环境。 检查可机器验证的证明，和 LLM 输出一段看似合理的自然语言证明不同。 上游证明生成模型、Lean4/Mathlib；下游形式化推理研究。 适合检验严谨证明能力。仓库环境为 Lean4.28 等特定版本；超时和库版本均会改变通过率，不能与非形式化分数混比。  README README.md README README_zh.md"><summary>37. MA-ProofBench <span class="badge">评测</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>数学分析领域 Lean4 形式化证明基准。</p>
+<p><strong>输入 → 输出：</strong>形式化定理与证明尝试→Lean 编译/证明检查结果。</p>
+<p><strong>关键模块与流程：</strong>官方列出 200 道题、两个难度层及多类数学分析主题，使用 Kimina Lean 服务等执行环境。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>检查可机器验证的证明，和 LLM 输出一段看似合理的自然语言证明不同。</p>
+<p><strong>上下游与依赖：</strong>上游证明生成模型、Lean4/Mathlib；下游形式化推理研究。</p>
+<p><strong>适用场景与局限：</strong>适合检验严谨证明能力。仓库环境为 Lean4.28 等特定版本；超时和库版本均会改变通过率，不能与非形式化分数混比。</p>
+<p class="sources">固定提交 31bab4c78fd1b0c464e767d62e9202163d1e9029<br><a href="https://github.com/OpenBMB/MA-ProofBench/blob/31bab4c78fd1b0c464e767d62e9202163d1e9029/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/MA-ProofBench/blob/31bab4c78fd1b0c464e767d62e9202163d1e9029/README_zh.md">README README_zh.md</a></p></details>
+<details data-category="模型与Agent" data-search="MathForm 模型与Agent 把自然语言数学陈述转成 Lean 形式化陈述。 数学文本→可编译且语义对应的 Lean statement。 检索 Mathlib，结合编译反馈与语义反馈迭代修改；提供 FormalVerse 数据和 MathForm8B 的 SFT/RL 路线。 重点是自动形式化“题目”，不是自动完成其证明；生成代码通过编译也不单独证明语义忠实。 依赖模型、Mathlib 检索和 Lean4.21 环境；可给证明系统提供输入。 适合数学形式化流水线。与 MA-ProofBench 的 Lean 版本不同，不能直接拼接而不适配；需分别检查语法和原题含义。  README README.md README README_zh.md"><summary>38. MathForm <span class="badge">模型与Agent</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>把自然语言数学陈述转成 Lean 形式化陈述。</p>
+<p><strong>输入 → 输出：</strong>数学文本→可编译且语义对应的 Lean statement。</p>
+<p><strong>关键模块与流程：</strong>检索 Mathlib，结合编译反馈与语义反馈迭代修改；提供 FormalVerse 数据和 MathForm8B 的 SFT/RL 路线。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>重点是自动形式化“题目”，不是自动完成其证明；生成代码通过编译也不单独证明语义忠实。</p>
+<p><strong>上下游与依赖：</strong>依赖模型、Mathlib 检索和 Lean4.21 环境；可给证明系统提供输入。</p>
+<p><strong>适用场景与局限：</strong>适合数学形式化流水线。与 MA-ProofBench 的 Lean 版本不同，不能直接拼接而不适配；需分别检查语法和原题含义。</p>
+<p class="sources">固定提交 360487f264e801ee08de0f49b12e57fcc600e5ca<br><a href="https://github.com/OpenBMB/MathForm/blob/360487f264e801ee08de0f49b12e57fcc600e5ca/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/MathForm/blob/360487f264e801ee08de0f49b12e57fcc600e5ca/README_zh.md">README README_zh.md</a></p></details>
+<details data-category="训练与压缩" data-search="Meshy 训练与压缩 把 RL 采样、训练与推理组织成服务的训练框架。 数据、奖励和服务拓扑→rollout、参数更新、检查点。 SGLang 推理、Titan 训练、CPU rollout 经 TransferQueue 交换样本/门控；列就绪触发消费，同卡服务通过 token-ring 交接 GPU。 不定义新的模型知识或奖励标准，优化的是强化学习系统的数据流、并发和资源分配。 依赖 SGLang、torchtitan、TransferQueue 等；下游 on-policy、受限 off-policy 和异步 RL。 适合 RL 系统研究。权重版本与陈旧样本管理很关键；架构支持多布局不表示所有布局在任意硬件上都更快。  README README.md docs/architecture_services.md meshy/service/topology.py meshy/service/colocation.py"><summary>39. Meshy <span class="badge">训练与压缩</span></summary>
+<p class="muted">官方 README 与目录核对；补查 3 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>把 RL 采样、训练与推理组织成服务的训练框架。</p>
+<p><strong>输入 → 输出：</strong>数据、奖励和服务拓扑→rollout、参数更新、检查点。</p>
+<p><strong>关键模块与流程：</strong>SGLang 推理、Titan 训练、CPU rollout 经 TransferQueue 交换样本/门控；列就绪触发消费，同卡服务通过 token-ring 交接 GPU。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>不定义新的模型知识或奖励标准，优化的是强化学习系统的数据流、并发和资源分配。</p>
+<p><strong>上下游与依赖：</strong>依赖 SGLang、torchtitan、TransferQueue 等；下游 on-policy、受限 off-policy 和异步 RL。</p>
+<p><strong>适用场景与局限：</strong>适合 RL 系统研究。权重版本与陈旧样本管理很关键；架构支持多布局不表示所有布局在任意硬件上都更快。</p>
+<p class="sources">固定提交 04e145c6282c9d8cbea99e692256a027c83a7673<br><a href="https://github.com/OpenBMB/Meshy/blob/04e145c6282c9d8cbea99e692256a027c83a7673/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/Meshy/blob/04e145c6282c9d8cbea99e692256a027c83a7673/docs/architecture_services.md">docs/architecture_services.md</a> · <a href="https://github.com/OpenBMB/Meshy/blob/04e145c6282c9d8cbea99e692256a027c83a7673/meshy/service/topology.py">meshy/service/topology.py</a> · <a href="https://github.com/OpenBMB/Meshy/blob/04e145c6282c9d8cbea99e692256a027c83a7673/meshy/service/colocation.py">meshy/service/colocation.py</a></p></details>
+<details data-category="检索与知识" data-search="MetaMem 检索与知识 通过自反思改进“如何使用记忆”的符号元记忆。 历史交互、事实记忆、反馈→可迁移的记忆利用经验及回答。 用 LightMem 构建事实记忆，再借反思和环境反馈更新符号化 meta-memory，指导后续证据选择。 外部事实记忆与“使用经验”分层，不是直接微调所有 LLM 权重，也不是单纯保存聊天全文。 依赖 LightMem、SGLang 和外部 LLM/压缩器/embedding；下游多会话与时间推理。 适合长期记忆研究。“训练元记忆”在此须按符号优化理解；泛化结论来自官方实验，不保证个人数据场景同等收益。  README README.md"><summary>40. MetaMem <span class="badge">检索与知识</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>通过自反思改进“如何使用记忆”的符号元记忆。</p>
+<p><strong>输入 → 输出：</strong>历史交互、事实记忆、反馈→可迁移的记忆利用经验及回答。</p>
+<p><strong>关键模块与流程：</strong>用 LightMem 构建事实记忆，再借反思和环境反馈更新符号化 meta-memory，指导后续证据选择。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>外部事实记忆与“使用经验”分层，不是直接微调所有 LLM 权重，也不是单纯保存聊天全文。</p>
+<p><strong>上下游与依赖：</strong>依赖 LightMem、SGLang 和外部 LLM/压缩器/embedding；下游多会话与时间推理。</p>
+<p><strong>适用场景与局限：</strong>适合长期记忆研究。“训练元记忆”在此须按符号优化理解；泛化结论来自官方实验，不保证个人数据场景同等收益。</p>
+<p class="sources">固定提交 66232c1cb33d3d7939d323b431f21c741785142e<br><a href="https://github.com/OpenBMB/MetaMem/blob/66232c1cb33d3d7939d323b431f21c741785142e/README.md">README README.md</a></p></details>
+<details data-category="文本模型" data-search="MiniCPM 文本模型 小参数文本模型家族与训练、适配、部署入口。 文本上下文→续写、推理、代码或结构化调用文本；不同衍生 checkpoint 用途不同。 早期 μP/训练策略、小模型扩展到 MoE、稀疏 FFN；3 引入低秩注意力结构，4/4.1 有 InfLLM-V2，SALA 混合稀疏/线性注意力，5 为 Llama 兼容稠密架构。 大多数仍是自回归 LLM，优势目标在参数效率及部署；不能用某一代架构概括全家族。 连接 BMCook/BMTrain 历史工具、CPM.cu、ArcLight、UltraEval 与数据项目；RAG Suite 还有 embedding/reranker。 适合端侧文本与研究。当前主线含 MiniCPM5-1B/2B；量化、上下文上限、训练法和许可须按版本看，命名参数量并不总包含相同模块。 ★ 语言主线 README README.md README README-cn.md docs/README-minicpm1-en.md docs/README-minicpm2-en.md docs/README-minicpm3-en.md minicpm_sala/README.md"><summary>41. MiniCPM <span class="badge">★ 语言主线</span></summary>
+<p class="muted">官方 README 与目录核对；补查 4 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>小参数文本模型家族与训练、适配、部署入口。</p>
+<p><strong>输入 → 输出：</strong>文本上下文→续写、推理、代码或结构化调用文本；不同衍生 checkpoint 用途不同。</p>
+<p><strong>关键模块与流程：</strong>早期 μP/训练策略、小模型扩展到 MoE、稀疏 FFN；3 引入低秩注意力结构，4/4.1 有 InfLLM-V2，SALA 混合稀疏/线性注意力，5 为 Llama 兼容稠密架构。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>大多数仍是自回归 LLM，优势目标在参数效率及部署；不能用某一代架构概括全家族。</p>
+<p><strong>上下游与依赖：</strong>连接 BMCook/BMTrain 历史工具、CPM.cu、ArcLight、UltraEval 与数据项目；RAG Suite 还有 embedding/reranker。</p>
+<p><strong>适用场景与局限：</strong>适合端侧文本与研究。当前主线含 MiniCPM5-1B/2B；量化、上下文上限、训练法和许可须按版本看，命名参数量并不总包含相同模块。</p>
+<p class="sources">固定提交 316cfb1cea39f39cfa16b4f5703b77495c2340be<br><a href="https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/README-cn.md">README README-cn.md</a> · <a href="https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/docs/README-minicpm1-en.md">docs/README-minicpm1-en.md</a> · <a href="https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/docs/README-minicpm2-en.md">docs/README-minicpm2-en.md</a> · <a href="https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/docs/README-minicpm3-en.md">docs/README-minicpm3-en.md</a> · <a href="https://github.com/OpenBMB/MiniCPM/blob/316cfb1cea39f39cfa16b4f5703b77495c2340be/minicpm_sala/README.md">minicpm_sala/README.md</a></p></details>
+<details data-category="Agent应用" data-search="MiniCPM-Desk-Pet Agent应用 使用小模型的桌面宠物/助手应用。 聊天、角色设置和桌面 Agent 活动→宠物反馈与对话。 本地模型加载、角色适配和桌面交互；默认示例使用 MiniCPM5-1B GGUF。 将已有 LLM 放入桌面产品，不代表又训练了新基础模型。 上游 MiniCPM5 与本地推理；下游桌面伴侣体验。 适合低成本本地交互。macOS、Windows 与 Linux 的发布状态有区别，应以各平台说明为准；拟人化表达不等同真实理解用户情绪。  README README.md README README.zh-CN.md"><summary>42. MiniCPM-Desk-Pet <span class="badge">Agent应用</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>使用小模型的桌面宠物/助手应用。</p>
+<p><strong>输入 → 输出：</strong>聊天、角色设置和桌面 Agent 活动→宠物反馈与对话。</p>
+<p><strong>关键模块与流程：</strong>本地模型加载、角色适配和桌面交互；默认示例使用 MiniCPM5-1B GGUF。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>将已有 LLM 放入桌面产品，不代表又训练了新基础模型。</p>
+<p><strong>上下游与依赖：</strong>上游 MiniCPM5 与本地推理；下游桌面伴侣体验。</p>
+<p><strong>适用场景与局限：</strong>适合低成本本地交互。macOS、Windows 与 Linux 的发布状态有区别，应以各平台说明为准；拟人化表达不等同真实理解用户情绪。</p>
+<p class="sources">固定提交 87dc4d7c39f30f5d9a2753cd60559a0e90287839<br><a href="https://github.com/OpenBMB/MiniCPM-Desk-Pet/blob/87dc4d7c39f30f5d9a2753cd60559a0e90287839/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/MiniCPM-Desk-Pet/blob/87dc4d7c39f30f5d9a2753cd60559a0e90287839/README.zh-CN.md">README README.zh-CN.md</a></p></details>
+<details data-category="示例与文档" data-search="MiniCPM-o-Demo 示例与文档 MiniCPM-o 实时音视频交互的官方演示应用。 麦克风/摄像头和文本→实时文字/语音回应。 前后端、会话管理与实时接口连接模型，演示流式和全双工交互；PyTorch/CUDA 是一条明确部署路线。 这是承载 omni 模型的应用，真正的感知与生成来自模型及对应服务。 上游 MiniCPM-o 权重和推理后端；下游浏览器或相关交互客户端。 适合体验全双工。不能把某个 demo 的 CUDA 要求推广到所有后端，也不能把其他桌面/llama.cpp 版本功能自动算进这一版本。  README README.md README README_zh.md"><summary>43. MiniCPM-o-Demo <span class="badge">示例与文档</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>MiniCPM-o 实时音视频交互的官方演示应用。</p>
+<p><strong>输入 → 输出：</strong>麦克风/摄像头和文本→实时文字/语音回应。</p>
+<p><strong>关键模块与流程：</strong>前后端、会话管理与实时接口连接模型，演示流式和全双工交互；PyTorch/CUDA 是一条明确部署路线。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>这是承载 omni 模型的应用，真正的感知与生成来自模型及对应服务。</p>
+<p><strong>上下游与依赖：</strong>上游 MiniCPM-o 权重和推理后端；下游浏览器或相关交互客户端。</p>
+<p><strong>适用场景与局限：</strong>适合体验全双工。不能把某个 demo 的 CUDA 要求推广到所有后端，也不能把其他桌面/llama.cpp 版本功能自动算进这一版本。</p>
+<p class="sources">固定提交 47709a9210dfd71afa76c058e017fc8c4db5c8d2<br><a href="https://github.com/OpenBMB/MiniCPM-o-Demo/blob/47709a9210dfd71afa76c058e017fc8c4db5c8d2/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/MiniCPM-o-Demo/blob/47709a9210dfd71afa76c058e017fc8c4db5c8d2/README_zh.md">README README_zh.md</a></p></details>
+<details data-category="具身与科学" data-search="MiniCPM-Robot 具身与科学 包含机器人操作 Manip 与目标跟踪 Track 两条不同模型路线。 Manip：多视角历史、指令、状态→动作块；Track：粗历史/精当前视觉与指令→连续轨迹。 Manip 采用 MiniCPM-V 4.6 路线与动作头；Track 配置使用 MiniCPM4-0.5B，视觉投影、时间标记、control query 和 FunnelTrajectoryHead。 不止生成语言：输出必须通过动作归一化、坐标转换和机器人控制闭环；文本模型是部分骨干。 上游视觉编码器、文本/VLM 权重和机器人数据；下游机械臂或 Go2 跟踪部署。 适合具身系统研究。Manip 1.5B 与 Track 0.9B 是官方整体规模；Track 配置的 8 个三维路点不能直接当 Manip 的关节动作。 ★ 具身主线 README README.md README README_zh.md MiniCPM-RobotManip/vla_infer_memvla.py MiniCPM-RobotTrack/minicpm_robot_track/modeling.py MiniCPM-RobotTrack/minicpm_robot_track/config.py MiniCPM-RobotTrack/docs/GO2_DEPLOYMENT.md"><summary>44. MiniCPM-Robot <span class="badge">★ 具身主线</span></summary>
+<p class="muted">官方 README 与目录核对；补查 4 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>包含机器人操作 Manip 与目标跟踪 Track 两条不同模型路线。</p>
+<p><strong>输入 → 输出：</strong>Manip：多视角历史、指令、状态→动作块；Track：粗历史/精当前视觉与指令→连续轨迹。</p>
+<p><strong>关键模块与流程：</strong>Manip 采用 MiniCPM-V 4.6 路线与动作头；Track 配置使用 MiniCPM4-0.5B，视觉投影、时间标记、control query 和 FunnelTrajectoryHead。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>不止生成语言：输出必须通过动作归一化、坐标转换和机器人控制闭环；文本模型是部分骨干。</p>
+<p><strong>上下游与依赖：</strong>上游视觉编码器、文本/VLM 权重和机器人数据；下游机械臂或 Go2 跟踪部署。</p>
+<p><strong>适用场景与局限：</strong>适合具身系统研究。Manip 1.5B 与 Track 0.9B 是官方整体规模；Track 配置的 8 个三维路点不能直接当 Manip 的关节动作。</p>
+<p class="sources">固定提交 f666593066641d2c0cef06bc17bfb1e954547674<br><a href="https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/README_zh.md">README README_zh.md</a> · <a href="https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/MiniCPM-RobotManip/vla_infer_memvla.py">MiniCPM-RobotManip/vla_infer_memvla.py</a> · <a href="https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/MiniCPM-RobotTrack/minicpm_robot_track/modeling.py">MiniCPM-RobotTrack/minicpm_robot_track/modeling.py</a> · <a href="https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/MiniCPM-RobotTrack/minicpm_robot_track/config.py">MiniCPM-RobotTrack/minicpm_robot_track/config.py</a> · <a href="https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/MiniCPM-RobotTrack/docs/GO2_DEPLOYMENT.md">MiniCPM-RobotTrack/docs/GO2_DEPLOYMENT.md</a></p></details>
+<details data-category="多模态模型" data-search="MiniCPM-V 多模态模型 视觉语言及 MiniCPM-o 全模态家族的主要发布入口。 V：文本+图像/视频→文本；o：文本、图像、音视频流→文本和语音。 V4.6 使用浅层 ViT 内压缩、切片和 Qwen3.5 文本骨干；o4.5 组合视觉/音频编码器、语言骨干和语音生成，Omni-Flow 对齐实时流。 输入不再只是文字；视觉 token、音频表示和时间调度增加算力与状态。o 的同时看听说也不同于轮流 ASR→LLM→TTS。 上游各代骨干不同；下游 V-Apps、o-Demo、RobotManip、VisRAG 等需按版本对应。 适合图文、视频及实时语音。V4.6 官方 1.3B 与 o4.5 9B 不能直接按名字比；模型能力和手机后端实际支持须分开。 ★ 视觉/全模态主线 README README.md README README_zh.md"><summary>45. MiniCPM-V <span class="badge">★ 视觉/全模态主线</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>视觉语言及 MiniCPM-o 全模态家族的主要发布入口。</p>
+<p><strong>输入 → 输出：</strong>V：文本+图像/视频→文本；o：文本、图像、音视频流→文本和语音。</p>
+<p><strong>关键模块与流程：</strong>V4.6 使用浅层 ViT 内压缩、切片和 Qwen3.5 文本骨干；o4.5 组合视觉/音频编码器、语言骨干和语音生成，Omni-Flow 对齐实时流。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>输入不再只是文字；视觉 token、音频表示和时间调度增加算力与状态。o 的同时看听说也不同于轮流 ASR→LLM→TTS。</p>
+<p><strong>上下游与依赖：</strong>上游各代骨干不同；下游 V-Apps、o-Demo、RobotManip、VisRAG 等需按版本对应。</p>
+<p><strong>适用场景与局限：</strong>适合图文、视频及实时语音。V4.6 官方 1.3B 与 o4.5 9B 不能直接按名字比；模型能力和手机后端实际支持须分开。</p>
+<p class="sources">固定提交 6ada8e8ef5e2979670fc94406f02b87c3c7e7ee0<br><a href="https://github.com/OpenBMB/MiniCPM-V/blob/6ada8e8ef5e2979670fc94406f02b87c3c7e7ee0/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/MiniCPM-V/blob/6ada8e8ef5e2979670fc94406f02b87c3c7e7ee0/README_zh.md">README README_zh.md</a></p></details>
+<details data-category="Agent应用" data-search="MiniCPM-V-Apps Agent应用 把 MiniCPM 多模态、文本及语音能力带到移动端的应用集合。 手机文本、图像、音频等交互→相应对话或语音输出。 iOS/Android/Harmony 客户端和底层 llama.cpp-omni 相关运行库连接；支持列表跨 V、MiniCPM5 与 VoxCPM2。 属于客户端与部署工程，不是新模型训练方法。 上游具体 GGUF/模型文件及 tc-mb/llama.cpp-omni 子模块；下游移动设备。 适合实际端侧体验。不同平台与 checkpoint 的支持并非完全相同，需计入峰值内存、模型下载、发热和后台限制。  README README.md README README_zh.md"><summary>46. MiniCPM-V-Apps <span class="badge">Agent应用</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>把 MiniCPM 多模态、文本及语音能力带到移动端的应用集合。</p>
+<p><strong>输入 → 输出：</strong>手机文本、图像、音频等交互→相应对话或语音输出。</p>
+<p><strong>关键模块与流程：</strong>iOS/Android/Harmony 客户端和底层 llama.cpp-omni 相关运行库连接；支持列表跨 V、MiniCPM5 与 VoxCPM2。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>属于客户端与部署工程，不是新模型训练方法。</p>
+<p><strong>上下游与依赖：</strong>上游具体 GGUF/模型文件及 tc-mb/llama.cpp-omni 子模块；下游移动设备。</p>
+<p><strong>适用场景与局限：</strong>适合实际端侧体验。不同平台与 checkpoint 的支持并非完全相同，需计入峰值内存、模型下载、发热和后台限制。</p>
+<p class="sources">固定提交 d1aac05eecaac64b7fc35f1cc93a06b726ce10e3<br><a href="https://github.com/OpenBMB/MiniCPM-V-Apps/blob/d1aac05eecaac64b7fc35f1cc93a06b726ce10e3/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/MiniCPM-V-Apps/blob/d1aac05eecaac64b7fc35f1cc93a06b726ce10e3/README_zh.md">README README_zh.md</a></p></details>
+<details data-category="Agent应用" data-search="MobileCPM Agent应用 较早的移动端 LLM 应用开发工具。 移动端提示和对话→本地生成及 UI 流式显示。 模型下载管理、提示型 Agent 和应用接口，README 主要围绕 iOS。 解决嵌入应用的工程问题，不等于新的 MiniCPM 模型。 上游端侧模型和运行库；下游移动开发者。 适合理解早期 iOS 集成。Android 在该 README 仍是计划项，不能套用 V-Apps 的最新覆盖；“零成本”不含设备、电力和开发费用。  README README.md README README-cn.md"><summary>47. MobileCPM <span class="badge">Agent应用</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>较早的移动端 LLM 应用开发工具。</p>
+<p><strong>输入 → 输出：</strong>移动端提示和对话→本地生成及 UI 流式显示。</p>
+<p><strong>关键模块与流程：</strong>模型下载管理、提示型 Agent 和应用接口，README 主要围绕 iOS。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>解决嵌入应用的工程问题，不等于新的 MiniCPM 模型。</p>
+<p><strong>上下游与依赖：</strong>上游端侧模型和运行库；下游移动开发者。</p>
+<p><strong>适用场景与局限：</strong>适合理解早期 iOS 集成。Android 在该 README 仍是计划项，不能套用 V-Apps 的最新覆盖；“零成本”不含设备、电力和开发费用。</p>
+<p class="sources">固定提交 3943591b2698ccb51f1d7e165d048d3ae68022d5<br><a href="https://github.com/OpenBMB/MobileCPM/blob/3943591b2698ccb51f1d7e165d048d3ae68022d5/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/MobileCPM/blob/3943591b2698ccb51f1d7e165d048d3ae68022d5/README-cn.md">README README-cn.md</a></p></details>
+<details data-category="训练与压缩" data-search="ModelCenter 训练与压缩 基于 BMTrain 的模型实现与训练组件库。 模型配置、任务数据→模型前向、训练及任务输出。 提供通用层和 BERT、T5、LLaMA、ViT 等不同模型实现；源码含普通和稀疏注意力。 是多架构模型库，不是一个单独的 decoder-only LLM；编码器与编码解码器也在范围内。 上游 BMTrain；下游任务训练、CPM 相关工具及压缩适配。 适合研究分布式模型实现。模型类存在不代表所有外部 checkpoint 可无缝加载，需匹配配置和参数命名。  README README.md README README-ZH.md model_center/layer/attention.py"><summary>48. ModelCenter <span class="badge">训练与压缩</span></summary>
+<p class="muted">官方 README 与目录核对；补查 1 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>基于 BMTrain 的模型实现与训练组件库。</p>
+<p><strong>输入 → 输出：</strong>模型配置、任务数据→模型前向、训练及任务输出。</p>
+<p><strong>关键模块与流程：</strong>提供通用层和 BERT、T5、LLaMA、ViT 等不同模型实现；源码含普通和稀疏注意力。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>是多架构模型库，不是一个单独的 decoder-only LLM；编码器与编码解码器也在范围内。</p>
+<p><strong>上下游与依赖：</strong>上游 BMTrain；下游任务训练、CPM 相关工具及压缩适配。</p>
+<p><strong>适用场景与局限：</strong>适合研究分布式模型实现。模型类存在不代表所有外部 checkpoint 可无缝加载，需匹配配置和参数命名。</p>
+<p class="sources">固定提交 d0c176a20b5b0e241d591a374061aa8887116ae3<br><a href="https://github.com/OpenBMB/ModelCenter/blob/d0c176a20b5b0e241d591a374061aa8887116ae3/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/ModelCenter/blob/d0c176a20b5b0e241d591a374061aa8887116ae3/README-ZH.md">README README-ZH.md</a> · <a href="https://github.com/OpenBMB/ModelCenter/blob/d0c176a20b5b0e241d591a374061aa8887116ae3/model_center/layer/attention.py">model_center/layer/attention.py</a></p></details>
+<details data-category="检索与知识" data-search="MoRE 检索与知识 Mixture of Retrieval Experts，多模态检索专家路由。 问题及检索状态→选择文本/图片/表格检索器、证据与答案。 用推理路由器选择异构检索专家，训练包括 Step-GRPO 等步骤级反馈。 “专家”指外部检索模块，不是 Transformer FFN 内 MoE；目标是选择从哪里找信息。 上游文本、UniIR 图像、表格检索资源及 EasyR1 等；下游多模态 RAG。 适合异构知识库。需要分别评价路由、召回与最终生成；某专家数据缺失时路由能力无法补齐内容。  README README.md"><summary>49. MoRE <span class="badge">检索与知识</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>Mixture of Retrieval Experts，多模态检索专家路由。</p>
+<p><strong>输入 → 输出：</strong>问题及检索状态→选择文本/图片/表格检索器、证据与答案。</p>
+<p><strong>关键模块与流程：</strong>用推理路由器选择异构检索专家，训练包括 Step-GRPO 等步骤级反馈。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>“专家”指外部检索模块，不是 Transformer FFN 内 MoE；目标是选择从哪里找信息。</p>
+<p><strong>上下游与依赖：</strong>上游文本、UniIR 图像、表格检索资源及 EasyR1 等；下游多模态 RAG。</p>
+<p><strong>适用场景与局限：</strong>适合异构知识库。需要分别评价路由、召回与最终生成；某专家数据缺失时路由能力无法补齐内容。</p>
+<p class="sources">固定提交 2823013408bd52a77ab7b4634f334cef0fbf8f84<br><a href="https://github.com/OpenBMB/MoRE/blob/2823013408bd52a77ab7b4634f334cef0fbf8f84/README.md">README README.md</a></p></details>
+<details data-category="评测" data-search="OlympiadBench 评测 中英双语、多模态竞赛数学与物理基准。 奥赛/高考题目及图像→模型解答和评测结果。 官方收录 8,476 题，包含数据整理、OCR/标注与开放答案评测流程。 评估高难度推理，不是训练模型；自然语言推理与形式化证明是不同验证标准。 上游题源和待测 LLM/VLM；下游数学物理模型比较。 适合分析语言与视觉条件下的推理。需区分开放答案与证明类题，旧榜单不代表当下能力排名。  README README.md"><summary>50. OlympiadBench <span class="badge">评测</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>中英双语、多模态竞赛数学与物理基准。</p>
+<p><strong>输入 → 输出：</strong>奥赛/高考题目及图像→模型解答和评测结果。</p>
+<p><strong>关键模块与流程：</strong>官方收录 8,476 题，包含数据整理、OCR/标注与开放答案评测流程。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>评估高难度推理，不是训练模型；自然语言推理与形式化证明是不同验证标准。</p>
+<p><strong>上下游与依赖：</strong>上游题源和待测 LLM/VLM；下游数学物理模型比较。</p>
+<p><strong>适用场景与局限：</strong>适合分析语言与视觉条件下的推理。需区分开放答案与证明类题，旧榜单不代表当下能力排名。</p>
+<p class="sources">固定提交 ba5b26a7e2849940b598a9159c1190daa2b9175f<br><a href="https://github.com/OpenBMB/OlympiadBench/blob/ba5b26a7e2849940b598a9159c1190daa2b9175f/README.md">README README.md</a></p></details>
+<details data-category="评测" data-search="Omni-DuplexEval 评测 全双工模型主动感知与时机选择的评测。 带时间戳的模型预测 JSON 和视频/参考信息→描述、提醒、纠正等维度结果。 对实时事件与回应时机做对齐，结合视频处理及模型评判。 不仅检查说得对不对，还看什么时候回应；与普通静态问答不同。 上游外部生成的模型预测、ffmpeg 和 judge；下游 full-duplex 系统比较。 适合评估主动交互。仓库明确不含生成预测的推理代码，必须先用独立系统产出符合格式的轨迹。  README README.md"><summary>51. Omni-DuplexEval <span class="badge">评测</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>全双工模型主动感知与时机选择的评测。</p>
+<p><strong>输入 → 输出：</strong>带时间戳的模型预测 JSON 和视频/参考信息→描述、提醒、纠正等维度结果。</p>
+<p><strong>关键模块与流程：</strong>对实时事件与回应时机做对齐，结合视频处理及模型评判。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>不仅检查说得对不对，还看什么时候回应；与普通静态问答不同。</p>
+<p><strong>上下游与依赖：</strong>上游外部生成的模型预测、ffmpeg 和 judge；下游 full-duplex 系统比较。</p>
+<p><strong>适用场景与局限：</strong>适合评估主动交互。仓库明确不含生成预测的推理代码，必须先用独立系统产出符合格式的轨迹。</p>
+<p class="sources">固定提交 962cec448ac37a377ffb963b476778777d11d346<br><a href="https://github.com/OpenBMB/Omni-DuplexEval/blob/962cec448ac37a377ffb963b476778777d11d346/README.md">README README.md</a></p></details>
+<details data-category="评测" data-search="OmniEvalKit 评测 音频和音视频理解评测工具包。 数据集、模型配置与预测→任务级指标和汇总。 统一数据、模型适配器、分布式执行及 WER/CER、BLEU、VQA 或 LLM judge 等指标。 是测试框架，不能把“omni”名字当全双工交互能力；理解任务与主动时机评测不同。 上游音视频数据和模型后端；下游评测报告。 适合批量理解评测。模型依赖、预处理、采样和 judge 设置应保存，混合指标不能无解释求单一总分。  README README.md README README_zh.md docs/development/ARCHITECTURE.md"><summary>52. OmniEvalKit <span class="badge">评测</span></summary>
+<p class="muted">官方 README 与目录核对；补查 1 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>音频和音视频理解评测工具包。</p>
+<p><strong>输入 → 输出：</strong>数据集、模型配置与预测→任务级指标和汇总。</p>
+<p><strong>关键模块与流程：</strong>统一数据、模型适配器、分布式执行及 WER/CER、BLEU、VQA 或 LLM judge 等指标。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>是测试框架，不能把“omni”名字当全双工交互能力；理解任务与主动时机评测不同。</p>
+<p><strong>上下游与依赖：</strong>上游音视频数据和模型后端；下游评测报告。</p>
+<p><strong>适用场景与局限：</strong>适合批量理解评测。模型依赖、预处理、采样和 judge 设置应保存，混合指标不能无解释求单一总分。</p>
+<p class="sources">固定提交 1adac0577258d539efc03f16d8a0f4b3f7df6c19<br><a href="https://github.com/OpenBMB/OmniEvalKit/blob/1adac0577258d539efc03f16d8a0f4b3f7df6c19/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/OmniEvalKit/blob/1adac0577258d539efc03f16d8a0f4b3f7df6c19/README_zh.md">README README_zh.md</a> · <a href="https://github.com/OpenBMB/OmniEvalKit/blob/1adac0577258d539efc03f16d8a0f4b3f7df6c19/docs/development/ARCHITECTURE.md">docs/development/ARCHITECTURE.md</a></p></details>
+<details data-category="Agent框架" data-search="OpenAct Agent框架 能自主集成新工具的 OpenAgent 与配套开放任务基准。 复杂任务和可发现工具/代码→工具集成、执行步骤和结果。 层次化 Agent 检索并使用 GitHub 等工具资源，积累经验；README 提供 339 题、7 个领域。 Act 指行动/工具使用，不是机器人控制模型；骨干 LLM 之外有代码与环境执行环节。 上游模型服务、GitHub 和 Docker 工具环境；下游开放工具任务。 适合研究未知工具适配。工具可用性、依赖安装与权限决定上限，不能只看模型回答文本判定成功。  README README.md"><summary>53. OpenAct <span class="badge">Agent框架</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>能自主集成新工具的 OpenAgent 与配套开放任务基准。</p>
+<p><strong>输入 → 输出：</strong>复杂任务和可发现工具/代码→工具集成、执行步骤和结果。</p>
+<p><strong>关键模块与流程：</strong>层次化 Agent 检索并使用 GitHub 等工具资源，积累经验；README 提供 339 题、7 个领域。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>Act 指行动/工具使用，不是机器人控制模型；骨干 LLM 之外有代码与环境执行环节。</p>
+<p><strong>上下游与依赖：</strong>上游模型服务、GitHub 和 Docker 工具环境；下游开放工具任务。</p>
+<p><strong>适用场景与局限：</strong>适合研究未知工具适配。工具可用性、依赖安装与权限决定上限，不能只看模型回答文本判定成功。</p>
+<p class="sources">固定提交 a6ca7fd5ab2316c24cbee781fb3e15f77e11317b<br><a href="https://github.com/OpenBMB/OpenAct/blob/a6ca7fd5ab2316c24cbee781fb3e15f77e11317b/README.md">README README.md</a></p></details>
+<details data-category="示例与文档" data-search="openbmb.github.io 示例与文档 OpenBMB 的静态展示站点源码。 网页内容、模型介绍与资源链接→浏览器页面。 HTML/静态资源组织项目介绍和演示入口。 没有独立模型推理能力，页面引用的模型属于相应仓库/权重发布。 上游各项目介绍和静态素材；下游访问者。 适合作为导航。网页介绍可能落后于模型代码，模型结构以固定版本配置和源码为准。  README README.md README readme_o.md README readme_o_zh.md index.html"><summary>54. openbmb.github.io <span class="badge">示例与文档</span></summary>
+<p class="muted">官方 README 与目录核对；补查 1 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>OpenBMB 的静态展示站点源码。</p>
+<p><strong>输入 → 输出：</strong>网页内容、模型介绍与资源链接→浏览器页面。</p>
+<p><strong>关键模块与流程：</strong>HTML/静态资源组织项目介绍和演示入口。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>没有独立模型推理能力，页面引用的模型属于相应仓库/权重发布。</p>
+<p><strong>上下游与依赖：</strong>上游各项目介绍和静态素材；下游访问者。</p>
+<p><strong>适用场景与局限：</strong>适合作为导航。网页介绍可能落后于模型代码，模型结构以固定版本配置和源码为准。</p>
+<p class="sources">固定提交 612263d57c4a80a98fbee801381b7ac86a44ecaa<br><a href="https://github.com/OpenBMB/openbmb.github.io/blob/612263d57c4a80a98fbee801381b7ac86a44ecaa/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/openbmb.github.io/blob/612263d57c4a80a98fbee801381b7ac86a44ecaa/readme_o.md">README readme_o.md</a> · <a href="https://github.com/OpenBMB/openbmb.github.io/blob/612263d57c4a80a98fbee801381b7ac86a44ecaa/readme_o_zh.md">README readme_o_zh.md</a> · <a href="https://github.com/OpenBMB/openbmb.github.io/blob/612263d57c4a80a98fbee801381b7ac86a44ecaa/index.html">index.html</a></p></details>
+<details data-category="检索与知识" data-search="PAGER 检索与知识 以结构化知识页面组织多轮检索证据。 问题与外部语料→认知提纲、知识页和答案。 先建立待填信息槽，再检索、填充与修订页面，最后据页面回答。 在模型外组织证据和工作记忆；不是 GPU paging，也不是修改 Transformer KV cache。 使用 Qwen3 Embedding、FAISS、vLLM、FlashRAG 等组件；下游知识问答。 适合多跳和需要整合证据的问题。提纲漏项和检索缺失会限制答案，页面结构化并不自动保证引用正确。  README README.md"><summary>55. PAGER <span class="badge">检索与知识</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>以结构化知识页面组织多轮检索证据。</p>
+<p><strong>输入 → 输出：</strong>问题与外部语料→认知提纲、知识页和答案。</p>
+<p><strong>关键模块与流程：</strong>先建立待填信息槽，再检索、填充与修订页面，最后据页面回答。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>在模型外组织证据和工作记忆；不是 GPU paging，也不是修改 Transformer KV cache。</p>
+<p><strong>上下游与依赖：</strong>使用 Qwen3 Embedding、FAISS、vLLM、FlashRAG 等组件；下游知识问答。</p>
+<p><strong>适用场景与局限：</strong>适合多跳和需要整合证据的问题。提纲漏项和检索缺失会限制答案，页面结构化并不自动保证引用正确。</p>
+<p class="sources">固定提交 2d9d6355435debbe08f85a139c472eb6be992b4c<br><a href="https://github.com/OpenBMB/PAGER/blob/2d9d6355435debbe08f85a139c472eb6be992b4c/README.md">README README.md</a></p></details>
+<details data-category="检索与知识" data-search="ParamMute 检索与知识 在参数知识与上下文冲突时抑制部分 FFN 的方法。 带检索上下文的问题→更依赖给定证据的回答。 研究中深层 FFN 与参数知识的关系，选择性抑制并适配，提供 CoConflictQA 等实验。 改变模型内部激活/组件作用，而非只改提示或检索器；与外部 RAG 工作流不同。 上游修改版 Transformers 和基础模型；下游知识冲突研究。 适合受控分析忠实性。官方观察的 70–90% 深度区间不是所有模型的普适规律，可能损害需要模型自身知识的任务。  README README.md"><summary>56. ParamMute <span class="badge">检索与知识</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>在参数知识与上下文冲突时抑制部分 FFN 的方法。</p>
+<p><strong>输入 → 输出：</strong>带检索上下文的问题→更依赖给定证据的回答。</p>
+<p><strong>关键模块与流程：</strong>研究中深层 FFN 与参数知识的关系，选择性抑制并适配，提供 CoConflictQA 等实验。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>改变模型内部激活/组件作用，而非只改提示或检索器；与外部 RAG 工作流不同。</p>
+<p><strong>上下游与依赖：</strong>上游修改版 Transformers 和基础模型；下游知识冲突研究。</p>
+<p><strong>适用场景与局限：</strong>适合受控分析忠实性。官方观察的 70–90% 深度区间不是所有模型的普适规律，可能损害需要模型自身知识的任务。</p>
+<p class="sources">固定提交 cc81d30145c145b660f732da2bdc0556b1f6acaf<br><a href="https://github.com/OpenBMB/ParamMute/blob/cc81d30145c145b660f732da2bdc0556b1f6acaf/README.md">README README.md</a></p></details>
+<details data-category="Agent应用" data-search="PilotDeck Agent应用 围绕工作区组织的长期 Agent 工作平台。 任务、工作区资料、工具和记忆→持续执行、会话记录与产物。 组织 Web/CLI/消息入口、MCP、路由、可检查记忆与会话时间线。 提供 Agent 的工作环境和状态管理；模型仍是可替换的推理部件。 上游模型服务、工具与文件工作区；下游个人/团队任务。 适合需要可追踪过程的助手。持续运行的资源、失败恢复、外部工具副作用要按真实任务验证，界面透明不等于执行绝对可靠。  README README.md README README.zh.md README README_DOCKER.md README README_DOCKER.zh.md README README_SOURCE_INSTALL.md README README_SOURCE_INSTALL.zh.md docs/architecture/session-timeline.md package.json"><summary>57. PilotDeck <span class="badge">Agent应用</span></summary>
+<p class="muted">官方 README 与目录核对；补查 2 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>围绕工作区组织的长期 Agent 工作平台。</p>
+<p><strong>输入 → 输出：</strong>任务、工作区资料、工具和记忆→持续执行、会话记录与产物。</p>
+<p><strong>关键模块与流程：</strong>组织 Web/CLI/消息入口、MCP、路由、可检查记忆与会话时间线。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>提供 Agent 的工作环境和状态管理；模型仍是可替换的推理部件。</p>
+<p><strong>上下游与依赖：</strong>上游模型服务、工具与文件工作区；下游个人/团队任务。</p>
+<p><strong>适用场景与局限：</strong>适合需要可追踪过程的助手。持续运行的资源、失败恢复、外部工具副作用要按真实任务验证，界面透明不等于执行绝对可靠。</p>
+<p class="sources">固定提交 5a0efbc5106e7c80c3df8e20184c439ed3d0603b<br><a href="https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/README.zh.md">README README.zh.md</a> · <a href="https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/README_DOCKER.md">README README_DOCKER.md</a> · <a href="https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/README_DOCKER.zh.md">README README_DOCKER.zh.md</a> · <a href="https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/README_SOURCE_INSTALL.md">README README_SOURCE_INSTALL.md</a> · <a href="https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/README_SOURCE_INSTALL.zh.md">README README_SOURCE_INSTALL.zh.md</a> · <a href="https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/docs/architecture/session-timeline.md">docs/architecture/session-timeline.md</a> · <a href="https://github.com/OpenBMB/PilotDeck/blob/5a0efbc5106e7c80c3df8e20184c439ed3d0603b/package.json">package.json</a></p></details>
+<details data-category="Agent框架" data-search="ProAgent Agent框架 以生成式模型构建和执行业务工作流的早期 Agent 框架。 用户自动化需求→n8n 工作流及动态决策执行。 专门化 Agent 处理流程构建与执行，把 APA 与固定规则的 RPA 作比较。 LLM 负责生成或调整流程，外部工作流引擎执行节点；不是新的基础模型。 上游模型 API、n8n 和工具节点；下游业务自动化实验。 适合研究动态工作流。README 对早期 OpenAI 接口版本有特定约束，现有环境可能需要迁移；生成流程须验证具体节点行为。  README README.md README README_zh.md"><summary>58. ProAgent <span class="badge">Agent框架</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>以生成式模型构建和执行业务工作流的早期 Agent 框架。</p>
+<p><strong>输入 → 输出：</strong>用户自动化需求→n8n 工作流及动态决策执行。</p>
+<p><strong>关键模块与流程：</strong>专门化 Agent 处理流程构建与执行，把 APA 与固定规则的 RPA 作比较。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>LLM 负责生成或调整流程，外部工作流引擎执行节点；不是新的基础模型。</p>
+<p><strong>上下游与依赖：</strong>上游模型 API、n8n 和工具节点；下游业务自动化实验。</p>
+<p><strong>适用场景与局限：</strong>适合研究动态工作流。README 对早期 OpenAI 接口版本有特定约束，现有环境可能需要迁移；生成流程须验证具体节点行为。</p>
+<p class="sources">固定提交 02a79ac62e7ad3ca2565e0e4fe5fc22824aaf079<br><a href="https://github.com/OpenBMB/ProAgent/blob/02a79ac62e7ad3ca2565e0e4fe5fc22824aaf079/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/ProAgent/blob/02a79ac62e7ad3ca2565e0e4fe5fc22824aaf079/README_zh.md">README README_zh.md</a></p></details>
+<details data-category="Agent框架" data-search="RaD-Agent Agent框架 基于理性决策搜索的工具智能体。 任务、候选动作和环境反馈→探索轨迹与最终策略结果。 把探索和效用学习结合，以成对比较/Elo 等信号估计动作或轨迹价值。 改变推理时搜索与决策，不必然意味着对 LLM 权重进行再训练。 上游 LLM 与 Game24、WebShop、ToolBench、RestBench 等环境；下游工具规划研究。 适合比较搜索策略。多次探索带来成本，受环境可重放性及价值估计噪声影响。  README README.md"><summary>59. RaD-Agent <span class="badge">Agent框架</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>基于理性决策搜索的工具智能体。</p>
+<p><strong>输入 → 输出：</strong>任务、候选动作和环境反馈→探索轨迹与最终策略结果。</p>
+<p><strong>关键模块与流程：</strong>把探索和效用学习结合，以成对比较/Elo 等信号估计动作或轨迹价值。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>改变推理时搜索与决策，不必然意味着对 LLM 权重进行再训练。</p>
+<p><strong>上下游与依赖：</strong>上游 LLM 与 Game24、WebShop、ToolBench、RestBench 等环境；下游工具规划研究。</p>
+<p><strong>适用场景与局限：</strong>适合比较搜索策略。多次探索带来成本，受环境可重放性及价值估计噪声影响。</p>
+<p class="sources">固定提交 7bff04ffe6dc9ce537c891432762ef029afed7f8<br><a href="https://github.com/OpenBMB/RaD-Agent/blob/7bff04ffe6dc9ce537c891432762ef029afed7f8/README.md">README README.md</a></p></details>
+<details data-category="检索与知识" data-search="RAG-DDR 检索与知识 通过 Differentiable Data Rewards 对齐 RAG 模块偏好。 检索内容、模块候选输出和答案监督→改进的精炼/生成模块。 rollout 采样候选扰动，评价对全链结果的影响，再用偏好信号优化各模块。 不只是把文档塞进提示；通过训练使各模块产生对下游更有用的信息。 示例使用 Llama3/MiniCPM、检索组件和偏好训练脚本；下游知识密集问答。 适合模块间不匹配的 RAG。论文“端到端对齐”不意味着普通检索 TopK 全程精确可微，奖励构造与训练实现应一起看。  README README.md src/generator/train.py"><summary>60. RAG-DDR <span class="badge">检索与知识</span></summary>
+<p class="muted">官方 README 与目录核对；补查 1 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>通过 Differentiable Data Rewards 对齐 RAG 模块偏好。</p>
+<p><strong>输入 → 输出：</strong>检索内容、模块候选输出和答案监督→改进的精炼/生成模块。</p>
+<p><strong>关键模块与流程：</strong>rollout 采样候选扰动，评价对全链结果的影响，再用偏好信号优化各模块。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>不只是把文档塞进提示；通过训练使各模块产生对下游更有用的信息。</p>
+<p><strong>上下游与依赖：</strong>示例使用 Llama3/MiniCPM、检索组件和偏好训练脚本；下游知识密集问答。</p>
+<p><strong>适用场景与局限：</strong>适合模块间不匹配的 RAG。论文“端到端对齐”不意味着普通检索 TopK 全程精确可微，奖励构造与训练实现应一起看。</p>
+<p class="sources">固定提交 3bd09e69cf8efe89025dcc7f40b964c54812c8e0<br><a href="https://github.com/OpenBMB/RAG-DDR/blob/3bd09e69cf8efe89025dcc7f40b964c54812c8e0/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/RAG-DDR/blob/3bd09e69cf8efe89025dcc7f40b964c54812c8e0/src/generator/train.py">src/generator/train.py</a></p></details>
+<details data-category="评测" data-search="RAGEval 评测 面向特定领域合成 RAG 评测数据的框架。 种子文档和领域设定→schema、合成文档、问题/参考/答案及评测指标。 schema 总结→配置/文档生成→QAR 构造；包括 DragonBall 数据与完整性、幻觉、无关性度量。 建立测试材料和评价流程，不是提高模型上下文容量的算法。 上游生成/评判模型、领域种子材料；下游 RAG 系统比较。 适合构建垂直领域测试。合成事实不等于真实业务事实，需控制生成器与被测模型共享偏差。  README README.md"><summary>61. RAGEval <span class="badge">评测</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>面向特定领域合成 RAG 评测数据的框架。</p>
+<p><strong>输入 → 输出：</strong>种子文档和领域设定→schema、合成文档、问题/参考/答案及评测指标。</p>
+<p><strong>关键模块与流程：</strong>schema 总结→配置/文档生成→QAR 构造；包括 DragonBall 数据与完整性、幻觉、无关性度量。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>建立测试材料和评价流程，不是提高模型上下文容量的算法。</p>
+<p><strong>上下游与依赖：</strong>上游生成/评判模型、领域种子材料；下游 RAG 系统比较。</p>
+<p><strong>适用场景与局限：</strong>适合构建垂直领域测试。合成事实不等于真实业务事实，需控制生成器与被测模型共享偏差。</p>
+<p class="sources">固定提交 c44aa98aea18362eb5e3751f11e13dbc8f6cab83<br><a href="https://github.com/OpenBMB/RAGEval/blob/c44aa98aea18362eb5e3751f11e13dbc8f6cab83/README.md">README README.md</a></p></details>
+<details data-category="Agent应用" data-search="RepoAgent Agent应用 根据代码结构和变更生成、维护仓库文档。 代码仓库及 Git diff→对象级 Markdown 文档与增量更新。 分析 AST 和双向调用关系，用 LLM 解释代码，按变更定位需要更新的文档。 在 LLM 外增加代码结构与依赖分析，不是专门预训练的代码基础模型。 上游代码分析器、Git 和 LLM；下游开发文档。 适合 Python 等支持范围内的项目文档。静态关系未必覆盖动态调用，生成说明仍需审查，不能代替测试或形式验证。  README README.md README README_CN.md"><summary>62. RepoAgent <span class="badge">Agent应用</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>根据代码结构和变更生成、维护仓库文档。</p>
+<p><strong>输入 → 输出：</strong>代码仓库及 Git diff→对象级 Markdown 文档与增量更新。</p>
+<p><strong>关键模块与流程：</strong>分析 AST 和双向调用关系，用 LLM 解释代码，按变更定位需要更新的文档。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>在 LLM 外增加代码结构与依赖分析，不是专门预训练的代码基础模型。</p>
+<p><strong>上下游与依赖：</strong>上游代码分析器、Git 和 LLM；下游开发文档。</p>
+<p><strong>适用场景与局限：</strong>适合 Python 等支持范围内的项目文档。静态关系未必覆盖动态调用，生成说明仍需审查，不能代替测试或形式验证。</p>
+<p class="sources">固定提交 825d988127d7bfd757237d9c4e8678d9104030f0<br><a href="https://github.com/OpenBMB/RepoAgent/blob/825d988127d7bfd757237d9c4e8678d9104030f0/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/RepoAgent/blob/825d988127d7bfd757237d9c4e8678d9104030f0/README_CN.md">README README_CN.md</a></p></details>
+<details data-category="训练与压缩" data-search="RLPR 训练与压缩 使用参考答案概率构造奖励的强化学习方法。 问题、参考答案和模型推理→基于参考概率的奖励及更新后的模型。 以生成推理后对参考答案的平均概率衡量收益，扩展到不易设计规则 verifier 的领域。 修改奖励来源与训练流程，模型仍是自回归 LLM；“无需外部 verifier”不等于“无需参考答案”。 上游 Qwen/Llama/Gemma 等和带参考答案数据；下游一般领域推理。 适合无法便宜验证中间步骤的任务。参考质量、答案表述和概率校准会影响奖励，不能视作直接真值验证。  README README.md README README_zh.md"><summary>63. RLPR <span class="badge">训练与压缩</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>使用参考答案概率构造奖励的强化学习方法。</p>
+<p><strong>输入 → 输出：</strong>问题、参考答案和模型推理→基于参考概率的奖励及更新后的模型。</p>
+<p><strong>关键模块与流程：</strong>以生成推理后对参考答案的平均概率衡量收益，扩展到不易设计规则 verifier 的领域。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>修改奖励来源与训练流程，模型仍是自回归 LLM；“无需外部 verifier”不等于“无需参考答案”。</p>
+<p><strong>上下游与依赖：</strong>上游 Qwen/Llama/Gemma 等和带参考答案数据；下游一般领域推理。</p>
+<p><strong>适用场景与局限：</strong>适合无法便宜验证中间步骤的任务。参考质量、答案表述和概率校准会影响奖励，不能视作直接真值验证。</p>
+<p class="sources">固定提交 235870e1a934b52ed28902d5d68ec8a811063cdc<br><a href="https://github.com/OpenBMB/RLPR/blob/235870e1a934b52ed28902d5d68ec8a811063cdc/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/RLPR/blob/235870e1a934b52ed28902d5d68ec8a811063cdc/README_zh.md">README README_zh.md</a></p></details>
+<details data-category="具身与科学" data-search="SciCore-Mol 具身与科学 把分子与反应专用模块接入语言模型的科学模型。 自然语言、分子表示及反应信息→文本解释、分子生成或任务预测。 组合 GVP 分子编码器、扩散生成模块和数值反应模块，通过特殊 token/隐藏状态连接；包含预训练、跨模态对齐和任务适配。 不只是让 LLM 阅读 SMILES 字符串：专用结构编码和生成器处理文字词表之外的科学对象。 上游分子模块、化学数据和基础 LLM；下游分子理解/生成研究。 适合科学建模实验。生成分子的有效性、属性与真实可合成性是不同条件；README 的大显存训练配置不是所有推理场景最低要求。  README README.md modules/mol_aware_lm.py"><summary>64. SciCore-Mol <span class="badge">具身与科学</span></summary>
+<p class="muted">官方 README 与目录核对；补查 1 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>把分子与反应专用模块接入语言模型的科学模型。</p>
+<p><strong>输入 → 输出：</strong>自然语言、分子表示及反应信息→文本解释、分子生成或任务预测。</p>
+<p><strong>关键模块与流程：</strong>组合 GVP 分子编码器、扩散生成模块和数值反应模块，通过特殊 token/隐藏状态连接；包含预训练、跨模态对齐和任务适配。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>不只是让 LLM 阅读 SMILES 字符串：专用结构编码和生成器处理文字词表之外的科学对象。</p>
+<p><strong>上下游与依赖：</strong>上游分子模块、化学数据和基础 LLM；下游分子理解/生成研究。</p>
+<p><strong>适用场景与局限：</strong>适合科学建模实验。生成分子的有效性、属性与真实可合成性是不同条件；README 的大显存训练配置不是所有推理场景最低要求。</p>
+<p class="sources">固定提交 37a7184af1c25d9854d8b027a16619b4b42a7c22<br><a href="https://github.com/OpenBMB/SciCore-Mol/blob/37a7184af1c25d9854d8b027a16619b4b42a7c22/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/SciCore-Mol/blob/37a7184af1c25d9854d8b027a16619b4b42a7c22/modules/mol_aware_lm.py">modules/mol_aware_lm.py</a></p></details>
+<details data-category="具身与科学" data-search="Scicore-Omics 具身与科学 连接组织图像、空间转录组与生物语言的多模态科学模型。 组织图像、基因表达 token 和文本→跨模态生物学任务输出。 NicheFormer 编码基因，GeneQFormer 交叉注意力压缩表示，再经投影接入 MiniCPM-V 类架构；包含蒸馏、SFT 与 RL 路线。 增加基因模态和领域编码器，普通纯文本 LLM 无法直接把高维表达数据当作同等输入。 依赖 NicheFormer、QFormer、视觉语言骨干和训练框架；下游组学研究。 适合探索多模态生物学。性能需要数据域和任务验证；研究输出不能自动外推到临床结论或实验因果关系。  README README.md README README_zh.md model/gene_qformer_module.py model/modeling_minicpmv.py"><summary>65. Scicore-Omics <span class="badge">具身与科学</span></summary>
+<p class="muted">官方 README 与目录核对；补查 2 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>连接组织图像、空间转录组与生物语言的多模态科学模型。</p>
+<p><strong>输入 → 输出：</strong>组织图像、基因表达 token 和文本→跨模态生物学任务输出。</p>
+<p><strong>关键模块与流程：</strong>NicheFormer 编码基因，GeneQFormer 交叉注意力压缩表示，再经投影接入 MiniCPM-V 类架构；包含蒸馏、SFT 与 RL 路线。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>增加基因模态和领域编码器，普通纯文本 LLM 无法直接把高维表达数据当作同等输入。</p>
+<p><strong>上下游与依赖：</strong>依赖 NicheFormer、QFormer、视觉语言骨干和训练框架；下游组学研究。</p>
+<p><strong>适用场景与局限：</strong>适合探索多模态生物学。性能需要数据域和任务验证；研究输出不能自动外推到临床结论或实验因果关系。</p>
+<p class="sources">固定提交 32b0ef71fad37db9bda07b6959b644d8048e5978<br><a href="https://github.com/OpenBMB/Scicore-Omics/blob/32b0ef71fad37db9bda07b6959b644d8048e5978/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/Scicore-Omics/blob/32b0ef71fad37db9bda07b6959b644d8048e5978/README_zh.md">README README_zh.md</a> · <a href="https://github.com/OpenBMB/Scicore-Omics/blob/32b0ef71fad37db9bda07b6959b644d8048e5978/model/gene_qformer_module.py">model/gene_qformer_module.py</a> · <a href="https://github.com/OpenBMB/Scicore-Omics/blob/32b0ef71fad37db9bda07b6959b644d8048e5978/model/modeling_minicpmv.py">model/modeling_minicpmv.py</a></p></details>
+<details data-category="推理基础设施" data-search="sglang 推理基础设施 OpenBMB 维护的 SGLang fork，父仓库为 sgl-project/sglang。 模型、并发请求与服务配置→批量生成及服务指标。 继承 SGLang 的调度、缓存和模型服务体系；MiniCPM-SALA 使用专门分支，默认分支和适配分支需分开。 是运行模型的引擎，不是 SGLang 自己的语言模型；服务优化影响吞吐与内存。 上游 sgl-project/sglang；下游 SALA 适配与相关测试工具。 适合核对 OpenBMB 特定适配。默认 README 的上游支持矩阵不能证明 fork 每个分支都完整同步；需固定分支、提交和 kernel 版本。  README README.md"><summary>66. sglang <span class="badge">推理基础设施</span></summary>
+<p class="muted">官方 README 与目录核对 · fork: sgl-project/sglang · 未归档</p>
+<p><strong>定位与解决的问题：</strong>OpenBMB 维护的 SGLang fork，父仓库为 sgl-project/sglang。</p>
+<p><strong>输入 → 输出：</strong>模型、并发请求与服务配置→批量生成及服务指标。</p>
+<p><strong>关键模块与流程：</strong>继承 SGLang 的调度、缓存和模型服务体系；MiniCPM-SALA 使用专门分支，默认分支和适配分支需分开。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>是运行模型的引擎，不是 SGLang 自己的语言模型；服务优化影响吞吐与内存。</p>
+<p><strong>上下游与依赖：</strong>上游 sgl-project/sglang；下游 SALA 适配与相关测试工具。</p>
+<p><strong>适用场景与局限：</strong>适合核对 OpenBMB 特定适配。默认 README 的上游支持矩阵不能证明 fork 每个分支都完整同步；需固定分支、提交和 kernel 版本。</p>
+<p class="sources">固定提交 7fc91fe148797c32b6e209d86b8dd50e0402815f<br><a href="https://github.com/OpenBMB/sglang/blob/7fc91fe148797c32b6e209d86b8dd50e0402815f/README.md">README README.md</a></p></details>
+<details data-category="检索与知识" data-search="SHIFT 检索与知识 用轻量可学习门控调节模型对上下文的使用。 问题、检索证据及参数知识冲突情形→更忠实于证据的生成。 冻结主模型，在注意力输出加入门控，通过 GRPO 等学习；源码可见 attention output 乘 sigmoid(gate_score)。 改变模型内部信息流；区别于 ParamMute 的 FFN 抑制，也区别于仅提升检索召回。 上游 Qwen/Llama 修改实现、训练和推理适配；下游知识冲突型 RAG。 适合研究参数高效忠实性适配。少量可训练参数不代表没有推理改动，后端需实现同一门控；遇到错误证据仍需判断。  README README.md models/Qwen-3-0.6B/modeling_qwen3.py"><summary>67. SHIFT <span class="badge">检索与知识</span></summary>
+<p class="muted">官方 README 与目录核对；补查 1 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>用轻量可学习门控调节模型对上下文的使用。</p>
+<p><strong>输入 → 输出：</strong>问题、检索证据及参数知识冲突情形→更忠实于证据的生成。</p>
+<p><strong>关键模块与流程：</strong>冻结主模型，在注意力输出加入门控，通过 GRPO 等学习；源码可见 attention output 乘 sigmoid(gate_score)。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>改变模型内部信息流；区别于 ParamMute 的 FFN 抑制，也区别于仅提升检索召回。</p>
+<p><strong>上下游与依赖：</strong>上游 Qwen/Llama 修改实现、训练和推理适配；下游知识冲突型 RAG。</p>
+<p><strong>适用场景与局限：</strong>适合研究参数高效忠实性适配。少量可训练参数不代表没有推理改动，后端需实现同一门控；遇到错误证据仍需判断。</p>
+<p class="sources">固定提交 0c647191b3925a64303727625f44c7aba1793d69<br><a href="https://github.com/OpenBMB/SHIFT/blob/0c647191b3925a64303727625f44c7aba1793d69/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/SHIFT/blob/0c647191b3925a64303727625f44c7aba1793d69/models/Qwen-3-0.6B/modeling_qwen3.py">models/Qwen-3-0.6B/modeling_qwen3.py</a></p></details>
+<details data-category="具身与科学" data-search="SimpleMemVLA 具身与科学 以原生视频格式保留历史的视觉语言动作模型。 采样后的带时间戳视频历史、当前观察和任务→子任务表示及连续动作。 不专门训练记忆压缩器，历史直接送 VLM；生成子任务隐藏状态作为历史到 flow-matching 动作头的通道，共享前缀缓存降低重复计算。 比纯文本 LLM 多视频和动作生成；所谓简单记忆不是向量数据库，而是利用骨干已学会的视频输入格式。 参考 Qwen3.5-4B、LeRobot 相关基础与 DiT 动作头；下游仿真/真机操作。 适合长程部分可观测操作。保留的是采样历史而非无限原视频；官方有真机演示，但缓存收益、成功率受历史长度和硬件影响。  README README.md simplememvla/model/modeling_simplememvla.py"><summary>68. SimpleMemVLA <span class="badge">具身与科学</span></summary>
+<p class="muted">官方 README 与目录核对；补查 1 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>以原生视频格式保留历史的视觉语言动作模型。</p>
+<p><strong>输入 → 输出：</strong>采样后的带时间戳视频历史、当前观察和任务→子任务表示及连续动作。</p>
+<p><strong>关键模块与流程：</strong>不专门训练记忆压缩器，历史直接送 VLM；生成子任务隐藏状态作为历史到 flow-matching 动作头的通道，共享前缀缓存降低重复计算。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>比纯文本 LLM 多视频和动作生成；所谓简单记忆不是向量数据库，而是利用骨干已学会的视频输入格式。</p>
+<p><strong>上下游与依赖：</strong>参考 Qwen3.5-4B、LeRobot 相关基础与 DiT 动作头；下游仿真/真机操作。</p>
+<p><strong>适用场景与局限：</strong>适合长程部分可观测操作。保留的是采样历史而非无限原视频；官方有真机演示，但缓存收益、成功率受历史长度和硬件影响。</p>
+<p class="sources">固定提交 404215d752704fd8d8157fa6b7ccdfafdb2bd44e<br><a href="https://github.com/OpenBMB/SimpleMemVLA/blob/404215d752704fd8d8157fa6b7ccdfafdb2bd44e/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/SimpleMemVLA/blob/404215d752704fd8d8157fa6b7ccdfafdb2bd44e/simplememvla/model/modeling_simplememvla.py">simplememvla/model/modeling_simplememvla.py</a></p></details>
+<details data-category="具身与科学" data-search="SimpleNav 具身与科学 面向长程视觉语言导航的模型与数据框架。 指令、当前多视角、选择后的历史及可选状态→连续相对路点块。 主路径 Qwen3.5-VL，BATS 选历史、TVI 编码时序/视角、视觉缓存、DiT-B 条件扩散动作头。 输出是导航控制目标，不是导航建议文本；训练必须对齐坐标系、时间和动作归一化。 上游 VLM、LeRobot v3 数据适配及导航环境；下游空中/地面/室内任务的独立适配器。 适合跨数据集导航研究。主协议为当前锚点机体系 8×4 路点，存储 pose、模型历史状态和未来动作不能混为一谈；世界模型等列为未来方向。  README README.md README README_ZH.md docs/guides/MODEL_ARCHITECTURE.md docs/guides/DATA_STRUCTURE.md"><summary>69. SimpleNav <span class="badge">具身与科学</span></summary>
+<p class="muted">官方 README 与目录核对；补查 2 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>面向长程视觉语言导航的模型与数据框架。</p>
+<p><strong>输入 → 输出：</strong>指令、当前多视角、选择后的历史及可选状态→连续相对路点块。</p>
+<p><strong>关键模块与流程：</strong>主路径 Qwen3.5-VL，BATS 选历史、TVI 编码时序/视角、视觉缓存、DiT-B 条件扩散动作头。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>输出是导航控制目标，不是导航建议文本；训练必须对齐坐标系、时间和动作归一化。</p>
+<p><strong>上下游与依赖：</strong>上游 VLM、LeRobot v3 数据适配及导航环境；下游空中/地面/室内任务的独立适配器。</p>
+<p><strong>适用场景与局限：</strong>适合跨数据集导航研究。主协议为当前锚点机体系 8×4 路点，存储 pose、模型历史状态和未来动作不能混为一谈；世界模型等列为未来方向。</p>
+<p class="sources">固定提交 64925eab9136318ef90eddacf2aa7e9058311c0d<br><a href="https://github.com/OpenBMB/SimpleNav/blob/64925eab9136318ef90eddacf2aa7e9058311c0d/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/SimpleNav/blob/64925eab9136318ef90eddacf2aa7e9058311c0d/README_ZH.md">README README_ZH.md</a> · <a href="https://github.com/OpenBMB/SimpleNav/blob/64925eab9136318ef90eddacf2aa7e9058311c0d/docs/guides/MODEL_ARCHITECTURE.md">docs/guides/MODEL_ARCHITECTURE.md</a> · <a href="https://github.com/OpenBMB/SimpleNav/blob/64925eab9136318ef90eddacf2aa7e9058311c0d/docs/guides/DATA_STRUCTURE.md">docs/guides/DATA_STRUCTURE.md</a></p></details>
+<details data-category="评测" data-search="SOAR-Toolkit 评测 MiniCPM-SALA 推理优化赛事的自评工具。 参赛推理服务和指定任务配置→正确性与性能评测记录。 公共检查集、隐藏测试约定及 SGLang 服务压测配合，强调比赛约束下的吞吐和正确性。 检验推理实现，不是新模型或通用训练框架。 上游 MiniCPM-SALA、SGLang 和指定硬件环境；下游优化方案自测。 适合复现赛事设定。公开集合不等于最终隐藏成绩；指定 RTX PRO 等资源限制是赛事条件，不是 SALA 普遍硬件需求。  README README.md README README_EN.md"><summary>70. SOAR-Toolkit <span class="badge">评测</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>MiniCPM-SALA 推理优化赛事的自评工具。</p>
+<p><strong>输入 → 输出：</strong>参赛推理服务和指定任务配置→正确性与性能评测记录。</p>
+<p><strong>关键模块与流程：</strong>公共检查集、隐藏测试约定及 SGLang 服务压测配合，强调比赛约束下的吞吐和正确性。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>检验推理实现，不是新模型或通用训练框架。</p>
+<p><strong>上下游与依赖：</strong>上游 MiniCPM-SALA、SGLang 和指定硬件环境；下游优化方案自测。</p>
+<p><strong>适用场景与局限：</strong>适合复现赛事设定。公开集合不等于最终隐藏成绩；指定 RTX PRO 等资源限制是赛事条件，不是 SALA 普遍硬件需求。</p>
+<p class="sources">固定提交 2ed4ade13a601f2f8879c2bc482ed7d0f11c61ef<br><a href="https://github.com/OpenBMB/SOAR-Toolkit/blob/2ed4ade13a601f2f8879c2bc482ed7d0f11c61ef/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/SOAR-Toolkit/blob/2ed4ade13a601f2f8879c2bc482ed7d0f11c61ef/README_EN.md">README README_EN.md</a></p></details>
+<details data-category="推理基础设施" data-search="sparse_kernel 推理基础设施 SALA 相关稀疏索引表 CUDA 扩展。 稀疏选择/索引张量→供注意力使用的表或索引结果。 get_table_kernel.cu 通过 PyBind 暴露表构建函数，配套 setup、性能和单测脚本。 是注意力外围的细粒度 kernel，不是完整稀疏注意力模型，也不等于 infllmv2_cuda_impl 的全部算子。 与 OpenBMB/sglang 的 minicpm_sala 路径及相关依赖配套。 适合核对稀疏表构造开销。README 短且接口窄，不能据名字推断支持所有稀疏模式、设备或训练阶段。  README README.md get_table_kernel.cu"><summary>71. sparse_kernel <span class="badge">推理基础设施</span></summary>
+<p class="muted">官方 README 与目录核对；补查 1 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>SALA 相关稀疏索引表 CUDA 扩展。</p>
+<p><strong>输入 → 输出：</strong>稀疏选择/索引张量→供注意力使用的表或索引结果。</p>
+<p><strong>关键模块与流程：</strong>get_table_kernel.cu 通过 PyBind 暴露表构建函数，配套 setup、性能和单测脚本。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>是注意力外围的细粒度 kernel，不是完整稀疏注意力模型，也不等于 infllmv2_cuda_impl 的全部算子。</p>
+<p><strong>上下游与依赖：</strong>与 OpenBMB/sglang 的 minicpm_sala 路径及相关依赖配套。</p>
+<p><strong>适用场景与局限：</strong>适合核对稀疏表构造开销。README 短且接口窄，不能据名字推断支持所有稀疏模式、设备或训练阶段。</p>
+<p class="sources">固定提交 bfa61186b2c87569185523a800780e997cbbf601<br><a href="https://github.com/OpenBMB/sparse_kernel/blob/bfa61186b2c87569185523a800780e997cbbf601/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/sparse_kernel/blob/bfa61186b2c87569185523a800780e997cbbf601/get_table_kernel.cu">get_table_kernel.cu</a></p></details>
+<details data-category="Agent应用" data-search="StaffDeck Agent应用 把岗位流程和知识组织成可执行 Agent 的平台。 岗位任务、SOP、知识资料和工具权限→执行步骤、交接及反馈。 后端 harness 管理流程状态、文档知识索引、版本化技能、追踪与人工交接。 属于业务运行层：使用可替换的 LLM，不是训练出一个具备真实员工身份的新模型。 上游模型服务、知识库与业务工具；下游岗位工作流程。 适合流程明确的自动化研究。组织权限、失败处理和交接机制决定实际可用性，产品描述不证明可无人监管完成所有工作。  README README.md README README.zh.md backend/README.md backend/app/core/harness_v2_engine.py"><summary>72. StaffDeck <span class="badge">Agent应用</span></summary>
+<p class="muted">官方 README 与目录核对；补查 2 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>把岗位流程和知识组织成可执行 Agent 的平台。</p>
+<p><strong>输入 → 输出：</strong>岗位任务、SOP、知识资料和工具权限→执行步骤、交接及反馈。</p>
+<p><strong>关键模块与流程：</strong>后端 harness 管理流程状态、文档知识索引、版本化技能、追踪与人工交接。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>属于业务运行层：使用可替换的 LLM，不是训练出一个具备真实员工身份的新模型。</p>
+<p><strong>上下游与依赖：</strong>上游模型服务、知识库与业务工具；下游岗位工作流程。</p>
+<p><strong>适用场景与局限：</strong>适合流程明确的自动化研究。组织权限、失败处理和交接机制决定实际可用性，产品描述不证明可无人监管完成所有工作。</p>
+<p class="sources">固定提交 7adc7c84f61bd6cca13ff0380a811cbb3ae3c544<br><a href="https://github.com/OpenBMB/StaffDeck/blob/7adc7c84f61bd6cca13ff0380a811cbb3ae3c544/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/StaffDeck/blob/7adc7c84f61bd6cca13ff0380a811cbb3ae3c544/README.zh.md">README README.zh.md</a> · <a href="https://github.com/OpenBMB/StaffDeck/blob/7adc7c84f61bd6cca13ff0380a811cbb3ae3c544/backend/README.md">backend/README.md</a> · <a href="https://github.com/OpenBMB/StaffDeck/blob/7adc7c84f61bd6cca13ff0380a811cbb3ae3c544/backend/app/core/harness_v2_engine.py">backend/app/core/harness_v2_engine.py</a></p></details>
+<details data-category="模型与Agent" data-search="Tell_Me_More 模型与Agent 训练模型主动澄清不完整或含糊的用户需求。 不明确的指令与交互历史→澄清问题，继而完成更明确的任务。 IN3 数据和 Mistral-Interact 微调，学习识别信息缺口并提问。 仍是文本 LLM，但行为目标从直接回答扩展为先补齐需求；没有新增感知模态。 上游 Mistral7B 与交互数据；下游对话式需求澄清。 适合低信息指令场景。提问次数与任务收益需权衡，不能把不断追问等同良好交互。  README README.md"><summary>73. Tell_Me_More <span class="badge">模型与Agent</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>训练模型主动澄清不完整或含糊的用户需求。</p>
+<p><strong>输入 → 输出：</strong>不明确的指令与交互历史→澄清问题，继而完成更明确的任务。</p>
+<p><strong>关键模块与流程：</strong>IN3 数据和 Mistral-Interact 微调，学习识别信息缺口并提问。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>仍是文本 LLM，但行为目标从直接回答扩展为先补齐需求；没有新增感知模态。</p>
+<p><strong>上下游与依赖：</strong>上游 Mistral7B 与交互数据；下游对话式需求澄清。</p>
+<p><strong>适用场景与局限：</strong>适合低信息指令场景。提问次数与任务收益需权衡，不能把不断追问等同良好交互。</p>
+<p class="sources">固定提交 654fcec4da3b3465536d57b0d1995e8699a5a8f0<br><a href="https://github.com/OpenBMB/Tell_Me_More/blob/654fcec4da3b3465536d57b0d1995e8699a5a8f0/README.md">README README.md</a></p></details>
+<details data-category="模型与Agent" data-search="ToolBench 模型与Agent ToolLLM 工具学习的数据、模型、检索与评测体系。 用户目标、API 描述→工具检索、调用链和答案；训练用调用轨迹。 ToolBench 数据、ToolLLaMA、工具检索器及 ToolEval 形成链条；利用真实 API 环境构造轨迹。 后训练赋予 LLM 工具使用行为，外部 API 负责实际执行；不同于模型仅凭参数生成答案。 上游 LLaMA、RapidAPI 等；下游工具 Agent。StableToolBench 是另一个相关项目，非本组织清单内新增仓库。 适合工具学习研究。API 变化与不可用影响复现，LLM judge 也有偏差；成功的调用格式不保证结果事实正确。  README README.md README README_ZH.md"><summary>74. ToolBench <span class="badge">模型与Agent</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>ToolLLM 工具学习的数据、模型、检索与评测体系。</p>
+<p><strong>输入 → 输出：</strong>用户目标、API 描述→工具检索、调用链和答案；训练用调用轨迹。</p>
+<p><strong>关键模块与流程：</strong>ToolBench 数据、ToolLLaMA、工具检索器及 ToolEval 形成链条；利用真实 API 环境构造轨迹。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>后训练赋予 LLM 工具使用行为，外部 API 负责实际执行；不同于模型仅凭参数生成答案。</p>
+<p><strong>上下游与依赖：</strong>上游 LLaMA、RapidAPI 等；下游工具 Agent。StableToolBench 是另一个相关项目，非本组织清单内新增仓库。</p>
+<p><strong>适用场景与局限：</strong>适合工具学习研究。API 变化与不可用影响复现，LLM judge 也有偏差；成功的调用格式不保证结果事实正确。</p>
+<p class="sources">固定提交 d56fdd89faf8c91fa135090b212bb9057ee5cfc2<br><a href="https://github.com/OpenBMB/ToolBench/blob/d56fdd89faf8c91fa135090b212bb9057ee5cfc2/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/ToolBench/blob/d56fdd89faf8c91fa135090b212bb9057ee5cfc2/README_ZH.md">README README_ZH.md</a></p></details>
+<details data-category="评测" data-search="UltraEval 评测 通用基础模型评测框架。 模型后端、数据、提示配置→任务结果和指标汇总。 把数据、提示、推理与评分模块化，支持不同模型与运行方式。 提供测量方法，不提供新基础模型；相同权重改变提示/评分也可能改变成绩。 上游 Transformers/vLLM 等及评测数据；下游 MiniCPM 等模型评估。 适合统一评测流水线。应保存模板、模型版本和生成参数，不能将框架支持直接解释为每项任务均已测试。  README README.md README README_zh.md"><summary>75. UltraEval <span class="badge">评测</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>通用基础模型评测框架。</p>
+<p><strong>输入 → 输出：</strong>模型后端、数据、提示配置→任务结果和指标汇总。</p>
+<p><strong>关键模块与流程：</strong>把数据、提示、推理与评分模块化，支持不同模型与运行方式。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>提供测量方法，不提供新基础模型；相同权重改变提示/评分也可能改变成绩。</p>
+<p><strong>上下游与依赖：</strong>上游 Transformers/vLLM 等及评测数据；下游 MiniCPM 等模型评估。</p>
+<p><strong>适用场景与局限：</strong>适合统一评测流水线。应保存模板、模型版本和生成参数，不能将框架支持直接解释为每项任务均已测试。</p>
+<p class="sources">固定提交 5d967b4ea5725ab1252904520bcaa87b40165b4b<br><a href="https://github.com/OpenBMB/UltraEval/blob/5d967b4ea5725ab1252904520bcaa87b40165b4b/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/UltraEval/blob/5d967b4ea5725ab1252904520bcaa87b40165b4b/README_zh.md">README README_zh.md</a></p></details>
+<details data-category="评测" data-search="UltraEval-Audio 评测 覆盖音频模型及 TTS/ASR/codec 的评测工具。 音频数据、模型和任务配置→质量、识别或相关任务指标。 README 列出 34 个 benchmark、12 类任务、10 种语言；新版本用独立推理进程/IPC 处理依赖隔离。 与普通文本问答评测不同，需要音频预处理和任务特定指标；不是音频生成模型。 上游音频模型、数据集及各自依赖；下游 VoxCPM 等音频系统评价。 适合多模型音频测量。版本与任务覆盖会变化，WER、音质、说话人相似度及延迟不可互相替代。  README README.md README README_zh.md pyproject.toml"><summary>76. UltraEval-Audio <span class="badge">评测</span></summary>
+<p class="muted">官方 README 与目录核对；补查 1 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>覆盖音频模型及 TTS/ASR/codec 的评测工具。</p>
+<p><strong>输入 → 输出：</strong>音频数据、模型和任务配置→质量、识别或相关任务指标。</p>
+<p><strong>关键模块与流程：</strong>README 列出 34 个 benchmark、12 类任务、10 种语言；新版本用独立推理进程/IPC 处理依赖隔离。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>与普通文本问答评测不同，需要音频预处理和任务特定指标；不是音频生成模型。</p>
+<p><strong>上下游与依赖：</strong>上游音频模型、数据集及各自依赖；下游 VoxCPM 等音频系统评价。</p>
+<p><strong>适用场景与局限：</strong>适合多模型音频测量。版本与任务覆盖会变化，WER、音质、说话人相似度及延迟不可互相替代。</p>
+<p class="sources">固定提交 bead726925d43f526bed48a4a6a827595169429d<br><a href="https://github.com/OpenBMB/UltraEval-Audio/blob/bead726925d43f526bed48a4a6a827595169429d/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/UltraEval-Audio/blob/bead726925d43f526bed48a4a6a827595169429d/README_zh.md">README README_zh.md</a> · <a href="https://github.com/OpenBMB/UltraEval-Audio/blob/bead726925d43f526bed48a4a6a827595169429d/pyproject.toml">pyproject.toml</a></p></details>
+<details data-category="数据与对齐" data-search="UltraFeedback 数据与对齐 多维细粒度偏好数据及奖励/评论模型。 提示与多模型候选回答→评分、反馈和偏好样本。 官方约 64K prompts，利用 GPT 等给多维反馈；附 UltraRM、UltraCM 等相关训练产物。 主要为 LLM 对齐提供监督，不是另一个从头预训练的聊天模型。 上游候选模型与评判模型；下游 DPO/RLHF、Eurus 等。 适合偏好学习。README 记录过 overall_score 修正，使用数据需明确版本；自动反馈不是独立人工真值。  README README.md"><summary>77. UltraFeedback <span class="badge">数据与对齐</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>多维细粒度偏好数据及奖励/评论模型。</p>
+<p><strong>输入 → 输出：</strong>提示与多模型候选回答→评分、反馈和偏好样本。</p>
+<p><strong>关键模块与流程：</strong>官方约 64K prompts，利用 GPT 等给多维反馈；附 UltraRM、UltraCM 等相关训练产物。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>主要为 LLM 对齐提供监督，不是另一个从头预训练的聊天模型。</p>
+<p><strong>上下游与依赖：</strong>上游候选模型与评判模型；下游 DPO/RLHF、Eurus 等。</p>
+<p><strong>适用场景与局限：</strong>适合偏好学习。README 记录过 overall_score 修正，使用数据需明确版本；自动反馈不是独立人工真值。</p>
+<p class="sources">固定提交 bf80fd46a8c6ceecc86e8babb1ae8771f26a3cbb<br><a href="https://github.com/OpenBMB/UltraFeedback/blob/bf80fd46a8c6ceecc86e8babb1ae8771f26a3cbb/README.md">README README.md</a></p></details>
+<details data-category="数据与对齐" data-search="UltraLink 数据与对齐 结合语言特有知识的多语言对齐数据及模型研究。 跨语言语料和知识→多语言指令/对话数据及 UltraLink-LM。 区分语言特有知识与语言无关冗余，构建约 5 种语言的训练材料。 重点是训练数据覆盖和多语言对齐，通常保留既有 LLM 架构。 上游基础模型及语言知识资源；下游多语言交互研究。 适合分析跨语言迁移。支持若干语言不意味着所有文化知识完整覆盖，语言间指标与数据量需分别看。  README README.md"><summary>78. UltraLink <span class="badge">数据与对齐</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>结合语言特有知识的多语言对齐数据及模型研究。</p>
+<p><strong>输入 → 输出：</strong>跨语言语料和知识→多语言指令/对话数据及 UltraLink-LM。</p>
+<p><strong>关键模块与流程：</strong>区分语言特有知识与语言无关冗余，构建约 5 种语言的训练材料。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>重点是训练数据覆盖和多语言对齐，通常保留既有 LLM 架构。</p>
+<p><strong>上下游与依赖：</strong>上游基础模型及语言知识资源；下游多语言交互研究。</p>
+<p><strong>适用场景与局限：</strong>适合分析跨语言迁移。支持若干语言不意味着所有文化知识完整覆盖，语言间指标与数据量需分别看。</p>
+<p class="sources">固定提交 6f967d8376eaa8371519ce8d9dd737c040026e50<br><a href="https://github.com/OpenBMB/UltraLink/blob/6f967d8376eaa8371519ce8d9dd737c040026e50/README.md">README README.md</a></p></details>
+<details data-category="检索与知识" data-search="UltraRAG 检索与知识 组织复杂 RAG 流程的框架，当前主线为 v3。 知识库、问题及 YAML/流程配置→检索、生成、循环推理与结果。 MCP server 暴露 retriever、generation 等能力，客户端连接、编排条件和循环；支持多种检索与模型后端。 是外部知识系统的装配层，不是一种统一新模型，也不等于某篇单一 RAG 算法。 连接 embedding、数据库、vLLM/OpenAI兼容/HF 等；AgentCPM-Report 等项目使用特定版本。 适合搭建和比较 RAG。v1/v2/v3 接口不同，集成例子需匹配；可配置不代表默认检索质量或答案正确率有保证。  README README.md src/ultrarag/api.py servers/retriever/src/retriever.py servers/generation/src/generation.py"><summary>79. UltraRAG <span class="badge">检索与知识</span></summary>
+<p class="muted">官方 README 与目录核对；补查 3 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>组织复杂 RAG 流程的框架，当前主线为 v3。</p>
+<p><strong>输入 → 输出：</strong>知识库、问题及 YAML/流程配置→检索、生成、循环推理与结果。</p>
+<p><strong>关键模块与流程：</strong>MCP server 暴露 retriever、generation 等能力，客户端连接、编排条件和循环；支持多种检索与模型后端。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>是外部知识系统的装配层，不是一种统一新模型，也不等于某篇单一 RAG 算法。</p>
+<p><strong>上下游与依赖：</strong>连接 embedding、数据库、vLLM/OpenAI兼容/HF 等；AgentCPM-Report 等项目使用特定版本。</p>
+<p><strong>适用场景与局限：</strong>适合搭建和比较 RAG。v1/v2/v3 接口不同，集成例子需匹配；可配置不代表默认检索质量或答案正确率有保证。</p>
+<p class="sources">固定提交 a763d34432007fcd1b261209f222bb10df907beb<br><a href="https://github.com/OpenBMB/UltraRAG/blob/a763d34432007fcd1b261209f222bb10df907beb/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/UltraRAG/blob/a763d34432007fcd1b261209f222bb10df907beb/src/ultrarag/api.py">src/ultrarag/api.py</a> · <a href="https://github.com/OpenBMB/UltraRAG/blob/a763d34432007fcd1b261209f222bb10df907beb/servers/retriever/src/retriever.py">servers/retriever/src/retriever.py</a> · <a href="https://github.com/OpenBMB/UltraRAG/blob/a763d34432007fcd1b261209f222bb10df907beb/servers/generation/src/generation.py">servers/generation/src/generation.py</a></p></details>
+<details data-category="数据与对齐" data-search="UltraX 数据与对齐 用程序化编辑提高大规模预训练语料质量。 原文及教师改写→编辑监督；推理时原文→增删改操作→执行后的文本。 提示优化→教师精修→LAM 行对齐与 DCR 上下文替换→训练编辑器；滑窗预测、操作聚合和后处理执行。 把 LLM 从逐字重写者变成编辑指令生成器，最终文本由程序执行；主要服务数据生产。 上游原始语料与教师模型；下游 MiniCPM 等预训练数据管线。 适合大规模语料加工。程序能校验操作格式，不能保证修改后的事实正确；省 token 和质量收益属于具体语料实验结果。  README README.md README README_ZH.md stage2_large_scale_execution/post_processing/post_process_and_execute.py"><summary>80. UltraX <span class="badge">数据与对齐</span></summary>
+<p class="muted">官方 README 与目录核对；补查 1 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>用程序化编辑提高大规模预训练语料质量。</p>
+<p><strong>输入 → 输出：</strong>原文及教师改写→编辑监督；推理时原文→增删改操作→执行后的文本。</p>
+<p><strong>关键模块与流程：</strong>提示优化→教师精修→LAM 行对齐与 DCR 上下文替换→训练编辑器；滑窗预测、操作聚合和后处理执行。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>把 LLM 从逐字重写者变成编辑指令生成器，最终文本由程序执行；主要服务数据生产。</p>
+<p><strong>上下游与依赖：</strong>上游原始语料与教师模型；下游 MiniCPM 等预训练数据管线。</p>
+<p><strong>适用场景与局限：</strong>适合大规模语料加工。程序能校验操作格式，不能保证修改后的事实正确；省 token 和质量收益属于具体语料实验结果。</p>
+<p class="sources">固定提交 cb0c2fae44c30b68e5e736a0255eef61e82f026b<br><a href="https://github.com/OpenBMB/UltraX/blob/cb0c2fae44c30b68e5e736a0255eef61e82f026b/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/UltraX/blob/cb0c2fae44c30b68e5e736a0255eef61e82f026b/README_ZH.md">README README_ZH.md</a> · <a href="https://github.com/OpenBMB/UltraX/blob/cb0c2fae44c30b68e5e736a0255eef61e82f026b/stage2_large_scale_execution/post_processing/post_process_and_execute.py">stage2_large_scale_execution/post_processing/post_process_and_execute.py</a></p></details>
+<details data-category="多模态模型" data-search="VisCPM 多模态模型 早期在 CPM-Bee 上扩展视觉能力的模型集合。 Chat：图像+文字→双语回答；Paint：文字→生成图像。 Chat 使用视觉编码/连接模块接语言骨干；Paint 接扩散图像生成模块，是两条用途不同的路线。 输入或输出增加视觉模态；不是一个模型同时天然具备所有 omni 能力。 上游 CPM-Bee10B、Muffin 相关视觉方案及扩散模块；下游图文交互研究。 适合理解早期多模态迁移。英文训练到双语能力的结论有实验范围，不能等同全面多语言；Chat/Paint 权重和依赖要分别核对。 历史多模态主线 README README.md README README_en.md"><summary>81. VisCPM <span class="badge">历史多模态主线</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>早期在 CPM-Bee 上扩展视觉能力的模型集合。</p>
+<p><strong>输入 → 输出：</strong>Chat：图像+文字→双语回答；Paint：文字→生成图像。</p>
+<p><strong>关键模块与流程：</strong>Chat 使用视觉编码/连接模块接语言骨干；Paint 接扩散图像生成模块，是两条用途不同的路线。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>输入或输出增加视觉模态；不是一个模型同时天然具备所有 omni 能力。</p>
+<p><strong>上下游与依赖：</strong>上游 CPM-Bee10B、Muffin 相关视觉方案及扩散模块；下游图文交互研究。</p>
+<p><strong>适用场景与局限：</strong>适合理解早期多模态迁移。英文训练到双语能力的结论有实验范围，不能等同全面多语言；Chat/Paint 权重和依赖要分别核对。</p>
+<p class="sources">固定提交 d21f3ebda1d5195c49c9ca4cf6c1db8be50e0385<br><a href="https://github.com/OpenBMB/VisCPM/blob/d21f3ebda1d5195c49c9ca4cf6c1db8be50e0385/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/VisCPM/blob/d21f3ebda1d5195c49c9ca4cf6c1db8be50e0385/README_en.md">README README_en.md</a></p></details>
+<details data-category="检索与知识" data-search="VisRAG 检索与知识 直接按文档页面图像进行检索与生成的视觉 RAG。 文字问题和文档页面图像→页面向量检索、视觉证据及答案。 早期 Ret 基于 MiniCPM-V，Gen 用 VLM；2.0/EVisRAG 增加逐图证据提炼与 Reward-Scoped GRPO 等训练。 避免先把页面彻底转成纯文本，保留布局、表格与图像；但仍需要检索器和生成器两类角色。 上游 MiniCPM-V/Qwen2.5-VL 等按版本区别；下游图表、扫描件和复杂版式问答。 适合视觉信息重要的资料库。页面编码、分辨率与多图上下文有成本；保留原图不代表检索和读图完全无损。  README README.md src/openmatch/modeling/modeling_visrag_ret/modeling_visrag_ret.py src/rsgrpo/README.md"><summary>82. VisRAG <span class="badge">检索与知识</span></summary>
+<p class="muted">官方 README 与目录核对；补查 2 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>直接按文档页面图像进行检索与生成的视觉 RAG。</p>
+<p><strong>输入 → 输出：</strong>文字问题和文档页面图像→页面向量检索、视觉证据及答案。</p>
+<p><strong>关键模块与流程：</strong>早期 Ret 基于 MiniCPM-V，Gen 用 VLM；2.0/EVisRAG 增加逐图证据提炼与 Reward-Scoped GRPO 等训练。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>避免先把页面彻底转成纯文本，保留布局、表格与图像；但仍需要检索器和生成器两类角色。</p>
+<p><strong>上下游与依赖：</strong>上游 MiniCPM-V/Qwen2.5-VL 等按版本区别；下游图表、扫描件和复杂版式问答。</p>
+<p><strong>适用场景与局限：</strong>适合视觉信息重要的资料库。页面编码、分辨率与多图上下文有成本；保留原图不代表检索和读图完全无损。</p>
+<p class="sources">固定提交 7205787862e35d70cee7ebfd8f2b58d3eb5d563b<br><a href="https://github.com/OpenBMB/VisRAG/blob/7205787862e35d70cee7ebfd8f2b58d3eb5d563b/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/VisRAG/blob/7205787862e35d70cee7ebfd8f2b58d3eb5d563b/src/openmatch/modeling/modeling_visrag_ret/modeling_visrag_ret.py">src/openmatch/modeling/modeling_visrag_ret/modeling_visrag_ret.py</a> · <a href="https://github.com/OpenBMB/VisRAG/blob/7205787862e35d70cee7ebfd8f2b58d3eb5d563b/src/rsgrpo/README.md">src/rsgrpo/README.md</a></p></details>
+<details data-category="多模态模型" data-search="VoxCPM 多模态模型 连续音频潜变量上的语音生成家族。 文本、可选参考语音/风格条件→流式或完整语音波形。 文本语义 LM、残差声学 LM、局部扩散/flow matching 解码器和 AudioVAE；VoxCPM2 VAE 16kHz 编码、48kHz 解码。 tokenizer-free 指不依赖外部离散语音 tokenizer，不是完全没有文本 tokenizer 或量化层；输出主要是语音而非问答文字。 MiniCPM 类骨干、AudioVAE 和本地 DiT；下游 TTS、克隆与 V-Apps。 适合语音合成。0.5B、1.5、2 是不同版本，音质/语言/采样率不同；2B、30语言等为官方口径，延迟还取决于扩散步数与后端。 ★ 语音主线 README README.md README README_zh.md src/voxcpm/model/voxcpm2.py src/voxcpm/modules/audiovae/audio_vae_v2.py src/voxcpm/modules/locdit/unified_cfm.py"><summary>83. VoxCPM <span class="badge">★ 语音主线</span></summary>
+<p class="muted">官方 README 与目录核对；补查 3 个源码/文档文件 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>连续音频潜变量上的语音生成家族。</p>
+<p><strong>输入 → 输出：</strong>文本、可选参考语音/风格条件→流式或完整语音波形。</p>
+<p><strong>关键模块与流程：</strong>文本语义 LM、残差声学 LM、局部扩散/flow matching 解码器和 AudioVAE；VoxCPM2 VAE 16kHz 编码、48kHz 解码。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>tokenizer-free 指不依赖外部离散语音 tokenizer，不是完全没有文本 tokenizer 或量化层；输出主要是语音而非问答文字。</p>
+<p><strong>上下游与依赖：</strong>MiniCPM 类骨干、AudioVAE 和本地 DiT；下游 TTS、克隆与 V-Apps。</p>
+<p><strong>适用场景与局限：</strong>适合语音合成。0.5B、1.5、2 是不同版本，音质/语言/采样率不同；2B、30语言等为官方口径，延迟还取决于扩散步数与后端。</p>
+<p class="sources">固定提交 f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69<br><a href="https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/README_zh.md">README README_zh.md</a> · <a href="https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/src/voxcpm/model/voxcpm2.py">src/voxcpm/model/voxcpm2.py</a> · <a href="https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/src/voxcpm/modules/audiovae/audio_vae_v2.py">src/voxcpm/modules/audiovae/audio_vae_v2.py</a> · <a href="https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/src/voxcpm/modules/locdit/unified_cfm.py">src/voxcpm/modules/locdit/unified_cfm.py</a></p></details>
+<details data-category="示例与文档" data-search="VoxCPM-demopage 示例与文档 VoxCPM 的静态音频样例展示页。 预先制作的样例音频和说明→网页试听。 网页资源组织合成示例与介绍。 不在浏览器里自动构成 VoxCPM 推理服务，也不是新增语音模型。 上游 VoxCPM 生成的展示材料；下游用户试听。 适合感受样例。精选录音不能替代随机测试、延迟测量或失败率统计。  README README.md"><summary>84. VoxCPM-demopage <span class="badge">示例与文档</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>VoxCPM 的静态音频样例展示页。</p>
+<p><strong>输入 → 输出：</strong>预先制作的样例音频和说明→网页试听。</p>
+<p><strong>关键模块与流程：</strong>网页资源组织合成示例与介绍。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>不在浏览器里自动构成 VoxCPM 推理服务，也不是新增语音模型。</p>
+<p><strong>上下游与依赖：</strong>上游 VoxCPM 生成的展示材料；下游用户试听。</p>
+<p><strong>适用场景与局限：</strong>适合感受样例。精选录音不能替代随机测试、延迟测量或失败率统计。</p>
+<p class="sources">固定提交 a08e4491b06136c198dd1c97ed0316393d54faca<br><a href="https://github.com/OpenBMB/VoxCPM-demopage/blob/a08e4491b06136c198dd1c97ed0316393d54faca/README.md">README README.md</a></p></details>
+<details data-category="示例与文档" data-search="voxcpm2-demopage 示例与文档 VoxCPM2 的展示站点资源。 Markdown/卡片、图片与音频→静态演示页面。 渲染脚本把说明与试听素材组装为页面。 是发布与体验材料，不是训练、音频编码器或模型服务。 上游 VoxCPM2 样例；下游浏览者。 适合查看版本能力演示。样例条件与默认推理配置可能不同，不应依据页面直接推断本机性能。  README README.md"><summary>85. voxcpm2-demopage <span class="badge">示例与文档</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>VoxCPM2 的展示站点资源。</p>
+<p><strong>输入 → 输出：</strong>Markdown/卡片、图片与音频→静态演示页面。</p>
+<p><strong>关键模块与流程：</strong>渲染脚本把说明与试听素材组装为页面。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>是发布与体验材料，不是训练、音频编码器或模型服务。</p>
+<p><strong>上下游与依赖：</strong>上游 VoxCPM2 样例；下游浏览者。</p>
+<p><strong>适用场景与局限：</strong>适合查看版本能力演示。样例条件与默认推理配置可能不同，不应依据页面直接推断本机性能。</p>
+<p class="sources">固定提交 59b843d1830ec0f9fa44270d89e9dda95c641389<br><a href="https://github.com/OpenBMB/voxcpm2-demopage/blob/59b843d1830ec0f9fa44270d89e9dda95c641389/README.md">README README.md</a></p></details>
+<details data-category="模型与Agent" data-search="WorkflowLLM 模型与Agent 学习生成复杂工作流的数据与模型项目。 用户需求→分层计划及代码式工作流。 WorkflowBench 从 Apple Shortcuts 等流程构造数据，包含 API 及分层推理；WorkflowLlama 基于 Llama3.1-8B 微调。 仍是文本/代码生成模型，但输出遵循可执行工作流结构；真正执行依赖 API 和引擎。 官方数据口径 106,763 样本、1,503 API、83 应用；下游自动化系统。 适合工作流生成研究。代码合法性、API 可用性和业务效果须分开验证，生成流程不等于已执行成功。  README README.MD"><summary>86. WorkflowLLM <span class="badge">模型与Agent</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>学习生成复杂工作流的数据与模型项目。</p>
+<p><strong>输入 → 输出：</strong>用户需求→分层计划及代码式工作流。</p>
+<p><strong>关键模块与流程：</strong>WorkflowBench 从 Apple Shortcuts 等流程构造数据，包含 API 及分层推理；WorkflowLlama 基于 Llama3.1-8B 微调。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>仍是文本/代码生成模型，但输出遵循可执行工作流结构；真正执行依赖 API 和引擎。</p>
+<p><strong>上下游与依赖：</strong>官方数据口径 106,763 样本、1,503 API、83 应用；下游自动化系统。</p>
+<p><strong>适用场景与局限：</strong>适合工作流生成研究。代码合法性、API 可用性和业务效果须分开验证，生成流程不等于已执行成功。</p>
+<p class="sources">固定提交 2b5a2dee5fefbb6bf2fe68310393c3cf0c24cfcc<br><a href="https://github.com/OpenBMB/WorkflowLLM/blob/2b5a2dee5fefbb6bf2fe68310393c3cf0c24cfcc/README.MD">README README.MD</a></p></details>
+<details data-category="Agent框架" data-search="XAgent Agent框架 早期自主任务执行智能体框架。 目标与执行环境→计划、工具操作、文件等结果。 Dispatcher、Planner、Actor 分工，Docker ToolServer 提供浏览器、文件与 Python 等环境，并支持人工协助。 模型外增加规划、工具和反馈循环；不能把“解决任何任务”的愿景视作模型保证。 上游 LLM/API 与容器工具；下游自动执行实验，BMTools 后续路线指向此项目。 适合追踪自主 Agent 架构。旧 API、环境和安全边界需维护，长链执行有累积误差。  README README.md README README_JA.md README README_ZH.md"><summary>87. XAgent <span class="badge">Agent框架</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>早期自主任务执行智能体框架。</p>
+<p><strong>输入 → 输出：</strong>目标与执行环境→计划、工具操作、文件等结果。</p>
+<p><strong>关键模块与流程：</strong>Dispatcher、Planner、Actor 分工，Docker ToolServer 提供浏览器、文件与 Python 等环境，并支持人工协助。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>模型外增加规划、工具和反馈循环；不能把“解决任何任务”的愿景视作模型保证。</p>
+<p><strong>上下游与依赖：</strong>上游 LLM/API 与容器工具；下游自动执行实验，BMTools 后续路线指向此项目。</p>
+<p><strong>适用场景与局限：</strong>适合追踪自主 Agent 架构。旧 API、环境和安全边界需维护，长链执行有累积误差。</p>
+<p class="sources">固定提交 0dea79924347fad46e114621d7334d1136b30691<br><a href="https://github.com/OpenBMB/XAgent/blob/0dea79924347fad46e114621d7334d1136b30691/README.md">README README.md</a> · <a href="https://github.com/OpenBMB/XAgent/blob/0dea79924347fad46e114621d7334d1136b30691/README_JA.md">README README_JA.md</a> · <a href="https://github.com/OpenBMB/XAgent/blob/0dea79924347fad46e114621d7334d1136b30691/README_ZH.md">README README_ZH.md</a></p></details>
+<details data-category="示例与文档" data-search="XAgent-doc 示例与文档 XAgent 文档站点源码。 文档及静态配置→使用说明网页。 组织安装、配置和使用文档的构建与发布。 不含独立基础模型，不能与 XAgent 重复计算为两套智能体能力。 上游 XAgent 项目；下游使用者。 适合阅读历史使用方法。文档版本与实现应对应，旧文档不能证明新环境开箱即用。  README README.md"><summary>88. XAgent-doc <span class="badge">示例与文档</span></summary>
+<p class="muted">官方 README 与目录核对 · 非fork · 未归档</p>
+<p><strong>定位与解决的问题：</strong>XAgent 文档站点源码。</p>
+<p><strong>输入 → 输出：</strong>文档及静态配置→使用说明网页。</p>
+<p><strong>关键模块与流程：</strong>组织安装、配置和使用文档的构建与发布。</p>
+<p><strong>与普通纯文本 LLM 的区别：</strong>不含独立基础模型，不能与 XAgent 重复计算为两套智能体能力。</p>
+<p><strong>上下游与依赖：</strong>上游 XAgent 项目；下游使用者。</p>
+<p><strong>适用场景与局限：</strong>适合阅读历史使用方法。文档版本与实现应对应，旧文档不能证明新环境开箱即用。</p>
+<p class="sources">固定提交 dec88eb9cc261c978fe8bbde3997913c88815e57<br><a href="https://github.com/OpenBMB/XAgent-doc/blob/dec88eb9cc261c978fe8bbde3997913c88815e57/README.md">README README.md</a></p></details>
+</section></main><script>const q=document.querySelector("#search"),c=document.querySelector("#category"),items=[...document.querySelectorAll("details")];function filter(){let n=0;for(const e of items){const ok=(!c.value||e.dataset.category===c.value)&&e.dataset.search.toLowerCase().includes(q.value.toLowerCase().trim());e.hidden=!ok;if(ok)n++;}document.querySelector("#count").textContent=n+" / 88";}q.addEventListener("input",filter);c.addEventListener("change",filter);</script></html>

@@ -1,0 +1,67 @@
+{
+  "status": "passed",
+  "validation_kind": "覆盖、字段、来源哈希与本地文档结构；不是模型测试",
+  "repository_count": 88,
+  "readme_files": 140,
+  "additional_code_docs": 64,
+  "hf_models": 17,
+  "fulltext_papers": 6,
+  "forks": [
+    "EdgeClaw",
+    "sglang"
+  ],
+  "archived_count": 0,
+  "truncated_trees": 0,
+  "categories": {
+    "评测": 11,
+    "模型与Agent": 7,
+    "Agent框架": 10,
+    "Agent应用": 8,
+    "推理基础设施": 8,
+    "训练与压缩": 9,
+    "示例与文档": 6,
+    "资料与治理": 3,
+    "检索与知识": 10,
+    "文本模型": 2,
+    "数据与对齐": 4,
+    "具身与科学": 6,
+    "编程与优化": 1,
+    "多模态模型": 3
+  },
+  "checks": [
+    "清单名称精确匹配88仓库",
+    "无重复/遗漏",
+    "8个核心字段完整",
+    "全部README/附加文件/HF文件哈希一致",
+    "所有模板来源占位符已解析",
+    "HTML不依赖外部脚本、字体或图片",
+    "未运行模型或基准"
+  ],
+  "update_checked_at": "2026-09-23",
+  "ascend_update": {
+    "status": "passed",
+    "engineering_inference_not_hardware_benchmark": true,
+    "online_sources": 5,
+    "component_provenance_rows": 4,
+    "mechanism_rows": 8,
+    "ascend_mapping_rows": 7,
+    "original_artifacts_unchanged": [
+      "02-全部仓库附录.md",
+      "03-完整仓库索引.json",
+      "04-重点模型配置摘录.json",
+      "主模型谱系.svg"
+    ],
+    "browser_checks": [
+      "来源与贡献/昇腾开发导航及标题正确",
+      "1280px和390px无页面横向溢出；宽表可局部滚动",
+      "RobotTrack搜索1/88，键盘全选删除后88/88",
+      "浏览器无脚本错误",
+      "模型→系统→昇腾三层小图正常显示"
+    ],
+    "source_limitations": [
+      "新增网页凭据按在线查阅记录，未冒充原始文件哈希",
+      "双缓冲页面通过官方搜索正文片段核验，直接页面读取失败",
+      "未运行昇腾模型或性能基准"
+    ]
+  }
+}
