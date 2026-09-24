@@ -1,0 +1,6 @@
+﻿scope,api,source,evidence
+InfLLM-V2 CUDA仓库,infllmv2_attn_stage1,https://github.com/OpenBMB/infllmv2_cuda_impl/blob/93cf2ec28e5a7acebe3f0bb7329b6c73a1be91f6/README.md,固定README声明；未执行、未确认每个checkpoint启用
+InfLLM-V2 CUDA仓库,infllmv2_sparse_attn_fwd,https://github.com/OpenBMB/infllmv2_cuda_impl/blob/93cf2ec28e5a7acebe3f0bb7329b6c73a1be91f6/README.md,固定README声明；未执行、未确认每个checkpoint启用
+InfLLM-V2 CUDA仓库,infllmv2_sparse_attn_bwd,https://github.com/OpenBMB/infllmv2_cuda_impl/blob/93cf2ec28e5a7acebe3f0bb7329b6c73a1be91f6/README.md,固定README声明；未执行、未确认每个checkpoint启用
+RobotTrack动作头,FunnelTrajectoryHead.forward / torch.nn.Linear,https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/MiniCPM-RobotTrack/minicpm_robot_track/modeling.py,固定源码确认
+VoxCPM2,MiniCPMModel / VoxCPMLocEnc / VoxCPMLocDiTV2 / UnifiedCFM,https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/src/voxcpm/model/voxcpm2.py,固定源码构造路径确认；不等于专用后端API

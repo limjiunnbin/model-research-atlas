@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "models": 17,
+  "config_layers": 751,
+  "logical_steps": 6108,
+  "backend_rows": 6108,
+  "weight_or_hardware_test": false
+}

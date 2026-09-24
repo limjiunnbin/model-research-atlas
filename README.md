@@ -80,3 +80,7 @@ GitHub Actions 验证数据后将 `dist/` 发布到 GitHub Pages；所有资源�
 ## 第三方资料与授权
 
 配置快照、模型名称、论文与实现来源链接保留其原始来源及权利归属。详见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。本仓库公开可读不等于对全部内容授予开源许可；未为第三方材料另行授权。
+
+## 文档阅读与 OpenBMB 逐层数据
+
+站内 Markdown 链接提供在线阅读与原始文件下载，阅读器支持相对图片/链接、代码块与表格。OpenBMB 下载页提供17个模型的逐层配置、逻辑shape/计算步骤、后端映射与分模型ZIP；专用后端未核验项明确保留未知。构建使用 `scripts/openbmb_exports.py` 从固定配置重建，非权重头或硬件审计。

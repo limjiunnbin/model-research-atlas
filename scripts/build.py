@@ -4,6 +4,7 @@ from research_exports import export
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 def read(p):return json.loads(p.read_text())
+import openbmb_exports
 catalog=read(ROOT/'data/catalog.json');assert catalog['schemaVersion']==1
 assert len({f['id'] for f in catalog['families']})==len(catalog['families'])
 reports=catalog.get('reports',[])
@@ -58,3 +59,7 @@ for ref in catalog['families']:
 shutil.copytree(ROOT/'data',ROOT/'dist/data',dirs_exist_ok=True)
 for name in ['index.html','app.js','styles.css','structure.js','hardware.js','compute.js']:assert (ROOT/'dist'/name).stat().st_size>0
 print(f'Build OK: {len(catalog["families"])} families, {checks} structure components, all asset references valid.')
+
+# Every shipped Markdown file is an allowed reader source.
+markdown_files=sorted(p.relative_to(ROOT/"dist").as_posix() for p in (ROOT/"dist").rglob("*.md"))
+(ROOT/"dist/documents.json").write_text(json.dumps({"files":markdown_files},ensure_ascii=False,indent=2))

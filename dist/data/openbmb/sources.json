@@ -1,0 +1,131 @@
+{
+  "models": [
+    {
+      "model": "MiniCPM-2B-sft-bf16",
+      "revision": "4ec16344ac13e6ef5010aeecaa533369ac8eb53c",
+      "url": "https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16/resolve/4ec16344ac13e6ef5010aeecaa533369ac8eb53c/config.json",
+      "sha256": "41cf26cfdca93f49209a6c0c26c00b281d6408e010ddc8cca9531c825cc17fc4"
+    },
+    {
+      "model": "MiniCPM-MoE-8x2B",
+      "revision": "7495286593bc56a524a42e26eeaee5e185cb7f9c",
+      "url": "https://huggingface.co/openbmb/MiniCPM-MoE-8x2B/resolve/7495286593bc56a524a42e26eeaee5e185cb7f9c/config.json",
+      "sha256": "53b88ed7486134b3281d389bb5169b734861d7569f359327478e32677686acf9"
+    },
+    {
+      "model": "MiniCPM3-4B",
+      "revision": "d6b14ddaefdb11c624dd75c3c779549bc90b08cb",
+      "url": "https://huggingface.co/openbmb/MiniCPM3-4B/resolve/d6b14ddaefdb11c624dd75c3c779549bc90b08cb/config.json",
+      "sha256": "cf1d08cb7c1815c676e685bd6ce94eb8b85a57d53871e6e159ee8c650717d98a"
+    },
+    {
+      "model": "MiniCPM4-8B",
+      "revision": "bb2ae14cf59d4ca769c4e42ece54cc3b82a58ef7",
+      "url": "https://huggingface.co/openbmb/MiniCPM4-8B/resolve/bb2ae14cf59d4ca769c4e42ece54cc3b82a58ef7/config.json",
+      "sha256": "783a765d0ec9a3319316aa03809ec5d60a73673b45e3a830585535c6c9b1b87d"
+    },
+    {
+      "model": "MiniCPM4.1-8B",
+      "revision": "3a8dfed9c79a45e07dbff95bcd49d792343fa1a3",
+      "url": "https://huggingface.co/openbmb/MiniCPM4.1-8B/resolve/3a8dfed9c79a45e07dbff95bcd49d792343fa1a3/config.json",
+      "sha256": "2e6184e20da805d284b0ebba0bf5cf55bb561c6f333b66119fd2cc3f45a7ba15"
+    },
+    {
+      "model": "MiniCPM-SALA",
+      "revision": "9180fe1db74f71fb81bc7105efe88f6b19c959b0",
+      "url": "https://huggingface.co/openbmb/MiniCPM-SALA/resolve/9180fe1db74f71fb81bc7105efe88f6b19c959b0/config.json",
+      "sha256": "cd6d042c4d8d5e32f7809c366d209bb183704bc2917bec5f162f36fb7439955c"
+    },
+    {
+      "model": "MiniCPM5-1B",
+      "revision": "87179e5c1f455ef22e6223592d2d61351b525bfc",
+      "url": "https://huggingface.co/openbmb/MiniCPM5-1B/resolve/87179e5c1f455ef22e6223592d2d61351b525bfc/config.json",
+      "sha256": "6a6509b646cb3169616c5ffc3196e7ccaf9d4d6bc17b266581d241a31c217714"
+    },
+    {
+      "model": "MiniCPM5-2B",
+      "revision": "12a3808a956f869c767195e9266b59c4d21d92e2",
+      "url": "https://huggingface.co/openbmb/MiniCPM5-2B/resolve/12a3808a956f869c767195e9266b59c4d21d92e2/config.json",
+      "sha256": "59613157e5357d62bcb121e04cb90f2170b43d789b142380c12c3d4277d95180"
+    },
+    {
+      "model": "MiniCPM-V-4.6",
+      "revision": "36f34a661a4bd35d0dc2294cb044d2584646c7d3",
+      "url": "https://huggingface.co/openbmb/MiniCPM-V-4.6/resolve/36f34a661a4bd35d0dc2294cb044d2584646c7d3/config.json",
+      "sha256": "72d83ac9089bebddf28131b9953908acaf0a5740b868263c8aaac7c40b97991c"
+    },
+    {
+      "model": "MiniCPM-o-4_5",
+      "revision": "503e754207c94da6bb26850b4469f367c9ea3582",
+      "url": "https://huggingface.co/openbmb/MiniCPM-o-4_5/resolve/503e754207c94da6bb26850b4469f367c9ea3582/config.json",
+      "sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d"
+    },
+    {
+      "model": "VoxCPM-0.5B",
+      "revision": "b2e656f7524303fdaf84591c75bbb87203d7c98d",
+      "url": "https://huggingface.co/openbmb/VoxCPM-0.5B/resolve/b2e656f7524303fdaf84591c75bbb87203d7c98d/config.json",
+      "sha256": "3e4c4501e1b712e18f302b69944c6b82cf374098ad0e1a991506e55416dbc947"
+    },
+    {
+      "model": "VoxCPM1.5",
+      "revision": "8cdc403854cda0e3af12252d27da038fda5982ac",
+      "url": "https://huggingface.co/openbmb/VoxCPM1.5/resolve/8cdc403854cda0e3af12252d27da038fda5982ac/config.json",
+      "sha256": "2459071497a422bf25fb0f47ff8bd30181dbf62ef7903b293bcff59a615eda26"
+    },
+    {
+      "model": "VoxCPM2",
+      "revision": "32279effe8c19989596f05d353d1447f51d9e915",
+      "url": "https://huggingface.co/openbmb/VoxCPM2/resolve/32279effe8c19989596f05d353d1447f51d9e915/config.json",
+      "sha256": "405f0dcd92f7feba6011ed4eac5c8d4f74cba9712f07fd5cfa3063bbdd95402c"
+    },
+    {
+      "model": "MiniCPM-RobotManip",
+      "revision": "29cb257541e9f96f493abe21174f8892e5dffe3f",
+      "url": "https://huggingface.co/openbmb/MiniCPM-RobotManip/resolve/29cb257541e9f96f493abe21174f8892e5dffe3f/config.json",
+      "sha256": "9fd8d0c167ff8e79939d3e5ad7b37dd0a6ef83a00ddea1d9f6d7be79959a19a4"
+    },
+    {
+      "model": "MiniCPM-RobotTrack",
+      "revision": "80d32d0b091c3b340a1e4a6c78d441e8af19590e",
+      "url": "https://huggingface.co/openbmb/MiniCPM-RobotTrack/resolve/80d32d0b091c3b340a1e4a6c78d441e8af19590e/config.json",
+      "sha256": "5afa7d676c379adb9c934efb198c526ee6b87be01c2f533bcc500d36586530fc"
+    },
+    {
+      "model": "AgentCPM-Explore",
+      "revision": "f528bbb55317bd291387ba3347551dd3414e698e",
+      "url": "https://huggingface.co/openbmb/AgentCPM-Explore/resolve/f528bbb55317bd291387ba3347551dd3414e698e/config.json",
+      "sha256": "4ca339ac76a475603caf526c2c1f21df1c419e9dfcfae5b512dcad6a34dbe4a1"
+    },
+    {
+      "model": "AgentCPM-Report",
+      "revision": "c6232d64a47ccfa0c4aed240d325cbc0fb9cbc62",
+      "url": "https://huggingface.co/openbmb/AgentCPM-Report/resolve/c6232d64a47ccfa0c4aed240d325cbc0fb9cbc62/config.json",
+      "sha256": "aa9013cd28da50fd8408b340d06fb68d7fcaae625550ed43582d68152cd35d8e"
+    }
+  ],
+  "implementation_sources": [
+    {
+      "repo": "VoxCPM",
+      "revision": "f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69",
+      "path": "src/voxcpm/model/voxcpm2.py",
+      "url": "https://github.com/OpenBMB/VoxCPM/blob/f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69/src/voxcpm/model/voxcpm2.py",
+      "sha256": "31ad554bc15a4da18cf820c6fda97a5b2c56ac8e9a5e66031a264d363661575c",
+      "bytes": 54715
+    },
+    {
+      "repo": "MiniCPM-Robot",
+      "revision": "f666593066641d2c0cef06bc17bfb1e954547674",
+      "path": "MiniCPM-RobotTrack/minicpm_robot_track/modeling.py",
+      "url": "https://github.com/OpenBMB/MiniCPM-Robot/blob/f666593066641d2c0cef06bc17bfb1e954547674/MiniCPM-RobotTrack/minicpm_robot_track/modeling.py",
+      "sha256": "7bfafc575fa6d3e2dec3a65487fe13ad0c779be24991d00da239f174aa628e2e",
+      "bytes": 12089
+    },
+    {
+      "repo": "infllmv2_cuda_impl",
+      "path": "README.md",
+      "url": "https://github.com/OpenBMB/infllmv2_cuda_impl/blob/93cf2ec28e5a7acebe3f0bb7329b6c73a1be91f6/README.md",
+      "sha256": "49e982dbb449d926a56528b59f9bcb93d20e17c98d49951c34170552f8a2c6b7",
+      "bytes": 9341
+    }
+  ]
+}
