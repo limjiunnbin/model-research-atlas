@@ -111,11 +111,17 @@ def refine_torch(model,s):
   if p['symbol'] in ['KimiRMSNorm.forward','DeepseekV3RMSNorm.forward']:
    s['apis']['torch']['chain']=p['symbol']+'：Tensor.float/to(FP32) → Tensor.pow(2).mean(-1,keepdim=True) → torch.rsqrt(var+eps) → 输入乘归一化因子 → 转输入dtype并乘gamma'
    s['apis']['torch']['level']='参考RMSNorm源码步骤；不是单独设备API'
-def reference(model,kind,group='decoder'):
+def reference(model,kind,group='decoder',title=''):
  k3=model['id']=='k3';name=model['name']
  if group=='vision' or group in ['projector','vision_other']:
   file='moonshotai--'+name+'--modeling_kimi_'+('k3' if k3 else 'k25')+'.py'
   sym={'vision':'MoonViTEncoderLayer.attention_qkvpacked','projector':'PatchMergerMLPV2.forward' if k3 else 'PatchMergerMLP.forward','vision_other':'MoonVision3dPatchEmbed.forward'}[group]
+  if group=='vision':
+   if kind in ['norm','rms','residual']:sym='MoonViTEncoderLayer.forward'
+   elif kind=='gelu' or 'MLP上投影' in title or 'MLP下投影' in title:sym='MLP2.forward'
+  if group=='projector' and title=='空间合并与时间池化':sym='tpool_patch_merger'
+  if group=='projector' and kind=='scatter':sym=('KimiK3' if k3 else 'KimiK25')+'ForConditionalGeneration._merge_input_ids_with_image_features'
+  if group=='vision_other' and title=='视觉最终归一化':sym='MoonViT3dEncoder.forward'
   return api(file,sym,level='Moonshot参考模块forward；含多个步骤，不代表1:1设备调用')
  if k3:
   sym={'rms':'KimiRMSNorm.forward','mla':'KimiMLAAttention.forward','rope':'KimiMLAAttention.forward','kda':'KimiDeltaAttention.forward','conv':'KimiDeltaAttention.forward','router':'KimiMoEGate.forward','dispatch':'KimiSparseMoeBlock.moe_infer','combine':'KimiSparseMoeBlock.moe_infer','moe':'KimiSparseMoeBlock.moe_infer','latent':'KimiSparseMoeBlock.forward','attnres':'_apply_attn_res','activation':'SituAndMul.forward'}.get(kind,'KimiDecoderLayer.forward')
@@ -157,7 +163,7 @@ def make_steps(model,node,cfg):
   for t in found:used.add(t['tensor_template'])
   return found
  def emit(title,kind,inp,out,relation,ts=None,intermediate='无持久缓存',module=None,note='',refkind=None):
-  ts=ts or [];ref=reference(model,refkind or kind,node['group']);id='s'+str(len(steps)+1)
+  ts=ts or [];ref=reference(model,'kda' if k3 and title=='每head输出RMSNorm' else refkind or kind,node['group'],title);id='s'+str(len(steps)+1)
   s=dict(id=id,title=title,module=module or (ts[0]['owner'] if ts else kind),kind=kind,input=inp,output=out,relation=relation,intermediate=intermediate,tensors=ts,parameters=sum(t['logical_parameters_each']*t['multiplicity'] for t in ts),reference=ref,
    phase='prefill: N=ΣT_i（padded参考为B×T）；decode: T=1,N=B；推测验证可T>1。视觉仅编码/预填充，不逐文本token重复。',
    dtype=('权重/辅助张量存储：'+'；'.join(sorted({t['stored_dtype'] for t in ts}))+'；实际激活、累加及cache dtype由运行分支决定，本轮未统一验证。I32/U8可能是量化打包容器。') if ts else '继承输入；归一化/评分通常显式FP32，详见源码；最终设备计算dtype未统一验证',
@@ -169,6 +175,16 @@ def make_steps(model,node,cfg):
    s['apis']['nvidia']['proofs']+=[proof(initfile,initsym,['RowParallelLinear'])]
    s['apis']['nvidia']['condition']='固定K3构造代码o_proj=RowParallelLinear；reduce_results、TP及可选融合gemm_rs_ar决定实际通信，非无条件all-reduce。'
   if k3 and kind=='activation' and (node['ffn']=='Dense' or '共享' in title):s['apis']['ascend']=unknown('Dense/共享专家SiTU不等于路由专家W4A8 apply_gmm1_act_quant；本步骤设备融合路径未核验。')
+  if node['group']=='vision' and kind in ['rms','norm']:
+   for backend in ['nvidia','amd','ascend']:s['apis'][backend]=unknown('视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。')
+  if k3 and title=='每head输出RMSNorm':
+   s['apis']['torch']['chain']='KimiDeltaAttention.forward → self.o_norm(o,g)：FusedRMSNormGated(activation=sigmoid)；与下一逻辑门控行同一融合调用'
+   s['relation']='每head FusedRMSNormGated：RMSNorm(o)×sigmoid(g)；下一行仅展开同一调用的门控语义，不是再执行一次'
+   s['note']='构造FusedRMSNormGated，forward self.o_norm(o,g)；普通KimiRMSNorm不是此处调用。'
+   for backend in ['nvidia','amd','ascend']:s['apis'][backend]=unknown('带sigmoid门的FusedRMSNormGated；本步骤最终设备分派未核验，不能套用普通RMSNorm接口。')
+  if k3 and kind=='identity':
+   for backend in ['nvidia','amd','ascend']:
+    s['apis'][backend]=dict(chain='不适用：NoPE身份路径，无RoPE旋转',level='配置条件排除',condition='mla_use_nope=true；共享64维key与512+64缓存仍保留',proofs=[proof('__models__kimi_k3.py','AscendKimiDecoderLayer.__init__'),proof('__models__kimi_k3.py','AscendKimiMLAAttention.__init__')],evidence='固定配置和构造分支核验')
   refine_torch(model,s);steps.append(s);return s
  def weight(suffix,title=None,kind='linear',prefix=None,contains=None,note=''):
   ts=take(suffix,contains)
@@ -207,7 +223,7 @@ def make_steps(model,node,cfg):
    emit('拆分KV潜变量与旋转键','reshape','[N,576]','KV_c:[N,512]; Krope:[N,64]','split([kv_rank512,rope_dim64])',module='attention',refkind='mla')
    for s in ['kv_a_layernorm','kv_b_proj']:weight('self_attn.'+s,s)
    emit('拆分Q/K/V与布局变换','reshape',f'Q:[N,{heads*Dq}]; KV:[N,{heads*(128+Dv)}]; Krope:[N,64]',f'Q/K:[B,{heads},T,{Dq}]; V:[B,{heads},T,{Dv}]','view/transpose/split；Krope在head维广播，不新增权重',module='attention',refkind='mla')
-   emit('RoPE / 位置处理','rope',f'Qrope:[B,{heads},T,64]; Krope:[B,1,T,64]',f'旋转后的同shape','K2参考调用apply_rotary_pos_emb；K3所读参考forward未直接调用RoPE，生产MLA wrapper中有rotary_emb',take('rotary_emb'),module='attention',note='历史inv_freq缓冲的存储长度不作为runtime旋转维度；runtime依赖config和重建/加载路径。')
+   emit('NoPE身份路径（RoPE不适用）' if k3 else 'RoPE / 位置处理','identity' if k3 else 'rope',f'Q共享子空间:[B,{heads},T,64]; K共享子空间:[B,1,T,64]',f'同shape，不旋转' if k3 else '旋转后的同shape','K3 mla_use_nope=true，use_rope=False；64维共享key仍存在，不能据此把cache改为512' if k3 else 'K2参考调用apply_rotary_pos_emb',take('rotary_emb'),module='attention',refkind='mla' if k3 else 'rope',note='历史inv_freq缓冲存储不证明运行时执行旋转；cache与head宽度独立记录。')
    emit('注意力得分与归一化','mla',f'Q:[B,{heads},T,{Dq}]; K:[B,{heads},S,{Dq}]',f'P:[B,{heads},T,S]（数学逻辑）','P=softmax(QKᵀ×scale+causal_mask)；Flash/MLA内核无需物化完整P',intermediate=f'参考展开K/V:[B,{heads},S,{Dq}] / [B,{heads},S,{Dv}]; 压缩MLA语义cache:[Nblocks,block_size,512+64]；具体生产布局/量化另见API分支',module='attention',note='prefill S=history+T；decode T=1。不同backend的分页轴、KV dtype、DCP分片不能统一假定。')
    emit('对V加权汇聚','mla',f'P:[B,{heads},T,S]; V:[B,{heads},S,{Dv}]',f'[B,T,{heads*Dv}]','O=P @ V，转置/合并heads',module='attention')
    if k3:
@@ -219,7 +235,7 @@ def make_steps(model,node,cfg):
    ts=take('A_log')+take('dt_bias')
    st=emit('KDA衰减与更新门','elementwise',f'raw_gate:[B,T,96,128]; beta:[B,T,96]',f'g:[B,T,96,128]; β:[B,T,96]','融合gate转换与beta sigmoid；Q/K逐head做L2归一化',ts,module='attention',refkind='kda',note='A_log存储[128]，config/参考参数预期[96]；vLLM加载器narrow按local heads取片。存储128保持审计值，不改写为96；未实测该检查点完整加载。')
    st['apis']['torch']['proofs']+=AP['alog-loader']['proofs']
-   emit('KDA chunk / recurrence核心','kda','Q,K,V,g:[B,T,96,128]; beta:[B,T,96]','O:[B,T,96,128]','按key维衰减S̄=diag(exp(g))Sprev；δ=v−kᵀS̄；S=S̄+βkδᵀ；o=qᵀS（含配置scale）',intermediate='逻辑状态[B,96,128,128]；FLA transpose_state_layout=True和Ascend state_v_first=True采用V,K末轴；分片为heads/TP；vLLM合并卷积state为[B,3×12288/TP,3+num_spec]或转轴布局，窗口长度4不等于状态存储长度；FLA参考库的具体conv缓存长度未逐实现核验',module='attention',note='prefill分块与decode递归数学对应但算子不同；本配置K=V=128时shape相同仍必须注明轴含义。')
+   emit('KDA chunk / recurrence核心','kda','Q,K,V,g:[B,T,96,128]; beta:[B,T,96]','O:[B,T,96,128]','按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）',intermediate='逻辑状态H_state:[B,96,128,128]；FLA transpose_state_layout=True和Ascend state_v_first=True采用V,K末轴；分片为heads/TP；vLLM合并卷积state为[B,3×12288/TP,3+num_spec]或转轴布局，窗口长度4不等于状态存储长度；FLA参考库的具体conv缓存长度未逐实现核验',module='attention',note='prefill分块与decode递归数学对应但算子不同；本配置K=V=128时shape相同仍必须注明轴含义。H_state是矩阵状态，不是序列长度。')
    weight('self_attn.g_proj','输出门控投影');weight('self_attn.o_norm','每head输出RMSNorm',prefix='B,T,96');emit('KDA门控输出','elementwise','normalized_O,g:[B,T,96,128]','[B,T,12288]','O←RMSNorm(O)×sigmoid(g)，再合并heads',module='attention',refkind='kda');weight('self_attn.o_proj','KDA输出投影')
   residual('注意力残差合并')
   if k3:attnres('mlp')
@@ -253,8 +269,9 @@ def make_steps(model,node,cfg):
   weight('model.norm','最终RMSNorm')
  elif node['group']=='projector':
   vc=cfg['vision_config'];C=vc['mm_hidden_size'];G=math.prod(vc['merge_kernel_size']);width=G*C
-  if not k3:weight('pre_norm','Patch合并前LayerNorm',prefix='Nm,G')
-  emit('空间合并与时间池化','reshape',f'视觉片段:[frames,h,w,{C}]',f'grouped:[Nm,{G},{C}] → [Nm,{width}]','空间2×2打包；sd2_tpool对相应时间组求均值；Nm依赖processor网格，不固定等于原始Nv/4',module='projector')
+  emit('空间合并与时间池化','reshape',f'视觉片段:[frames,h,w,{C}]',f'grouped:[Nm,{G},{C}]','视觉塔tpool_patch_merger先空间2×2打包并按时间组均值；随后进入projector；Nm依赖processor网格',module='projector')
+  if not k3:weight('pre_norm','时间池化后、展平前LayerNorm',prefix='Nm,G')
+  emit('连接器输入展平','reshape',f'[Nm,{G},{C}]',f'[Nm,{width}]','projector内部view；前序pre_norm仅适用于K2.5/2.6/2.7',module='projector')
   weight('proj.0','连接器第一线性',prefix='Nm');emit('连接器GELU','gelu',f'[Nm,{width}]',f'[Nm,{width}]','nn.GELU',module='projector');weight('proj.2','投影到语言宽度',prefix='Nm')
   if k3:weight('post_norm','连接器输出RMSNorm',prefix='Nm')
   emit('插入多模态embedding','scatter','text embedding:[B,T,7168]; visual:[Nm,7168]','[B,T,7168]','按media placeholder位置填入视觉特征；数量由processor与网格校验',module='projector')
@@ -284,7 +301,7 @@ NOTES=[
  'FP8权重scale_inv是F32二维block表，块大小128×128；INT4权重I32按输入维打包8元素/容器，group32 scale为BF16；K3路由MXFP4每U8打包2元素，group32 scale为U8。具体每张量shape在步骤里保留。',
  'K3 A_log审计存储[128]，参考配置96 heads。vLLM a_log_weight_loader按param局部head数narrow取片；不把存储值修改成96。该差异并未通过整模型加载实测。',
  '旧检查点rotary_emb.inv_freq存储长度可能不同于config旋转维度所需频率长度；生成运行时RoPE的具体加载/重建路径尚未逐版验证，不据此推算运行cache。',
- 'K3官方参考MLA forward在所读文件中未直接调用RoPE；生产wrapper存在rotary_emb调用。此处区分代码路径，不自动补造参考调用。',
+ 'K3 mla_use_nope=true，生产构造use_rope=False：MLA为NoPE身份路径，RoPE不适用；64维共享key与512+64压缩缓存仍保留。',
  'Ascend W4A8接口列是转换检查点/对应量化方法的条件路径，不等同直接支持原始INT4/MXFP4。MC2通信、A5特化与A3部署条件分别适用。',
  '未执行GPU/NPU基准、权重加载或数值精度实验；未核验设备内核处明确留空。shape检查是静态相容性检查，不是运行测试。'
 ]

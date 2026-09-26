@@ -147,7 +147,7 @@
       "config_source": "https://huggingface.co/moonshotai/Kimi-K2.5/resolve/4d01dfe0332d63057c186e0b262165819efb6611/config.json",
       "sha256": "acd5bb01a16f64b309599cd6ed196be056f613c99d6bc9300692b82cd10882f6",
       "config_status": "固定配置",
-      "rows": 2069,
+      "rows": 2070,
       "layers": 88,
       "status": "逐层源码/权重证据 + 条件接口"
     },
@@ -162,7 +162,7 @@
       "config_source": "https://huggingface.co/moonshotai/Kimi-K2.6/resolve/7eb5002f6aadc958aed6a9177b7ed26bb94011bb/config.json",
       "sha256": "85825ca6e18cbe539eb83ee09eedfb3f4222265929f06e9f535a6d9364f55899",
       "config_status": "固定配置",
-      "rows": 2069,
+      "rows": 2070,
       "layers": 88,
       "status": "逐层源码/权重证据 + 条件接口"
     },
@@ -177,7 +177,7 @@
       "config_source": "https://huggingface.co/moonshotai/Kimi-K2.7-Code/resolve/74797c9c62378b951a1f6fcf5c4631024e9b8bef/config.json",
       "sha256": "ffbb57bff844e024f6c112640b63da80af228ceb8fb3e2e21908a21febbcdffb",
       "config_status": "固定配置",
-      "rows": 2069,
+      "rows": 2070,
       "layers": 88,
       "status": "逐层源码/权重证据 + 条件接口"
     },
@@ -192,7 +192,7 @@
       "config_source": "https://huggingface.co/moonshotai/Kimi-K3/resolve/f831ab66814297da540d832a5235f8e904f29d06/config.json",
       "sha256": "9710e121a58d03ac92c8d6da287a19541994319afbbe6d6202af001ffd379213",
       "config_status": "固定配置",
-      "rows": 3715,
+      "rows": 3716,
       "layers": 120,
       "status": "逐层源码/权重证据 + 条件接口"
     },
@@ -807,8 +807,8 @@
       "config_source": "https://huggingface.co/openbmb/MiniCPM-o-2_6/resolve/06849bfd36da94da1f5a88fa17e8ba63f08a4c4d/config.json",
       "sha256": "917813ee571faf0447669b6b3549c8357c583141b5e4a8be1bcf9cc800a7c8cf",
       "config_status": "固定配置",
-      "rows": 1172,
-      "layers": 103,
+      "rows": 1029,
+      "layers": 79,
       "status": "逐层配置/数学推导；部分模块未知"
     },
     {
@@ -822,8 +822,8 @@
       "config_source": "https://huggingface.co/openbmb/MiniCPM-o-2_6-int4/resolve/2b72b5775e2c4dd617bcfd088a146cfbd698ce71/config.json",
       "sha256": "6b126bd590987009358195a6c9658b8876099b6f3c214cb5fd0e8379584443d6",
       "config_status": "固定配置",
-      "rows": 1172,
-      "layers": 103,
+      "rows": 1029,
+      "layers": 79,
       "status": "逐层配置/数学推导；部分模块未知"
     },
     {
@@ -837,8 +837,8 @@
       "config_source": "https://huggingface.co/FlagRelease/MiniCPM-o-4.5-ascend-FlagOS/resolve/60f1ded7a096349f5a44d36ad2f04068b457df24/config.json",
       "sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
       "config_status": "固定配置",
-      "rows": 1536,
-      "layers": 131,
+      "rows": 1393,
+      "layers": 107,
       "status": "逐层配置/数学推导；部分模块未知"
     },
     {
@@ -852,8 +852,8 @@
       "config_source": "https://huggingface.co/FlagRelease/MiniCPM-o-4.5-hygon-FlagOS/resolve/a316655a110bfc6eeb03979d423c3927da2294d0/config.json",
       "sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
       "config_status": "固定配置",
-      "rows": 1536,
-      "layers": 131,
+      "rows": 1393,
+      "layers": 107,
       "status": "逐层配置/数学推导；部分模块未知"
     },
     {
@@ -867,8 +867,8 @@
       "config_source": "https://huggingface.co/FlagRelease/MiniCPM-o-4.5-iluvatar-FlagOS/resolve/947384ac0f72866735195abbd4ae5aeb59badcf4/config.json",
       "sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
       "config_status": "固定配置",
-      "rows": 1536,
-      "layers": 131,
+      "rows": 1393,
+      "layers": 107,
       "status": "逐层配置/数学推导；部分模块未知"
     },
     {
@@ -882,8 +882,8 @@
       "config_source": "https://huggingface.co/FlagRelease/MiniCPM-o-4.5-metax-FlagOS/resolve/ad47fc00d87baa857008f8da5e0cbf37a913dafb/config.json",
       "sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
       "config_status": "固定配置",
-      "rows": 1536,
-      "layers": 131,
+      "rows": 1393,
+      "layers": 107,
       "status": "逐层配置/数学推导；部分模块未知"
     },
     {
@@ -897,8 +897,8 @@
       "config_source": "https://huggingface.co/FlagRelease/MiniCPM-o-4.5-nvidia-FlagOS/resolve/675118b6892a5f7ebe78bad174430754c4b78e04/config.json",
       "sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
       "config_status": "固定配置",
-      "rows": 1536,
-      "layers": 131,
+      "rows": 1393,
+      "layers": 107,
       "status": "逐层配置/数学推导；部分模块未知"
     },
     {
@@ -912,8 +912,8 @@
       "config_source": "https://huggingface.co/FlagRelease/MiniCPM-o-4.5-zhenwu-FlagOS/resolve/a05b8da0d6d335d0b28fcc3a5d28bda4b4574424/config.json",
       "sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
       "config_status": "固定配置",
-      "rows": 1536,
-      "layers": 131,
+      "rows": 1393,
+      "layers": 107,
       "status": "逐层配置/数学推导；部分模块未知"
     },
     {
@@ -927,8 +927,8 @@
       "config_source": "https://huggingface.co/openbmb/MiniCPM-o-4_5/resolve/503e754207c94da6bb26850b4469f367c9ea3582/config.json",
       "sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
       "config_status": "固定配置",
-      "rows": 1536,
-      "layers": 131,
+      "rows": 1393,
+      "layers": 107,
       "status": "逐层配置/数学推导；部分模块未知"
     },
     {
@@ -942,8 +942,8 @@
       "config_source": "https://huggingface.co/openbmb/MiniCPM-o-4_5-AWQ/resolve/02b87bcf31b1e3bc66094a8f8eba2034605e5073/config.json",
       "sha256": "03a0f7b0cff70c55a8ab86b5febd5968ff003495909461d15d69ddcfb1b9ee53",
       "config_status": "固定配置",
-      "rows": 1536,
-      "layers": 131,
+      "rows": 1393,
+      "layers": 107,
       "status": "逐层配置/数学推导；部分模块未知"
     },
     {
@@ -2458,7 +2458,7 @@
     "documents": 156,
     "withLayerExpansion": 122,
     "withoutLayerExpansion": 34,
-    "configLayers": 6249,
-    "operatorRows": 86828
+    "configLayers": 6009,
+    "operatorRows": 85402
   }
 }

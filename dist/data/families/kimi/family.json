@@ -2105,9 +2105,10 @@
           "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct/blob/main/config.json"
         },
         "context": {
-          "value": null,
-          "evidence": "unknown",
-          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct/blob/main/config.json"
+          "value": 1048576,
+          "evidence": "official",
+          "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct/blob/e1df551a447157d4658b573f9a695d57658590e9/config.json",
+          "note": "配置上限，不等于实测质量或硬件运行上限"
         },
         "vocab": {
           "value": 163840,
@@ -2464,8 +2465,8 @@
     {
       "name": "Kimi-implementation-hardware-ascend.md",
       "path": "assets/kimi/Kimi-implementation-hardware-ascend.md",
-      "bytes": 39589,
-      "sha256": "11b2a4f16842c4caff3a71b90d90d2b5e1301f064a2c054debe28bc64bced37b"
+      "bytes": 39708,
+      "sha256": "cf10d8a96262361ef5f570c7c9a17fb66f6b0d170acef4dc1717e1ebfe702524"
     },
     {
       "name": "Kimi-hardware-sources.csv",
@@ -2476,38 +2477,38 @@
     {
       "name": "字段与符号说明.md",
       "path": "assets/kimi/compute/字段与符号说明.md",
-      "bytes": 2586,
-      "sha256": "db4ad7d4594a88556b6a92c31d8eef3321dd64e5915debc4eb0e0812069e3e49"
+      "bytes": 2566,
+      "sha256": "f71281e1dcaa04a5a3b8eb7ff6ce9ab12b6131b93125238326d86d32072ef893"
     },
     {
       "name": "Kimi-compute-atlas.json",
       "path": "assets/kimi/compute/Kimi-compute-atlas.json",
-      "bytes": 1669630,
-      "sha256": "4632342430975472c05f65787c3cc48e2bc15bee51b500d040eab96772df8132"
+      "bytes": 1692598,
+      "sha256": "e8ebf7aa7317e4ccc3ded54dd95d6a18b575c0fc42ab829629a3bb338e076626"
     },
     {
       "name": "Kimi-layer-compute-shapes.csv",
       "path": "assets/kimi/compute/Kimi-layer-compute-shapes.csv",
-      "bytes": 19077456,
-      "sha256": "aec38402f0772d32b499bfdcc27fbf068c576fb79513f11a25ce4798393af454"
+      "bytes": 19050646,
+      "sha256": "67f4bdf3ba55018fb886fa493fc93b0b0a841fbb716ea27989efc9dd7fc5be49"
     },
     {
       "name": "Kimi-layer-api-report.md",
       "path": "assets/kimi/compute/Kimi-layer-api-report.md",
-      "bytes": 795133,
-      "sha256": "2bf854d0a0a9c22a8e2d1f5d9982e947b46f425f7b05f2d9e5b6e0ce3e2d998f"
+      "bytes": 803722,
+      "sha256": "7e27d8df7cadb7ca500b810acf741f134c289d9296a96eeb4810e0b5d998b7cf"
     },
     {
       "name": "Kimi-backend-api-map.csv",
       "path": "assets/kimi/compute/Kimi-backend-api-map.csv",
-      "bytes": 27826497,
-      "sha256": "ddaecea4a84dfb1c87be2e32b8949555ce1770ebb9baedc3ec604525bc9fac4d"
+      "bytes": 27704544,
+      "sha256": "2f5374dae2da99c8a4ba4eccf2622990ea89886bc78f074681236cd0bbae54c6"
     },
     {
       "name": "Kimi-per-model-tables.zip",
       "path": "assets/kimi/compute/Kimi-per-model-tables.zip",
-      "bytes": 2663516,
-      "sha256": "5e04b27add212a764ecc7061ec43318a950d86346fb21fc003bf192ef2851fde"
+      "bytes": 2592770,
+      "sha256": "5662e8aadf17e00c0c72c6aa6c7b2bc20e6f14414a979b27c114d65220b0bca2"
     }
   ],
   "reportPath": "data/families/kimi/report.json",

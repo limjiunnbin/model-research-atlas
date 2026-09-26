@@ -14,7 +14,7 @@ K3 A_log审计存储[128]，参考配置96 heads。vLLM a_log_weight_loader按pa
 
 旧检查点rotary_emb.inv_freq存储长度可能不同于config旋转维度所需频率长度；生成运行时RoPE的具体加载/重建路径尚未逐版验证，不据此推算运行cache。
 
-K3官方参考MLA forward在所读文件中未直接调用RoPE；生产wrapper存在rotary_emb调用。此处区分代码路径，不自动补造参考调用。
+K3 mla_use_nope=true，生产构造use_rope=False：MLA为NoPE身份路径，RoPE不适用；64维共享key与512+64压缩缓存仍保留。
 
 Ascend W4A8接口列是转换检查点/对应量化方法的条件路径，不等同直接支持原始INT4/MXFP4。MC2通信、A5特化与A3部署条件分别适用。
 
@@ -1584,11 +1584,11 @@ Q:[N,12288]; KV:[N,16384]; Krope:[N,64] → view/transpose/split；Krope在head�
 
 #### s10 RoPE / 位置处理
 
-Qrope:[B,64,T,64]; Krope:[B,1,T,64] → K2参考调用apply_rotary_pos_emb；K3所读参考forward未直接调用RoPE，生产MLA wrapper中有rotary_emb → 旋转后的同shape
+Q共享子空间:[B,64,T,64]; K共享子空间:[B,1,T,64] → K2参考调用apply_rotary_pos_emb → 旋转后的同shape
 
 无持久缓存
 
-历史inv_freq缓冲的存储长度不作为runtime旋转维度；runtime依赖config和重建/加载路径。
+历史inv_freq缓冲存储不证明运行时执行旋转；cache与head宽度独立记录。
 
 - model.layers.{i}.self_attn.rotary_emb.inv_freq：logical metadata；stored 56 BF16；multiplicity 1
 
@@ -1948,11 +1948,11 @@ Q:[N,12288]; KV:[N,16384]; Krope:[N,64] → view/transpose/split；Krope在head�
 
 #### s10 RoPE / 位置处理
 
-Qrope:[B,64,T,64]; Krope:[B,1,T,64] → K2参考调用apply_rotary_pos_emb；K3所读参考forward未直接调用RoPE，生产MLA wrapper中有rotary_emb → 旋转后的同shape
+Q共享子空间:[B,64,T,64]; K共享子空间:[B,1,T,64] → K2参考调用apply_rotary_pos_emb → 旋转后的同shape
 
 无持久缓存
 
-历史inv_freq缓冲的存储长度不作为runtime旋转维度；runtime依赖config和重建/加载路径。
+历史inv_freq缓冲存储不证明运行时执行旋转；cache与head宽度独立记录。
 
 - model.layers.{i}.self_attn.rotary_emb.inv_freq：logical metadata；stored 56 BF16；multiplicity 1
 
@@ -2532,11 +2532,11 @@ Q:[N,12288]; KV:[N,16384]; Krope:[N,64] → view/transpose/split；Krope在head�
 
 #### s10 RoPE / 位置处理
 
-Qrope:[B,64,T,64]; Krope:[B,1,T,64] → K2参考调用apply_rotary_pos_emb；K3所读参考forward未直接调用RoPE，生产MLA wrapper中有rotary_emb → 旋转后的同shape
+Q共享子空间:[B,64,T,64]; K共享子空间:[B,1,T,64] → K2参考调用apply_rotary_pos_emb → 旋转后的同shape
 
 无持久缓存
 
-历史inv_freq缓冲的存储长度不作为runtime旋转维度；runtime依赖config和重建/加载路径。
+历史inv_freq缓冲存储不证明运行时执行旋转；cache与head宽度独立记录。
 
 - model.layers.{i}.self_attn.rotary_emb.inv_freq：logical metadata；stored 56 BF16；multiplicity 1
 
@@ -2896,11 +2896,11 @@ Q:[N,12288]; KV:[N,16384]; Krope:[N,64] → view/transpose/split；Krope在head�
 
 #### s10 RoPE / 位置处理
 
-Qrope:[B,64,T,64]; Krope:[B,1,T,64] → K2参考调用apply_rotary_pos_emb；K3所读参考forward未直接调用RoPE，生产MLA wrapper中有rotary_emb → 旋转后的同shape
+Q共享子空间:[B,64,T,64]; K共享子空间:[B,1,T,64] → K2参考调用apply_rotary_pos_emb → 旋转后的同shape
 
 无持久缓存
 
-历史inv_freq缓冲的存储长度不作为runtime旋转维度；runtime依赖config和重建/加载路径。
+历史inv_freq缓冲存储不证明运行时执行旋转；cache与head宽度独立记录。
 
 - model.layers.{i}.self_attn.rotary_emb.inv_freq：logical metadata；stored 56 BF16；multiplicity 1
 
@@ -3480,11 +3480,11 @@ Q:[N,12288]; KV:[N,16384]; Krope:[N,64] → view/transpose/split；Krope在head�
 
 #### s10 RoPE / 位置处理
 
-Qrope:[B,64,T,64]; Krope:[B,1,T,64] → K2参考调用apply_rotary_pos_emb；K3所读参考forward未直接调用RoPE，生产MLA wrapper中有rotary_emb → 旋转后的同shape
+Q共享子空间:[B,64,T,64]; K共享子空间:[B,1,T,64] → K2参考调用apply_rotary_pos_emb → 旋转后的同shape
 
 无持久缓存
 
-历史inv_freq缓冲的存储长度不作为runtime旋转维度；runtime依赖config和重建/加载路径。
+历史inv_freq缓冲存储不证明运行时执行旋转；cache与head宽度独立记录。
 
 - model.layers.{i}.self_attn.rotary_emb.inv_freq：logical metadata；stored 128 BF16；multiplicity 1
 
@@ -3844,11 +3844,11 @@ Q:[N,12288]; KV:[N,16384]; Krope:[N,64] → view/transpose/split；Krope在head�
 
 #### s10 RoPE / 位置处理
 
-Qrope:[B,64,T,64]; Krope:[B,1,T,64] → K2参考调用apply_rotary_pos_emb；K3所读参考forward未直接调用RoPE，生产MLA wrapper中有rotary_emb → 旋转后的同shape
+Q共享子空间:[B,64,T,64]; K共享子空间:[B,1,T,64] → K2参考调用apply_rotary_pos_emb → 旋转后的同shape
 
 无持久缓存
 
-历史inv_freq缓冲的存储长度不作为runtime旋转维度；runtime依赖config和重建/加载路径。
+历史inv_freq缓冲存储不证明运行时执行旋转；cache与head宽度独立记录。
 
 - model.layers.{i}.self_attn.rotary_emb.inv_freq：logical metadata；stored 128 BF16；multiplicity 1
 
@@ -4420,11 +4420,11 @@ Q:[N,12288]; KV:[N,16384]; Krope:[N,64] → view/transpose/split；Krope在head�
 
 #### s10 RoPE / 位置处理
 
-Qrope:[B,64,T,64]; Krope:[B,1,T,64] → K2参考调用apply_rotary_pos_emb；K3所读参考forward未直接调用RoPE，生产MLA wrapper中有rotary_emb → 旋转后的同shape
+Q共享子空间:[B,64,T,64]; K共享子空间:[B,1,T,64] → K2参考调用apply_rotary_pos_emb → 旋转后的同shape
 
 无持久缓存
 
-历史inv_freq缓冲的存储长度不作为runtime旋转维度；runtime依赖config和重建/加载路径。
+历史inv_freq缓冲存储不证明运行时执行旋转；cache与head宽度独立记录。
 
 - model.layers.{i}.self_attn.rotary_emb.inv_freq：logical metadata；stored 128 BF16；multiplicity 1
 
@@ -4768,11 +4768,11 @@ Q:[N,12288]; KV:[N,16384]; Krope:[N,64] → view/transpose/split；Krope在head�
 
 #### s10 RoPE / 位置处理
 
-Qrope:[B,64,T,64]; Krope:[B,1,T,64] → K2参考调用apply_rotary_pos_emb；K3所读参考forward未直接调用RoPE，生产MLA wrapper中有rotary_emb → 旋转后的同shape
+Q共享子空间:[B,64,T,64]; K共享子空间:[B,1,T,64] → K2参考调用apply_rotary_pos_emb → 旋转后的同shape
 
 无持久缓存
 
-历史inv_freq缓冲的存储长度不作为runtime旋转维度；runtime依赖config和重建/加载路径。
+历史inv_freq缓冲存储不证明运行时执行旋转；cache与head宽度独立记录。
 
 - model.layers.{i}.self_attn.rotary_emb.inv_freq：logical metadata；stored 128 BF16；multiplicity 1
 
@@ -5342,11 +5342,11 @@ Q:[N,12288]; KV:[N,16384]; Krope:[N,64] → view/transpose/split；Krope在head�
 
 #### s10 RoPE / 位置处理
 
-Qrope:[B,64,T,64]; Krope:[B,1,T,64] → K2参考调用apply_rotary_pos_emb；K3所读参考forward未直接调用RoPE，生产MLA wrapper中有rotary_emb → 旋转后的同shape
+Q共享子空间:[B,64,T,64]; K共享子空间:[B,1,T,64] → K2参考调用apply_rotary_pos_emb → 旋转后的同shape
 
 无持久缓存
 
-历史inv_freq缓冲的存储长度不作为runtime旋转维度；runtime依赖config和重建/加载路径。
+历史inv_freq缓冲存储不证明运行时执行旋转；cache与head宽度独立记录。
 
 - torch / 框架函数 / 条件分派：apply_rotary_pos_emb（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ef5f0a39e0de
 
@@ -5688,11 +5688,11 @@ Q:[N,12288]; KV:[N,16384]; Krope:[N,64] → view/transpose/split；Krope在head�
 
 #### s10 RoPE / 位置处理
 
-Qrope:[B,64,T,64]; Krope:[B,1,T,64] → K2参考调用apply_rotary_pos_emb；K3所读参考forward未直接调用RoPE，生产MLA wrapper中有rotary_emb → 旋转后的同shape
+Q共享子空间:[B,64,T,64]; K共享子空间:[B,1,T,64] → K2参考调用apply_rotary_pos_emb → 旋转后的同shape
 
 无持久缓存
 
-历史inv_freq缓冲的存储长度不作为runtime旋转维度；runtime依赖config和重建/加载路径。
+历史inv_freq缓冲存储不证明运行时执行旋转；cache与head宽度独立记录。
 
 - torch / 框架函数 / 条件分派：apply_rotary_pos_emb（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ef5f0a39e0de
 
@@ -6052,13 +6052,13 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - vision_tower.encoder.blocks.{i}.norm0.weight：logical 1152；stored 1152 BF16；multiplicity 1
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ac58dedbdf7c
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ab36b61a75be
 
-- nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
+- nvidia / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
-- amd / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认ROCm底层映射。。来源：
+- amd / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
-- ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
+- ascend / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
 #### s2 视觉融合QKV投影
 
@@ -6140,7 +6140,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ac58dedbdf7c
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ab36b61a75be
 
 - nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
 
@@ -6160,13 +6160,13 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - vision_tower.encoder.blocks.{i}.norm1.weight：logical 1152；stored 1152 BF16；multiplicity 1
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ac58dedbdf7c
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ab36b61a75be
 
-- nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
+- nvidia / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
-- amd / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认ROCm底层映射。。来源：
+- amd / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
-- ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
+- ascend / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
 #### s8 视觉MLP上投影
 
@@ -6196,7 +6196,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ac58dedbdf7c
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MLP2.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：d2fd11ae84f0
 
 - nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
 
@@ -6232,7 +6232,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ac58dedbdf7c
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ab36b61a75be
 
 - nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
 
@@ -6302,7 +6302,23 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 ### k2.5-t7
 
-#### s1 Patch合并前LayerNorm
+#### s1 空间合并与时间池化
+
+视觉片段:[frames,h,w,1152] → 视觉塔tpool_patch_merger先空间2×2打包并按时间组均值；随后进入projector；Nm依赖processor网格 → grouped:[Nm,4,1152]
+
+无持久缓存
+
+
+
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：tpool_patch_merger（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：025c90ee058b
+
+- nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
+
+- amd / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认ROCm底层映射。。来源：
+
+- ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
+
+#### s2 时间池化后、展平前LayerNorm
 
 [Nm,G,1152] → LayerNorm: (X-mean)/sqrt(var+eps)×γ+β → [Nm,G,1152]
 
@@ -6322,9 +6338,9 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
 
-#### s2 空间合并与时间池化
+#### s3 连接器输入展平
 
-视觉片段:[frames,h,w,1152] → 空间2×2打包；sd2_tpool对相应时间组求均值；Nm依赖processor网格，不固定等于原始Nv/4 → grouped:[Nm,4,1152] → [Nm,4608]
+[Nm,4,1152] → projector内部view；前序pre_norm仅适用于K2.5/2.6/2.7 → [Nm,4608]
 
 无持久缓存
 
@@ -6338,7 +6354,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
 
-#### s3 连接器第一线性
+#### s4 连接器第一线性
 
 [Nm,4608] → Y=X @ Wᵀ + bias → [Nm,4608]
 
@@ -6358,7 +6374,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
-#### s4 连接器GELU
+#### s5 连接器GELU
 
 [Nm,4608] → nn.GELU → [Nm,4608]
 
@@ -6374,7 +6390,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
 
-#### s5 投影到语言宽度
+#### s6 投影到语言宽度
 
 [Nm,4608] → Y=X @ Wᵀ + bias → [Nm,7168]
 
@@ -6394,7 +6410,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
-#### s6 插入多模态embedding
+#### s7 插入多模态embedding
 
 text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入视觉特征；数量由processor与网格校验 → [B,T,7168]
 
@@ -6402,7 +6418,7 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：PatchMergerMLP.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：a0129ccce050
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：KimiK25ForConditionalGeneration._merge_input_ids_with_image_features（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：d15b277cb06d
 
 - nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
 
@@ -6462,7 +6478,7 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 - vision_tower.encoder.final_layernorm.weight：logical 1152；stored 1152 BF16；multiplicity 1
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonVision3dPatchEmbed.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：f12177b1227e
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViT3dEncoder.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f7e9167e6b3
 
 - nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
 
@@ -6632,11 +6648,11 @@ Q:[N,12288]; KV:[N,16384]; Krope:[N,64] → view/transpose/split；Krope在head�
 
 #### s10 RoPE / 位置处理
 
-Qrope:[B,64,T,64]; Krope:[B,1,T,64] → K2参考调用apply_rotary_pos_emb；K3所读参考forward未直接调用RoPE，生产MLA wrapper中有rotary_emb → 旋转后的同shape
+Q共享子空间:[B,64,T,64]; K共享子空间:[B,1,T,64] → K2参考调用apply_rotary_pos_emb → 旋转后的同shape
 
 无持久缓存
 
-历史inv_freq缓冲的存储长度不作为runtime旋转维度；runtime依赖config和重建/加载路径。
+历史inv_freq缓冲存储不证明运行时执行旋转；cache与head宽度独立记录。
 
 - torch / 框架函数 / 条件分派：apply_rotary_pos_emb（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：8a172ed6bb67
 
@@ -6978,11 +6994,11 @@ Q:[N,12288]; KV:[N,16384]; Krope:[N,64] → view/transpose/split；Krope在head�
 
 #### s10 RoPE / 位置处理
 
-Qrope:[B,64,T,64]; Krope:[B,1,T,64] → K2参考调用apply_rotary_pos_emb；K3所读参考forward未直接调用RoPE，生产MLA wrapper中有rotary_emb → 旋转后的同shape
+Q共享子空间:[B,64,T,64]; K共享子空间:[B,1,T,64] → K2参考调用apply_rotary_pos_emb → 旋转后的同shape
 
 无持久缓存
 
-历史inv_freq缓冲的存储长度不作为runtime旋转维度；runtime依赖config和重建/加载路径。
+历史inv_freq缓冲存储不证明运行时执行旋转；cache与head宽度独立记录。
 
 - torch / 框架函数 / 条件分派：apply_rotary_pos_emb（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：8a172ed6bb67
 
@@ -7342,13 +7358,13 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - vision_tower.encoder.blocks.{i}.norm0.weight：logical 1152；stored 1152 BF16；multiplicity 1
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：33c11b5edf97
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ece6b3d2836b
 
-- nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
+- nvidia / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
-- amd / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认ROCm底层映射。。来源：
+- amd / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
-- ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
+- ascend / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
 #### s2 视觉融合QKV投影
 
@@ -7430,7 +7446,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：33c11b5edf97
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ece6b3d2836b
 
 - nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
 
@@ -7450,13 +7466,13 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - vision_tower.encoder.blocks.{i}.norm1.weight：logical 1152；stored 1152 BF16；multiplicity 1
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：33c11b5edf97
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ece6b3d2836b
 
-- nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
+- nvidia / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
-- amd / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认ROCm底层映射。。来源：
+- amd / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
-- ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
+- ascend / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
 #### s8 视觉MLP上投影
 
@@ -7486,7 +7502,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：33c11b5edf97
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MLP2.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：f45c08461917
 
 - nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
 
@@ -7522,7 +7538,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：33c11b5edf97
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ece6b3d2836b
 
 - nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
 
@@ -7592,7 +7608,23 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 ### k2.6-t7
 
-#### s1 Patch合并前LayerNorm
+#### s1 空间合并与时间池化
+
+视觉片段:[frames,h,w,1152] → 视觉塔tpool_patch_merger先空间2×2打包并按时间组均值；随后进入projector；Nm依赖processor网格 → grouped:[Nm,4,1152]
+
+无持久缓存
+
+
+
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：tpool_patch_merger（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：8433345fb702
+
+- nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
+
+- amd / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认ROCm底层映射。。来源：
+
+- ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
+
+#### s2 时间池化后、展平前LayerNorm
 
 [Nm,G,1152] → LayerNorm: (X-mean)/sqrt(var+eps)×γ+β → [Nm,G,1152]
 
@@ -7612,9 +7644,9 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
 
-#### s2 空间合并与时间池化
+#### s3 连接器输入展平
 
-视觉片段:[frames,h,w,1152] → 空间2×2打包；sd2_tpool对相应时间组求均值；Nm依赖processor网格，不固定等于原始Nv/4 → grouped:[Nm,4,1152] → [Nm,4608]
+[Nm,4,1152] → projector内部view；前序pre_norm仅适用于K2.5/2.6/2.7 → [Nm,4608]
 
 无持久缓存
 
@@ -7628,7 +7660,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
 
-#### s3 连接器第一线性
+#### s4 连接器第一线性
 
 [Nm,4608] → Y=X @ Wᵀ + bias → [Nm,4608]
 
@@ -7648,7 +7680,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
-#### s4 连接器GELU
+#### s5 连接器GELU
 
 [Nm,4608] → nn.GELU → [Nm,4608]
 
@@ -7664,7 +7696,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
 
-#### s5 投影到语言宽度
+#### s6 投影到语言宽度
 
 [Nm,4608] → Y=X @ Wᵀ + bias → [Nm,7168]
 
@@ -7684,7 +7716,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
-#### s6 插入多模态embedding
+#### s7 插入多模态embedding
 
 text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入视觉特征；数量由processor与网格校验 → [B,T,7168]
 
@@ -7692,7 +7724,7 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：PatchMergerMLP.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：c718cfcc69de
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：KimiK25ForConditionalGeneration._merge_input_ids_with_image_features（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：41a11dbb404a
 
 - nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
 
@@ -7752,7 +7784,7 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 - vision_tower.encoder.final_layernorm.weight：logical 1152；stored 1152 BF16；multiplicity 1
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonVision3dPatchEmbed.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：bc375878d3f5
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViT3dEncoder.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：c16fea60f6d7
 
 - nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
 
@@ -7922,11 +7954,11 @@ Q:[N,12288]; KV:[N,16384]; Krope:[N,64] → view/transpose/split；Krope在head�
 
 #### s10 RoPE / 位置处理
 
-Qrope:[B,64,T,64]; Krope:[B,1,T,64] → K2参考调用apply_rotary_pos_emb；K3所读参考forward未直接调用RoPE，生产MLA wrapper中有rotary_emb → 旋转后的同shape
+Q共享子空间:[B,64,T,64]; K共享子空间:[B,1,T,64] → K2参考调用apply_rotary_pos_emb → 旋转后的同shape
 
 无持久缓存
 
-历史inv_freq缓冲的存储长度不作为runtime旋转维度；runtime依赖config和重建/加载路径。
+历史inv_freq缓冲存储不证明运行时执行旋转；cache与head宽度独立记录。
 
 - torch / 框架函数 / 条件分派：apply_rotary_pos_emb（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：e33615f374ab
 
@@ -8268,11 +8300,11 @@ Q:[N,12288]; KV:[N,16384]; Krope:[N,64] → view/transpose/split；Krope在head�
 
 #### s10 RoPE / 位置处理
 
-Qrope:[B,64,T,64]; Krope:[B,1,T,64] → K2参考调用apply_rotary_pos_emb；K3所读参考forward未直接调用RoPE，生产MLA wrapper中有rotary_emb → 旋转后的同shape
+Q共享子空间:[B,64,T,64]; K共享子空间:[B,1,T,64] → K2参考调用apply_rotary_pos_emb → 旋转后的同shape
 
 无持久缓存
 
-历史inv_freq缓冲的存储长度不作为runtime旋转维度；runtime依赖config和重建/加载路径。
+历史inv_freq缓冲存储不证明运行时执行旋转；cache与head宽度独立记录。
 
 - torch / 框架函数 / 条件分派：apply_rotary_pos_emb（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：e33615f374ab
 
@@ -8632,13 +8664,13 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - vision_tower.encoder.blocks.{i}.norm0.weight：logical 1152；stored 1152 BF16；multiplicity 1
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：a6d5074fcb82
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5ebd0f659b0d
 
-- nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
+- nvidia / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
-- amd / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认ROCm底层映射。。来源：
+- amd / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
-- ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
+- ascend / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
 #### s2 视觉融合QKV投影
 
@@ -8720,7 +8752,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：a6d5074fcb82
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5ebd0f659b0d
 
 - nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
 
@@ -8740,13 +8772,13 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - vision_tower.encoder.blocks.{i}.norm1.weight：logical 1152；stored 1152 BF16；multiplicity 1
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：a6d5074fcb82
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5ebd0f659b0d
 
-- nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
+- nvidia / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
-- amd / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认ROCm底层映射。。来源：
+- amd / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
-- ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
+- ascend / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
 #### s8 视觉MLP上投影
 
@@ -8776,7 +8808,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：a6d5074fcb82
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MLP2.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：9d63ae8d370a
 
 - nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
 
@@ -8812,7 +8844,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：a6d5074fcb82
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5ebd0f659b0d
 
 - nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
 
@@ -8882,7 +8914,23 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 ### k2.7-code-t7
 
-#### s1 Patch合并前LayerNorm
+#### s1 空间合并与时间池化
+
+视觉片段:[frames,h,w,1152] → 视觉塔tpool_patch_merger先空间2×2打包并按时间组均值；随后进入projector；Nm依赖processor网格 → grouped:[Nm,4,1152]
+
+无持久缓存
+
+
+
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：tpool_patch_merger（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：b3331effb242
+
+- nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
+
+- amd / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认ROCm底层映射。。来源：
+
+- ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
+
+#### s2 时间池化后、展平前LayerNorm
 
 [Nm,G,1152] → LayerNorm: (X-mean)/sqrt(var+eps)×γ+β → [Nm,G,1152]
 
@@ -8902,9 +8950,9 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
 
-#### s2 空间合并与时间池化
+#### s3 连接器输入展平
 
-视觉片段:[frames,h,w,1152] → 空间2×2打包；sd2_tpool对相应时间组求均值；Nm依赖processor网格，不固定等于原始Nv/4 → grouped:[Nm,4,1152] → [Nm,4608]
+[Nm,4,1152] → projector内部view；前序pre_norm仅适用于K2.5/2.6/2.7 → [Nm,4608]
 
 无持久缓存
 
@@ -8918,7 +8966,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
 
-#### s3 连接器第一线性
+#### s4 连接器第一线性
 
 [Nm,4608] → Y=X @ Wᵀ + bias → [Nm,4608]
 
@@ -8938,7 +8986,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
-#### s4 连接器GELU
+#### s5 连接器GELU
 
 [Nm,4608] → nn.GELU → [Nm,4608]
 
@@ -8954,7 +9002,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
 
-#### s5 投影到语言宽度
+#### s6 投影到语言宽度
 
 [Nm,4608] → Y=X @ Wᵀ + bias → [Nm,7168]
 
@@ -8974,7 +9022,7 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
-#### s6 插入多模态embedding
+#### s7 插入多模态embedding
 
 text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入视觉特征；数量由processor与网格校验 → [B,T,7168]
 
@@ -8982,7 +9030,7 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：PatchMergerMLP.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：fc186d292a78
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：KimiK25ForConditionalGeneration._merge_input_ids_with_image_features（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：13d695cbda05
 
 - nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
 
@@ -9042,7 +9090,7 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 - vision_tower.encoder.final_layernorm.weight：logical 1152；stored 1152 BF16；multiplicity 1
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonVision3dPatchEmbed.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：0c052c5d1778
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViT3dEncoder.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ba6c21ad95c8
 
 - nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
 
@@ -9274,11 +9322,11 @@ A_log存储[128]，config/参考参数预期[96]；vLLM加载器narrow按local h
 
 #### s13 KDA chunk / recurrence核心
 
-Q,K,V,g:[B,T,96,128]; beta:[B,T,96] → 按key维衰减S̄=diag(exp(g))Sprev；δ=v−kᵀS̄；S=S̄+βkδᵀ；o=qᵀS（含配置scale） → O:[B,T,96,128]
+Q,K,V,g:[B,T,96,128]; beta:[B,T,96] → 按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale） → O:[B,T,96,128]
 
-逻辑状态[B,96,128,128]；FLA transpose_state_layout=True和Ascend state_v_first=True采用V,K末轴；分片为heads/TP；vLLM合并卷积state为[B,3×12288/TP,3+num_spec]或转轴布局，窗口长度4不等于状态存储长度；FLA参考库的具体conv缓存长度未逐实现核验
+逻辑状态H_state:[B,96,128,128]；FLA transpose_state_layout=True和Ascend state_v_first=True采用V,K末轴；分片为heads/TP；vLLM合并卷积state为[B,3×12288/TP,3+num_spec]或转轴布局，窗口长度4不等于状态存储长度；FLA参考库的具体conv缓存长度未逐实现核验
 
-prefill分块与decode递归数学对应但算子不同；本配置K=V=128时shape相同仍必须注明轴含义。
+prefill分块与decode递归数学对应但算子不同；本配置K=V=128时shape相同仍必须注明轴含义。H_state是矩阵状态，不是序列长度。
 
 - torch / 框架函数 / 条件分派：KimiDeltaAttention.forward（函数上下文，不是本步骤的有序调用链）；自定义库fla.ops.kda.chunk_kda / fused_recurrent_kda，无单个标准torch API直达。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：810b468803e0 5f9a935af53a bf6a8a0cf8c1
 
@@ -9308,21 +9356,21 @@ prefill分块与decode递归数学对应但算子不同；本配置K=V=128时sha
 
 #### s15 每head输出RMSNorm
 
-[B,T,96,128] → RMSNorm: X×rsqrt(mean(X²)+eps)×γ → [B,T,96,128]
+[B,T,96,128] → 每head FusedRMSNormGated：RMSNorm(o)×sigmoid(g)；下一行仅展开同一调用的门控语义，不是再执行一次 → [B,T,96,128]
 
 无持久缓存
 
-
+构造FusedRMSNormGated，forward self.o_norm(o,g)；普通KimiRMSNorm不是此处调用。
 
 - language_model.model.layers.{i}.self_attn.o_norm.weight：logical 128；stored 128 F32；multiplicity 1
 
-- torch / 框架函数 / 条件分派：KimiRMSNorm.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：06cde78b0e97
+- torch / 框架函数 / 条件分派：KimiDeltaAttention.forward → self.o_norm(o,g)：FusedRMSNormGated(activation=sigmoid)；与下一逻辑门控行同一融合调用。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：810b468803e0
 
-- nvidia / 已核验native/IR分支；非已确认设备kernel：RMSNorm.forward_native → ir.ops.rms_norm / ir.ops.fused_add_rms_norm.maybe_inplace。条件：所列forward_native进入IR注册算子；不能等同最终CUDA/ROCm kernel。CUDA forward另有BATCH_INVARIANT分支；本轮未追完编译/IR后端注册选择。。来源：4efff8a09679
+- nvidia / 未知：未核验。条件：带sigmoid门的FusedRMSNormGated；本步骤最终设备分派未核验，不能套用普通RMSNorm接口。。来源：
 
-- amd / 已核验native/IR分支；非已确认设备kernel：RMSNorm.forward_native → ir.ops.rms_norm / ir.ops.fused_add_rms_norm.maybe_inplace。条件：所列forward_native进入IR注册算子；不能等同最终CUDA/ROCm kernel。CUDA forward另有BATCH_INVARIANT分支；本轮未追完编译/IR后端注册选择。。来源：4efff8a09679
+- amd / 未知：未核验。条件：带sigmoid门的FusedRMSNormGated；本步骤最终设备分派未核验，不能套用普通RMSNorm接口。。来源：
 
-- ascend / 框架函数 / 条件分派：AscendRMSNorm.forward_oot → torch_npu.npu_rms_norm / torch.ops._C_ascend.npu_add_rms_norm_bias。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ff22f8d895b3
+- ascend / 未知：未核验。条件：带sigmoid门的FusedRMSNormGated；本步骤最终设备分派未核验，不能套用普通RMSNorm接口。。来源：
 
 #### s16 KDA门控输出
 
@@ -9722,11 +9770,11 @@ A_log存储[128]，config/参考参数预期[96]；vLLM加载器narrow按local h
 
 #### s13 KDA chunk / recurrence核心
 
-Q,K,V,g:[B,T,96,128]; beta:[B,T,96] → 按key维衰减S̄=diag(exp(g))Sprev；δ=v−kᵀS̄；S=S̄+βkδᵀ；o=qᵀS（含配置scale） → O:[B,T,96,128]
+Q,K,V,g:[B,T,96,128]; beta:[B,T,96] → 按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale） → O:[B,T,96,128]
 
-逻辑状态[B,96,128,128]；FLA transpose_state_layout=True和Ascend state_v_first=True采用V,K末轴；分片为heads/TP；vLLM合并卷积state为[B,3×12288/TP,3+num_spec]或转轴布局，窗口长度4不等于状态存储长度；FLA参考库的具体conv缓存长度未逐实现核验
+逻辑状态H_state:[B,96,128,128]；FLA transpose_state_layout=True和Ascend state_v_first=True采用V,K末轴；分片为heads/TP；vLLM合并卷积state为[B,3×12288/TP,3+num_spec]或转轴布局，窗口长度4不等于状态存储长度；FLA参考库的具体conv缓存长度未逐实现核验
 
-prefill分块与decode递归数学对应但算子不同；本配置K=V=128时shape相同仍必须注明轴含义。
+prefill分块与decode递归数学对应但算子不同；本配置K=V=128时shape相同仍必须注明轴含义。H_state是矩阵状态，不是序列长度。
 
 - torch / 框架函数 / 条件分派：KimiDeltaAttention.forward（函数上下文，不是本步骤的有序调用链）；自定义库fla.ops.kda.chunk_kda / fused_recurrent_kda，无单个标准torch API直达。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：810b468803e0 5f9a935af53a bf6a8a0cf8c1
 
@@ -9756,21 +9804,21 @@ prefill分块与decode递归数学对应但算子不同；本配置K=V=128时sha
 
 #### s15 每head输出RMSNorm
 
-[B,T,96,128] → RMSNorm: X×rsqrt(mean(X²)+eps)×γ → [B,T,96,128]
+[B,T,96,128] → 每head FusedRMSNormGated：RMSNorm(o)×sigmoid(g)；下一行仅展开同一调用的门控语义，不是再执行一次 → [B,T,96,128]
 
 无持久缓存
 
-
+构造FusedRMSNormGated，forward self.o_norm(o,g)；普通KimiRMSNorm不是此处调用。
 
 - language_model.model.layers.{i}.self_attn.o_norm.weight：logical 128；stored 128 F32；multiplicity 1
 
-- torch / 框架函数 / 条件分派：KimiRMSNorm.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：06cde78b0e97
+- torch / 框架函数 / 条件分派：KimiDeltaAttention.forward → self.o_norm(o,g)：FusedRMSNormGated(activation=sigmoid)；与下一逻辑门控行同一融合调用。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：810b468803e0
 
-- nvidia / 已核验native/IR分支；非已确认设备kernel：RMSNorm.forward_native → ir.ops.rms_norm / ir.ops.fused_add_rms_norm.maybe_inplace。条件：所列forward_native进入IR注册算子；不能等同最终CUDA/ROCm kernel。CUDA forward另有BATCH_INVARIANT分支；本轮未追完编译/IR后端注册选择。。来源：4efff8a09679
+- nvidia / 未知：未核验。条件：带sigmoid门的FusedRMSNormGated；本步骤最终设备分派未核验，不能套用普通RMSNorm接口。。来源：
 
-- amd / 已核验native/IR分支；非已确认设备kernel：RMSNorm.forward_native → ir.ops.rms_norm / ir.ops.fused_add_rms_norm.maybe_inplace。条件：所列forward_native进入IR注册算子；不能等同最终CUDA/ROCm kernel。CUDA forward另有BATCH_INVARIANT分支；本轮未追完编译/IR后端注册选择。。来源：4efff8a09679
+- amd / 未知：未核验。条件：带sigmoid门的FusedRMSNormGated；本步骤最终设备分派未核验，不能套用普通RMSNorm接口。。来源：
 
-- ascend / 框架函数 / 条件分派：AscendRMSNorm.forward_oot → torch_npu.npu_rms_norm / torch.ops._C_ascend.npu_add_rms_norm_bias。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ff22f8d895b3
+- ascend / 未知：未核验。条件：带sigmoid门的FusedRMSNormGated；本步骤最终设备分派未核验，不能套用普通RMSNorm接口。。来源：
 
 #### s16 KDA门控输出
 
@@ -10340,21 +10388,21 @@ Q:[N,18432]; KV:[N,24576]; Krope:[N,64] → view/transpose/split；Krope在head�
 
 - ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
 
-#### s11 RoPE / 位置处理
+#### s11 NoPE身份路径（RoPE不适用）
 
-Qrope:[B,96,T,64]; Krope:[B,1,T,64] → K2参考调用apply_rotary_pos_emb；K3所读参考forward未直接调用RoPE，生产MLA wrapper中有rotary_emb → 旋转后的同shape
+Q共享子空间:[B,96,T,64]; K共享子空间:[B,1,T,64] → K3 mla_use_nope=true，use_rope=False；64维共享key仍存在，不能据此把cache改为512 → 同shape，不旋转
 
 无持久缓存
 
-历史inv_freq缓冲的存储长度不作为runtime旋转维度；runtime依赖config和重建/加载路径。
+历史inv_freq缓冲存储不证明运行时执行旋转；cache与head宽度独立记录。
 
 - torch / 框架函数 / 条件分派：KimiMLAAttention.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ce998ab6e49a
 
-- nvidia / 未知：未核验。条件：参考RoPE函数已定位；CUDA具体融合内核受MLA后端决定。。来源：
+- nvidia / 配置条件排除：不适用：NoPE身份路径，无RoPE旋转。条件：mla_use_nope=true；共享64维key与512+64缓存仍保留。来源：2cf4ee46912b 1bc2e6502ffe
 
-- amd / 未知：未核验。条件：参考RoPE函数已定位；ROCm具体融合内核未逐一确认。。来源：
+- amd / 配置条件排除：不适用：NoPE身份路径，无RoPE旋转。条件：mla_use_nope=true；共享64维key与512+64缓存仍保留。来源：2cf4ee46912b 1bc2e6502ffe
 
-- ascend / 框架函数 / 条件分派：AscendDeepseekScalingRotaryEmbedding.forward → torch.ops.vllm.npu_rotary_embedding。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：498708f97f63
+- ascend / 配置条件排除：不适用：NoPE身份路径，无RoPE旋转。条件：mla_use_nope=true；共享64维key与512+64缓存仍保留。来源：2cf4ee46912b 1bc2e6502ffe
 
 #### s12 注意力得分与归一化
 
@@ -10806,13 +10854,13 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - vision_tower.encoder.blocks.{i}.norm0.weight：logical 1024；stored 1024 BF16；multiplicity 1
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：edcaf149bc62
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：db18af94f22d
 
-- nvidia / 已核验native/IR分支；非已确认设备kernel：RMSNorm.forward_native → ir.ops.rms_norm / ir.ops.fused_add_rms_norm.maybe_inplace。条件：所列forward_native进入IR注册算子；不能等同最终CUDA/ROCm kernel。CUDA forward另有BATCH_INVARIANT分支；本轮未追完编译/IR后端注册选择。。来源：4efff8a09679
+- nvidia / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
-- amd / 已核验native/IR分支；非已确认设备kernel：RMSNorm.forward_native → ir.ops.rms_norm / ir.ops.fused_add_rms_norm.maybe_inplace。条件：所列forward_native进入IR注册算子；不能等同最终CUDA/ROCm kernel。CUDA forward另有BATCH_INVARIANT分支；本轮未追完编译/IR后端注册选择。。来源：4efff8a09679
+- amd / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
-- ascend / 框架函数 / 条件分派：AscendRMSNorm.forward_oot → torch_npu.npu_rms_norm / torch.ops._C_ascend.npu_add_rms_norm_bias。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ff22f8d895b3
+- ascend / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
 #### s2 视觉融合QKV投影
 
@@ -10890,7 +10938,7 @@ branch,residual:[Nv,1024] → 相加 → [Nv,1024]
 
 
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：edcaf149bc62
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：db18af94f22d
 
 - nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
 
@@ -10908,13 +10956,13 @@ branch,residual:[Nv,1024] → 相加 → [Nv,1024]
 
 - vision_tower.encoder.blocks.{i}.norm1.weight：logical 1024；stored 1024 BF16；multiplicity 1
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：edcaf149bc62
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：db18af94f22d
 
-- nvidia / 已核验native/IR分支；非已确认设备kernel：RMSNorm.forward_native → ir.ops.rms_norm / ir.ops.fused_add_rms_norm.maybe_inplace。条件：所列forward_native进入IR注册算子；不能等同最终CUDA/ROCm kernel。CUDA forward另有BATCH_INVARIANT分支；本轮未追完编译/IR后端注册选择。。来源：4efff8a09679
+- nvidia / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
-- amd / 已核验native/IR分支；非已确认设备kernel：RMSNorm.forward_native → ir.ops.rms_norm / ir.ops.fused_add_rms_norm.maybe_inplace。条件：所列forward_native进入IR注册算子；不能等同最终CUDA/ROCm kernel。CUDA forward另有BATCH_INVARIANT分支；本轮未追完编译/IR后端注册选择。。来源：4efff8a09679
+- amd / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
-- ascend / 框架函数 / 条件分派：AscendRMSNorm.forward_oot → torch_npu.npu_rms_norm / torch.ops._C_ascend.npu_add_rms_norm_bias。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ff22f8d895b3
+- ascend / 未知：未核验。条件：视觉层归一化模块的设备分派未逐项核验，不能套用语言RMSNorm。。来源：
 
 #### s8 视觉MLP上投影
 
@@ -10942,7 +10990,7 @@ branch,residual:[Nv,1024] → 相加 → [Nv,1024]
 
 
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：edcaf149bc62
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MLP2.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：9c268ae3cc41
 
 - nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
 
@@ -10976,7 +11024,7 @@ branch,residual:[Nv,1024] → 相加 → [Nv,1024]
 
 
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.attention_qkvpacked（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：edcaf149bc62
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViTEncoderLayer.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：db18af94f22d
 
 - nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
 
@@ -11068,7 +11116,23 @@ prefix/blocks:[N,R,7168] → 最终跨块加权混合 → [N,7168]
 
 #### s1 空间合并与时间池化
 
-视觉片段:[frames,h,w,1024] → 空间2×2打包；sd2_tpool对相应时间组求均值；Nm依赖processor网格，不固定等于原始Nv/4 → grouped:[Nm,4,1024] → [Nm,4096]
+视觉片段:[frames,h,w,1024] → 视觉塔tpool_patch_merger先空间2×2打包并按时间组均值；随后进入projector；Nm依赖processor网格 → grouped:[Nm,4,1024]
+
+无持久缓存
+
+
+
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：tpool_patch_merger（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：521f6594eb83
+
+- nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
+
+- amd / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认ROCm底层映射。。来源：
+
+- ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
+
+#### s2 连接器输入展平
+
+[Nm,4,1024] → projector内部view；前序pre_norm仅适用于K2.5/2.6/2.7 → [Nm,4096]
 
 无持久缓存
 
@@ -11082,7 +11146,7 @@ prefix/blocks:[N,R,7168] → 最终跨块加权混合 → [N,7168]
 
 - ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
 
-#### s2 连接器第一线性
+#### s3 连接器第一线性
 
 [Nm,4096] → Y=X @ Wᵀ → [Nm,4096]
 
@@ -11100,7 +11164,7 @@ prefix/blocks:[N,R,7168] → 最终跨块加权混合 → [N,7168]
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
-#### s3 连接器GELU
+#### s4 连接器GELU
 
 [Nm,4096] → nn.GELU → [Nm,4096]
 
@@ -11116,7 +11180,7 @@ prefix/blocks:[N,R,7168] → 最终跨块加权混合 → [N,7168]
 
 - ascend / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认Ascend底层映射。。来源：
 
-#### s4 投影到语言宽度
+#### s5 投影到语言宽度
 
 [Nm,4096] → Y=X @ Wᵀ → [Nm,7168]
 
@@ -11134,7 +11198,7 @@ prefix/blocks:[N,R,7168] → 最终跨块加权混合 → [N,7168]
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
-#### s5 连接器输出RMSNorm
+#### s6 连接器输出RMSNorm
 
 [Nm,7168] → RMSNorm: X×rsqrt(mean(X²)+eps)×γ → [Nm,7168]
 
@@ -11152,7 +11216,7 @@ prefix/blocks:[N,R,7168] → 最终跨块加权混合 → [N,7168]
 
 - ascend / 框架函数 / 条件分派：AscendRMSNorm.forward_oot → torch_npu.npu_rms_norm / torch.ops._C_ascend.npu_add_rms_norm_bias。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：ff22f8d895b3
 
-#### s6 插入多模态embedding
+#### s7 插入多模态embedding
 
 text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入视觉特征；数量由processor与网格校验 → [B,T,7168]
 
@@ -11160,7 +11224,7 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：PatchMergerMLPV2.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：0cc97b41f6f7
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：KimiK3ForConditionalGeneration._merge_input_ids_with_image_features（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：c47424276a48
 
 - nvidia / 未知：未核验。条件：此步骤仅核验参考实现/shape；未确认CUDA底层映射。。来源：
 
@@ -11216,7 +11280,7 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 - vision_tower.encoder.final_layernorm.weight：logical 1024；stored 1024 BF16；multiplicity 1
 
-- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonVision3dPatchEmbed.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：34810eb33520
+- torch / Moonshot参考模块forward；含多个步骤，不代表1:1设备调用：MoonViT3dEncoder.forward（函数上下文，不是本步骤的有序调用链）。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：3ec798fd8f7c
 
 - nvidia / 已核验native/IR分支；非已确认设备kernel：RMSNorm.forward_native → ir.ops.rms_norm / ir.ops.fused_add_rms_norm.maybe_inplace。条件：所列forward_native进入IR注册算子；不能等同最终CUDA/ROCm kernel。CUDA forward另有BATCH_INVARIANT分支；本轮未追完编译/IR后端注册选择。。来源：4efff8a09679
 
@@ -11410,11 +11474,21 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 - c9bacd41e46b-605 [DeepseekV3MoE.moe_infer / 步骤语句](https://huggingface.co/moonshotai/Kimi-K2.5/blob/4d01dfe0332d63057c186e0b262165819efb6611/modeling_deepseek.py#L605) — moonshotai/Kimi-K2.5@4d01dfe0332d63057c186e0b262165819efb6611，modeling_deepseek.py L605-609，函数体SHA256 40e92a0e04b79038e82b1d36f475369eab86405751ef94effc72c3d270c29b98
 
+- ab36b61a75be [MoonViTEncoderLayer.forward](https://huggingface.co/moonshotai/Kimi-K2.5/blob/4d01dfe0332d63057c186e0b262165819efb6611/modeling_kimi_k25.py#L537) — moonshotai/Kimi-K2.5@4d01dfe0332d63057c186e0b262165819efb6611，modeling_kimi_k25.py L537-556，函数体SHA256 dafd875879e3d35dad4e9319dfd8c37008773eb7b7ed63eefa345eccfbd329aa
+
 - ac58dedbdf7c [MoonViTEncoderLayer.attention_qkvpacked](https://huggingface.co/moonshotai/Kimi-K2.5/blob/4d01dfe0332d63057c186e0b262165819efb6611/modeling_kimi_k25.py#L499) — moonshotai/Kimi-K2.5@4d01dfe0332d63057c186e0b262165819efb6611，modeling_kimi_k25.py L499-535，函数体SHA256 090f3c33ae71aed08035aba0021e91cdadb7ca92b4b9dc3b8e34a73fd9208fb6
+
+- d2fd11ae84f0 [MLP2.forward](https://huggingface.co/moonshotai/Kimi-K2.5/blob/4d01dfe0332d63057c186e0b262165819efb6611/modeling_kimi_k25.py#L467) — moonshotai/Kimi-K2.5@4d01dfe0332d63057c186e0b262165819efb6611，modeling_kimi_k25.py L467-470，函数体SHA256 cf645d95ca97020a78e8a05e97e005598e25153c7c0e2f256a784583c6e7fdbb
+
+- 025c90ee058b [tpool_patch_merger](https://huggingface.co/moonshotai/Kimi-K2.5/blob/4d01dfe0332d63057c186e0b262165819efb6611/modeling_kimi_k25.py#L606) — moonshotai/Kimi-K2.5@4d01dfe0332d63057c186e0b262165819efb6611，modeling_kimi_k25.py L606-631，函数体SHA256 6cc0d6a2a85aed1e49d33a5f842801468e650d884fed2def1eca68ebafa7d84c
 
 - a0129ccce050 [PatchMergerMLP.forward](https://huggingface.co/moonshotai/Kimi-K2.5/blob/4d01dfe0332d63057c186e0b262165819efb6611/modeling_kimi_k25.py#L751) — moonshotai/Kimi-K2.5@4d01dfe0332d63057c186e0b262165819efb6611，modeling_kimi_k25.py L751-761，函数体SHA256 abd57a7bec8c74195a203698a602f091d35ac626229e743490bf120a98acc06d
 
+- d15b277cb06d [KimiK25ForConditionalGeneration._merge_input_ids_with_image_features](https://huggingface.co/moonshotai/Kimi-K2.5/blob/4d01dfe0332d63057c186e0b262165819efb6611/modeling_kimi_k25.py#L889) — moonshotai/Kimi-K2.5@4d01dfe0332d63057c186e0b262165819efb6611，modeling_kimi_k25.py L889-1021，函数体SHA256 8fb3ba94bb0334600038d27ec4a9a3729fa15760cb6c04d1b79334ba01617111
+
 - f12177b1227e [MoonVision3dPatchEmbed.forward](https://huggingface.co/moonshotai/Kimi-K2.5/blob/4d01dfe0332d63057c186e0b262165819efb6611/modeling_kimi_k25.py#L337) — moonshotai/Kimi-K2.5@4d01dfe0332d63057c186e0b262165819efb6611，modeling_kimi_k25.py L337-350，函数体SHA256 4db4950007387977b838d66000a3b9c534220478c719a76371f53922899d7cf9
+
+- 5f7e9167e6b3 [MoonViT3dEncoder.forward](https://huggingface.co/moonshotai/Kimi-K2.5/blob/4d01dfe0332d63057c186e0b262165819efb6611/modeling_kimi_k25.py#L580) — moonshotai/Kimi-K2.5@4d01dfe0332d63057c186e0b262165819efb6611，modeling_kimi_k25.py L580-603，函数体SHA256 0e73b20a0153a60d4bbad28ebf3df4eaa684684f83b40b62b64ac212c438f5da
 
 - 9c3cf0c431a1 [DeepseekV3RMSNorm.forward](https://huggingface.co/moonshotai/Kimi-K2.6/blob/7eb5002f6aadc958aed6a9177b7ed26bb94011bb/modeling_deepseek.py#L104) — moonshotai/Kimi-K2.6@7eb5002f6aadc958aed6a9177b7ed26bb94011bb，modeling_deepseek.py L104-110，函数体SHA256 e745856c65e1b0345a5e3e18d91d6a46e49e2b6432d3681d370d7e741e96a39d
 
@@ -11436,11 +11510,21 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 - ee53519c67f5-605 [DeepseekV3MoE.moe_infer / 步骤语句](https://huggingface.co/moonshotai/Kimi-K2.6/blob/7eb5002f6aadc958aed6a9177b7ed26bb94011bb/modeling_deepseek.py#L605) — moonshotai/Kimi-K2.6@7eb5002f6aadc958aed6a9177b7ed26bb94011bb，modeling_deepseek.py L605-609，函数体SHA256 40e92a0e04b79038e82b1d36f475369eab86405751ef94effc72c3d270c29b98
 
+- ece6b3d2836b [MoonViTEncoderLayer.forward](https://huggingface.co/moonshotai/Kimi-K2.6/blob/7eb5002f6aadc958aed6a9177b7ed26bb94011bb/modeling_kimi_k25.py#L537) — moonshotai/Kimi-K2.6@7eb5002f6aadc958aed6a9177b7ed26bb94011bb，modeling_kimi_k25.py L537-556，函数体SHA256 dafd875879e3d35dad4e9319dfd8c37008773eb7b7ed63eefa345eccfbd329aa
+
 - 33c11b5edf97 [MoonViTEncoderLayer.attention_qkvpacked](https://huggingface.co/moonshotai/Kimi-K2.6/blob/7eb5002f6aadc958aed6a9177b7ed26bb94011bb/modeling_kimi_k25.py#L499) — moonshotai/Kimi-K2.6@7eb5002f6aadc958aed6a9177b7ed26bb94011bb，modeling_kimi_k25.py L499-535，函数体SHA256 090f3c33ae71aed08035aba0021e91cdadb7ca92b4b9dc3b8e34a73fd9208fb6
+
+- f45c08461917 [MLP2.forward](https://huggingface.co/moonshotai/Kimi-K2.6/blob/7eb5002f6aadc958aed6a9177b7ed26bb94011bb/modeling_kimi_k25.py#L467) — moonshotai/Kimi-K2.6@7eb5002f6aadc958aed6a9177b7ed26bb94011bb，modeling_kimi_k25.py L467-470，函数体SHA256 cf645d95ca97020a78e8a05e97e005598e25153c7c0e2f256a784583c6e7fdbb
+
+- 8433345fb702 [tpool_patch_merger](https://huggingface.co/moonshotai/Kimi-K2.6/blob/7eb5002f6aadc958aed6a9177b7ed26bb94011bb/modeling_kimi_k25.py#L606) — moonshotai/Kimi-K2.6@7eb5002f6aadc958aed6a9177b7ed26bb94011bb，modeling_kimi_k25.py L606-631，函数体SHA256 6cc0d6a2a85aed1e49d33a5f842801468e650d884fed2def1eca68ebafa7d84c
 
 - c718cfcc69de [PatchMergerMLP.forward](https://huggingface.co/moonshotai/Kimi-K2.6/blob/7eb5002f6aadc958aed6a9177b7ed26bb94011bb/modeling_kimi_k25.py#L751) — moonshotai/Kimi-K2.6@7eb5002f6aadc958aed6a9177b7ed26bb94011bb，modeling_kimi_k25.py L751-761，函数体SHA256 abd57a7bec8c74195a203698a602f091d35ac626229e743490bf120a98acc06d
 
+- 41a11dbb404a [KimiK25ForConditionalGeneration._merge_input_ids_with_image_features](https://huggingface.co/moonshotai/Kimi-K2.6/blob/7eb5002f6aadc958aed6a9177b7ed26bb94011bb/modeling_kimi_k25.py#L889) — moonshotai/Kimi-K2.6@7eb5002f6aadc958aed6a9177b7ed26bb94011bb，modeling_kimi_k25.py L889-1021，函数体SHA256 8fb3ba94bb0334600038d27ec4a9a3729fa15760cb6c04d1b79334ba01617111
+
 - bc375878d3f5 [MoonVision3dPatchEmbed.forward](https://huggingface.co/moonshotai/Kimi-K2.6/blob/7eb5002f6aadc958aed6a9177b7ed26bb94011bb/modeling_kimi_k25.py#L337) — moonshotai/Kimi-K2.6@7eb5002f6aadc958aed6a9177b7ed26bb94011bb，modeling_kimi_k25.py L337-350，函数体SHA256 4db4950007387977b838d66000a3b9c534220478c719a76371f53922899d7cf9
+
+- c16fea60f6d7 [MoonViT3dEncoder.forward](https://huggingface.co/moonshotai/Kimi-K2.6/blob/7eb5002f6aadc958aed6a9177b7ed26bb94011bb/modeling_kimi_k25.py#L580) — moonshotai/Kimi-K2.6@7eb5002f6aadc958aed6a9177b7ed26bb94011bb，modeling_kimi_k25.py L580-603，函数体SHA256 0e73b20a0153a60d4bbad28ebf3df4eaa684684f83b40b62b64ac212c438f5da
 
 - 4b713095a999 [DeepseekV3RMSNorm.forward](https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/74797c9c62378b951a1f6fcf5c4631024e9b8bef/modeling_deepseek.py#L111) — moonshotai/Kimi-K2.7-Code@74797c9c62378b951a1f6fcf5c4631024e9b8bef，modeling_deepseek.py L111-117，函数体SHA256 e745856c65e1b0345a5e3e18d91d6a46e49e2b6432d3681d370d7e741e96a39d
 
@@ -11462,11 +11546,21 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 - 5d35446fc19f-612 [DeepseekV3MoE.moe_infer / 步骤语句](https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/74797c9c62378b951a1f6fcf5c4631024e9b8bef/modeling_deepseek.py#L612) — moonshotai/Kimi-K2.7-Code@74797c9c62378b951a1f6fcf5c4631024e9b8bef，modeling_deepseek.py L612-616，函数体SHA256 40e92a0e04b79038e82b1d36f475369eab86405751ef94effc72c3d270c29b98
 
+- 5ebd0f659b0d [MoonViTEncoderLayer.forward](https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/74797c9c62378b951a1f6fcf5c4631024e9b8bef/modeling_kimi_k25.py#L571) — moonshotai/Kimi-K2.7-Code@74797c9c62378b951a1f6fcf5c4631024e9b8bef，modeling_kimi_k25.py L571-590，函数体SHA256 dafd875879e3d35dad4e9319dfd8c37008773eb7b7ed63eefa345eccfbd329aa
+
 - a6d5074fcb82 [MoonViTEncoderLayer.attention_qkvpacked](https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/74797c9c62378b951a1f6fcf5c4631024e9b8bef/modeling_kimi_k25.py#L533) — moonshotai/Kimi-K2.7-Code@74797c9c62378b951a1f6fcf5c4631024e9b8bef，modeling_kimi_k25.py L533-569，函数体SHA256 090f3c33ae71aed08035aba0021e91cdadb7ca92b4b9dc3b8e34a73fd9208fb6
+
+- 9d63ae8d370a [MLP2.forward](https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/74797c9c62378b951a1f6fcf5c4631024e9b8bef/modeling_kimi_k25.py#L501) — moonshotai/Kimi-K2.7-Code@74797c9c62378b951a1f6fcf5c4631024e9b8bef，modeling_kimi_k25.py L501-504，函数体SHA256 cf645d95ca97020a78e8a05e97e005598e25153c7c0e2f256a784583c6e7fdbb
+
+- b3331effb242 [tpool_patch_merger](https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/74797c9c62378b951a1f6fcf5c4631024e9b8bef/modeling_kimi_k25.py#L640) — moonshotai/Kimi-K2.7-Code@74797c9c62378b951a1f6fcf5c4631024e9b8bef，modeling_kimi_k25.py L640-665，函数体SHA256 6cc0d6a2a85aed1e49d33a5f842801468e650d884fed2def1eca68ebafa7d84c
 
 - fc186d292a78 [PatchMergerMLP.forward](https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/74797c9c62378b951a1f6fcf5c4631024e9b8bef/modeling_kimi_k25.py#L786) — moonshotai/Kimi-K2.7-Code@74797c9c62378b951a1f6fcf5c4631024e9b8bef，modeling_kimi_k25.py L786-796，函数体SHA256 abd57a7bec8c74195a203698a602f091d35ac626229e743490bf120a98acc06d
 
+- 13d695cbda05 [KimiK25ForConditionalGeneration._merge_input_ids_with_image_features](https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/74797c9c62378b951a1f6fcf5c4631024e9b8bef/modeling_kimi_k25.py#L926) — moonshotai/Kimi-K2.7-Code@74797c9c62378b951a1f6fcf5c4631024e9b8bef，modeling_kimi_k25.py L926-1058，函数体SHA256 8fb3ba94bb0334600038d27ec4a9a3729fa15760cb6c04d1b79334ba01617111
+
 - 0c052c5d1778 [MoonVision3dPatchEmbed.forward](https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/74797c9c62378b951a1f6fcf5c4631024e9b8bef/modeling_kimi_k25.py#L371) — moonshotai/Kimi-K2.7-Code@74797c9c62378b951a1f6fcf5c4631024e9b8bef，modeling_kimi_k25.py L371-384，函数体SHA256 4db4950007387977b838d66000a3b9c534220478c719a76371f53922899d7cf9
+
+- ba6c21ad95c8 [MoonViT3dEncoder.forward](https://huggingface.co/moonshotai/Kimi-K2.7-Code/blob/74797c9c62378b951a1f6fcf5c4631024e9b8bef/modeling_kimi_k25.py#L614) — moonshotai/Kimi-K2.7-Code@74797c9c62378b951a1f6fcf5c4631024e9b8bef，modeling_kimi_k25.py L614-637，函数体SHA256 0e73b20a0153a60d4bbad28ebf3df4eaa684684f83b40b62b64ac212c438f5da
 
 - ff4715a1dd17 [_apply_attn_res](https://huggingface.co/moonshotai/Kimi-K3/blob/f831ab66814297da540d832a5235f8e904f29d06/modeling_kimi_linear.py#L1075) — moonshotai/Kimi-K3@f831ab66814297da540d832a5235f8e904f29d06，modeling_kimi_linear.py L1075-1088，函数体SHA256 c277f44ce2862f3379a1d1073134f701cd08c76143198cb64d36de32056b83d7
 
@@ -11488,6 +11582,10 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 - ce998ab6e49a [KimiMLAAttention.forward](https://huggingface.co/moonshotai/Kimi-K3/blob/f831ab66814297da540d832a5235f8e904f29d06/modeling_kimi_linear.py#L405) — moonshotai/Kimi-K3@f831ab66814297da540d832a5235f8e904f29d06，modeling_kimi_linear.py L405-474，函数体SHA256 bc6eddbce0e078ab536121c3c9aaaf7342f225e783cd63daf780e5b54da54cc6
 
+- 2cf4ee46912b [AscendKimiDecoderLayer.__init__](https://github.com/vllm-project/vllm-ascend/blob/0003e1b75b8ff4d35a5871fee1b2e9e7860bc3f1/vllm_ascend/models/kimi_k3.py#L395) — vllm-project/vllm-ascend@0003e1b75b8ff4d35a5871fee1b2e9e7860bc3f1，vllm_ascend/models/kimi_k3.py L395-509，函数体SHA256 1f62bd6af0beadfb6c2b93f158bd182588bb5f944058e2dc5ec1acbea66e77cb
+
+- 1bc2e6502ffe [AscendKimiMLAAttention.__init__](https://github.com/vllm-project/vllm-ascend/blob/0003e1b75b8ff4d35a5871fee1b2e9e7860bc3f1/vllm_ascend/models/kimi_k3.py#L285) — vllm-project/vllm-ascend@0003e1b75b8ff4d35a5871fee1b2e9e7860bc3f1，vllm_ascend/models/kimi_k3.py L285-354，函数体SHA256 9b815b17b4d9ecd904353fe17f22e4490bac762f75629bf3394daa09e150c035
+
 - 84d2a5c76c4a [eager_attention_forward](https://huggingface.co/moonshotai/Kimi-K3/blob/f831ab66814297da540d832a5235f8e904f29d06/modeling_kimi_linear.py#L311) — moonshotai/Kimi-K3@f831ab66814297da540d832a5235f8e904f29d06，modeling_kimi_linear.py L311-332，函数体SHA256 ffe6d605a728a60381f78b8e060f9c15f14890c27a120af72d6d8c5a859b6681
 
 - 84d2a5c76c4a-324 [eager_attention_forward / 步骤语句](https://huggingface.co/moonshotai/Kimi-K3/blob/f831ab66814297da540d832a5235f8e904f29d06/modeling_kimi_linear.py#L324) — moonshotai/Kimi-K3@f831ab66814297da540d832a5235f8e904f29d06，modeling_kimi_linear.py L324-330，函数体SHA256 692889f2a2d5d27150bb981c57bb0a59677e1bd71a8a1cf81e48581cef1b9402
@@ -11496,8 +11594,18 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 - f7142733ff6a [MultiHeadLatentAttention.__init__](https://github.com/vllm-project/vllm/blob/97dc6b19d2fe92b794b49e684677a2e1a8b2c540/vllm/models/kimi_k3/nvidia/mla.py#L128) — vllm-project/vllm@97dc6b19d2fe92b794b49e684677a2e1a8b2c540，vllm/models/kimi_k3/nvidia/mla.py L128-407，函数体SHA256 db213a2b3b6a3e661ad192ff1e002f43c626d5695a1a0650b48aa8981b4590ed
 
+- db18af94f22d [MoonViTEncoderLayer.forward](https://huggingface.co/moonshotai/Kimi-K3/blob/f831ab66814297da540d832a5235f8e904f29d06/modeling_kimi_k3.py#L545) — moonshotai/Kimi-K3@f831ab66814297da540d832a5235f8e904f29d06，modeling_kimi_k3.py L545-564，函数体SHA256 dafd875879e3d35dad4e9319dfd8c37008773eb7b7ed63eefa345eccfbd329aa
+
 - edcaf149bc62 [MoonViTEncoderLayer.attention_qkvpacked](https://huggingface.co/moonshotai/Kimi-K3/blob/f831ab66814297da540d832a5235f8e904f29d06/modeling_kimi_k3.py#L507) — moonshotai/Kimi-K3@f831ab66814297da540d832a5235f8e904f29d06，modeling_kimi_k3.py L507-543，函数体SHA256 090f3c33ae71aed08035aba0021e91cdadb7ca92b4b9dc3b8e34a73fd9208fb6
+
+- 9c268ae3cc41 [MLP2.forward](https://huggingface.co/moonshotai/Kimi-K3/blob/f831ab66814297da540d832a5235f8e904f29d06/modeling_kimi_k3.py#L455) — moonshotai/Kimi-K3@f831ab66814297da540d832a5235f8e904f29d06，modeling_kimi_k3.py L455-458，函数体SHA256 cf645d95ca97020a78e8a05e97e005598e25153c7c0e2f256a784583c6e7fdbb
+
+- 521f6594eb83 [tpool_patch_merger](https://huggingface.co/moonshotai/Kimi-K3/blob/f831ab66814297da540d832a5235f8e904f29d06/modeling_kimi_k3.py#L621) — moonshotai/Kimi-K3@f831ab66814297da540d832a5235f8e904f29d06，modeling_kimi_k3.py L621-646，函数体SHA256 6cc0d6a2a85aed1e49d33a5f842801468e650d884fed2def1eca68ebafa7d84c
 
 - 0cc97b41f6f7 [PatchMergerMLPV2.forward](https://huggingface.co/moonshotai/Kimi-K3/blob/f831ab66814297da540d832a5235f8e904f29d06/modeling_kimi_k3.py#L803) — moonshotai/Kimi-K3@f831ab66814297da540d832a5235f8e904f29d06，modeling_kimi_k3.py L803-815，函数体SHA256 f312226687d52923fcde272fc32f26f591889679153743cfb6a9b7fb34ad49ec
 
+- c47424276a48 [KimiK3ForConditionalGeneration._merge_input_ids_with_image_features](https://huggingface.co/moonshotai/Kimi-K3/blob/f831ab66814297da540d832a5235f8e904f29d06/modeling_kimi_k3.py#L958) — moonshotai/Kimi-K3@f831ab66814297da540d832a5235f8e904f29d06，modeling_kimi_k3.py L958-1090，函数体SHA256 8fb3ba94bb0334600038d27ec4a9a3729fa15760cb6c04d1b79334ba01617111
+
 - 34810eb33520 [MoonVision3dPatchEmbed.forward](https://huggingface.co/moonshotai/Kimi-K3/blob/f831ab66814297da540d832a5235f8e904f29d06/modeling_kimi_k3.py#L325) — moonshotai/Kimi-K3@f831ab66814297da540d832a5235f8e904f29d06，modeling_kimi_k3.py L325-338，函数体SHA256 4db4950007387977b838d66000a3b9c534220478c719a76371f53922899d7cf9
+
+- 3ec798fd8f7c [MoonViT3dEncoder.forward](https://huggingface.co/moonshotai/Kimi-K3/blob/f831ab66814297da540d832a5235f8e904f29d06/modeling_kimi_k3.py#L595) — moonshotai/Kimi-K3@f831ab66814297da540d832a5235f8e904f29d06，modeling_kimi_k3.py L595-618，函数体SHA256 0e73b20a0153a60d4bbad28ebf3df4eaa684684f83b40b62b64ac212c438f5da

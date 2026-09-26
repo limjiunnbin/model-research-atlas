@@ -14,8 +14,9 @@ def component(meta,c,path,kind='language',count=None,opaque=False):
   if 'q_lora_rank' in c:typ='MLA'
   if kind=='vision':typ='vision_attention'
   if opaque:typ='specialized_unverified'
+  vd=c.get('v_head_dim',h//heads if meta['model']=='MiniCPM3-4B' and h and heads else UNKNOWN) if typ=='MLA' else d or UNKNOWN
   base=dict(model=meta['model'],component=path,layer_1based=i+1,config_revision=meta['revision'],config_source=meta['url'],config_pointer='/'+path.replace('.','/') if path!='root' else '/',attention_type=typ)
-  layers.append(dict(**base,hidden_size=h or UNKNOWN,heads=heads or UNKNOWN,kv_heads=kv or UNKNOWN,head_dim=d or UNKNOWN,intermediate_size=ff or UNKNOWN,head_dim_evidence='config' if ('head_dim'in c or 'kv_channels'in c) else 'hidden_size/heads 推导' if d else UNKNOWN,layer_scope='配置层；drop/truncation/运行路径另行核验'))
+  layers.append(dict(**base,hidden_size=h or UNKNOWN,heads=heads or UNKNOWN,kv_heads=kv or UNKNOWN,head_dim=('QK='+str(c['qk_nope_head_dim']+c['qk_rope_head_dim'])+'; V='+str(vd)) if typ=='MLA' else d or UNKNOWN,qk_head_dim=(c['qk_nope_head_dim']+c['qk_rope_head_dim']) if typ=='MLA' else d or UNKNOWN,v_head_dim=vd,intermediate_size=ff or UNKNOWN,head_dim_evidence='QK=qk_nope_head_dim+qk_rope_head_dim；V由固定MiniCPM3-4B modeling_minicpm.py L354的hidden_size/heads确认' if meta['model']=='MiniCPM3-4B' else 'QK/V分开记录，缺值未核验' if typ=='MLA' else 'config' if ('head_dim'in c or 'kv_channels'in c) else 'hidden_size/heads 推导' if d else UNKNOWN,value_dimension_source='https://huggingface.co/openbmb/MiniCPM3-4B/blob/d6b14ddaefdb11c624dd75c3c779549bc90b08cb/modeling_minicpm.py#L354' if meta['model']=='MiniCPM3-4B' else meta['url'],layer_scope='配置层；drop/truncation/运行路径另行核验'))
   x=f'[B,T,{h}]' if h else '[B,T,H_unknown]'
   emit(base,'layer_boundary',x,x,api=UNKNOWN,evidence='配置接口',note='T取决于文本、视觉压缩/切片或音频块；并非真实运行张量记录')
   if typ in ['linear_attention','lightning-attn','specialized_unverified']:
@@ -123,5 +124,5 @@ with StableZip(report_dir/'OpenBMB-研究报告包.zip','w') as z:
   if not p.is_file() or p.name in ['index.html','OpenBMB-研究报告包.zip']:continue
   content=p.read_bytes()
   if p.suffix=='.html':
-   content=content.decode().replace('../../index.html#/','https://limjiunnbin.github.io/model-research-atlas/index.html#/').replace('href="index.html"','href="https://limjiunnbin.github.io/model-research-atlas/reports/openbmb/"').replace('<script type="module" src="../../document-links.js"></script>','').encode()
+   content=content.decode().replace('../../index.html#/','https://limjiunnbin.github.io/model-research-atlas/index.html#/').replace('../../model-documents.html','https://limjiunnbin.github.io/model-research-atlas/model-documents.html').replace('href="index.html"','href="https://limjiunnbin.github.io/model-research-atlas/reports/openbmb/"').replace('<script type="module" src="../../document-links.js"></script>','').encode()
   z.writestr(p.relative_to(report_dir).as_posix(),content)
