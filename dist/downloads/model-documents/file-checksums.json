@@ -736,18 +736,18 @@
   },
   {
     "file": "openbmb-minicpm-embedding.xlsx",
-    "bytes": 67748,
-    "sha256": "8a3617b291f58fb1b214e97ed06d114e30adc86a66596cc5e404f09ec60ad557"
+    "bytes": 68939,
+    "sha256": "71cbcac13256893fad193daa1e1f34489d59f88474d69738239f8844946c3468"
   },
   {
     "file": "openbmb-minicpm-embedding.csv",
-    "bytes": 470504,
-    "sha256": "b3275673d8d50c8d14779ddf768325e19d40e0bc6ed8197e17d6f2813d9c1c35"
+    "bytes": 562778,
+    "sha256": "53cd9f2cd78a1ec28a82dfda1ab89532c492cdf1341a4bd6260b4c051f9d4f51"
   },
   {
     "file": "openbmb-minicpm-embedding-parameters.csv",
-    "bytes": 8571,
-    "sha256": "d14631148330d4f9d1e025776de0293bcabec65c129ac5b6227bcdd9e87a097f"
+    "bytes": 8620,
+    "sha256": "61a274b884fa586b78c7a4cf265c7eb12a20f27b81d258a1389c3468003f473a"
   },
   {
     "file": "openbmb-minicpm-llama3-v-2_5.xlsx",
@@ -961,18 +961,18 @@
   },
   {
     "file": "openbmb-minicpm-reranker.xlsx",
-    "bytes": 67803,
-    "sha256": "15d66e87ef658d97194a3cb01b5dafed47ca84af7d3e101822704b03c536c05b"
+    "bytes": 68995,
+    "sha256": "2536a5e014baae568ac7c7696c0b287cde662b5b2b38c23a7e448d0e6566d76a"
   },
   {
     "file": "openbmb-minicpm-reranker.csv",
-    "bytes": 469462,
-    "sha256": "fe2ff10309a2450400edf89a2df7e30b27ca93886cc5525062e4187fa518c860"
+    "bytes": 561736,
+    "sha256": "026e1274797adc62479e60365274c6e7e0191dffa528e6b71708c94976433c02"
   },
   {
     "file": "openbmb-minicpm-reranker-parameters.csv",
-    "bytes": 8686,
-    "sha256": "b324d9947dec48c730e2326ddafef3cef5553bf2ad470df94441c79a56c82b19"
+    "bytes": 8735,
+    "sha256": "d063c8115a5e6282f9256434cd5d17a39fd53c20285aa9e5456153c9e41399e0"
   },
   {
     "file": "openbmb-minicpm-robotmanip.xlsx",
@@ -2161,18 +2161,18 @@
   },
   {
     "file": "openbmb-toolbench_ir_bert_based_uncased.xlsx",
-    "bytes": 28287,
-    "sha256": "9958fdbee5621d262707c7af9be12c4ca5c381da5f2668f6575a0fa3df4b75d1"
+    "bytes": 28367,
+    "sha256": "8db677e7485f1e054ff9f514bccfc8654e3d858a03e45e3bf5945e7bdbebe0c0"
   },
   {
     "file": "openbmb-toolbench_ir_bert_based_uncased.csv",
-    "bytes": 156132,
-    "sha256": "53acd1799e4da8a5b35f9b4fda7df7f7b4f6922a3c33f4a20c22a5c22e11cde4"
+    "bytes": 160842,
+    "sha256": "0f2118c302ae172195dbbd23fcd7046ea74e73f145f0e9b6315057c63d9313f7"
   },
   {
     "file": "openbmb-toolbench_ir_bert_based_uncased-parameters.csv",
-    "bytes": 8312,
-    "sha256": "8f2488307dcd1e5f88e100d7880847ef626e840aa3bad79545eafda20fcffefb"
+    "bytes": 8366,
+    "sha256": "9dc04942cc5e26a7a0888a0db81537ad5966d7938f1b73872c474518b2c52111"
   },
   {
     "file": "openbmb-toolllama-2-7b-v1.xlsx",
