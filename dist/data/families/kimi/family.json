@@ -2482,32 +2482,32 @@
     {
       "name": "Kimi-compute-atlas.json",
       "path": "assets/kimi/compute/Kimi-compute-atlas.json",
-      "bytes": 1693946,
-      "sha256": "9107165952a66c8f6c8c04ec5eddb2a6e147399dc7d562e150ee14fed2cd63db"
+      "bytes": 1669630,
+      "sha256": "4632342430975472c05f65787c3cc48e2bc15bee51b500d040eab96772df8132"
     },
     {
       "name": "Kimi-layer-compute-shapes.csv",
       "path": "assets/kimi/compute/Kimi-layer-compute-shapes.csv",
-      "bytes": 19069871,
-      "sha256": "959338e408068a1d021b8e03a6f5aba72f72b3bef276570f288037742f82c02d"
+      "bytes": 19077456,
+      "sha256": "aec38402f0772d32b499bfdcc27fbf068c576fb79513f11a25ce4798393af454"
     },
     {
       "name": "Kimi-layer-api-report.md",
       "path": "assets/kimi/compute/Kimi-layer-api-report.md",
-      "bytes": 824344,
-      "sha256": "85d2579674f94d7bb5f3ee8d443bf42dee0c397401cc13f52f997af7a3a46438"
+      "bytes": 795133,
+      "sha256": "2bf854d0a0a9c22a8e2d1f5d9982e947b46f425f7b05f2d9e5b6e0ce3e2d998f"
     },
     {
       "name": "Kimi-backend-api-map.csv",
       "path": "assets/kimi/compute/Kimi-backend-api-map.csv",
-      "bytes": 30507597,
-      "sha256": "f2e59ee5aaa1d430143b8686f8959a17bf80c3242842531f2e3dd47332460f46"
+      "bytes": 27826497,
+      "sha256": "ddaecea4a84dfb1c87be2e32b8949555ce1770ebb9baedc3ec604525bc9fac4d"
     },
     {
       "name": "Kimi-per-model-tables.zip",
       "path": "assets/kimi/compute/Kimi-per-model-tables.zip",
-      "bytes": 2706476,
-      "sha256": "2de953002ca9f36eb9bccc73ee8f465a56e12e251b4220716774f29cc4aca579"
+      "bytes": 2663516,
+      "sha256": "5e04b27add212a764ecc7061ec43318a950d86346fb21fc003bf192ef2851fde"
     }
   ],
   "reportPath": "data/families/kimi/report.json",

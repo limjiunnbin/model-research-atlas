@@ -4,6 +4,7 @@
     "assets/kimi/Kimi-implementation-hardware-ascend.md",
     "assets/kimi/compute/Kimi-layer-api-report.md",
     "assets/kimi/compute/字段与符号说明.md",
+    "downloads/model-documents/K3-template-audit.md",
     "reports/openbmb/00-主模型与演进总览.md",
     "reports/openbmb/01-深度分析.md",
     "reports/openbmb/02-全部仓库附录.md",

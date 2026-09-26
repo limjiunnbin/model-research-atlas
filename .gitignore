@@ -2,3 +2,4 @@
 .sites-runtime/
 work/
 __pycache__/
+outputs/

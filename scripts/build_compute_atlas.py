@@ -25,6 +25,7 @@ AP['torch-linear']=api('pytorch--torch__nn__modules__linear.py','Linear.forward'
 AP['torch-embed']=api('pytorch--torch__nn__modules__sparse.py','Embedding.forward',['F.embedding'],level='torch.nn.Embedding → torch.nn.functional.embedding')
 for k,file,symbol,calls in [
  ('gpu-linear','vllm--vllm__model_executor__layers__linear.py','ColumnParallelLinear.forward',['self.quant_method.apply']),
+ ('gpu-row-linear','vllm--vllm__model_executor__layers__linear.py','RowParallelLinear.forward',['self.quant_method.apply','tensor_model_parallel_all_reduce']),
  ('gpu-fp8','__quantization__fp8.py','Fp8LinearMethod.apply',['self.fp8_linear.apply_weights']),
  ('gpu-int4','compressed_tensors_wNa16.py','CompressedTensorsWNA16.apply_weights',['self.kernel.apply_weights']),
  ('gpu-rms','vllm--vllm__model_executor__layers__layernorm.py','RMSNorm.forward_native',['ir.ops.rms_norm','ir.ops.fused_add_rms_norm.maybe_inplace']),
@@ -54,6 +55,8 @@ for k,file,symbol,calls in [
  ('asc-dispatch','token_dispatcher.py','TokenDispatcherWithMC2.token_dispatch',['torch_npu.npu_moe_distribute_dispatch_v2']),
  ('asc-combine','token_dispatcher.py','TokenDispatcherWithMC2.token_combine',['torch_npu.npu_moe_distribute_combine_v2']),
  ('asc-gmm','__w4a8__w4a8.py','AscendW4A8DynamicFusedMoEMethod.apply_gmm1',['torch_npu.npu_grouped_matmul']),
+ ('asc-gmm2','__w4a8__w4a8.py','AscendW4A8DynamicFusedMoEMethod.apply_gmm2',['torch_npu.npu_grouped_matmul']),
+ ('amd-mxfp4-activation','aiter_mxfp4_w4a16_moe.py','AiterW4A16ExpertsMonolithic._supports_activation',None),
  ('asc-situ','__w4a8__w4a8.py','AscendW4A8DynamicFusedMoEMethod.apply_gmm1_act_quant',['torch.ops._C_ascend.dequant_situ_quant']),
  ('asc-attnres','__triton__kimi_k3__attention_residual.py','apply_attn_res',['_apply_attn_res_kernel[num_vectorcore,]']),
  ('fla-chunk','--fla__ops__kda__chunk.py','chunk_kda',['ChunkKDAFunction.apply']),
@@ -68,6 +71,7 @@ AP['asc-linear']['condition']='仅未量化线性分支；最终CANN设备算子
 AP['gpu-rms']['level']='已核验native/IR分支；非已确认设备kernel'
 AP['gpu-rms']['condition']='所列forward_native进入IR注册算子；不能等同最终CUDA/ROCm kernel。CUDA forward另有BATCH_INVARIANT分支；本轮未追完编译/IR后端注册选择。'
 AP['asc-gmm']['condition']='仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。'
+AP['asc-gmm2']['condition']=AP['asc-gmm']['condition']+' 本步骤使用w2下投影；apply_gmm1只对应w1。'
 AP['asc-situ']['condition']='W4A8 SiTU分支；不是所有BF16 SiTU步骤均落到此算子。'
 AP['asc-dispatch']['condition']=AP['asc-combine']['condition']='仅MC2通信路径；另有All2AllV路径，不能认定所有EP规模均使用该API。'
 AP['amd-kda']['condition']='融合分支：gfx942/gfx950，local heads∈{12,24,48,96}，head_dim128，conv4，input/conv_state BF16，num_spec=0，特定状态布局；否则走其他分支。'
@@ -121,7 +125,7 @@ def reference(model,kind,group='decoder'):
 def backends(model,kind,group,tensors,ref):
  tp=clone(AP['torch-linear'] if kind=='linear' else AP['torch-embed'] if kind=='embedding' else ref)
  if kind=='linear':
-  dtype={t['stored_dtype'] for t in tensors};gpu=AP['gpu-fp8'] if 'F8_E4M3' in dtype else AP['gpu-int4'] if 'I32'in dtype else AP['gpu-linear'];cuda=clone(gpu);amd=clone(gpu);asc=clone(AP['asc-linear']) if dtype<= {'BF16','F32'} else unknown('检查点低精度格式需要匹配量化方法；不能由存储dtype直接指定一个Ascend算子。')
+  dtype={t['stored_dtype'] for t in tensors};gpu=AP['gpu-fp8'] if 'F8_E4M3' in dtype else AP['gpu-int4'] if 'I32'in dtype else unknown('此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。');cuda=clone(gpu);amd=clone(gpu);asc=clone(AP['asc-linear']) if dtype<= {'BF16','F32'} else unknown('检查点低精度格式需要匹配量化方法；不能由存储dtype直接指定一个Ascend算子。')
  elif kind=='embedding':cuda=clone(AP['gpu-embed']);amd=clone(cuda);asc=unknown('参考Embedding语义已明确；Ascend此嵌入的最终设备接口未追踪。')
  elif kind=='rms':cuda=clone(AP['gpu-rms']);amd=clone(cuda);asc=clone(AP['asc-rms'])
  elif kind=='mla':cuda=clone(AP['cuda-mla']);amd=clone(AP['amd-mla']);asc=clone(AP['asc-mla-prefill']);asc['chain']+='；decode: '+AP['asc-mla-decode']['chain'];asc['proofs']+=AP['asc-mla-decode']['proofs']+AP['asc-mla-cache']['proofs']
@@ -135,6 +139,9 @@ def backends(model,kind,group,tensors,ref):
  else:cuda=unknown('此步骤仅核验参考实现/shape；未确认CUDA底层映射。');amd=unknown('此步骤仅核验参考实现/shape；未确认ROCm底层映射。');asc=unknown('此步骤仅核验参考实现/shape；未确认Ascend底层映射。')
  if kind=='kda':asc['chain']+='；decode: '+AP['asc-kda-decode']['chain'];asc['proofs']+=AP['asc-kda-decode']['proofs'];tp['chain']+='；自定义库fla.ops.kda.chunk_kda / fused_recurrent_kda，无单个标准torch API直达';tp['proofs']+=AP['fla-chunk']['proofs']+AP['fla-recurrent']['proofs']
  if kind=='vision-attention':cuda=clone(AP['gpu-vision']);amd=clone(cuda);asc=unknown('Ascend视觉塔集成已知，但MMEncoderAttention到具体CANN内核未追踪；不借用语言MLA接口。')
+ if model['id']=='k3' and kind in ['moe','dispatch','combine']:
+  amd=unknown('所查AITER Triton W4A16仅接受SWIGLUOAI/SILU，不满足K3 SiTU；不能列为K3兼容候选。其他SiTU兼容分支与实际选择尚未完整追踪。')
+  amd['proofs']=AP['amd-mxfp4-activation']['proofs'];amd['evidence']='排除条件源码已核验；兼容路径未知'
  return dict(torch=tp,nvidia=cuda,amd=amd,ascend=asc)
 
 def make_steps(model,node,cfg):
@@ -155,6 +162,13 @@ def make_steps(model,node,cfg):
    phase='prefill: N=ΣT_i（padded参考为B×T）；decode: T=1,N=B；推测验证可T>1。视觉仅编码/预填充，不逐文本token重复。',
    dtype=('权重/辅助张量存储：'+'；'.join(sorted({t['stored_dtype'] for t in ts}))+'；实际激活、累加及cache dtype由运行分支决定，本轮未统一验证。I32/U8可能是量化打包容器。') if ts else '继承输入；归一化/评分通常显式FP32，详见源码；最终设备计算dtype未统一验证',
    note=note,apis=backends(model,kind,node['group'],ts,ref))
+  if kind=='moe' and '下投影' in title:s['apis']['ascend']=clone(AP['asc-gmm2'])
+  if k3 and kind=='linear' and any('.self_attn.o_proj.' in t['tensor_template'] for t in ts):
+   s['apis']['nvidia']=clone(AP['gpu-row-linear'])
+   initfile='__nvidia__kda.py' if node['type']=='KDA' else '__nvidia__mla.py';initsym='KimiK3DeltaAttention.__init__' if node['type']=='KDA' else 'MultiHeadLatentAttention.__init__'
+   s['apis']['nvidia']['proofs']+=[proof(initfile,initsym,['RowParallelLinear'])]
+   s['apis']['nvidia']['condition']='固定K3构造代码o_proj=RowParallelLinear；reduce_results、TP及可选融合gemm_rs_ar决定实际通信，非无条件all-reduce。'
+  if k3 and kind=='activation' and (node['ffn']=='Dense' or '共享' in title):s['apis']['ascend']=unknown('Dense/共享专家SiTU不等于路由专家W4A8 apply_gmm1_act_quant；本步骤设备融合路径未核验。')
   refine_torch(model,s);steps.append(s);return s
  def weight(suffix,title=None,kind='linear',prefix=None,contains=None,note=''):
   ts=take(suffix,contains)
@@ -179,7 +193,7 @@ def make_steps(model,node,cfg):
    s['linearCheck']={'inputLast':ds[1],'weight':[ds[0],ds[1]],'outputLast':ds[0]}
   return s
  def act(width,title='门控激活',prefix='N'):
-  return emit(title,'activation',f'gate/up:[{prefix},{width}]',f'[{prefix},{width}]','SiTU(gate;β=4)×up = β·tanh(gate/β)·sigmoid(gate)×up' if k3 else 'SiLU(gate)×up',module='ffn',note='激活先计算FP32再回写的分支见来源；不是把I32/U8容器直接相乘。')
+  return emit(title,'activation',f'gate/up:[{prefix},{width}]',f'[{prefix},{width}]','SiTU = 4*tanh(gate/4)*sigmoid(gate) * (25*tanh(up/25))；beta=4, linear_beta=25（固定配置）' if k3 else 'SiLU(gate)×up',module='ffn',note='激活先计算FP32再回写的分支见来源；不是把I32/U8容器直接相乘。')
  def residual(title):emit(title,'residual',f'residual,branch:[N,{H}]',f'[N,{H}]','Y=residual+branch；K3块边界prefix_sum可能为空并新开残差块',module='residual')
  def attnres(which):
   ts=take(which+'_res_norm')+take(which+'_res_proj')

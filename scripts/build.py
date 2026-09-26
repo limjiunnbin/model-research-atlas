@@ -5,6 +5,8 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 def read(p):return json.loads(p.read_text())
 import openbmb_exports
+from validate_model_documents import validate as validate_model_documents
+validate_model_documents()
 catalog=read(ROOT/'data/catalog.json');assert catalog['schemaVersion']==1
 assert len({f['id'] for f in catalog['families']})==len(catalog['families'])
 reports=catalog.get('reports',[])

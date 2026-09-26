@@ -2176,7 +2176,7 @@ gate/up:[N_e,2048] → SiLU(gate)×up → [N_e,2048]
 
 - amd / 框架函数 / 条件分派：fused_experts_impl → dispatch_fused_moe_kernel / ops.moe_sum。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：7dd793c2e912
 
-- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm1 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。。来源：241791015955
+- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm2 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。 本步骤使用w2下投影；apply_gmm1只对应w1。。来源：69f409e02d16
 
 #### s23 专家加权合并
 
@@ -2356,9 +2356,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -3124,7 +3124,7 @@ gate/up:[N_e,2048] → SiLU(gate)×up → [N_e,2048]
 
 - amd / 框架函数 / 条件分派：fused_experts_impl → dispatch_fused_moe_kernel / ops.moe_sum。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：7dd793c2e912
 
-- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm1 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。。来源：241791015955
+- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm2 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。 本步骤使用w2下投影；apply_gmm1只对应w1。。来源：69f409e02d16
 
 #### s23 专家加权合并
 
@@ -3304,9 +3304,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -4072,7 +4072,7 @@ gate/up:[N_e,2048] → SiLU(gate)×up → [N_e,2048]
 
 - amd / 框架函数 / 条件分派：fused_experts_impl → dispatch_fused_moe_kernel / ops.moe_sum。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：7dd793c2e912
 
-- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm1 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。。来源：241791015955
+- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm2 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。 本步骤使用w2下投影；apply_gmm1只对应w1。。来源：69f409e02d16
 
 #### s23 专家加权合并
 
@@ -4252,9 +4252,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -4290,9 +4290,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -4326,9 +4326,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -4344,9 +4344,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -4396,9 +4396,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -4480,9 +4480,9 @@ P:[B,64,T,S]; V:[B,64,S,128] → O=P @ V，转置/合并heads → [B,T,8192]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -4532,9 +4532,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -4550,9 +4550,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -4584,9 +4584,9 @@ gate/up:[N,18432] → SiLU(gate)×up → [N,18432]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -4638,9 +4638,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -4674,9 +4674,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -4692,9 +4692,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -4744,9 +4744,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -4828,9 +4828,9 @@ P:[B,64,T,S]; V:[B,64,S,128] → O=P @ V，转置/合并heads → [B,T,8192]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -5000,7 +5000,7 @@ gate/up:[N_e,2048] → SiLU(gate)×up → [N_e,2048]
 
 - amd / 框架函数 / 条件分派：fused_experts_impl → dispatch_fused_moe_kernel / ops.moe_sum。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：7dd793c2e912
 
-- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm1 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。。来源：241791015955
+- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm2 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。 本步骤使用w2下投影；apply_gmm1只对应w1。。来源：69f409e02d16
 
 #### s23 专家加权合并
 
@@ -5030,9 +5030,9 @@ Y_e:[N_e,7168]; weights:[N,8] → 逆重排、乘路由权重、对TopK求和；
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -5048,9 +5048,9 @@ Y_e:[N_e,7168]; weights:[N,8] → 逆重排、乘路由权重、对TopK求和；
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -5082,9 +5082,9 @@ gate/up:[N,2048] → SiLU(gate)×up → [N,2048]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -5174,9 +5174,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -5212,9 +5212,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -5248,9 +5248,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -5266,9 +5266,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -5318,9 +5318,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -5400,9 +5400,9 @@ P:[B,64,T,S]; V:[B,64,S,128] → O=P @ V，转置/合并heads → [B,T,8192]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -5452,9 +5452,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -5470,9 +5470,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -5504,9 +5504,9 @@ gate/up:[N,18432] → SiLU(gate)×up → [N,18432]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -5558,9 +5558,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -5594,9 +5594,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -5612,9 +5612,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -5664,9 +5664,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -5746,9 +5746,9 @@ P:[B,64,T,S]; V:[B,64,S,128] → O=P @ V，转置/合并heads → [B,T,8192]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -5918,7 +5918,7 @@ gate/up:[N_e,2048] → SiLU(gate)×up → [N_e,2048]
 
 - amd / 框架函数 / 条件分派：fused_experts_impl → dispatch_fused_moe_kernel / ops.moe_sum。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：7dd793c2e912
 
-- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm1 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。。来源：241791015955
+- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm2 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。 本步骤使用w2下投影；apply_gmm1只对应w1。。来源：69f409e02d16
 
 #### s23 专家加权合并
 
@@ -5948,9 +5948,9 @@ Y_e:[N_e,7168]; weights:[N,8] → 逆重排、乘路由权重、对TopK求和；
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -5966,9 +5966,9 @@ Y_e:[N_e,7168]; weights:[N,8] → 逆重排、乘路由权重、对TopK求和；
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6000,9 +6000,9 @@ gate/up:[N,2048] → SiLU(gate)×up → [N,2048]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6074,9 +6074,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6126,9 +6126,9 @@ Q,K,V:[Nv,16,72] → 按cu_seqlens分段计算非因果视觉attention；不跨�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6182,9 +6182,9 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6218,9 +6218,9 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6294,9 +6294,9 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6352,9 +6352,9 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6388,9 +6388,9 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6502,9 +6502,9 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6538,9 +6538,9 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6556,9 +6556,9 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6608,9 +6608,9 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6690,9 +6690,9 @@ P:[B,64,T,S]; V:[B,64,S,128] → O=P @ V，转置/合并heads → [B,T,8192]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6742,9 +6742,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6760,9 +6760,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6794,9 +6794,9 @@ gate/up:[N,18432] → SiLU(gate)×up → [N,18432]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6848,9 +6848,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6884,9 +6884,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6902,9 +6902,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -6954,9 +6954,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -7036,9 +7036,9 @@ P:[B,64,T,S]; V:[B,64,S,128] → O=P @ V，转置/合并heads → [B,T,8192]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -7208,7 +7208,7 @@ gate/up:[N_e,2048] → SiLU(gate)×up → [N_e,2048]
 
 - amd / 框架函数 / 条件分派：fused_experts_impl → dispatch_fused_moe_kernel / ops.moe_sum。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：7dd793c2e912
 
-- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm1 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。。来源：241791015955
+- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm2 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。 本步骤使用w2下投影；apply_gmm1只对应w1。。来源：69f409e02d16
 
 #### s23 专家加权合并
 
@@ -7238,9 +7238,9 @@ Y_e:[N_e,7168]; weights:[N,8] → 逆重排、乘路由权重、对TopK求和；
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -7256,9 +7256,9 @@ Y_e:[N_e,7168]; weights:[N,8] → 逆重排、乘路由权重、对TopK求和；
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -7290,9 +7290,9 @@ gate/up:[N,2048] → SiLU(gate)×up → [N,2048]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -7364,9 +7364,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -7416,9 +7416,9 @@ Q,K,V:[Nv,16,72] → 按cu_seqlens分段计算非因果视觉attention；不跨�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -7472,9 +7472,9 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -7508,9 +7508,9 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -7584,9 +7584,9 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -7642,9 +7642,9 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -7678,9 +7678,9 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -7792,9 +7792,9 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -7828,9 +7828,9 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -7846,9 +7846,9 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -7898,9 +7898,9 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -7980,9 +7980,9 @@ P:[B,64,T,S]; V:[B,64,S,128] → O=P @ V，转置/合并heads → [B,T,8192]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -8032,9 +8032,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -8050,9 +8050,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -8084,9 +8084,9 @@ gate/up:[N,18432] → SiLU(gate)×up → [N,18432]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -8138,9 +8138,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -8174,9 +8174,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -8192,9 +8192,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -8244,9 +8244,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -8326,9 +8326,9 @@ P:[B,64,T,S]; V:[B,64,S,128] → O=P @ V，转置/合并heads → [B,T,8192]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -8498,7 +8498,7 @@ gate/up:[N_e,2048] → SiLU(gate)×up → [N_e,2048]
 
 - amd / 框架函数 / 条件分派：fused_experts_impl → dispatch_fused_moe_kernel / ops.moe_sum。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：7dd793c2e912
 
-- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm1 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。。来源：241791015955
+- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm2 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。 本步骤使用w2下投影；apply_gmm1只对应w1。。来源：69f409e02d16
 
 #### s23 专家加权合并
 
@@ -8528,9 +8528,9 @@ Y_e:[N_e,7168]; weights:[N,8] → 逆重排、乘路由权重、对TopK求和；
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -8546,9 +8546,9 @@ Y_e:[N_e,7168]; weights:[N,8] → 逆重排、乘路由权重、对TopK求和；
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -8580,9 +8580,9 @@ gate/up:[N,2048] → SiLU(gate)×up → [N,2048]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -8654,9 +8654,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -8706,9 +8706,9 @@ Q,K,V:[Nv,16,72] → 按cu_seqlens分段计算非因果视觉attention；不跨�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -8762,9 +8762,9 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -8798,9 +8798,9 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -8874,9 +8874,9 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -8932,9 +8932,9 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -8968,9 +8968,9 @@ branch,residual:[Nv,1152] → 相加 → [Nv,1152]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9102,9 +9102,9 @@ values:[N,R+1,7168]; scores:[N,R+1]; R由0-based层索引和block_size12决定
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9120,9 +9120,9 @@ values:[N,R+1,7168]; scores:[N,R+1]; R由0-based层索引和block_size12决定
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9138,9 +9138,9 @@ values:[N,R+1,7168]; scores:[N,R+1]; R由0-based层索引和block_size12决定
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9210,9 +9210,9 @@ values:[N,R+1,7168]; scores:[N,R+1]; R由0-based层索引和block_size12决定
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9228,9 +9228,9 @@ values:[N,R+1,7168]; scores:[N,R+1]; R由0-based层索引和block_size12决定
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9246,9 +9246,9 @@ values:[N,R+1,7168]; scores:[N,R+1]; R由0-based层索引和block_size12决定
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9300,9 +9300,9 @@ prefill分块与decode递归数学对应但算子不同；本配置K=V=128时sha
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9352,9 +9352,9 @@ normalized_O,g:[B,T,96,128] → O←RMSNorm(O)×sigmoid(g)，再合并heads → 
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 框架函数 / 条件分派：RowParallelLinear.forward → self.quant_method.apply / tensor_model_parallel_all_reduce。条件：固定K3构造代码o_proj=RowParallelLinear；reduce_results、TP及可选融合gemm_rs_ar决定实际通信，非无条件all-reduce。。来源：306689932e3b ebcb6575be7b
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9424,9 +9424,9 @@ values:[N,R+1,7168]; scores:[N,R+1]; R由0-based层索引和block_size12决定
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9442,15 +9442,15 @@ values:[N,R+1,7168]; scores:[N,R+1]; R由0-based层索引和block_size12决定
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
 #### s23 门控激活
 
-gate/up:[N,33792] → SiTU(gate;β=4)×up = β·tanh(gate/β)·sigmoid(gate)×up → [N,33792]
+gate/up:[N,33792] → SiTU = 4*tanh(gate/4)*sigmoid(gate) * (25*tanh(up/25))；beta=4, linear_beta=25（固定配置） → [N,33792]
 
 无持久缓存
 
@@ -9462,7 +9462,7 @@ gate/up:[N,33792] → SiTU(gate;β=4)×up = β·tanh(gate/β)·sigmoid(gate)×up
 
 - amd / 未知：未核验。条件：参考SiLU/SiTU表达式已定位；可能被MoE/MLP融合，未单独指定kernel。。来源：
 
-- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm1_act_quant → torch.ops._C_ascend.dequant_situ_quant。条件：W4A8 SiTU分支；不是所有BF16 SiTU步骤均落到此算子。。来源：05163dde1e66
+- ascend / 未知：未核验。条件：Dense/共享专家SiTU不等于路由专家W4A8 apply_gmm1_act_quant；本步骤设备融合路径未核验。。来源：
 
 #### s24 Dense下投影
 
@@ -9476,9 +9476,9 @@ gate/up:[N,33792] → SiTU(gate;β=4)×up = β·tanh(gate/β)·sigmoid(gate)×up
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9550,9 +9550,9 @@ values:[N,R+1,7168]; scores:[N,R+1]; R由0-based层索引和block_size12决定
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9568,9 +9568,9 @@ values:[N,R+1,7168]; scores:[N,R+1]; R由0-based层索引和block_size12决定
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9586,9 +9586,9 @@ values:[N,R+1,7168]; scores:[N,R+1]; R由0-based层索引和block_size12决定
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9658,9 +9658,9 @@ values:[N,R+1,7168]; scores:[N,R+1]; R由0-based层索引和block_size12决定
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9676,9 +9676,9 @@ values:[N,R+1,7168]; scores:[N,R+1]; R由0-based层索引和block_size12决定
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9694,9 +9694,9 @@ values:[N,R+1,7168]; scores:[N,R+1]; R由0-based层索引和block_size12决定
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9748,9 +9748,9 @@ prefill分块与decode递归数学对应但算子不同；本配置K=V=128时sha
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9800,9 +9800,9 @@ normalized_O,g:[B,T,96,128] → O←RMSNorm(O)×sigmoid(g)，再合并heads → 
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 框架函数 / 条件分派：RowParallelLinear.forward → self.quant_method.apply / tensor_model_parallel_all_reduce。条件：固定K3构造代码o_proj=RowParallelLinear；reduce_results、TP及可选融合gemm_rs_ar决定实际通信，非无条件all-reduce。。来源：306689932e3b ebcb6575be7b
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9908,9 +9908,9 @@ scores:[N,896] → grouped/noaux_tc路由规则；总专家E与每token选中K�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -9926,7 +9926,7 @@ X:[N,3584]; ids:[N,16] → argsort/gather或EP dispatch；N_e由实际路由确�
 
 - nvidia / 框架函数 / 条件分派：TrtLlmMxfp4ExpertsMonolithic.apply → trtllm_fp4_block_scale_moe。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：9acc9260bde1
 
-- amd / 框架函数 / 条件分派：aiter_triton_kernel_w4a16_moe_forward → aiter_routing / moe_gemm_a16w4。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：cf2d178545ba
+- amd / 未知：未核验。条件：所查AITER Triton W4A16仅接受SWIGLUOAI/SILU，不满足K3 SiTU；不能列为K3兼容候选。其他SiTU兼容分支与实际选择尚未完整追踪。。来源：0379a0e38be2
 
 - ascend / 框架函数 / 条件分派：TokenDispatcherWithMC2.token_dispatch → torch_npu.npu_moe_distribute_dispatch_v2。条件：仅MC2通信路径；另有All2AllV路径，不能认定所有EP规模均使用该API。。来源：116a6619588f
 
@@ -9946,7 +9946,7 @@ X:[N,3584]; ids:[N,16] → argsort/gather或EP dispatch；N_e由实际路由确�
 
 - nvidia / 框架函数 / 条件分派：TrtLlmMxfp4ExpertsMonolithic.apply → trtllm_fp4_block_scale_moe。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：9acc9260bde1
 
-- amd / 框架函数 / 条件分派：aiter_triton_kernel_w4a16_moe_forward → aiter_routing / moe_gemm_a16w4。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：cf2d178545ba
+- amd / 未知：未核验。条件：所查AITER Triton W4A16仅接受SWIGLUOAI/SILU，不满足K3 SiTU；不能列为K3兼容候选。其他SiTU兼容分支与实际选择尚未完整追踪。。来源：0379a0e38be2
 
 - ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm1 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。。来源：241791015955
 
@@ -9966,13 +9966,13 @@ X:[N,3584]; ids:[N,16] → argsort/gather或EP dispatch；N_e由实际路由确�
 
 - nvidia / 框架函数 / 条件分派：TrtLlmMxfp4ExpertsMonolithic.apply → trtllm_fp4_block_scale_moe。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：9acc9260bde1
 
-- amd / 框架函数 / 条件分派：aiter_triton_kernel_w4a16_moe_forward → aiter_routing / moe_gemm_a16w4。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：cf2d178545ba
+- amd / 未知：未核验。条件：所查AITER Triton W4A16仅接受SWIGLUOAI/SILU，不满足K3 SiTU；不能列为K3兼容候选。其他SiTU兼容分支与实际选择尚未完整追踪。。来源：0379a0e38be2
 
 - ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm1 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。。来源：241791015955
 
 #### s27 门控激活
 
-gate/up:[N_e,3072] → SiTU(gate;β=4)×up = β·tanh(gate/β)·sigmoid(gate)×up → [N_e,3072]
+gate/up:[N_e,3072] → SiTU = 4*tanh(gate/4)*sigmoid(gate) * (25*tanh(up/25))；beta=4, linear_beta=25（固定配置） → [N_e,3072]
 
 无持久缓存
 
@@ -10002,9 +10002,9 @@ gate/up:[N_e,3072] → SiTU(gate;β=4)×up = β·tanh(gate/β)·sigmoid(gate)×u
 
 - nvidia / 框架函数 / 条件分派：TrtLlmMxfp4ExpertsMonolithic.apply → trtllm_fp4_block_scale_moe。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：9acc9260bde1
 
-- amd / 框架函数 / 条件分派：aiter_triton_kernel_w4a16_moe_forward → aiter_routing / moe_gemm_a16w4。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：cf2d178545ba
+- amd / 未知：未核验。条件：所查AITER Triton W4A16仅接受SWIGLUOAI/SILU，不满足K3 SiTU；不能列为K3兼容候选。其他SiTU兼容分支与实际选择尚未完整追踪。。来源：0379a0e38be2
 
-- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm1 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。。来源：241791015955
+- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm2 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。 本步骤使用w2下投影；apply_gmm1只对应w1。。来源：69f409e02d16
 
 #### s29 专家加权合并
 
@@ -10018,7 +10018,7 @@ Y_e:[N_e,3584]; weights:[N,16] → 逆重排、乘路由权重、对TopK求和�
 
 - nvidia / 框架函数 / 条件分派：TrtLlmMxfp4ExpertsMonolithic.apply → trtllm_fp4_block_scale_moe。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：9acc9260bde1
 
-- amd / 框架函数 / 条件分派：aiter_triton_kernel_w4a16_moe_forward → aiter_routing / moe_gemm_a16w4。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：cf2d178545ba
+- amd / 未知：未核验。条件：所查AITER Triton W4A16仅接受SWIGLUOAI/SILU，不满足K3 SiTU；不能列为K3兼容候选。其他SiTU兼容分支与实际选择尚未完整追踪。。来源：0379a0e38be2
 
 - ascend / 框架函数 / 条件分派：TokenDispatcherWithMC2.token_combine → torch_npu.npu_moe_distribute_combine_v2。条件：仅MC2通信路径；另有All2AllV路径，不能认定所有EP规模均使用该API。。来源：f3a3b132f63f
 
@@ -10052,9 +10052,9 @@ Y_e:[N_e,3584]; weights:[N,16] → 逆重排、乘路由权重、对TopK求和�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -10070,9 +10070,9 @@ Y_e:[N_e,3584]; weights:[N,16] → 逆重排、乘路由权重、对TopK求和�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -10088,15 +10088,15 @@ Y_e:[N_e,3584]; weights:[N,16] → 逆重排、乘路由权重、对TopK求和�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
 #### s34 共享专家门控激活
 
-gate/up:[N,6144] → SiTU(gate;β=4)×up = β·tanh(gate/β)·sigmoid(gate)×up → [N,6144]
+gate/up:[N,6144] → SiTU = 4*tanh(gate/4)*sigmoid(gate) * (25*tanh(up/25))；beta=4, linear_beta=25（固定配置） → [N,6144]
 
 无持久缓存
 
@@ -10108,7 +10108,7 @@ gate/up:[N,6144] → SiTU(gate;β=4)×up = β·tanh(gate/β)·sigmoid(gate)×up 
 
 - amd / 未知：未核验。条件：参考SiLU/SiTU表达式已定位；可能被MoE/MLP融合，未单独指定kernel。。来源：
 
-- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm1_act_quant → torch.ops._C_ascend.dequant_situ_quant。条件：W4A8 SiTU分支；不是所有BF16 SiTU步骤均落到此算子。。来源：05163dde1e66
+- ascend / 未知：未核验。条件：Dense/共享专家SiTU不等于路由专家W4A8 apply_gmm1_act_quant；本步骤设备融合路径未核验。。来源：
 
 #### s35 共享专家下投影
 
@@ -10122,9 +10122,9 @@ gate/up:[N,6144] → SiTU(gate;β=4)×up = β·tanh(gate/β)·sigmoid(gate)×up 
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -10212,9 +10212,9 @@ values:[N,R+1,7168]; scores:[N,R+1]; R由0-based层索引和block_size12决定
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -10248,9 +10248,9 @@ values:[N,R+1,7168]; scores:[N,R+1]; R由0-based层索引和block_size12决定
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -10266,9 +10266,9 @@ values:[N,R+1,7168]; scores:[N,R+1]; R由0-based层索引和block_size12决定
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -10318,9 +10318,9 @@ values:[N,R+1,7168]; scores:[N,R+1]; R由0-based层索引和block_size12决定
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -10400,9 +10400,9 @@ P:[B,96,T,S]; V:[B,96,S,128] → O=P @ V，转置/合并heads → [B,T,12288]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -10434,9 +10434,9 @@ O,g:[N,12288] → O←O×sigmoid(g) → [N,12288]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 框架函数 / 条件分派：RowParallelLinear.forward → self.quant_method.apply / tensor_model_parallel_all_reduce。条件：固定K3构造代码o_proj=RowParallelLinear；reduce_results、TP及可选融合gemm_rs_ar决定实际通信，非无条件all-reduce。。来源：306689932e3b f7142733ff6a
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -10542,9 +10542,9 @@ scores:[N,896] → grouped/noaux_tc路由规则；总专家E与每token选中K�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -10560,7 +10560,7 @@ X:[N,3584]; ids:[N,16] → argsort/gather或EP dispatch；N_e由实际路由确�
 
 - nvidia / 框架函数 / 条件分派：TrtLlmMxfp4ExpertsMonolithic.apply → trtllm_fp4_block_scale_moe。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：9acc9260bde1
 
-- amd / 框架函数 / 条件分派：aiter_triton_kernel_w4a16_moe_forward → aiter_routing / moe_gemm_a16w4。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：cf2d178545ba
+- amd / 未知：未核验。条件：所查AITER Triton W4A16仅接受SWIGLUOAI/SILU，不满足K3 SiTU；不能列为K3兼容候选。其他SiTU兼容分支与实际选择尚未完整追踪。。来源：0379a0e38be2
 
 - ascend / 框架函数 / 条件分派：TokenDispatcherWithMC2.token_dispatch → torch_npu.npu_moe_distribute_dispatch_v2。条件：仅MC2通信路径；另有All2AllV路径，不能认定所有EP规模均使用该API。。来源：116a6619588f
 
@@ -10580,7 +10580,7 @@ X:[N,3584]; ids:[N,16] → argsort/gather或EP dispatch；N_e由实际路由确�
 
 - nvidia / 框架函数 / 条件分派：TrtLlmMxfp4ExpertsMonolithic.apply → trtllm_fp4_block_scale_moe。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：9acc9260bde1
 
-- amd / 框架函数 / 条件分派：aiter_triton_kernel_w4a16_moe_forward → aiter_routing / moe_gemm_a16w4。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：cf2d178545ba
+- amd / 未知：未核验。条件：所查AITER Triton W4A16仅接受SWIGLUOAI/SILU，不满足K3 SiTU；不能列为K3兼容候选。其他SiTU兼容分支与实际选择尚未完整追踪。。来源：0379a0e38be2
 
 - ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm1 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。。来源：241791015955
 
@@ -10600,13 +10600,13 @@ X:[N,3584]; ids:[N,16] → argsort/gather或EP dispatch；N_e由实际路由确�
 
 - nvidia / 框架函数 / 条件分派：TrtLlmMxfp4ExpertsMonolithic.apply → trtllm_fp4_block_scale_moe。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：9acc9260bde1
 
-- amd / 框架函数 / 条件分派：aiter_triton_kernel_w4a16_moe_forward → aiter_routing / moe_gemm_a16w4。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：cf2d178545ba
+- amd / 未知：未核验。条件：所查AITER Triton W4A16仅接受SWIGLUOAI/SILU，不满足K3 SiTU；不能列为K3兼容候选。其他SiTU兼容分支与实际选择尚未完整追踪。。来源：0379a0e38be2
 
 - ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm1 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。。来源：241791015955
 
 #### s26 门控激活
 
-gate/up:[N_e,3072] → SiTU(gate;β=4)×up = β·tanh(gate/β)·sigmoid(gate)×up → [N_e,3072]
+gate/up:[N_e,3072] → SiTU = 4*tanh(gate/4)*sigmoid(gate) * (25*tanh(up/25))；beta=4, linear_beta=25（固定配置） → [N_e,3072]
 
 无持久缓存
 
@@ -10636,9 +10636,9 @@ gate/up:[N_e,3072] → SiTU(gate;β=4)×up = β·tanh(gate/β)·sigmoid(gate)×u
 
 - nvidia / 框架函数 / 条件分派：TrtLlmMxfp4ExpertsMonolithic.apply → trtllm_fp4_block_scale_moe。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：9acc9260bde1
 
-- amd / 框架函数 / 条件分派：aiter_triton_kernel_w4a16_moe_forward → aiter_routing / moe_gemm_a16w4。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：cf2d178545ba
+- amd / 未知：未核验。条件：所查AITER Triton W4A16仅接受SWIGLUOAI/SILU，不满足K3 SiTU；不能列为K3兼容候选。其他SiTU兼容分支与实际选择尚未完整追踪。。来源：0379a0e38be2
 
-- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm1 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。。来源：241791015955
+- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm2 → torch_npu.npu_grouped_matmul。条件：仅转换W4A8量化方法被选中时；不是原始INT4/MXFP4检查点的直接等价接口；硬件与CANN须匹配。 本步骤使用w2下投影；apply_gmm1只对应w1。。来源：69f409e02d16
 
 #### s28 专家加权合并
 
@@ -10652,7 +10652,7 @@ Y_e:[N_e,3584]; weights:[N,16] → 逆重排、乘路由权重、对TopK求和�
 
 - nvidia / 框架函数 / 条件分派：TrtLlmMxfp4ExpertsMonolithic.apply → trtllm_fp4_block_scale_moe。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：9acc9260bde1
 
-- amd / 框架函数 / 条件分派：aiter_triton_kernel_w4a16_moe_forward → aiter_routing / moe_gemm_a16w4。条件：已核验可选MXFP4实现；仅当量化oracle、架构capability、激活函数、输入布局均匹配时选择。没有确认每一张设备都会走此路径。。来源：cf2d178545ba
+- amd / 未知：未核验。条件：所查AITER Triton W4A16仅接受SWIGLUOAI/SILU，不满足K3 SiTU；不能列为K3兼容候选。其他SiTU兼容分支与实际选择尚未完整追踪。。来源：0379a0e38be2
 
 - ascend / 框架函数 / 条件分派：TokenDispatcherWithMC2.token_combine → torch_npu.npu_moe_distribute_combine_v2。条件：仅MC2通信路径；另有All2AllV路径，不能认定所有EP规模均使用该API。。来源：f3a3b132f63f
 
@@ -10686,9 +10686,9 @@ Y_e:[N_e,3584]; weights:[N,16] → 逆重排、乘路由权重、对TopK求和�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -10704,9 +10704,9 @@ Y_e:[N_e,3584]; weights:[N,16] → 逆重排、乘路由权重、对TopK求和�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -10722,15 +10722,15 @@ Y_e:[N_e,3584]; weights:[N,16] → 逆重排、乘路由权重、对TopK求和�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
 #### s33 共享专家门控激活
 
-gate/up:[N,6144] → SiTU(gate;β=4)×up = β·tanh(gate/β)·sigmoid(gate)×up → [N,6144]
+gate/up:[N,6144] → SiTU = 4*tanh(gate/4)*sigmoid(gate) * (25*tanh(up/25))；beta=4, linear_beta=25（固定配置） → [N,6144]
 
 无持久缓存
 
@@ -10742,7 +10742,7 @@ gate/up:[N,6144] → SiTU(gate;β=4)×up = β·tanh(gate/β)·sigmoid(gate)×up 
 
 - amd / 未知：未核验。条件：参考SiLU/SiTU表达式已定位；可能被MoE/MLP融合，未单独指定kernel。。来源：
 
-- ascend / 框架函数 / 条件分派：AscendW4A8DynamicFusedMoEMethod.apply_gmm1_act_quant → torch.ops._C_ascend.dequant_situ_quant。条件：W4A8 SiTU分支；不是所有BF16 SiTU步骤均落到此算子。。来源：05163dde1e66
+- ascend / 未知：未核验。条件：Dense/共享专家SiTU不等于路由专家W4A8 apply_gmm1_act_quant；本步骤设备融合路径未核验。。来源：
 
 #### s34 共享专家下投影
 
@@ -10756,9 +10756,9 @@ gate/up:[N,6144] → SiTU(gate;β=4)×up = β·tanh(gate/β)·sigmoid(gate)×up 
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -10826,9 +10826,9 @@ residual,branch:[N,7168] → Y=residual+branch；K3块边界prefix_sum可能为�
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -10876,9 +10876,9 @@ Q,K,V:[Nv,12,128] → 按cu_seqlens分段计算非因果视觉attention；不跨
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -10928,9 +10928,9 @@ branch,residual:[Nv,1024] → 相加 → [Nv,1024]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -10962,9 +10962,9 @@ branch,residual:[Nv,1024] → 相加 → [Nv,1024]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -11058,9 +11058,9 @@ prefix/blocks:[N,R,7168] → 最终跨块加权混合 → [N,7168]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -11094,9 +11094,9 @@ prefix/blocks:[N,R,7168] → 最终跨块加权混合 → [N,7168]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -11128,9 +11128,9 @@ prefix/blocks:[N,R,7168] → 最终跨块加权混合 → [N,7168]
 
 - torch / torch.nn.Linear → torch.nn.functional.linear：Linear.forward → torch.nn.functional.linear。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：54ee794d774c
 
-- nvidia / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- nvidia / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
-- amd / 框架函数 / 条件分派：ColumnParallelLinear.forward → self.quant_method.apply。条件：仅证实所列源码分支；并列调用可能互斥或覆盖整个模块，不是本步骤1:1设备映射。未执行本机设备测试。。来源：5f2a0ec64e01
+- amd / 未知：未核验。条件：此线性层的Column/Row/Replicated封装需按具体模块核验，不能只由linear类别推定。。来源：
 
 - ascend / 框架函数 / 条件分派：AscendUnquantizedLinearMethod.apply → torch.ops.vllm.unquantized_gemm → unquantized_gemm → torch.nn.functional.linear。条件：仅未量化线性分支；最终CANN设备算子未核验，不猜测MatMul接口。。来源：df7860e6c4c6 1c155f529c07
 
@@ -11232,6 +11232,8 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 - 5f2a0ec64e01 [ColumnParallelLinear.forward](https://github.com/vllm-project/vllm/blob/97dc6b19d2fe92b794b49e684677a2e1a8b2c540/vllm/model_executor/layers/linear.py#L603) — vllm-project/vllm@97dc6b19d2fe92b794b49e684677a2e1a8b2c540，vllm/model_executor/layers/linear.py L603-621，函数体SHA256 9d97b2911506fa36fccc973d8355c315dcf41947d08508dee4bf55b44cb8acb0
 
+- 306689932e3b [RowParallelLinear.forward](https://github.com/vllm-project/vllm/blob/97dc6b19d2fe92b794b49e684677a2e1a8b2c540/vllm/model_executor/layers/linear.py#L1762) — vllm-project/vllm@97dc6b19d2fe92b794b49e684677a2e1a8b2c540，vllm/model_executor/layers/linear.py L1762-1788，函数体SHA256 110cb650730bbdb34dc3acfdda779ef9e69dea9cfd4a62eb543488dfba6d526d
+
 - 3f8018165c8c [Fp8LinearMethod.apply](https://github.com/vllm-project/vllm/blob/97dc6b19d2fe92b794b49e684677a2e1a8b2c540/vllm/model_executor/layers/quantization/fp8.py#L432) — vllm-project/vllm@97dc6b19d2fe92b794b49e684677a2e1a8b2c540，vllm/model_executor/layers/quantization/fp8.py L432-475，函数体SHA256 897fa162c88032a9bdd91a74916d2bff357ed97f7cd27f4f6b72a4e1811ba594
 
 - 02a481161b17 [CompressedTensorsWNA16.apply_weights](https://github.com/vllm-project/vllm/blob/97dc6b19d2fe92b794b49e684677a2e1a8b2c540/vllm/model_executor/layers/quantization/compressed_tensors/schemes/compressed_tensors_wNa16.py#L236) — vllm-project/vllm@97dc6b19d2fe92b794b49e684677a2e1a8b2c540，vllm/model_executor/layers/quantization/compressed_tensors/schemes/compressed_tensors_wNa16.py L236-239，函数体SHA256 9f69af93546513dddb70495057bd00386371cabfb01ea01e37c8e6182e53ef80
@@ -11289,6 +11291,10 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 - f3a3b132f63f [TokenDispatcherWithMC2.token_combine](https://github.com/vllm-project/vllm-ascend/blob/0003e1b75b8ff4d35a5871fee1b2e9e7860bc3f1/vllm_ascend/ops/fused_moe/token_dispatcher.py#L327) — vllm-project/vllm-ascend@0003e1b75b8ff4d35a5871fee1b2e9e7860bc3f1，vllm_ascend/ops/fused_moe/token_dispatcher.py L327-333，函数体SHA256 316fd4b3a72e91e7182860073e7fba7e72e743d60a3f98ee669fb22a4cf8316c
 
 - 241791015955 [AscendW4A8DynamicFusedMoEMethod.apply_gmm1](https://github.com/vllm-project/vllm-ascend/blob/0003e1b75b8ff4d35a5871fee1b2e9e7860bc3f1/vllm_ascend/quantization/methods/w4a8/w4a8.py#L506) — vllm-project/vllm-ascend@0003e1b75b8ff4d35a5871fee1b2e9e7860bc3f1，vllm_ascend/quantization/methods/w4a8/w4a8.py L506-527，函数体SHA256 eef60158a0b63fd082414c94e739b68340b6e1174faef09de1ab14d875c72ef0
+
+- 69f409e02d16 [AscendW4A8DynamicFusedMoEMethod.apply_gmm2](https://github.com/vllm-project/vllm-ascend/blob/0003e1b75b8ff4d35a5871fee1b2e9e7860bc3f1/vllm_ascend/quantization/methods/w4a8/w4a8.py#L532) — vllm-project/vllm-ascend@0003e1b75b8ff4d35a5871fee1b2e9e7860bc3f1，vllm_ascend/quantization/methods/w4a8/w4a8.py L532-547，函数体SHA256 4ba07e1dba1160ea0dcc26c0cf5a4b3f9e655ab2af3670973dba3c76a4fbfd6e
+
+- 0379a0e38be2 [AiterW4A16ExpertsMonolithic._supports_activation](https://github.com/vllm-project/vllm/blob/97dc6b19d2fe92b794b49e684677a2e1a8b2c540/vllm/model_executor/layers/fused_moe/experts/aiter_mxfp4_w4a16_moe.py#L316) — vllm-project/vllm@97dc6b19d2fe92b794b49e684677a2e1a8b2c540，vllm/model_executor/layers/fused_moe/experts/aiter_mxfp4_w4a16_moe.py L316-317，函数体SHA256 55ea8244e7444c57b54ce410efc30053e5e66aea17e719ddfc5c78183ea34486
 
 - 05163dde1e66 [AscendW4A8DynamicFusedMoEMethod.apply_gmm1_act_quant](https://github.com/vllm-project/vllm-ascend/blob/0003e1b75b8ff4d35a5871fee1b2e9e7860bc3f1/vllm_ascend/quantization/methods/w4a8/w4a8.py#L447) — vllm-project/vllm-ascend@0003e1b75b8ff4d35a5871fee1b2e9e7860bc3f1，vllm_ascend/quantization/methods/w4a8/w4a8.py L447-504，函数体SHA256 11c2b05ac9c7784b8db3fc9fe5bd338cf367b248dadf9937856d345b822cd6bf
 
@@ -11470,6 +11476,8 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 
 - 810b468803e0 [KimiDeltaAttention.forward](https://huggingface.co/moonshotai/Kimi-K3/blob/f831ab66814297da540d832a5235f8e904f29d06/modeling_kimi_linear.py#L543) — moonshotai/Kimi-K3@f831ab66814297da540d832a5235f8e904f29d06，modeling_kimi_linear.py L543-663，函数体SHA256 ab5c019f76ae9f36acd07f0bdee07212c8be2341d2eb7b19c522748c2e25da30
 
+- ebcb6575be7b [KimiK3DeltaAttention.__init__](https://github.com/vllm-project/vllm/blob/97dc6b19d2fe92b794b49e684677a2e1a8b2c540/vllm/models/kimi_k3/nvidia/kda.py#L515) — vllm-project/vllm@97dc6b19d2fe92b794b49e684677a2e1a8b2c540，vllm/models/kimi_k3/nvidia/kda.py L515-739，函数体SHA256 92072a81b07c73e6b34ce4e44c193394872fa9b6f972a6c7bcf37ae5bef867cc
+
 - 5d33ac8f6ae9 [SituAndMul.forward](https://huggingface.co/moonshotai/Kimi-K3/blob/f831ab66814297da540d832a5235f8e904f29d06/modeling_kimi_linear.py#L75) — moonshotai/Kimi-K3@f831ab66814297da540d832a5235f8e904f29d06，modeling_kimi_linear.py L75-82，函数体SHA256 833a9db24a7dc5a52add755f6c62154c15fd684496289a3329f31928366c3ac9
 
 - 81e5edcfb3a4 [KimiMoEGate.forward](https://huggingface.co/moonshotai/Kimi-K3/blob/f831ab66814297da540d832a5235f8e904f29d06/modeling_kimi_linear.py#L703) — moonshotai/Kimi-K3@f831ab66814297da540d832a5235f8e904f29d06，modeling_kimi_linear.py L703-759，函数体SHA256 8da7330ba5a9c446c0fdda92ca30743215ee6293722d8766ea095237b30aea98
@@ -11485,6 +11493,8 @@ text embedding:[B,T,7168]; visual:[Nm,7168] → 按media placeholder位置填入
 - 84d2a5c76c4a-324 [eager_attention_forward / 步骤语句](https://huggingface.co/moonshotai/Kimi-K3/blob/f831ab66814297da540d832a5235f8e904f29d06/modeling_kimi_linear.py#L324) — moonshotai/Kimi-K3@f831ab66814297da540d832a5235f8e904f29d06，modeling_kimi_linear.py L324-330，函数体SHA256 692889f2a2d5d27150bb981c57bb0a59677e1bd71a8a1cf81e48581cef1b9402
 
 - 84d2a5c76c4a-330 [eager_attention_forward / 步骤语句](https://huggingface.co/moonshotai/Kimi-K3/blob/f831ab66814297da540d832a5235f8e904f29d06/modeling_kimi_linear.py#L330) — moonshotai/Kimi-K3@f831ab66814297da540d832a5235f8e904f29d06，modeling_kimi_linear.py L330-332，函数体SHA256 78054544e99199531158b80426e1526e0570835e2590f66ddf6f3102091056eb
+
+- f7142733ff6a [MultiHeadLatentAttention.__init__](https://github.com/vllm-project/vllm/blob/97dc6b19d2fe92b794b49e684677a2e1a8b2c540/vllm/models/kimi_k3/nvidia/mla.py#L128) — vllm-project/vllm@97dc6b19d2fe92b794b49e684677a2e1a8b2c540，vllm/models/kimi_k3/nvidia/mla.py L128-407，函数体SHA256 db213a2b3b6a3e661ad192ff1e002f43c626d5695a1a0650b48aa8981b4590ed
 
 - edcaf149bc62 [MoonViTEncoderLayer.attention_qkvpacked](https://huggingface.co/moonshotai/Kimi-K3/blob/f831ab66814297da540d832a5235f8e904f29d06/modeling_kimi_k3.py#L507) — moonshotai/Kimi-K3@f831ab66814297da540d832a5235f8e904f29d06，modeling_kimi_k3.py L507-543，函数体SHA256 090f3c33ae71aed08035aba0021e91cdadb7ca92b4b9dc3b8e34a73fd9208fb6
 
