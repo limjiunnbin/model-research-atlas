@@ -4,7 +4,7 @@
   "xlsx": 156,
   "csv": 312,
   "formulaErrors": 0,
-  "formulaPerturbation": "每模型B=1→2→1，T=B*S正确更新并恢复",
+  "formulaPerturbation": "每模型B变化后，对应token数公式更新并恢复（B=1→2→1）。",
   "archiveCRC": "all passed",
   "templateOriginalUnchanged": true,
   "nativeExcelExecution": "未在Excel程序中重算，已在Artifact Tool重算并核验XLSX缓存值",

@@ -17,6 +17,7 @@ def validate():
  with zipfile.ZipFile(d/'model-documents-all.zip') as z:
   assert z.testzip() is None
   for m in models:assert m['id']+'.xlsx' in z.namelist()
+  assert z.read('validation.json')==(d/'validation.json').read_bytes()
  k=next(m for m in models if m['name']=='Kimi-K3');a=json.loads((d/(k['id']+'.json')).read_text());lang={r[0] for r in a['rows'] if r[0].startswith('decoder/layer_')};assert len(lang)==93
  assert set(json.loads((d/'K3-template-cell-audit.json').read_text())[0]) >= {'original','verified_or_formula','comparison_status','fixed_sources'}
  # Regressions from the independent semantic review: preserve platform conditions.
