@@ -42,7 +42,7 @@ def validate():
    assert 'audio_config.optional_decoder/layer_' not in r[0]
   if md.get('isEncoder'):
    assert all('L_KV' not in r[4]+r[5] for r in md['rows'])
-   assert all('L_text' in r[28] for r in md['rows'])
+   assert all(md.get('encodingAxis','L_text') in r[28] for r in md['rows'])
  assert json.loads((d/'openbmb-minicpm3-4b.json').read_text())['params']['V']==64
  assert json.loads((d/'openbmb-minicpm3-rag-lora.json').read_text())['params']['V']=='未核验'
  print('Model documents OK:',len(models),'independent XLSX; files, CSV rows, ZIP CRC and K3 93 layers checked.')
