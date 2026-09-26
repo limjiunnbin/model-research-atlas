@@ -1,0 +1,1522 @@
+[
+  {
+    "model": "kimi-k1",
+    "url": null,
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:16.134047+00:00",
+    "author_gap": "未找到可直接关联的公开checkpoint配置，不能由底座推定该版本层数",
+    "result": "no_identified_checkpoint"
+  },
+  {
+    "model": "kimi-k1.5",
+    "url": null,
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:16.134352+00:00",
+    "author_gap": "未找到可直接关联的公开checkpoint配置，不能由底座推定该版本层数",
+    "result": "no_identified_checkpoint"
+  },
+  {
+    "model": "kimi-kimi-audio-7b",
+    "url": "https://huggingface.co/moonshotai/Kimi-Audio-7B/resolve/d90be7113cd5be6bcf54fae2aabcad060a23f6cf/config.json",
+    "expected_sha256": "515a352843ad45896514ecf707b0983fa39bd3ee2c32bd88cc4fa98a50516ba1",
+    "date_utc": "2026-09-26T01:24:16.134358+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/moonshotai/Kimi-Audio-7B/d90be7113cd5be6bcf54fae2aabcad060a23f6cf/config.json?%2Fmoonshotai%2FKimi-Audio-7B%2Fresolve%2Fd90be7113cd5be6bcf54fae2aabcad060a23f6cf%2Fconfig.json=&etag=%22f179474b57174a702ddbd95141e52540c7b09783%22",
+    "sha256": "515a352843ad45896514ecf707b0983fa39bd3ee2c32bd88cc4fa98a50516ba1",
+    "result": "identical"
+  },
+  {
+    "model": "kimi-kimi-audio-7b-instruct",
+    "url": "https://huggingface.co/moonshotai/Kimi-Audio-7B-Instruct/resolve/9a82a84c37ad9eb1307fb6ed8d7b397862ef9e6b/config.json",
+    "expected_sha256": "515a352843ad45896514ecf707b0983fa39bd3ee2c32bd88cc4fa98a50516ba1",
+    "date_utc": "2026-09-26T01:24:16.134530+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/moonshotai/Kimi-Audio-7B-Instruct/9a82a84c37ad9eb1307fb6ed8d7b397862ef9e6b/config.json?%2Fmoonshotai%2FKimi-Audio-7B-Instruct%2Fresolve%2F9a82a84c37ad9eb1307fb6ed8d7b397862ef9e6b%2Fconfig.json=&etag=%22f179474b57174a702ddbd95141e52540c7b09783%22",
+    "sha256": "515a352843ad45896514ecf707b0983fa39bd3ee2c32bd88cc4fa98a50516ba1",
+    "result": "identical"
+  },
+  {
+    "model": "kimi-kimi-dev-72b",
+    "url": "https://huggingface.co/moonshotai/Kimi-Dev-72B/resolve/8791d7981945752a51f692d66f2bbfb3573c9722/config.json",
+    "expected_sha256": "9c114c3da81d4db6027c0caab398b59fe800024df5a0ed27d341501575cecaf9",
+    "date_utc": "2026-09-26T01:24:16.134612+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/moonshotai/Kimi-Dev-72B/8791d7981945752a51f692d66f2bbfb3573c9722/config.json?%2Fmoonshotai%2FKimi-Dev-72B%2Fresolve%2F8791d7981945752a51f692d66f2bbfb3573c9722%2Fconfig.json=&etag=%22a615b7cc57ca046be17874d186651417d9775cdf%22",
+    "sha256": "9c114c3da81d4db6027c0caab398b59fe800024df5a0ed27d341501575cecaf9",
+    "result": "identical"
+  },
+  {
+    "model": "kimi-kimi-k2-base",
+    "url": "https://huggingface.co/moonshotai/Kimi-K2-Base/resolve/ce72df012259dcc55d945e890f815fe7ef69159c/config.json",
+    "expected_sha256": "8c13ae1049df55f29b3bdcae69a562433f243ff70dac251d819ecad8dbdf7439",
+    "date_utc": "2026-09-26T01:24:16.134740+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/moonshotai/Kimi-K2-Base/ce72df012259dcc55d945e890f815fe7ef69159c/config.json?%2Fmoonshotai%2FKimi-K2-Base%2Fresolve%2Fce72df012259dcc55d945e890f815fe7ef69159c%2Fconfig.json=&etag=%22da5e6d57d441456dfff648b32e8334e4b1c2b3c0%22",
+    "sha256": "8c13ae1049df55f29b3bdcae69a562433f243ff70dac251d819ecad8dbdf7439",
+    "result": "identical"
+  },
+  {
+    "model": "kimi-kimi-k2-instruct",
+    "url": "https://huggingface.co/moonshotai/Kimi-K2-Instruct/resolve/fd1984e2b7a3350dbf7305fe73a4ede25c14de50/config.json",
+    "expected_sha256": "8c13ae1049df55f29b3bdcae69a562433f243ff70dac251d819ecad8dbdf7439",
+    "date_utc": "2026-09-26T01:24:16.134897+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/moonshotai/Kimi-K2-Instruct/fd1984e2b7a3350dbf7305fe73a4ede25c14de50/config.json?%2Fmoonshotai%2FKimi-K2-Instruct%2Fresolve%2Ffd1984e2b7a3350dbf7305fe73a4ede25c14de50%2Fconfig.json=&etag=%22da5e6d57d441456dfff648b32e8334e4b1c2b3c0%22",
+    "sha256": "8c13ae1049df55f29b3bdcae69a562433f243ff70dac251d819ecad8dbdf7439",
+    "result": "identical"
+  },
+  {
+    "model": "kimi-kimi-k2-instruct-0905",
+    "url": "https://huggingface.co/moonshotai/Kimi-K2-Instruct-0905/resolve/ac6c49f04883bd0a0598b790693a72061c676629/config.json",
+    "expected_sha256": "4cd10b0f3cb1c1dfdbfcdd2f303057500f570b24f671ce5eb7650b6a511807cc",
+    "date_utc": "2026-09-26T01:24:16.134984+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/moonshotai/Kimi-K2-Instruct-0905/ac6c49f04883bd0a0598b790693a72061c676629/config.json?%2Fmoonshotai%2FKimi-K2-Instruct-0905%2Fresolve%2Fac6c49f04883bd0a0598b790693a72061c676629%2Fconfig.json=&etag=%22cc19fd16f81bb953ffd6b574890d8447c4e0f374%22",
+    "sha256": "4cd10b0f3cb1c1dfdbfcdd2f303057500f570b24f671ce5eb7650b6a511807cc",
+    "result": "identical"
+  },
+  {
+    "model": "kimi-kimi-k2-thinking",
+    "url": "https://huggingface.co/moonshotai/Kimi-K2-Thinking/resolve/a51ccc050d73dab088bf7b0e2dd9b30ae85a4e55/config.json",
+    "expected_sha256": "666ee58fc3871ecc369a22bc8c100075c2ad24ccbe8b3e336fa5f726e6111c15",
+    "date_utc": "2026-09-26T01:24:16.135175+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/moonshotai/Kimi-K2-Thinking/a51ccc050d73dab088bf7b0e2dd9b30ae85a4e55/config.json?%2Fmoonshotai%2FKimi-K2-Thinking%2Fresolve%2Fa51ccc050d73dab088bf7b0e2dd9b30ae85a4e55%2Fconfig.json=&etag=%22b116c16af8bd8342107f397accb29456ccf6b1ed%22",
+    "sha256": "666ee58fc3871ecc369a22bc8c100075c2ad24ccbe8b3e336fa5f726e6111c15",
+    "result": "identical"
+  },
+  {
+    "model": "kimi-kimi-k2.5",
+    "url": "https://huggingface.co/moonshotai/Kimi-K2.5/resolve/4d01dfe0332d63057c186e0b262165819efb6611/config.json",
+    "expected_sha256": "acd5bb01a16f64b309599cd6ed196be056f613c99d6bc9300692b82cd10882f6",
+    "date_utc": "2026-09-26T01:24:16.135304+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/moonshotai/Kimi-K2.5/4d01dfe0332d63057c186e0b262165819efb6611/config.json?%2Fmoonshotai%2FKimi-K2.5%2Fresolve%2F4d01dfe0332d63057c186e0b262165819efb6611%2Fconfig.json=&etag=%22951255997883c0e4fd53a8a3e10add6e79354217%22",
+    "sha256": "acd5bb01a16f64b309599cd6ed196be056f613c99d6bc9300692b82cd10882f6",
+    "result": "identical"
+  },
+  {
+    "model": "kimi-kimi-k2.6",
+    "url": "https://huggingface.co/moonshotai/Kimi-K2.6/resolve/7eb5002f6aadc958aed6a9177b7ed26bb94011bb/config.json",
+    "expected_sha256": "85825ca6e18cbe539eb83ee09eedfb3f4222265929f06e9f535a6d9364f55899",
+    "date_utc": "2026-09-26T01:24:16.135420+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/moonshotai/Kimi-K2.6/7eb5002f6aadc958aed6a9177b7ed26bb94011bb/config.json?%2Fmoonshotai%2FKimi-K2.6%2Fresolve%2F7eb5002f6aadc958aed6a9177b7ed26bb94011bb%2Fconfig.json=&etag=%22eb7e9302b33c55765ac93e09eeb87cf7d7d4c438%22",
+    "sha256": "85825ca6e18cbe539eb83ee09eedfb3f4222265929f06e9f535a6d9364f55899",
+    "result": "identical"
+  },
+  {
+    "model": "kimi-kimi-k2.7-code",
+    "url": "https://huggingface.co/moonshotai/Kimi-K2.7-Code/resolve/74797c9c62378b951a1f6fcf5c4631024e9b8bef/config.json",
+    "expected_sha256": "ffbb57bff844e024f6c112640b63da80af228ceb8fb3e2e21908a21febbcdffb",
+    "date_utc": "2026-09-26T01:24:16.135492+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/moonshotai/Kimi-K2.7-Code/74797c9c62378b951a1f6fcf5c4631024e9b8bef/config.json?%2Fmoonshotai%2FKimi-K2.7-Code%2Fresolve%2F74797c9c62378b951a1f6fcf5c4631024e9b8bef%2Fconfig.json=&etag=%2282efafe47e37462a55e6eb50f46fc1f04e34f75e%22",
+    "sha256": "ffbb57bff844e024f6c112640b63da80af228ceb8fb3e2e21908a21febbcdffb",
+    "result": "identical"
+  },
+  {
+    "model": "kimi-kimi-k3",
+    "url": "https://huggingface.co/moonshotai/Kimi-K3/resolve/f831ab66814297da540d832a5235f8e904f29d06/config.json",
+    "expected_sha256": "9710e121a58d03ac92c8d6da287a19541994319afbbe6d6202af001ffd379213",
+    "date_utc": "2026-09-26T01:24:16.467816+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/moonshotai/Kimi-K3/f831ab66814297da540d832a5235f8e904f29d06/config.json?%2Fmoonshotai%2FKimi-K3%2Fresolve%2Ff831ab66814297da540d832a5235f8e904f29d06%2Fconfig.json=&etag=%22d7f26ead420b1d967f2759679dbebc65edfcff93%22",
+    "sha256": "9710e121a58d03ac92c8d6da287a19541994319afbbe6d6202af001ffd379213",
+    "result": "identical"
+  },
+  {
+    "model": "kimi-kimi-linear-48b-a3b-base",
+    "url": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Base/resolve/3b171c17bfc4ee348599b6781a2ca8715c21c8dc/config.json",
+    "expected_sha256": "732c453928a14df15ad7b7bf8c626a02236d10eee80ce63a36aa05df73bc17eb",
+    "date_utc": "2026-09-26T01:24:16.467938+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/moonshotai/Kimi-Linear-48B-A3B-Base/3b171c17bfc4ee348599b6781a2ca8715c21c8dc/config.json?%2Fmoonshotai%2FKimi-Linear-48B-A3B-Base%2Fresolve%2F3b171c17bfc4ee348599b6781a2ca8715c21c8dc%2Fconfig.json=&etag=%22912298398b14894fa1bb5e858e3d788e060204c0%22",
+    "sha256": "732c453928a14df15ad7b7bf8c626a02236d10eee80ce63a36aa05df73bc17eb",
+    "result": "identical"
+  },
+  {
+    "model": "kimi-kimi-linear-48b-a3b-instruct",
+    "url": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct/resolve/e1df551a447157d4658b573f9a695d57658590e9/config.json",
+    "expected_sha256": "a6ac3c2c4b5aa72370f9727f49ffa4432715d20061889acdb37c688be853096e",
+    "date_utc": "2026-09-26T01:24:16.468212+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/moonshotai/Kimi-Linear-48B-A3B-Instruct/e1df551a447157d4658b573f9a695d57658590e9/config.json?%2Fmoonshotai%2FKimi-Linear-48B-A3B-Instruct%2Fresolve%2Fe1df551a447157d4658b573f9a695d57658590e9%2Fconfig.json=&etag=%2269e2a71feb9258d1ac9e8b0a7cd34d5446672755%22",
+    "sha256": "a6ac3c2c4b5aa72370f9727f49ffa4432715d20061889acdb37c688be853096e",
+    "result": "identical"
+  },
+  {
+    "model": "kimi-kimi-vl-a3b-instruct",
+    "url": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Instruct/resolve/398eede0903cd983a2bfa0cc634e9ac1d843f375/config.json",
+    "expected_sha256": "af3810295de6b08232776b74110ed482fa0183f4aeaec586ff4f7593910951cb",
+    "date_utc": "2026-09-26T01:24:16.468783+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/moonshotai/Kimi-VL-A3B-Instruct/398eede0903cd983a2bfa0cc634e9ac1d843f375/config.json?%2Fmoonshotai%2FKimi-VL-A3B-Instruct%2Fresolve%2F398eede0903cd983a2bfa0cc634e9ac1d843f375%2Fconfig.json=&etag=%227acee6b033fa560af68b650afcc2457ac807f3d4%22",
+    "sha256": "af3810295de6b08232776b74110ed482fa0183f4aeaec586ff4f7593910951cb",
+    "result": "identical"
+  },
+  {
+    "model": "kimi-kimi-vl-a3b-thinking",
+    "url": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking/resolve/7d99e220af610d8624fcba22b2c076c7ed528f14/config.json",
+    "expected_sha256": "af3810295de6b08232776b74110ed482fa0183f4aeaec586ff4f7593910951cb",
+    "date_utc": "2026-09-26T01:24:16.469426+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/moonshotai/Kimi-VL-A3B-Thinking/7d99e220af610d8624fcba22b2c076c7ed528f14/config.json?%2Fmoonshotai%2FKimi-VL-A3B-Thinking%2Fresolve%2F7d99e220af610d8624fcba22b2c076c7ed528f14%2Fconfig.json=&etag=%227acee6b033fa560af68b650afcc2457ac807f3d4%22",
+    "sha256": "af3810295de6b08232776b74110ed482fa0183f4aeaec586ff4f7593910951cb",
+    "result": "identical"
+  },
+  {
+    "model": "kimi-kimi-vl-a3b-thinking-2506",
+    "url": "https://huggingface.co/moonshotai/Kimi-VL-A3B-Thinking-2506/resolve/aa1730989e7558695b44ee493623e03bd325a994/config.json",
+    "expected_sha256": "af3810295de6b08232776b74110ed482fa0183f4aeaec586ff4f7593910951cb",
+    "date_utc": "2026-09-26T01:24:16.471308+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/moonshotai/Kimi-VL-A3B-Thinking-2506/aa1730989e7558695b44ee493623e03bd325a994/config.json?%2Fmoonshotai%2FKimi-VL-A3B-Thinking-2506%2Fresolve%2Faa1730989e7558695b44ee493623e03bd325a994%2Fconfig.json=&etag=%227acee6b033fa560af68b650afcc2457ac807f3d4%22",
+    "sha256": "af3810295de6b08232776b74110ed482fa0183f4aeaec586ff4f7593910951cb",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-agentcpm-explore",
+    "url": "https://huggingface.co/openbmb/AgentCPM-Explore/resolve/f528bbb55317bd291387ba3347551dd3414e698e/config.json",
+    "expected_sha256": "4ca339ac76a475603caf526c2c1f21df1c419e9dfcfae5b512dcad6a34dbe4a1",
+    "date_utc": "2026-09-26T01:24:16.474932+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/AgentCPM-Explore/f528bbb55317bd291387ba3347551dd3414e698e/config.json?%2Fopenbmb%2FAgentCPM-Explore%2Fresolve%2Ff528bbb55317bd291387ba3347551dd3414e698e%2Fconfig.json=&etag=%222af64b25673eafeadcd8f724c77ce352d47d2680%22",
+    "sha256": "4ca339ac76a475603caf526c2c1f21df1c419e9dfcfae5b512dcad6a34dbe4a1",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-agentcpm-gui",
+    "url": "https://huggingface.co/openbmb/AgentCPM-GUI/resolve/433b33feda9fed1e13b509cfd65d73f0a3fc4dff/config.json",
+    "expected_sha256": "6cf4029380f3266bbf1a1a28627ab16c23e1829575a02afbdef0197a6f9f591c",
+    "date_utc": "2026-09-26T01:24:16.475023+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/AgentCPM-GUI/433b33feda9fed1e13b509cfd65d73f0a3fc4dff/config.json?%2Fopenbmb%2FAgentCPM-GUI%2Fresolve%2F433b33feda9fed1e13b509cfd65d73f0a3fc4dff%2Fconfig.json=&etag=%2295651923c734408628deac9a321fce374a7e9657%22",
+    "sha256": "6cf4029380f3266bbf1a1a28627ab16c23e1829575a02afbdef0197a6f9f591c",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-agentcpm-report",
+    "url": "https://huggingface.co/openbmb/AgentCPM-Report/resolve/c6232d64a47ccfa0c4aed240d325cbc0fb9cbc62/config.json",
+    "expected_sha256": "aa9013cd28da50fd8408b340d06fb68d7fcaae625550ed43582d68152cd35d8e",
+    "date_utc": "2026-09-26T01:24:16.475124+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/AgentCPM-Report/c6232d64a47ccfa0c4aed240d325cbc0fb9cbc62/config.json?%2Fopenbmb%2FAgentCPM-Report%2Fresolve%2Fc6232d64a47ccfa0c4aed240d325cbc0fb9cbc62%2Fconfig.json=&etag=%2205b78a3b90d9e4c04ace5fd9be244c5af8c5d2f8%22",
+    "sha256": "aa9013cd28da50fd8408b340d06fb68d7fcaae625550ed43582d68152cd35d8e",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-bitcpm4-0.5b",
+    "url": "https://huggingface.co/openbmb/BitCPM4-0.5B/resolve/4d0e4a9e2257ceb39d99b85bb946083467e8476f/config.json",
+    "expected_sha256": "610c5b519420a3633ec4950c15a26d83ad0e9be35ef9d00a9e3d2b621b325f72",
+    "date_utc": "2026-09-26T01:24:16.478063+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/BitCPM4-0.5B/4d0e4a9e2257ceb39d99b85bb946083467e8476f/config.json?%2Fopenbmb%2FBitCPM4-0.5B%2Fresolve%2F4d0e4a9e2257ceb39d99b85bb946083467e8476f%2Fconfig.json=&etag=%22ef0ad7131d32574c5127b0061d37039dcbf7a792%22",
+    "sha256": "610c5b519420a3633ec4950c15a26d83ad0e9be35ef9d00a9e3d2b621b325f72",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-bitcpm4-1b",
+    "url": "https://huggingface.co/openbmb/BitCPM4-1B/resolve/70d989c4972efa636e8a2211975515d188e000b0/config.json",
+    "expected_sha256": "82674b39230a83350d1a278783ea685d351338ef6492417553600403edcb480e",
+    "date_utc": "2026-09-26T01:24:16.766403+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/BitCPM4-1B/70d989c4972efa636e8a2211975515d188e000b0/config.json?%2Fopenbmb%2FBitCPM4-1B%2Fresolve%2F70d989c4972efa636e8a2211975515d188e000b0%2Fconfig.json=&etag=%222f61291749675c76ec8a6f9592735d1c30180b79%22",
+    "sha256": "82674b39230a83350d1a278783ea685d351338ef6492417553600403edcb480e",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-consjudge-llama",
+    "url": "https://huggingface.co/sanwuge/ConsJudge-llama/resolve/547a344231cbfaee19984ad573ad274fffabf525/config.json",
+    "expected_sha256": "ed55b6ab40902c0250a0952fbe1303d8cc471eee98d44ac96b94335de43f02da",
+    "date_utc": "2026-09-26T01:24:16.769493+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/sanwuge/ConsJudge-llama/547a344231cbfaee19984ad573ad274fffabf525/config.json?%2Fsanwuge%2FConsJudge-llama%2Fresolve%2F547a344231cbfaee19984ad573ad274fffabf525%2Fconfig.json=&etag=%22ef6651965184b9b92b1af7575f2d118ea05e9349%22",
+    "sha256": "ed55b6ab40902c0250a0952fbe1303d8cc471eee98d44ac96b94335de43f02da",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-consjudge-qwen",
+    "url": "https://huggingface.co/sanwuge/ConsJudge-qwen/resolve/c4d7d2fbca0b79800dde1002aadfa0d27e9de437/config.json",
+    "expected_sha256": "0bb8527a3962c2bdeed51ee5457bee41418316a6d6dfb5df20b8d314aaf3ce78",
+    "date_utc": "2026-09-26T01:24:16.769630+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/sanwuge/ConsJudge-qwen/c4d7d2fbca0b79800dde1002aadfa0d27e9de437/config.json?%2Fsanwuge%2FConsJudge-qwen%2Fresolve%2Fc4d7d2fbca0b79800dde1002aadfa0d27e9de437%2Fconfig.json=&etag=%22c88154b99ec94595c59445bb95245ec295c9aee2%22",
+    "sha256": "0bb8527a3962c2bdeed51ee5457bee41418316a6d6dfb5df20b8d314aaf3ce78",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-cpm-ant-",
+    "url": null,
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:16.772340+00:00",
+    "author_gap": "未找到可直接关联的公开checkpoint配置，不能由底座推定该版本层数",
+    "result": "no_identified_checkpoint"
+  },
+  {
+    "model": "openbmb-cpm-ant-10b",
+    "url": "https://huggingface.co/openbmb/cpm-ant-10b/resolve/3b53c0f95f625de6ae676f9edf2cc65930f8b4b8/config.json",
+    "expected_sha256": "fd04c8f5bd7f30d052a981a2e11aa441970c30bba6499d428b83c6da173e3259",
+    "date_utc": "2026-09-26T01:24:16.772351+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/cpm-ant-10b/3b53c0f95f625de6ae676f9edf2cc65930f8b4b8/config.json?%2Fopenbmb%2Fcpm-ant-10b%2Fresolve%2F3b53c0f95f625de6ae676f9edf2cc65930f8b4b8%2Fconfig.json=&etag=%2216b136268552b01d7f6015fb9386ba914eb0e69b%22",
+    "sha256": "fd04c8f5bd7f30d052a981a2e11aa441970c30bba6499d428b83c6da173e3259",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-cpm-bee-10b",
+    "url": "https://huggingface.co/openbmb/cpm-bee-10b/resolve/97ee8f5222c018700a4eb3778e2b873ef6821609/config.json",
+    "expected_sha256": "a740bcc321ce4004a8132c21046e7bdc3edf07780b52a5e4525b1707cdd58179",
+    "date_utc": "2026-09-26T01:24:16.774684+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/cpm-bee-10b/97ee8f5222c018700a4eb3778e2b873ef6821609/config.json?%2Fopenbmb%2Fcpm-bee-10b%2Fresolve%2F97ee8f5222c018700a4eb3778e2b873ef6821609%2Fconfig.json=&etag=%22ae8a381f06b3fbcd4d4a1ffc0261fd1b7a9f7fe0%22",
+    "sha256": "a740bcc321ce4004a8132c21046e7bdc3edf07780b52a5e4525b1707cdd58179",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-cpm-bee-1b",
+    "url": "https://huggingface.co/openbmb/cpm-bee-1b/resolve/10369801ffa033b1da19044632dc4017a42fd06e/config.json",
+    "expected_sha256": "4a603ead83ecceb06365841e71c5978f55a7bb349b6347e3231a8838fcef7033",
+    "date_utc": "2026-09-26T01:24:16.774890+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/cpm-bee-1b/10369801ffa033b1da19044632dc4017a42fd06e/config.json?%2Fopenbmb%2Fcpm-bee-1b%2Fresolve%2F10369801ffa033b1da19044632dc4017a42fd06e%2Fconfig.json=&etag=%22e5acc389dbcdda4e00c9b61aa0cbf767564c56d8%22",
+    "sha256": "4a603ead83ecceb06365841e71c5978f55a7bb349b6347e3231a8838fcef7033",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-cpm-bee-2b",
+    "url": "https://huggingface.co/openbmb/cpm-bee-2b/resolve/fe5bd724409d528c77851c869bd484edbae30118/config.json",
+    "expected_sha256": "4afc81ca8c50cd799c31e5a74e17c79732a683f70d3a04ffe4e30f3482fa240e",
+    "date_utc": "2026-09-26T01:24:16.774972+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/cpm-bee-2b/fe5bd724409d528c77851c869bd484edbae30118/config.json?%2Fopenbmb%2Fcpm-bee-2b%2Fresolve%2Ffe5bd724409d528c77851c869bd484edbae30118%2Fconfig.json=&etag=%22a1080c585ddf2127f97d29dfd3c5cae22b41bae1%22",
+    "sha256": "4afc81ca8c50cd799c31e5a74e17c79732a683f70d3a04ffe4e30f3482fa240e",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-cpm-bee-5b",
+    "url": "https://huggingface.co/openbmb/cpm-bee-5b/resolve/aec302a1eb74775bd9c9c9da37414aed7880f8a1/config.json",
+    "expected_sha256": "7e6e342739ab85ab94f278ed4fe578e6d534ba9c1f863a8dfe025f85e0c0cf67",
+    "date_utc": "2026-09-26T01:24:16.776349+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/cpm-bee-5b/aec302a1eb74775bd9c9c9da37414aed7880f8a1/config.json?%2Fopenbmb%2Fcpm-bee-5b%2Fresolve%2Faec302a1eb74775bd9c9c9da37414aed7880f8a1%2Fconfig.json=&etag=%2248b29228fbcff23271a408fce487a5c9ee23cba1%22",
+    "sha256": "7e6e342739ab85ab94f278ed4fe578e6d534ba9c1f863a8dfe025f85e0c0cf67",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-debater-2b",
+    "url": "https://huggingface.co/bigtailwolf/DEBATER-2B/resolve/fcacef4c2913b335b6ed015d768c58da8a14c267/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:16.780120+00:00",
+    "author_gap": "HTTP Error 404: Not Found",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "model": "openbmb-debater-4b",
+    "url": "https://huggingface.co/bigtailwolf/DEBATER-4B/resolve/938994a0b2d0065a2e3fd33af53886fcec8b2132/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:16.782880+00:00",
+    "author_gap": "HTTP Error 404: Not Found",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "model": "openbmb-deepthinkvla",
+    "url": null,
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:17.043328+00:00",
+    "author_gap": "未找到可直接关联的公开checkpoint配置，不能由底座推定该版本层数",
+    "result": "no_identified_checkpoint"
+  },
+  {
+    "model": "openbmb-eurus-70b-nca",
+    "url": "https://huggingface.co/openbmb/Eurus-70b-nca/resolve/66eda400278a77520ee80adcf89643a5e52df6d6/config.json",
+    "expected_sha256": "caecfb511dd31034a624ffd3b4502780cfd889053ed4cf7d732e27fdf3cb1682",
+    "date_utc": "2026-09-26T01:24:17.043337+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/Eurus-70b-nca/66eda400278a77520ee80adcf89643a5e52df6d6/config.json?%2Fopenbmb%2FEurus-70b-nca%2Fresolve%2F66eda400278a77520ee80adcf89643a5e52df6d6%2Fconfig.json=&etag=%22f42c669e18e689f567be3db00e23a4605e12bd3c%22",
+    "sha256": "caecfb511dd31034a624ffd3b4502780cfd889053ed4cf7d732e27fdf3cb1682",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-eurus-70b-sft",
+    "url": "https://huggingface.co/openbmb/Eurus-70b-sft/resolve/0557982b57c428d68ba6dff3d91026c6f5ca99be/config.json",
+    "expected_sha256": "ce2fd5e4772ace71681de03e6bbb82a4defd361885ba7da6150726a6e081b45f",
+    "date_utc": "2026-09-26T01:24:17.070572+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/Eurus-70b-sft/0557982b57c428d68ba6dff3d91026c6f5ca99be/config.json?%2Fopenbmb%2FEurus-70b-sft%2Fresolve%2F0557982b57c428d68ba6dff3d91026c6f5ca99be%2Fconfig.json=&etag=%22c3a10796e437acbf69b7882b412a8c161efb0287%22",
+    "sha256": "ce2fd5e4772ace71681de03e6bbb82a4defd361885ba7da6150726a6e081b45f",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-eurus-7b-kto",
+    "url": "https://huggingface.co/openbmb/Eurus-7b-kto/resolve/c78e641e893595b9ac95fe1ba607e60252108dfb/config.json",
+    "expected_sha256": "f41fb7316fb8112dfe514fea195b2577d75e2088852b4749f5355891760bd082",
+    "date_utc": "2026-09-26T01:24:17.070960+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/Eurus-7b-kto/c78e641e893595b9ac95fe1ba607e60252108dfb/config.json?%2Fopenbmb%2FEurus-7b-kto%2Fresolve%2Fc78e641e893595b9ac95fe1ba607e60252108dfb%2Fconfig.json=&etag=%22df223afd39c291fa7f3bc816c4201f2c814b1dea%22",
+    "sha256": "f41fb7316fb8112dfe514fea195b2577d75e2088852b4749f5355891760bd082",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-eurus-7b-sft",
+    "url": "https://huggingface.co/openbmb/Eurus-7b-sft/resolve/5ad3d773784b5dcbe6b5b4921e531e072c5525b3/config.json",
+    "expected_sha256": "3aa03d78047480fd208648532019c4f24e9edd94510da7298f1544b18be05514",
+    "date_utc": "2026-09-26T01:24:17.072457+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/Eurus-7b-sft/5ad3d773784b5dcbe6b5b4921e531e072c5525b3/config.json?%2Fopenbmb%2FEurus-7b-sft%2Fresolve%2F5ad3d773784b5dcbe6b5b4921e531e072c5525b3%2Fconfig.json=&etag=%2274a402acc51751ed4891b87cc97c3ee9a308e3c5%22",
+    "sha256": "3aa03d78047480fd208648532019c4f24e9edd94510da7298f1544b18be05514",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-eurus-rm-7b",
+    "url": "https://huggingface.co/openbmb/Eurus-RM-7b/resolve/94059186e6ab8988905144023a8762f8e9aaf51c/config.json",
+    "expected_sha256": "1ffea64b065c9c65b243d6a07a8c9fe8accc2481d070fec7f58cc348f95e9f42",
+    "date_utc": "2026-09-26T01:24:17.075328+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/Eurus-RM-7b/94059186e6ab8988905144023a8762f8e9aaf51c/config.json?%2Fopenbmb%2FEurus-RM-7b%2Fresolve%2F94059186e6ab8988905144023a8762f8e9aaf51c%2Fconfig.json=&etag=%22add4e1246e64797029e617611b844827cd346f92%22",
+    "sha256": "1ffea64b065c9c65b243d6a07a8c9fe8accc2481d070fec7f58cc348f95e9f42",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-eurux-8x22b-kto",
+    "url": "https://huggingface.co/openbmb/Eurux-8x22b-kto/resolve/c3f157cdf4aa26efcbaed8f5c9721dc43c905d30/config.json",
+    "expected_sha256": "685b8be34830740b4dab4c4789ee0a47ffac714e736c3dafde3aa512e819ef77",
+    "date_utc": "2026-09-26T01:24:17.077900+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/Eurux-8x22b-kto/c3f157cdf4aa26efcbaed8f5c9721dc43c905d30/config.json?%2Fopenbmb%2FEurux-8x22b-kto%2Fresolve%2Fc3f157cdf4aa26efcbaed8f5c9721dc43c905d30%2Fconfig.json=&etag=%22e9285b77e31fa599c9bc90e9497f94db17ce2ef6%22",
+    "sha256": "685b8be34830740b4dab4c4789ee0a47ffac714e736c3dafde3aa512e819ef77",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-eurux-8x22b-nca",
+    "url": "https://huggingface.co/openbmb/Eurux-8x22b-nca/resolve/712abe8b36af51be006da624f4997203a0beb477/config.json",
+    "expected_sha256": "4a40b946ba17f42025f7ebf5f3a6249f0d1c8aac27e8ed8a88152bd52cbbe71a",
+    "date_utc": "2026-09-26T01:24:17.081398+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/Eurux-8x22b-nca/712abe8b36af51be006da624f4997203a0beb477/config.json?%2Fopenbmb%2FEurux-8x22b-nca%2Fresolve%2F712abe8b36af51be006da624f4997203a0beb477%2Fconfig.json=&etag=%22a57fef7b4e494dfe8f0c95b28f5b1029a27ab363%22",
+    "sha256": "4a40b946ba17f42025f7ebf5f3a6249f0d1c8aac27e8ed8a88152bd52cbbe71a",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-evisrag-3b",
+    "url": "https://huggingface.co/openbmb/EVisRAG-3B/resolve/4bdee6eb5021216b9e776b9c4bf6352a74ff7c64/config.json",
+    "expected_sha256": "a4738f1127fe1206cf6bda1e0f77f1f29624924face3bc123670688bb3738279",
+    "date_utc": "2026-09-26T01:24:17.083976+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/EVisRAG-3B/4bdee6eb5021216b9e776b9c4bf6352a74ff7c64/config.json?%2Fopenbmb%2FEVisRAG-3B%2Fresolve%2F4bdee6eb5021216b9e776b9c4bf6352a74ff7c64%2Fconfig.json=&etag=%2248d254520c8a8621f8f2a6542872dd29efa47ab3%22",
+    "sha256": "a4738f1127fe1206cf6bda1e0f77f1f29624924face3bc123670688bb3738279",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-evisrag-7b",
+    "url": "https://huggingface.co/openbmb/EVisRAG-7B/resolve/a3a1f46475270a5b1faff944c8eccf4f145d389e/config.json",
+    "expected_sha256": "341e4d2cd3b85bacb873da1e9d027049cb2d609354ceb7cc7af4e042023f2350",
+    "date_utc": "2026-09-26T01:24:17.086384+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/EVisRAG-7B/a3a1f46475270a5b1faff944c8eccf4f145d389e/config.json?%2Fopenbmb%2FEVisRAG-7B%2Fresolve%2Fa3a1f46475270a5b1faff944c8eccf4f145d389e%2Fconfig.json=&etag=%227b40aa6d121cf58e016c40a0847eb7ece2579ea1%22",
+    "sha256": "341e4d2cd3b85bacb873da1e9d027049cb2d609354ceb7cc7af4e042023f2350",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-mathform-8b",
+    "url": "https://huggingface.co/openbmb/MathForm-8B/resolve/8f6d09e66bd5821d985a2150ba3f09ba42e028ba/config.json",
+    "expected_sha256": "b7ac788d8ce1ceda9b03569810f6b51f2d3e2e313107fd8298769603bfc0fa4b",
+    "date_utc": "2026-09-26T01:24:17.086533+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MathForm-8B/8f6d09e66bd5821d985a2150ba3f09ba42e028ba/config.json?%2Fopenbmb%2FMathForm-8B%2Fresolve%2F8f6d09e66bd5821d985a2150ba3f09ba42e028ba%2Fconfig.json=&etag=%2208da495e94400ea6b5139ebeaaf5444d914746f6%22",
+    "sha256": "b7ac788d8ce1ceda9b03569810f6b51f2d3e2e313107fd8298769603bfc0fa4b",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-1b-sft-bf16",
+    "url": "https://huggingface.co/openbmb/MiniCPM-1B-sft-bf16/resolve/85252935bfc9acb3ee93dcea4b793fb87a0b43e8/config.json",
+    "expected_sha256": "edeafde474d7091260b30c2f6e267be0964525921687427259f1e9d8495e3547",
+    "date_utc": "2026-09-26T01:24:17.358936+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-1B-sft-bf16/85252935bfc9acb3ee93dcea4b793fb87a0b43e8/config.json?%2Fopenbmb%2FMiniCPM-1B-sft-bf16%2Fresolve%2F85252935bfc9acb3ee93dcea4b793fb87a0b43e8%2Fconfig.json=&etag=%22830cc91c3f980231c1d65f8ae2dddb2aec584007%22",
+    "sha256": "edeafde474d7091260b30c2f6e267be0964525921687427259f1e9d8495e3547",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-2b-128k",
+    "url": "https://huggingface.co/openbmb/MiniCPM-2B-128k/resolve/6011acb51acf3e8c0cb10c428d7064dc39431720/config.json",
+    "expected_sha256": "c72863af3a680c2866225dc681ffa44dab62ed500985e016ae57c5e64dd81d0e",
+    "date_utc": "2026-09-26T01:24:17.371200+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-2B-128k/6011acb51acf3e8c0cb10c428d7064dc39431720/config.json?%2Fopenbmb%2FMiniCPM-2B-128k%2Fresolve%2F6011acb51acf3e8c0cb10c428d7064dc39431720%2Fconfig.json=&etag=%22212d9a05470ddaca4a9e56c50436623c53683519%22",
+    "sha256": "c72863af3a680c2866225dc681ffa44dab62ed500985e016ae57c5e64dd81d0e",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-2b-dpo-bf16",
+    "url": "https://huggingface.co/openbmb/MiniCPM-2B-dpo-bf16/resolve/9d6de77274c9f364037bf8506b4a831d3520ae79/config.json",
+    "expected_sha256": "41cf26cfdca93f49209a6c0c26c00b281d6408e010ddc8cca9531c825cc17fc4",
+    "date_utc": "2026-09-26T01:24:17.374209+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-2B-dpo-bf16/9d6de77274c9f364037bf8506b4a831d3520ae79/config.json?%2Fopenbmb%2FMiniCPM-2B-dpo-bf16%2Fresolve%2F9d6de77274c9f364037bf8506b4a831d3520ae79%2Fconfig.json=&etag=%22eb4cdaf1cc094d4e184ddb7061a90a0f2a54f414%22",
+    "sha256": "41cf26cfdca93f49209a6c0c26c00b281d6408e010ddc8cca9531c825cc17fc4",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-2b-sft-bf16",
+    "url": "https://huggingface.co/openbmb/MiniCPM-2B-sft-bf16/resolve/4ec16344ac13e6ef5010aeecaa533369ac8eb53c/config.json",
+    "expected_sha256": "41cf26cfdca93f49209a6c0c26c00b281d6408e010ddc8cca9531c825cc17fc4",
+    "date_utc": "2026-09-26T01:24:17.377927+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-2B-sft-bf16/4ec16344ac13e6ef5010aeecaa533369ac8eb53c/config.json?%2Fopenbmb%2FMiniCPM-2B-sft-bf16%2Fresolve%2F4ec16344ac13e6ef5010aeecaa533369ac8eb53c%2Fconfig.json=&etag=%22eb4cdaf1cc094d4e184ddb7061a90a0f2a54f414%22",
+    "sha256": "41cf26cfdca93f49209a6c0c26c00b281d6408e010ddc8cca9531c825cc17fc4",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-4.1-8b-marlin",
+    "url": "https://huggingface.co/openbmb/MiniCPM-4.1-8B-Marlin/resolve/bc89322c880e83a5f3384adea564a45bf93b478d/config.json",
+    "expected_sha256": "0a908d9a13f0ca18308c7c068fa1c9d46a2beb84ad3bcb98381db572e5aca1ee",
+    "date_utc": "2026-09-26T01:24:17.385134+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM4.1-8B-Marlin/bc89322c880e83a5f3384adea564a45bf93b478d/config.json?%2Fopenbmb%2FMiniCPM4.1-8B-Marlin%2Fresolve%2Fbc89322c880e83a5f3384adea564a45bf93b478d%2Fconfig.json=&etag=%22e4c64bac4495f7193b53019f01ce4840a7d36c17%22",
+    "sha256": "0a908d9a13f0ca18308c7c068fa1c9d46a2beb84ad3bcb98381db572e5aca1ee",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-embedding",
+    "url": "https://huggingface.co/openbmb/MiniCPM-Embedding/resolve/dc0f82b4466b254dddc25787bf7b1cbc28f755b0/config.json",
+    "expected_sha256": "70f128a80d23dd04888ed012687cac709a0be94ace4c7d1e05cf393118aa81ba",
+    "date_utc": "2026-09-26T01:24:17.386425+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-Embedding/dc0f82b4466b254dddc25787bf7b1cbc28f755b0/config.json?%2Fopenbmb%2FMiniCPM-Embedding%2Fresolve%2Fdc0f82b4466b254dddc25787bf7b1cbc28f755b0%2Fconfig.json=&etag=%22a36b8abeed6f9ea2271c7784b6c63188827e7e5c%22",
+    "sha256": "70f128a80d23dd04888ed012687cac709a0be94ace4c7d1e05cf393118aa81ba",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-llama3-v-2_5",
+    "url": "https://huggingface.co/openbmb/MiniCPM-Llama3-V-2_5/resolve/fd7f352fac0e06d0d818b23f98e3ec8c64267a57/config.json",
+    "expected_sha256": "f1504a766a8fa69553d5d19e8ebd1d3c3c855221c776f3b3fb869ce403c157ed",
+    "date_utc": "2026-09-26T01:24:17.386514+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-Llama3-V-2_5/fd7f352fac0e06d0d818b23f98e3ec8c64267a57/config.json?%2Fopenbmb%2FMiniCPM-Llama3-V-2_5%2Fresolve%2Ffd7f352fac0e06d0d818b23f98e3ec8c64267a57%2Fconfig.json=&etag=%22a355c159024f238c9fa79293e3ad7604cb72bdcf%22",
+    "sha256": "f1504a766a8fa69553d5d19e8ebd1d3c3c855221c776f3b3fb869ce403c157ed",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-llama3-v-2_5-gguf",
+    "url": "https://huggingface.co/openbmb/MiniCPM-Llama3-V-2_5-gguf/resolve/d090fbfffeef9f01dfb282b3cf2b1e3360dfd29a/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:17.393237+00:00",
+    "author_gap": "HTTP Error 404: Not Found",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "model": "openbmb-minicpm-moe-8x2b",
+    "url": "https://huggingface.co/openbmb/MiniCPM-MoE-8x2B/resolve/7495286593bc56a524a42e26eeaee5e185cb7f9c/config.json",
+    "expected_sha256": "53b88ed7486134b3281d389bb5169b734861d7569f359327478e32677686acf9",
+    "date_utc": "2026-09-26T01:24:17.393417+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-MoE-8x2B/7495286593bc56a524a42e26eeaee5e185cb7f9c/config.json?%2Fopenbmb%2FMiniCPM-MoE-8x2B%2Fresolve%2F7495286593bc56a524a42e26eeaee5e185cb7f9c%2Fconfig.json=&etag=%228e6b77764db29e6fb931380265d92ea25f5fdd4f%22",
+    "sha256": "53b88ed7486134b3281d389bb5169b734861d7569f359327478e32677686acf9",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-o-2_6",
+    "url": "https://huggingface.co/openbmb/MiniCPM-o-2_6/resolve/06849bfd36da94da1f5a88fa17e8ba63f08a4c4d/config.json",
+    "expected_sha256": "917813ee571faf0447669b6b3549c8357c583141b5e4a8be1bcf9cc800a7c8cf",
+    "date_utc": "2026-09-26T01:24:17.393542+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-o-2_6/06849bfd36da94da1f5a88fa17e8ba63f08a4c4d/config.json?%2Fopenbmb%2FMiniCPM-o-2_6%2Fresolve%2F06849bfd36da94da1f5a88fa17e8ba63f08a4c4d%2Fconfig.json=&etag=%22546de104fe1529e192a8c4acb8c648ae1a485f1a%22",
+    "sha256": "917813ee571faf0447669b6b3549c8357c583141b5e4a8be1bcf9cc800a7c8cf",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-o-2_6-int4",
+    "url": "https://huggingface.co/openbmb/MiniCPM-o-2_6-int4/resolve/2b72b5775e2c4dd617bcfd088a146cfbd698ce71/config.json",
+    "expected_sha256": "6b126bd590987009358195a6c9658b8876099b6f3c214cb5fd0e8379584443d6",
+    "date_utc": "2026-09-26T01:24:17.660671+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-o-2_6-int4/2b72b5775e2c4dd617bcfd088a146cfbd698ce71/config.json?%2Fopenbmb%2FMiniCPM-o-2_6-int4%2Fresolve%2F2b72b5775e2c4dd617bcfd088a146cfbd698ce71%2Fconfig.json=&etag=%22a15fb4b733ca1c9963101df338de765b4f10bfe5%22",
+    "sha256": "6b126bd590987009358195a6c9658b8876099b6f3c214cb5fd0e8379584443d6",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-o-4.5-ascend-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM-o-4.5-ascend-FlagOS/resolve/60f1ded7a096349f5a44d36ad2f04068b457df24/config.json",
+    "expected_sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
+    "date_utc": "2026-09-26T01:24:17.674320+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/FlagRelease/MiniCPM-o-4.5-ascend-FlagOS/60f1ded7a096349f5a44d36ad2f04068b457df24/config.json?%2FFlagRelease%2FMiniCPM-o-4.5-ascend-FlagOS%2Fresolve%2F60f1ded7a096349f5a44d36ad2f04068b457df24%2Fconfig.json=&etag=%22e432e235513e707b58c4e2055b9d6dc94fc1b22d%22",
+    "sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-o-4.5-hygon-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM-o-4.5-hygon-FlagOS/resolve/a316655a110bfc6eeb03979d423c3927da2294d0/config.json",
+    "expected_sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
+    "date_utc": "2026-09-26T01:24:17.677348+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/FlagRelease/MiniCPM-o-4.5-hygon-FlagOS/a316655a110bfc6eeb03979d423c3927da2294d0/config.json?%2FFlagRelease%2FMiniCPM-o-4.5-hygon-FlagOS%2Fresolve%2Fa316655a110bfc6eeb03979d423c3927da2294d0%2Fconfig.json=&etag=%22e432e235513e707b58c4e2055b9d6dc94fc1b22d%22",
+    "sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-o-4.5-iluvatar-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM-o-4.5-iluvatar-FlagOS/resolve/947384ac0f72866735195abbd4ae5aeb59badcf4/config.json",
+    "expected_sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
+    "date_utc": "2026-09-26T01:24:17.677439+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/FlagRelease/MiniCPM-o-4.5-iluvatar-FlagOS/947384ac0f72866735195abbd4ae5aeb59badcf4/config.json?%2FFlagRelease%2FMiniCPM-o-4.5-iluvatar-FlagOS%2Fresolve%2F947384ac0f72866735195abbd4ae5aeb59badcf4%2Fconfig.json=&etag=%22e432e235513e707b58c4e2055b9d6dc94fc1b22d%22",
+    "sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-o-4.5-metax-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM-o-4.5-metax-FlagOS/resolve/ad47fc00d87baa857008f8da5e0cbf37a913dafb/config.json",
+    "expected_sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
+    "date_utc": "2026-09-26T01:24:17.683352+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/FlagRelease/MiniCPM-o-4.5-metax-FlagOS/ad47fc00d87baa857008f8da5e0cbf37a913dafb/config.json?%2FFlagRelease%2FMiniCPM-o-4.5-metax-FlagOS%2Fresolve%2Fad47fc00d87baa857008f8da5e0cbf37a913dafb%2Fconfig.json=&etag=%22e432e235513e707b58c4e2055b9d6dc94fc1b22d%22",
+    "sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-o-4.5-nvidia-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM-o-4.5-nvidia-FlagOS/resolve/675118b6892a5f7ebe78bad174430754c4b78e04/config.json",
+    "expected_sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
+    "date_utc": "2026-09-26T01:24:17.686083+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/FlagRelease/MiniCPM-o-4.5-nvidia-FlagOS/675118b6892a5f7ebe78bad174430754c4b78e04/config.json?%2FFlagRelease%2FMiniCPM-o-4.5-nvidia-FlagOS%2Fresolve%2F675118b6892a5f7ebe78bad174430754c4b78e04%2Fconfig.json=&etag=%22e432e235513e707b58c4e2055b9d6dc94fc1b22d%22",
+    "sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-o-4.5-zhenwu-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM-o-4.5-zhenwu-FlagOS/resolve/a05b8da0d6d335d0b28fcc3a5d28bda4b4574424/config.json",
+    "expected_sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
+    "date_utc": "2026-09-26T01:24:17.704456+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/FlagRelease/MiniCPM-o-4.5-zhenwu-FlagOS/a05b8da0d6d335d0b28fcc3a5d28bda4b4574424/config.json?%2FFlagRelease%2FMiniCPM-o-4.5-zhenwu-FlagOS%2Fresolve%2Fa05b8da0d6d335d0b28fcc3a5d28bda4b4574424%2Fconfig.json=&etag=%22e432e235513e707b58c4e2055b9d6dc94fc1b22d%22",
+    "sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-o-4_5",
+    "url": "https://huggingface.co/openbmb/MiniCPM-o-4_5/resolve/503e754207c94da6bb26850b4469f367c9ea3582/config.json",
+    "expected_sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
+    "date_utc": "2026-09-26T01:24:17.704560+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-o-4_5/503e754207c94da6bb26850b4469f367c9ea3582/config.json?%2Fopenbmb%2FMiniCPM-o-4_5%2Fresolve%2F503e754207c94da6bb26850b4469f367c9ea3582%2Fconfig.json=&etag=%22e432e235513e707b58c4e2055b9d6dc94fc1b22d%22",
+    "sha256": "b0c03cf9f0cfc1178ade50e4ba62727ca7a77aa6a6a71eda6668d8f289e96c1d",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-o-4_5-awq",
+    "url": "https://huggingface.co/openbmb/MiniCPM-o-4_5-AWQ/resolve/02b87bcf31b1e3bc66094a8f8eba2034605e5073/config.json",
+    "expected_sha256": "03a0f7b0cff70c55a8ab86b5febd5968ff003495909461d15d69ddcfb1b9ee53",
+    "date_utc": "2026-09-26T01:24:17.724249+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-o-4_5-awq/02b87bcf31b1e3bc66094a8f8eba2034605e5073/config.json?%2Fopenbmb%2FMiniCPM-o-4_5-awq%2Fresolve%2F02b87bcf31b1e3bc66094a8f8eba2034605e5073%2Fconfig.json=&etag=%22ff7bf2ec8aa36d70a75ba7031f28aa9b57087ef0%22",
+    "sha256": "03a0f7b0cff70c55a8ab86b5febd5968ff003495909461d15d69ddcfb1b9ee53",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-o-4_5-gguf",
+    "url": "https://huggingface.co/openbmb/MiniCPM-o-4_5-gguf/resolve/db25077c33951fe163b42986fba0132e279872a2/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:17.955414+00:00",
+    "author_gap": "HTTP Error 404: Not Found",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "model": "openbmb-minicpm-reranker",
+    "url": "https://huggingface.co/openbmb/MiniCPM-Reranker/resolve/dacfa5bfaa37de25dbfd6e80383bcb14863068c7/config.json",
+    "expected_sha256": "d7b37ffba4e2082a539624cacf4a63a32e5e48f1b4786971769c3376814d452e",
+    "date_utc": "2026-09-26T01:24:17.959199+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-Reranker/dacfa5bfaa37de25dbfd6e80383bcb14863068c7/config.json?%2Fopenbmb%2FMiniCPM-Reranker%2Fresolve%2Fdacfa5bfaa37de25dbfd6e80383bcb14863068c7%2Fconfig.json=&etag=%22b9aef0c54c15c3ef287b7e9f35b524d56c32161f%22",
+    "sha256": "d7b37ffba4e2082a539624cacf4a63a32e5e48f1b4786971769c3376814d452e",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-robotmanip",
+    "url": "https://huggingface.co/openbmb/MiniCPM-RobotManip/resolve/29cb257541e9f96f493abe21174f8892e5dffe3f/config.json",
+    "expected_sha256": "9fd8d0c167ff8e79939d3e5ad7b37dd0a6ef83a00ddea1d9f6d7be79959a19a4",
+    "date_utc": "2026-09-26T01:24:17.990008+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-RobotManip/29cb257541e9f96f493abe21174f8892e5dffe3f/config.json?%2Fopenbmb%2FMiniCPM-RobotManip%2Fresolve%2F29cb257541e9f96f493abe21174f8892e5dffe3f%2Fconfig.json=&etag=%22648c1d44fb8e4df2d435ece47b0899eb9ee4e6cd%22",
+    "sha256": "9fd8d0c167ff8e79939d3e5ad7b37dd0a6ef83a00ddea1d9f6d7be79959a19a4",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-robottrack",
+    "url": "https://huggingface.co/openbmb/MiniCPM-RobotTrack/resolve/80d32d0b091c3b340a1e4a6c78d441e8af19590e/config.json",
+    "expected_sha256": "5afa7d676c379adb9c934efb198c526ee6b87be01c2f533bcc500d36586530fc",
+    "date_utc": "2026-09-26T01:24:17.991459+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-RobotTrack/80d32d0b091c3b340a1e4a6c78d441e8af19590e/config.json?%2Fopenbmb%2FMiniCPM-RobotTrack%2Fresolve%2F80d32d0b091c3b340a1e4a6c78d441e8af19590e%2Fconfig.json=&etag=%22b736e0d9ca9579b96c92e7a573e95654f2f3c21a%22",
+    "sha256": "5afa7d676c379adb9c934efb198c526ee6b87be01c2f533bcc500d36586530fc",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-s-1b-sft",
+    "url": "https://huggingface.co/openbmb/MiniCPM-S-1B-sft/resolve/e46afa6f3d196527ab75e869184e27c833e8effb/config.json",
+    "expected_sha256": "f9569b79714c3ba485dced3a3e49107b867cc2fdfd3d2fba8b9e08f84460437e",
+    "date_utc": "2026-09-26T01:24:17.993454+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-S-1B-sft/e46afa6f3d196527ab75e869184e27c833e8effb/config.json?%2Fopenbmb%2FMiniCPM-S-1B-sft%2Fresolve%2Fe46afa6f3d196527ab75e869184e27c833e8effb%2Fconfig.json=&etag=%22a060e6a4649c813f660fda3b10abfc6eef8e43da%22",
+    "sha256": "f9569b79714c3ba485dced3a3e49107b867cc2fdfd3d2fba8b9e08f84460437e",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-sala",
+    "url": "https://huggingface.co/openbmb/MiniCPM-SALA/resolve/9180fe1db74f71fb81bc7105efe88f6b19c959b0/config.json",
+    "expected_sha256": "cd6d042c4d8d5e32f7809c366d209bb183704bc2917bec5f162f36fb7439955c",
+    "date_utc": "2026-09-26T01:24:18.014604+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-SALA/9180fe1db74f71fb81bc7105efe88f6b19c959b0/config.json?%2Fopenbmb%2FMiniCPM-SALA%2Fresolve%2F9180fe1db74f71fb81bc7105efe88f6b19c959b0%2Fconfig.json=&etag=%22f983285493857335e03ebb0a00e6e51e8aec8883%22",
+    "sha256": "cd6d042c4d8d5e32f7809c366d209bb183704bc2917bec5f162f36fb7439955c",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-v",
+    "url": "https://huggingface.co/openbmb/MiniCPM-V/resolve/7cf70e2964c456f423666e2c183bcd4c87f4fd4b/config.json",
+    "expected_sha256": "fe9cc38c5353712e252794aaa92da30c7d1e5c21ed0084a6cfa5292560a77bb8",
+    "date_utc": "2026-09-26T01:24:18.017257+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-V/7cf70e2964c456f423666e2c183bcd4c87f4fd4b/config.json?%2Fopenbmb%2FMiniCPM-V%2Fresolve%2F7cf70e2964c456f423666e2c183bcd4c87f4fd4b%2Fconfig.json=&etag=%22ab2fa1d3a811b0b66bca21c36bebc087025c65d5%22",
+    "sha256": "fe9cc38c5353712e252794aaa92da30c7d1e5c21ed0084a6cfa5292560a77bb8",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-v-2",
+    "url": "https://huggingface.co/openbmb/MiniCPM-V-2/resolve/b9a02dbfcc87e471b13f8d1c6963747db31427db/config.json",
+    "expected_sha256": "f5c70c71574501d3ec82506a83a92d0afe61fe5d62ddabcedb26e14b096edcc7",
+    "date_utc": "2026-09-26T01:24:18.150561+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-V-2/b9a02dbfcc87e471b13f8d1c6963747db31427db/config.json?%2Fopenbmb%2FMiniCPM-V-2%2Fresolve%2Fb9a02dbfcc87e471b13f8d1c6963747db31427db%2Fconfig.json=&etag=%2267915f317f52efbc6a318bf07d44f2e066424e0a%22",
+    "sha256": "f5c70c71574501d3ec82506a83a92d0afe61fe5d62ddabcedb26e14b096edcc7",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-v-2_6",
+    "url": "https://huggingface.co/openbmb/MiniCPM-V-2_6/resolve/6c04d9e3022bcff6e6738dfb1fc19a5cfd2a855f/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:18.157170+00:00",
+    "author_gap": "HTTP Error 401: Unauthorized",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 401: Unauthorized"
+  },
+  {
+    "model": "openbmb-minicpm-v-2_6-gguf",
+    "url": "https://huggingface.co/openbmb/MiniCPM-V-2_6-gguf/resolve/48fe6436abf57b3df6ec34f73cdc1fb4b740acb0/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:18.226622+00:00",
+    "author_gap": "HTTP Error 404: Not Found",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "model": "openbmb-minicpm-v-4",
+    "url": "https://huggingface.co/openbmb/MiniCPM-V-4/resolve/6f69a8235885be89608f3a71ffd40695b379e1e7/config.json",
+    "expected_sha256": "a83a83259378c2684a96ce3a6cb96d418a1d97f46118af3aff2ac1222fc783b8",
+    "date_utc": "2026-09-26T01:24:18.257742+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-V-4/6f69a8235885be89608f3a71ffd40695b379e1e7/config.json?%2Fopenbmb%2FMiniCPM-V-4%2Fresolve%2F6f69a8235885be89608f3a71ffd40695b379e1e7%2Fconfig.json=&etag=%22be2bdfedbbe7b66bea9e91ce1963d2bc78bf600f%22",
+    "sha256": "a83a83259378c2684a96ce3a6cb96d418a1d97f46118af3aff2ac1222fc783b8",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-v-4.6",
+    "url": "https://huggingface.co/openbmb/MiniCPM-V-4.6/resolve/36f34a661a4bd35d0dc2294cb044d2584646c7d3/config.json",
+    "expected_sha256": "72d83ac9089bebddf28131b9953908acaf0a5740b868263c8aaac7c40b97991c",
+    "date_utc": "2026-09-26T01:24:18.295637+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-V-4.6/36f34a661a4bd35d0dc2294cb044d2584646c7d3/config.json?%2Fopenbmb%2FMiniCPM-V-4.6%2Fresolve%2F36f34a661a4bd35d0dc2294cb044d2584646c7d3%2Fconfig.json=&etag=%22dbe7f74b10746936eb2637ba14f5bf5515b5721c%22",
+    "sha256": "72d83ac9089bebddf28131b9953908acaf0a5740b868263c8aaac7c40b97991c",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-v-4.6-awq",
+    "url": "https://huggingface.co/openbmb/MiniCPM-V-4.6-AWQ/resolve/dc74581a19b97137efe87eb2100554cb65bf98c6/config.json",
+    "expected_sha256": "318bff17cf5894aab555f4a54b7ca972ac8520d7371432ef5a957020784351e7",
+    "date_utc": "2026-09-26T01:24:18.295792+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-V-4.6-AWQ/dc74581a19b97137efe87eb2100554cb65bf98c6/config.json?%2Fopenbmb%2FMiniCPM-V-4.6-AWQ%2Fresolve%2Fdc74581a19b97137efe87eb2100554cb65bf98c6%2Fconfig.json=&etag=%227510fa9ed253b8760007896b735d52f82850784c%22",
+    "sha256": "318bff17cf5894aab555f4a54b7ca972ac8520d7371432ef5a957020784351e7",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-v-4.6-bnb",
+    "url": "https://huggingface.co/openbmb/MiniCPM-V-4.6-BNB/resolve/45686b6d347a3976e63911b1f168f4e420b9c992/config.json",
+    "expected_sha256": "5bafa5bbaac69ab26259e8677bfc5d7d5aa8fb3916dff2b5f3e72516afc9d662",
+    "date_utc": "2026-09-26T01:24:18.299879+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-V-4.6-BNB/45686b6d347a3976e63911b1f168f4e420b9c992/config.json?%2Fopenbmb%2FMiniCPM-V-4.6-BNB%2Fresolve%2F45686b6d347a3976e63911b1f168f4e420b9c992%2Fconfig.json=&etag=%22f454ad87209d8b4aa233e8b279604c6d4dcb2c01%22",
+    "sha256": "5bafa5bbaac69ab26259e8677bfc5d7d5aa8fb3916dff2b5f3e72516afc9d662",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-v-4.6-gguf",
+    "url": "https://huggingface.co/openbmb/MiniCPM-V-4.6-gguf/resolve/afe9accb78d2995d214cd912920c9c92f4015faa/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:18.312197+00:00",
+    "author_gap": "HTTP Error 404: Not Found",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "model": "openbmb-minicpm-v-4.6-gptq",
+    "url": "https://huggingface.co/openbmb/MiniCPM-V-4.6-GPTQ/resolve/6c2a8a85939f622b2e9e9fe63b109cdfcda3174b/config.json",
+    "expected_sha256": "d625bed0cfb8d0ef13a69476b8a7cb5e9a0d652804a072dd6235f8525a76e575",
+    "date_utc": "2026-09-26T01:24:18.324418+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-V-4.6-GPTQ/6c2a8a85939f622b2e9e9fe63b109cdfcda3174b/config.json?%2Fopenbmb%2FMiniCPM-V-4.6-GPTQ%2Fresolve%2F6c2a8a85939f622b2e9e9fe63b109cdfcda3174b%2Fconfig.json=&etag=%22dfb6fad3771c445ccb45da32fce5f0ee7707cb17%22",
+    "sha256": "d625bed0cfb8d0ef13a69476b8a7cb5e9a0d652804a072dd6235f8525a76e575",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-v-4.6-thinking",
+    "url": "https://huggingface.co/openbmb/MiniCPM-V-4.6-Thinking/resolve/93d8f4b60ad5d1f763442cf4c19f2a71fa95af4a/config.json",
+    "expected_sha256": "72d83ac9089bebddf28131b9953908acaf0a5740b868263c8aaac7c40b97991c",
+    "date_utc": "2026-09-26T01:24:18.324640+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-V-4.6-Thinking/93d8f4b60ad5d1f763442cf4c19f2a71fa95af4a/config.json?%2Fopenbmb%2FMiniCPM-V-4.6-Thinking%2Fresolve%2F93d8f4b60ad5d1f763442cf4c19f2a71fa95af4a%2Fconfig.json=&etag=%22dbe7f74b10746936eb2637ba14f5bf5515b5721c%22",
+    "sha256": "72d83ac9089bebddf28131b9953908acaf0a5740b868263c8aaac7c40b97991c",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-v-4.6-thinking-awq",
+    "url": "https://huggingface.co/openbmb/MiniCPM-V-4.6-Thinking-AWQ/resolve/a834719ab52513b2807a326d9f22caf60020ba14/config.json",
+    "expected_sha256": "318bff17cf5894aab555f4a54b7ca972ac8520d7371432ef5a957020784351e7",
+    "date_utc": "2026-09-26T01:24:18.426685+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-V-4.6-Thinking-AWQ/a834719ab52513b2807a326d9f22caf60020ba14/config.json?%2Fopenbmb%2FMiniCPM-V-4.6-Thinking-AWQ%2Fresolve%2Fa834719ab52513b2807a326d9f22caf60020ba14%2Fconfig.json=&etag=%227510fa9ed253b8760007896b735d52f82850784c%22",
+    "sha256": "318bff17cf5894aab555f4a54b7ca972ac8520d7371432ef5a957020784351e7",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-v-4.6-thinking-bnb",
+    "url": "https://huggingface.co/openbmb/MiniCPM-V-4.6-Thinking-BNB/resolve/cac569d6b60a18bd581f6d42a3ca0b1f77c49ac1/config.json",
+    "expected_sha256": "5bafa5bbaac69ab26259e8677bfc5d7d5aa8fb3916dff2b5f3e72516afc9d662",
+    "date_utc": "2026-09-26T01:24:18.473396+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-V-4.6-Thinking-BNB/cac569d6b60a18bd581f6d42a3ca0b1f77c49ac1/config.json?%2Fopenbmb%2FMiniCPM-V-4.6-Thinking-BNB%2Fresolve%2Fcac569d6b60a18bd581f6d42a3ca0b1f77c49ac1%2Fconfig.json=&etag=%22f454ad87209d8b4aa233e8b279604c6d4dcb2c01%22",
+    "sha256": "5bafa5bbaac69ab26259e8677bfc5d7d5aa8fb3916dff2b5f3e72516afc9d662",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-v-4.6-thinking-gguf",
+    "url": "https://huggingface.co/openbmb/MiniCPM-V-4.6-Thinking-gguf/resolve/2e49fbd34ad9df11f0e93c93c2c5a80ba7cdc5e5/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:18.498550+00:00",
+    "author_gap": "HTTP Error 404: Not Found",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "model": "openbmb-minicpm-v-4.6-thinking-gptq",
+    "url": "https://huggingface.co/openbmb/MiniCPM-V-4.6-Thinking-GPTQ/resolve/f630c82da4f09f62549da0240178ed9e61414be1/config.json",
+    "expected_sha256": "d625bed0cfb8d0ef13a69476b8a7cb5e9a0d652804a072dd6235f8525a76e575",
+    "date_utc": "2026-09-26T01:24:18.566828+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-V-4.6-Thinking-GPTQ/f630c82da4f09f62549da0240178ed9e61414be1/config.json?%2Fopenbmb%2FMiniCPM-V-4.6-Thinking-GPTQ%2Fresolve%2Ff630c82da4f09f62549da0240178ed9e61414be1%2Fconfig.json=&etag=%22dfb6fad3771c445ccb45da32fce5f0ee7707cb17%22",
+    "sha256": "d625bed0cfb8d0ef13a69476b8a7cb5e9a0d652804a072dd6235f8525a76e575",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm-v-4_5",
+    "url": "https://huggingface.co/openbmb/MiniCPM-V-4_5/resolve/daef484c35ec93210ec93c5e901f8f3e9b78ee34/config.json",
+    "expected_sha256": "1d6f6eb441da34dcb43db72cf3960254c7045cc2c595a3c836ae71136655ccc8",
+    "date_utc": "2026-09-26T01:24:18.580383+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM-V-4_5/daef484c35ec93210ec93c5e901f8f3e9b78ee34/config.json?%2Fopenbmb%2FMiniCPM-V-4_5%2Fresolve%2Fdaef484c35ec93210ec93c5e901f8f3e9b78ee34%2Fconfig.json=&etag=%22126378bbec97e713ebbb7d2bb2b389543107fff1%22",
+    "sha256": "1d6f6eb441da34dcb43db72cf3960254c7045cc2c595a3c836ae71136655ccc8",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm3-4b",
+    "url": "https://huggingface.co/openbmb/MiniCPM3-4B/resolve/d6b14ddaefdb11c624dd75c3c779549bc90b08cb/config.json",
+    "expected_sha256": "cf1d08cb7c1815c676e685bd6ce94eb8b85a57d53871e6e159ee8c650717d98a",
+    "date_utc": "2026-09-26T01:24:18.592046+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM3-4B/d6b14ddaefdb11c624dd75c3c779549bc90b08cb/config.json?%2Fopenbmb%2FMiniCPM3-4B%2Fresolve%2Fd6b14ddaefdb11c624dd75c3c779549bc90b08cb%2Fconfig.json=&etag=%220cbcb9380adcb74ab93053763e44b567bec0a36d%22",
+    "sha256": "cf1d08cb7c1815c676e685bd6ce94eb8b85a57d53871e6e159ee8c650717d98a",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm3-rag-lora",
+    "url": "https://huggingface.co/openbmb/MiniCPM3-RAG-LoRA/resolve/3ee34a2c7b518f2d9be23d7138a7d29300b240f8/config.json",
+    "expected_sha256": "98bd5067f00e5d4ee92df95f8d3abf18cdcc7ad054add029ead508e2d82bc60d",
+    "date_utc": "2026-09-26T01:24:18.594538+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM3-RAG-LoRA/3ee34a2c7b518f2d9be23d7138a7d29300b240f8/config.json?%2Fopenbmb%2FMiniCPM3-RAG-LoRA%2Fresolve%2F3ee34a2c7b518f2d9be23d7138a7d29300b240f8%2Fconfig.json=&etag=%2251a7f2a397fdd0dd98fe21c23a780b83b6b560ef%22",
+    "sha256": "98bd5067f00e5d4ee92df95f8d3abf18cdcc7ad054add029ead508e2d82bc60d",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm4-0.5b",
+    "url": "https://huggingface.co/openbmb/MiniCPM4-0.5B/resolve/5253c7fcc5e29e1cf3eacb59a58adf1ba4df8630/config.json",
+    "expected_sha256": "610c5b519420a3633ec4950c15a26d83ad0e9be35ef9d00a9e3d2b621b325f72",
+    "date_utc": "2026-09-26T01:24:18.626438+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM4-0.5B/5253c7fcc5e29e1cf3eacb59a58adf1ba4df8630/config.json?%2Fopenbmb%2FMiniCPM4-0.5B%2Fresolve%2F5253c7fcc5e29e1cf3eacb59a58adf1ba4df8630%2Fconfig.json=&etag=%22ef0ad7131d32574c5127b0061d37039dcbf7a792%22",
+    "sha256": "610c5b519420a3633ec4950c15a26d83ad0e9be35ef9d00a9e3d2b621b325f72",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm4-0.5b-qat-int4-gptq-format",
+    "url": "https://huggingface.co/openbmb/MiniCPM4-0.5B-QAT-Int4-GPTQ-format/resolve/0ef558cbe6ab9fd283667775a88784221b46c54f/config.json",
+    "expected_sha256": "d587d43ff3c14e2623058d253ad7c08e6642fae43a48456100310235f401893b",
+    "date_utc": "2026-09-26T01:24:18.638564+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM4-0.5B-QAT-Int4-GPTQ-format/0ef558cbe6ab9fd283667775a88784221b46c54f/config.json?%2Fopenbmb%2FMiniCPM4-0.5B-QAT-Int4-GPTQ-format%2Fresolve%2F0ef558cbe6ab9fd283667775a88784221b46c54f%2Fconfig.json=&etag=%22ed94d26e236e99e28f49917feaa16dd04a9d5b1e%22",
+    "sha256": "d587d43ff3c14e2623058d253ad7c08e6642fae43a48456100310235f401893b",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm4-0.5b-qat-int4-unquantized",
+    "url": "https://huggingface.co/openbmb/MiniCPM4-0.5B-QAT-Int4-unquantized/resolve/1f3f7174511b956f674bced41064a3b1b792e9cc/config.json",
+    "expected_sha256": "b00e71ca9f48840a06f778d232efe8c1d944f4070e47b1991c2c1689fc8711f3",
+    "date_utc": "2026-09-26T01:24:18.677342+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM4-0.5B-QAT-Int4-unquantized/1f3f7174511b956f674bced41064a3b1b792e9cc/config.json?%2Fopenbmb%2FMiniCPM4-0.5B-QAT-Int4-unquantized%2Fresolve%2F1f3f7174511b956f674bced41064a3b1b792e9cc%2Fconfig.json=&etag=%22a9cdc2894ac5546735935230b097f629d3d44aa1%22",
+    "sha256": "b00e71ca9f48840a06f778d232efe8c1d944f4070e47b1991c2c1689fc8711f3",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm4-8b",
+    "url": "https://huggingface.co/openbmb/MiniCPM4-8B/resolve/bb2ae14cf59d4ca769c4e42ece54cc3b82a58ef7/config.json",
+    "expected_sha256": "783a765d0ec9a3319316aa03809ec5d60a73673b45e3a830585535c6c9b1b87d",
+    "date_utc": "2026-09-26T01:24:18.770893+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM4-8B/bb2ae14cf59d4ca769c4e42ece54cc3b82a58ef7/config.json?%2Fopenbmb%2FMiniCPM4-8B%2Fresolve%2Fbb2ae14cf59d4ca769c4e42ece54cc3b82a58ef7%2Fconfig.json=&etag=%226eaa351f569f165ba2d19e8263a32d0339f62f3b%22",
+    "sha256": "783a765d0ec9a3319316aa03809ec5d60a73673b45e3a830585535c6c9b1b87d",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm4-8b-eagle-frspec",
+    "url": "https://huggingface.co/openbmb/MiniCPM4-8B-Eagle-FRSpec/resolve/1182e40bed9b634529181ac6f19cd225757480f3/config.json",
+    "expected_sha256": "837aee1b7f37a96c02b63e615d48e405e73b3ce98784579ea0e7a4ad28951458",
+    "date_utc": "2026-09-26T01:24:18.842554+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM4-8B-Eagle-FRSpec/1182e40bed9b634529181ac6f19cd225757480f3/config.json?%2Fopenbmb%2FMiniCPM4-8B-Eagle-FRSpec%2Fresolve%2F1182e40bed9b634529181ac6f19cd225757480f3%2Fconfig.json=&etag=%22a59ad9fb1ebeb3bdce59ce75bdd395033279c7fc%22",
+    "sha256": "837aee1b7f37a96c02b63e615d48e405e73b3ce98784579ea0e7a4ad28951458",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm4-8b-eagle-frspec-qat",
+    "url": "https://huggingface.co/openbmb/MiniCPM4-8B-Eagle-FRSpec-QAT/resolve/259b5380f7900676b232d5dad57fe7c78c888c96/config.json",
+    "expected_sha256": "143211ac83d3cfd3cd2cd2417c264c4711aea630860e5863cbf988167b80f06d",
+    "date_utc": "2026-09-26T01:24:18.875824+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM4-8B-Eagle-FRSpec-QAT-cpmcu/259b5380f7900676b232d5dad57fe7c78c888c96/config.json?%2Fopenbmb%2FMiniCPM4-8B-Eagle-FRSpec-QAT-cpmcu%2Fresolve%2F259b5380f7900676b232d5dad57fe7c78c888c96%2Fconfig.json=&etag=%22e618221e9dcfce21079050b1d8704c6c960d6bc8%22",
+    "sha256": "143211ac83d3cfd3cd2cd2417c264c4711aea630860e5863cbf988167b80f06d",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm4-8b-eagle-vllm",
+    "url": "https://huggingface.co/openbmb/MiniCPM4-8B-Eagle-vLLM/resolve/25c4c5557d8e29190df542465e2322a4243c9215/config.json",
+    "expected_sha256": "9e8f6ca846aa48b944d2e5024427c8e1c11e861ef3b50d3efec15d27a4fd8d9a",
+    "date_utc": "2026-09-26T01:24:18.876578+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM4-8B-Eagle-vLLM/25c4c5557d8e29190df542465e2322a4243c9215/config.json?%2Fopenbmb%2FMiniCPM4-8B-Eagle-vLLM%2Fresolve%2F25c4c5557d8e29190df542465e2322a4243c9215%2Fconfig.json=&etag=%22cea1051985cd891cbc8d989bc88d179f5dc66d16%22",
+    "sha256": "9e8f6ca846aa48b944d2e5024427c8e1c11e861ef3b50d3efec15d27a4fd8d9a",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm4-8b-marlin-eagle-vllm",
+    "url": "https://huggingface.co/openbmb/MiniCPM4-8B-marlin-Eagle-vLLM/resolve/1fba9a86b2ab90e23e526bf9947781dd22b81838/config.json",
+    "expected_sha256": "eedb6813ebc7906f42717e8e4aff00ed378ad21024e40d62e0dfd0070ca952ef",
+    "date_utc": "2026-09-26T01:24:18.884705+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM4-8B-marlin-Eagle-vLLM/1fba9a86b2ab90e23e526bf9947781dd22b81838/config.json?%2Fopenbmb%2FMiniCPM4-8B-marlin-Eagle-vLLM%2Fresolve%2F1fba9a86b2ab90e23e526bf9947781dd22b81838%2Fconfig.json=&etag=%229e87b9c5647453ec92b9a0f4cd63901baa284c73%22",
+    "sha256": "eedb6813ebc7906f42717e8e4aff00ed378ad21024e40d62e0dfd0070ca952ef",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm4-mcp",
+    "url": "https://huggingface.co/openbmb/MiniCPM4-MCP/resolve/a86a48b5b6af17ef98b7234a3a0edd1ebbe6e63e/config.json",
+    "expected_sha256": "a2340eecb7314bcc7eb3624f50d04ee920a6d11e54282707f04cb2210f229f52",
+    "date_utc": "2026-09-26T01:24:18.901450+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM4-MCP/a86a48b5b6af17ef98b7234a3a0edd1ebbe6e63e/config.json?%2Fopenbmb%2FMiniCPM4-MCP%2Fresolve%2Fa86a48b5b6af17ef98b7234a3a0edd1ebbe6e63e%2Fconfig.json=&etag=%2284bca731e14bad4e78b8084be80b98f74646e29c%22",
+    "sha256": "a2340eecb7314bcc7eb3624f50d04ee920a6d11e54282707f04cb2210f229f52",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm4-survey",
+    "url": "https://huggingface.co/openbmb/MiniCPM4-Survey/resolve/adfe3fbbc702feedc24f98d6fa9417549193c8f4/config.json",
+    "expected_sha256": "edda037080059c0dfa7d7bb8b57dc40a92d68ba6c93eb1928c5752e74a67f284",
+    "date_utc": "2026-09-26T01:24:18.934121+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM4-Survey/adfe3fbbc702feedc24f98d6fa9417549193c8f4/config.json?%2Fopenbmb%2FMiniCPM4-Survey%2Fresolve%2Fadfe3fbbc702feedc24f98d6fa9417549193c8f4%2Fconfig.json=&etag=%22f42ba5ef9ebe65f7a71ff5816300c801ec616581%22",
+    "sha256": "edda037080059c0dfa7d7bb8b57dc40a92d68ba6c93eb1928c5752e74a67f284",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm4.1-8b",
+    "url": "https://huggingface.co/openbmb/MiniCPM4.1-8B/resolve/3a8dfed9c79a45e07dbff95bcd49d792343fa1a3/config.json",
+    "expected_sha256": "2e6184e20da805d284b0ebba0bf5cf55bb561c6f333b66119fd2cc3f45a7ba15",
+    "date_utc": "2026-09-26T01:24:18.948109+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM4.1-8B/3a8dfed9c79a45e07dbff95bcd49d792343fa1a3/config.json?%2Fopenbmb%2FMiniCPM4.1-8B%2Fresolve%2F3a8dfed9c79a45e07dbff95bcd49d792343fa1a3%2Fconfig.json=&etag=%22097029a36e63c14736d12a197f4eb1431d3c3aea%22",
+    "sha256": "2e6184e20da805d284b0ebba0bf5cf55bb561c6f333b66119fd2cc3f45a7ba15",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm4.1-8b-autoawq",
+    "url": "https://huggingface.co/openbmb/MiniCPM4.1-8B-AutoAWQ/resolve/e199301c6d61e204686836ff6a49643b70c92648/config.json",
+    "expected_sha256": "76d2cf1699fb4177be7dcc474bd4be496cb9600d2c8ced8980d7e00e033b3f9c",
+    "date_utc": "2026-09-26T01:24:18.973300+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM4.1-8B-AutoAWQ/e199301c6d61e204686836ff6a49643b70c92648/config.json?%2Fopenbmb%2FMiniCPM4.1-8B-AutoAWQ%2Fresolve%2Fe199301c6d61e204686836ff6a49643b70c92648%2Fconfig.json=&etag=%22491920af34863b0a67d986853dfd7ea06b041cbc%22",
+    "sha256": "76d2cf1699fb4177be7dcc474bd4be496cb9600d2c8ced8980d7e00e033b3f9c",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm4.1-8b-eagle3",
+    "url": "https://huggingface.co/openbmb/MiniCPM4.1-8B-Eagle3/resolve/78689e7a50de89baab0c146f3b012267df70b5f2/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:18.979837+00:00",
+    "author_gap": "HTTP Error 404: Not Found",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "model": "openbmb-minicpm4.1-8b-gguf",
+    "url": "https://huggingface.co/openbmb/MiniCPM4.1-8B-GGUF/resolve/ebb834d0ad9acfa98bd16bc963ec51be5f7e08c1/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:19.075566+00:00",
+    "author_gap": "HTTP Error 404: Not Found",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "model": "openbmb-minicpm4.1-8b-gptq",
+    "url": "https://huggingface.co/openbmb/MiniCPM4.1-8B-GPTQ/resolve/36f81959ee46f444996a5c46ffab833d92c85c38/config.json",
+    "expected_sha256": "17a4a5faf494b6866faf9b3c2ddcd044ee1795158e8702b7cef14b1db02b00f2",
+    "date_utc": "2026-09-26T01:24:19.160325+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM4.1-8B-GPTQ/36f81959ee46f444996a5c46ffab833d92c85c38/config.json?%2Fopenbmb%2FMiniCPM4.1-8B-GPTQ%2Fresolve%2F36f81959ee46f444996a5c46ffab833d92c85c38%2Fconfig.json=&etag=%224863c058ded68abda55ff32d92f2bc79ef46d3db%22",
+    "sha256": "17a4a5faf494b6866faf9b3c2ddcd044ee1795158e8702b7cef14b1db02b00f2",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm4.1-8b-mlx",
+    "url": "https://huggingface.co/openbmb/MiniCPM4.1-8B-MLX/resolve/772a5c9a15156137cf8fac0b4a2609f809c91aab/config.json",
+    "expected_sha256": "bd206d697d3488335e5e96f940f20a55cc6de102a11c098e2f8b4038921c638d",
+    "date_utc": "2026-09-26T01:24:19.180273+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM4.1-8B-MLX/772a5c9a15156137cf8fac0b4a2609f809c91aab/config.json?%2Fopenbmb%2FMiniCPM4.1-8B-MLX%2Fresolve%2F772a5c9a15156137cf8fac0b4a2609f809c91aab%2Fconfig.json=&etag=%2268d2733d665f73e1c95da67b31b5e46bc9c73eac%22",
+    "sha256": "bd206d697d3488335e5e96f940f20a55cc6de102a11c098e2f8b4038921c638d",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm5-1b",
+    "url": "https://huggingface.co/openbmb/MiniCPM5-1B/resolve/87179e5c1f455ef22e6223592d2d61351b525bfc/config.json",
+    "expected_sha256": "6a6509b646cb3169616c5ffc3196e7ccaf9d4d6bc17b266581d241a31c217714",
+    "date_utc": "2026-09-26T01:24:19.210156+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM5-1B/87179e5c1f455ef22e6223592d2d61351b525bfc/config.json?%2Fopenbmb%2FMiniCPM5-1B%2Fresolve%2F87179e5c1f455ef22e6223592d2d61351b525bfc%2Fconfig.json=&etag=%22e088beb7e7343bc5620ecd7618cebd255516879b%22",
+    "sha256": "6a6509b646cb3169616c5ffc3196e7ccaf9d4d6bc17b266581d241a31c217714",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm5-1b-base",
+    "url": "https://huggingface.co/openbmb/MiniCPM5-1B-Base/resolve/156170697656c48f69915b33a2fb44110242187c/config.json",
+    "expected_sha256": "f6a54013efd621f26dbe94f7258445bfbf587cd323b5f6f2411d22dcecc4ef7d",
+    "date_utc": "2026-09-26T01:24:19.225973+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM5-1B-Base/156170697656c48f69915b33a2fb44110242187c/config.json?%2Fopenbmb%2FMiniCPM5-1B-Base%2Fresolve%2F156170697656c48f69915b33a2fb44110242187c%2Fconfig.json=&etag=%22a9b711c0092a51920f7801d5a616137f4e31282d%22",
+    "sha256": "f6a54013efd621f26dbe94f7258445bfbf587cd323b5f6f2411d22dcecc4ef7d",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm5-1b-gguf",
+    "url": "https://huggingface.co/openbmb/MiniCPM5-1B-GGUF/resolve/3d55fac80935ae6456986ad2384b5cbcc4d6c948/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:19.237678+00:00",
+    "author_gap": "HTTP Error 404: Not Found",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "model": "openbmb-minicpm5-1b-mlx",
+    "url": "https://huggingface.co/openbmb/MiniCPM5-1B-MLX/resolve/9879b18bf2928355fcdf4287635388a3665a40cb/config.json",
+    "expected_sha256": "b579f8c12b692af13bb90402c704c3a235d183c0410b37537447c17975a8ddcc",
+    "date_utc": "2026-09-26T01:24:19.255557+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM5-1B-MLX/9879b18bf2928355fcdf4287635388a3665a40cb/config.json?%2Fopenbmb%2FMiniCPM5-1B-MLX%2Fresolve%2F9879b18bf2928355fcdf4287635388a3665a40cb%2Fconfig.json=&etag=%227e4e6a9db216ccb5afa13ba5c9b8bbc2856f75a6%22",
+    "sha256": "b579f8c12b692af13bb90402c704c3a235d183c0410b37537447c17975a8ddcc",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm5-1b-sft",
+    "url": "https://huggingface.co/openbmb/MiniCPM5-1B-SFT/resolve/a60b37f1fc409c54e1e337b0723aaac6f92dfec0/config.json",
+    "expected_sha256": "2c129d79de518fd7ba22df4f14a2f8b737157e385dd4c2f8cdbe1c8dec4e0091",
+    "date_utc": "2026-09-26T01:24:19.273869+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM5-1B-SFT/a60b37f1fc409c54e1e337b0723aaac6f92dfec0/config.json?%2Fopenbmb%2FMiniCPM5-1B-SFT%2Fresolve%2Fa60b37f1fc409c54e1e337b0723aaac6f92dfec0%2Fconfig.json=&etag=%22c0d6b2170c5c6a6e7d515835b6d81036722dc2aa%22",
+    "sha256": "2c129d79de518fd7ba22df4f14a2f8b737157e385dd4c2f8cdbe1c8dec4e0091",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm5-2b",
+    "url": "https://huggingface.co/openbmb/MiniCPM5-2B/resolve/12a3808a956f869c767195e9266b59c4d21d92e2/config.json",
+    "expected_sha256": "59613157e5357d62bcb121e04cb90f2170b43d789b142380c12c3d4277d95180",
+    "date_utc": "2026-09-26T01:24:19.278063+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM5-2B/12a3808a956f869c767195e9266b59c4d21d92e2/config.json?%2Fopenbmb%2FMiniCPM5-2B%2Fresolve%2F12a3808a956f869c767195e9266b59c4d21d92e2%2Fconfig.json=&etag=%229860d7132a243c1c9ce58e39a2704c3f52ad6ea1%22",
+    "sha256": "59613157e5357d62bcb121e04cb90f2170b43d789b142380c12c3d4277d95180",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm5-2b-armv9-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM5-2B-Armv9-FlagOS/resolve/main/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:19.346913+00:00",
+    "author_gap": "HTTP Error 401: Unauthorized",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 401: Unauthorized"
+  },
+  {
+    "model": "openbmb-minicpm5-2b-ascend-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM5-2B-ascend-FlagOS/resolve/main/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:19.443540+00:00",
+    "author_gap": "HTTP Error 401: Unauthorized",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 401: Unauthorized"
+  },
+  {
+    "model": "openbmb-minicpm5-2b-base",
+    "url": "https://huggingface.co/openbmb/MiniCPM5-2B-Base/resolve/96a57cd572a02506b4500f54427dca24970c1bac/config.json",
+    "expected_sha256": "19dbdc2f9ba75b336f94975f598db920819045faddd77ca2b5a7260eda95bfbe",
+    "date_utc": "2026-09-26T01:24:19.464268+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM5-2B-Base/96a57cd572a02506b4500f54427dca24970c1bac/config.json?%2Fopenbmb%2FMiniCPM5-2B-Base%2Fresolve%2F96a57cd572a02506b4500f54427dca24970c1bac%2Fconfig.json=&etag=%221d903b4a8f8e6c4642b643a0fa309e12a8330782%22",
+    "sha256": "19dbdc2f9ba75b336f94975f598db920819045faddd77ca2b5a7260eda95bfbe",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm5-2b-dspark",
+    "url": "https://huggingface.co/openbmb/MiniCPM5-2B-DSpark/resolve/114a20fdbf53220712c7fbdd7dccddbf1dedebb4/config.json",
+    "expected_sha256": "bfbcab77ce2b466928deeb23109e7ff7738639c499d45f2c15941743b475d14b",
+    "date_utc": "2026-09-26T01:24:19.468581+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM5-2B-DSpark/114a20fdbf53220712c7fbdd7dccddbf1dedebb4/config.json?%2Fopenbmb%2FMiniCPM5-2B-DSpark%2Fresolve%2F114a20fdbf53220712c7fbdd7dccddbf1dedebb4%2Fconfig.json=&etag=%225f2d826e2d137bc3e77a4b0263a9ce7942cd1018%22",
+    "sha256": "bfbcab77ce2b466928deeb23109e7ff7738639c499d45f2c15941743b475d14b",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm5-2b-gguf",
+    "url": "https://huggingface.co/openbmb/MiniCPM5-2B-GGUF/resolve/2079a22f3beaa4e306449978533478fe0522f4b3/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:19.506467+00:00",
+    "author_gap": "HTTP Error 404: Not Found",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "model": "openbmb-minicpm5-2b-gptq",
+    "url": "https://huggingface.co/openbmb/MiniCPM5-2B-GPTQ/resolve/48d57c14fba6b1f86109e1a54fafb0848c163f04/config.json",
+    "expected_sha256": "581f0497d90e2ed2a989b821aa610de586bd5a7989e7dff32e1c463597f2de9b",
+    "date_utc": "2026-09-26T01:24:19.511884+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM5-2B-GPTQ/48d57c14fba6b1f86109e1a54fafb0848c163f04/config.json?%2Fopenbmb%2FMiniCPM5-2B-GPTQ%2Fresolve%2F48d57c14fba6b1f86109e1a54fafb0848c163f04%2Fconfig.json=&etag=%2263157dd324a4897a0ab9a1516d91e3fa1fe712cf%22",
+    "sha256": "581f0497d90e2ed2a989b821aa610de586bd5a7989e7dff32e1c463597f2de9b",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm5-2b-hygon-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM5-2B-hygon-FlagOS/resolve/main/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:19.533536+00:00",
+    "author_gap": "HTTP Error 401: Unauthorized",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 401: Unauthorized"
+  },
+  {
+    "model": "openbmb-minicpm5-2b-iluvatar-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM5-2B-iluvatar-FlagOS/resolve/main/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:19.568191+00:00",
+    "author_gap": "HTTP Error 401: Unauthorized",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 401: Unauthorized"
+  },
+  {
+    "model": "openbmb-minicpm5-2b-kunlunxin-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM5-2B-kunlunxin-FlagOS/resolve/main/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:19.570424+00:00",
+    "author_gap": "HTTP Error 401: Unauthorized",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 401: Unauthorized"
+  },
+  {
+    "model": "openbmb-minicpm5-2b-metax-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM5-2B-metax-FlagOS/resolve/main/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:19.578859+00:00",
+    "author_gap": "HTTP Error 401: Unauthorized",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 401: Unauthorized"
+  },
+  {
+    "model": "openbmb-minicpm5-2b-midtrain",
+    "url": "https://huggingface.co/openbmb/MiniCPM5-2B-Midtrain/resolve/0a45344e530534b7090df798421e57fc2d0e19f2/config.json",
+    "expected_sha256": "59613157e5357d62bcb121e04cb90f2170b43d789b142380c12c3d4277d95180",
+    "date_utc": "2026-09-26T01:24:19.617636+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM5-2B-Midtrain/0a45344e530534b7090df798421e57fc2d0e19f2/config.json?%2Fopenbmb%2FMiniCPM5-2B-Midtrain%2Fresolve%2F0a45344e530534b7090df798421e57fc2d0e19f2%2Fconfig.json=&etag=%229860d7132a243c1c9ce58e39a2704c3f52ad6ea1%22",
+    "sha256": "59613157e5357d62bcb121e04cb90f2170b43d789b142380c12c3d4277d95180",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm5-2b-mlx",
+    "url": "https://huggingface.co/openbmb/MiniCPM5-2B-MLX/resolve/8a9ad7539ac86281d0ac2b017ba04a5de53fe9a3/config.json",
+    "expected_sha256": "deb9ca33e863cbc84a9ab7209cd924fc05505dc33270c807d47f1b78fbd53a50",
+    "date_utc": "2026-09-26T01:24:19.712296+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM5-2B-MLX/8a9ad7539ac86281d0ac2b017ba04a5de53fe9a3/config.json?%2Fopenbmb%2FMiniCPM5-2B-MLX%2Fresolve%2F8a9ad7539ac86281d0ac2b017ba04a5de53fe9a3%2Fconfig.json=&etag=%22dd2f53cf0f66f8bed0e129da8e8a3652089c36f2%22",
+    "sha256": "deb9ca33e863cbc84a9ab7209cd924fc05505dc33270c807d47f1b78fbd53a50",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm5-2b-mthreads-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM5-2B-mthreads-FlagOS/resolve/main/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:19.776804+00:00",
+    "author_gap": "HTTP Error 401: Unauthorized",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 401: Unauthorized"
+  },
+  {
+    "model": "openbmb-minicpm5-2b-nvidia-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM5-2B-nvidia-FlagOS/resolve/main/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:19.777099+00:00",
+    "author_gap": "HTTP Error 401: Unauthorized",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 401: Unauthorized"
+  },
+  {
+    "model": "openbmb-minicpm5-2b-sft",
+    "url": "https://huggingface.co/openbmb/MiniCPM5-2B-SFT/resolve/3e0690c57f6ac772180498467c82e56170cc00ac/config.json",
+    "expected_sha256": "59613157e5357d62bcb121e04cb90f2170b43d789b142380c12c3d4277d95180",
+    "date_utc": "2026-09-26T01:24:19.787264+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/MiniCPM5-2B-SFT/3e0690c57f6ac772180498467c82e56170cc00ac/config.json?%2Fopenbmb%2FMiniCPM5-2B-SFT%2Fresolve%2F3e0690c57f6ac772180498467c82e56170cc00ac%2Fconfig.json=&etag=%229860d7132a243c1c9ce58e39a2704c3f52ad6ea1%22",
+    "sha256": "59613157e5357d62bcb121e04cb90f2170b43d789b142380c12c3d4277d95180",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-minicpm5-2b-zhenwu-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM5-2B-zhenwu-FlagOS/resolve/main/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:19.795451+00:00",
+    "author_gap": "HTTP Error 401: Unauthorized",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 401: Unauthorized"
+  },
+  {
+    "model": "openbmb-mistral-interact",
+    "url": "https://huggingface.co/hbx/Mistral-Interact/resolve/05ded918625f3b611109b1c0a39db367f3d636d0/config.json",
+    "expected_sha256": "cf25cdf4719f181d1d1d371973285d9afe9afde0d0c6a6fd48de857555ce1e0d",
+    "date_utc": "2026-09-26T01:24:19.810689+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/hbx/Mistral-Interact/05ded918625f3b611109b1c0a39db367f3d636d0/config.json?%2Fhbx%2FMistral-Interact%2Fresolve%2F05ded918625f3b611109b1c0a39db367f3d636d0%2Fconfig.json=&etag=%22f4989f072a7f517d01d479eb1685c6e50e014f88%22",
+    "sha256": "cf25cdf4719f181d1d1d371973285d9afe9afde0d0c6a6fd48de857555ce1e0d",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-more",
+    "url": "https://huggingface.co/hmhm1229/MoRE/resolve/d0f03d27bf80f2e1aeeffcf836627727da1bb9e8/config.json",
+    "expected_sha256": "94df712e93b715793821de7413982b4a5317b2dc4cfbb08950d3cb3c30489902",
+    "date_utc": "2026-09-26T01:24:19.831331+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/hmhm1229/MoRE/d0f03d27bf80f2e1aeeffcf836627727da1bb9e8/config.json?%2Fhmhm1229%2FMoRE%2Fresolve%2Fd0f03d27bf80f2e1aeeffcf836627727da1bb9e8%2Fconfig.json=&etag=%22c3428646e6ae8e5e14c3773c6ce31559b28c7dfa%22",
+    "sha256": "94df712e93b715793821de7413982b4a5317b2dc4cfbb08950d3cb3c30489902",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-more-3b",
+    "url": "https://huggingface.co/hmhm1229/MoRE-3B/resolve/f443ecb05d33ec33c069b5e166eeb274dcf1ac8f/config.json",
+    "expected_sha256": "d9966358d2573eb21823e2b1cef525febab427897bcbe18914cd16b618fea4da",
+    "date_utc": "2026-09-26T01:24:19.837547+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/hmhm1229/MoRE-3B/f443ecb05d33ec33c069b5e166eeb274dcf1ac8f/config.json?%2Fhmhm1229%2FMoRE-3B%2Fresolve%2Ff443ecb05d33ec33c069b5e166eeb274dcf1ac8f%2Fconfig.json=&etag=%22c4ac243e94a35992c40c3d01cc087cacd6323f32%22",
+    "sha256": "d9966358d2573eb21823e2b1cef525febab427897bcbe18914cd16b618fea4da",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-omnilmm-12b",
+    "url": "https://huggingface.co/openbmb/OmniLMM-12B/resolve/d2e9c9d619a0b34f06f0b65d2eae9ed1af1124a9/config.json",
+    "expected_sha256": "0ed1d21be9adfed46ef4adbece25702643da9a03065c4b609a17bfef76012fff",
+    "date_utc": "2026-09-26T01:24:19.837792+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/OmniLMM-12B/d2e9c9d619a0b34f06f0b65d2eae9ed1af1124a9/config.json?%2Fopenbmb%2FOmniLMM-12B%2Fresolve%2Fd2e9c9d619a0b34f06f0b65d2eae9ed1af1124a9%2Fconfig.json=&etag=%2230a334e1329f71196e3bee88df90f1ca8a884c20%22",
+    "sha256": "0ed1d21be9adfed46ef4adbece25702643da9a03065c4b609a17bfef76012fff",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-parammute-7b",
+    "url": "https://huggingface.co/chengpingan/ParamMute-7B/resolve/ca985ae564acbad16e16672c1f338c1c93a7dd34/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:19.922013+00:00",
+    "author_gap": "HTTP Error 404: Not Found",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "model": "openbmb-parammute-8b-kto",
+    "url": "https://huggingface.co/chengpingan/ParamMute-8B-KTO/resolve/cfa5c3df0301bb79bfd63cd91e89270cb47ab763/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:20.013687+00:00",
+    "author_gap": "HTTP Error 404: Not Found",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "model": "openbmb-parammute-8b-sft",
+    "url": "https://huggingface.co/chengpingan/ParamMute-8B-SFT/resolve/601eb932448928894f45c853097e6822a6ea245b/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:20.038254+00:00",
+    "author_gap": "HTTP Error 404: Not Found",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "model": "openbmb-r1-router",
+    "url": "https://huggingface.co/hmhm1229/R1-Router/resolve/d0f03d27bf80f2e1aeeffcf836627727da1bb9e8/config.json",
+    "expected_sha256": "94df712e93b715793821de7413982b4a5317b2dc4cfbb08950d3cb3c30489902",
+    "date_utc": "2026-09-26T01:24:20.047977+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/hmhm1229/MoRE/d0f03d27bf80f2e1aeeffcf836627727da1bb9e8/config.json?%2Fhmhm1229%2FMoRE%2Fresolve%2Fd0f03d27bf80f2e1aeeffcf836627727da1bb9e8%2Fconfig.json=&etag=%22c3428646e6ae8e5e14c3773c6ce31559b28c7dfa%22",
+    "sha256": "94df712e93b715793821de7413982b4a5317b2dc4cfbb08950d3cb3c30489902",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-rag-ddr",
+    "url": "https://huggingface.co/OpenMatch/RAG-DDR/resolve/29f2334a2246f1c760ea7c41414205d844ad2f3b/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:20.063633+00:00",
+    "author_gap": "HTTP Error 404: Not Found",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "model": "openbmb-scicore-mol",
+    "url": "https://huggingface.co/openbmb/SciCore-Mol/resolve/8283148519b42d0ad1b551ca0382e7480fbf0be4/config.json",
+    "expected_sha256": "21efd94209aac5fcaf55ba1ffa3a4a4acd4cc104dbd0fdcd11a2feb4dc8828b1",
+    "date_utc": "2026-09-26T01:24:20.090396+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/SciCore-Mol/8283148519b42d0ad1b551ca0382e7480fbf0be4/config.json?%2Fopenbmb%2FSciCore-Mol%2Fresolve%2F8283148519b42d0ad1b551ca0382e7480fbf0be4%2Fconfig.json=&etag=%226cd68dd36ceb2e12b3f1be6b463da2f2b097a10c%22",
+    "sha256": "21efd94209aac5fcaf55ba1ffa3a4a4acd4cc104dbd0fdcd11a2feb4dc8828b1",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-scicore-omics",
+    "url": "https://huggingface.co/openbmb/SciCore-Omics/resolve/41a88ec20b763d8ce95a48bb7104ce6d87e2d931/config.json",
+    "expected_sha256": "687d528c787be74bd18c1f5c00b1cfa1ba31cae8055440ab7bfdad4bd8472146",
+    "date_utc": "2026-09-26T01:24:20.136862+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/SciCore-Omics/41a88ec20b763d8ce95a48bb7104ce6d87e2d931/config.json?%2Fopenbmb%2FSciCore-Omics%2Fresolve%2F41a88ec20b763d8ce95a48bb7104ce6d87e2d931%2Fconfig.json=&etag=%22d4f96f32b9d2500d9928ca9868fad2e8d9160656%22",
+    "sha256": "687d528c787be74bd18c1f5c00b1cfa1ba31cae8055440ab7bfdad4bd8472146",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-shift",
+    "url": "https://huggingface.co/ITcoder/SHIFT/resolve/a950253d82f5e00de463d366758aad140c6e7704/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:20.141876+00:00",
+    "author_gap": "HTTP Error 404: Not Found",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "model": "openbmb-simplememvla_libero",
+    "url": "https://huggingface.co/yinchenghust/simplememvla_libero/resolve/82ec04c6c35987e38b68e57a7a08c11c72da5d47/config.json",
+    "expected_sha256": "dcfc768d76c31d292deb3848b13acaab950c215f4e2fab08286a0c50dc800158",
+    "date_utc": "2026-09-26T01:24:20.153969+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/yinchenghust/simplememvla_libero/82ec04c6c35987e38b68e57a7a08c11c72da5d47/config.json?%2Fyinchenghust%2Fsimplememvla_libero%2Fresolve%2F82ec04c6c35987e38b68e57a7a08c11c72da5d47%2Fconfig.json=&etag=%2228c32e6c5f105eabb46b9b7c73ea6b2e3b2ba870%22",
+    "sha256": "dcfc768d76c31d292deb3848b13acaab950c215f4e2fab08286a0c50dc800158",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-simplememvla_mikasa",
+    "url": "https://huggingface.co/yinchenghust/simplememvla_mikasa/resolve/1317642e95cbd02c04ef7a308d586362fbcdc1ca/config.json",
+    "expected_sha256": "a6f311d3c9abcc3990dd7016b7e5e6434f93c84afbf17a9a3a01d1353d9ae48e",
+    "date_utc": "2026-09-26T01:24:20.165151+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/yinchenghust/simplememvla_mikasa/1317642e95cbd02c04ef7a308d586362fbcdc1ca/config.json?%2Fyinchenghust%2Fsimplememvla_mikasa%2Fresolve%2F1317642e95cbd02c04ef7a308d586362fbcdc1ca%2Fconfig.json=&etag=%22ca8358630e53af80d5df8aed6ac2a5ae11493674%22",
+    "sha256": "a6f311d3c9abcc3990dd7016b7e5e6434f93c84afbf17a9a3a01d1353d9ae48e",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-simplememvla_rmbench",
+    "url": "https://huggingface.co/yinchenghust/simplememvla_rmbench/resolve/171a70880e2afb2a7cc2327368129762d8f3b7f4/config.json",
+    "expected_sha256": "0f82bb9a945f3db0337e695368f72a4a90769bc93abe4a6ba4baf2bfaed42711",
+    "date_utc": "2026-09-26T01:24:20.198313+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/yinchenghust/simplememvla_rmbench/171a70880e2afb2a7cc2327368129762d8f3b7f4/config.json?%2Fyinchenghust%2Fsimplememvla_rmbench%2Fresolve%2F171a70880e2afb2a7cc2327368129762d8f3b7f4%2Fconfig.json=&etag=%225a71fb0b9c4ea04ce7578215000bee1a7b53883c%22",
+    "sha256": "0f82bb9a945f3db0337e695368f72a4a90769bc93abe4a6ba4baf2bfaed42711",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-simplememvla_robomemarena",
+    "url": "https://huggingface.co/yinchenghust/simplememvla_robomemarena/resolve/88415d0bef07c9c3b81d075af2f733ed021f04f1/config.json",
+    "expected_sha256": "49dbfa5e9a156bccd27b082addfb7eaf1896fdc104bfc8b09ef6570b62897dfa",
+    "date_utc": "2026-09-26T01:24:20.288946+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/yinchenghust/simplememvla_robomemarena/88415d0bef07c9c3b81d075af2f733ed021f04f1/config.json?%2Fyinchenghust%2Fsimplememvla_robomemarena%2Fresolve%2F88415d0bef07c9c3b81d075af2f733ed021f04f1%2Fconfig.json=&etag=%22fa6083e3af21b7e53ff93824b42f2f984b9fb333%22",
+    "sha256": "49dbfa5e9a156bccd27b082addfb7eaf1896fdc104bfc8b09ef6570b62897dfa",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-simplememvla_robomme",
+    "url": "https://huggingface.co/yinchenghust/simplememvla_robomme/resolve/6bf7204311496b93f12889cad0eaf3fcbddc35e4/config.json",
+    "expected_sha256": "5c5c1506cd7b6120c2e82a456b509e0ff92ab02862f188b22317b5aa8719bc5d",
+    "date_utc": "2026-09-26T01:24:20.316692+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/yinchenghust/simplememvla_robomme/6bf7204311496b93f12889cad0eaf3fcbddc35e4/config.json?%2Fyinchenghust%2Fsimplememvla_robomme%2Fresolve%2F6bf7204311496b93f12889cad0eaf3fcbddc35e4%2Fconfig.json=&etag=%22dd0662978d41238d464921f3d7f64853c4274694%22",
+    "sha256": "5c5c1506cd7b6120c2e82a456b509e0ff92ab02862f188b22317b5aa8719bc5d",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-simplenav",
+    "url": null,
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:20.330834+00:00",
+    "author_gap": "未找到可直接关联的公开checkpoint配置，不能由底座推定该版本层数",
+    "result": "no_identified_checkpoint"
+  },
+  {
+    "model": "openbmb-table-retriever",
+    "url": "https://huggingface.co/hmhm1229/table-retriever/resolve/f4c5351e64d36d0a0c34d25a040268be8b76b4eb/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:20.330847+00:00",
+    "author_gap": "HTTP Error 404: Not Found",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "model": "openbmb-toolbench_ir_bert_based_uncased",
+    "url": "https://huggingface.co/ToolBench/ToolBench_IR_bert_based_uncased/resolve/cf4a904c33cde549643aa6d9091146e68ed4932f/config.json",
+    "expected_sha256": "dba3a9744ba6690cc226f5c65305695b4d14712180b153ef085cc5458ee5caa1",
+    "date_utc": "2026-09-26T01:24:20.406959+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/ToolBench/ToolBench_IR_bert_based_uncased/cf4a904c33cde549643aa6d9091146e68ed4932f/config.json?%2FToolBench%2FToolBench_IR_bert_based_uncased%2Fresolve%2Fcf4a904c33cde549643aa6d9091146e68ed4932f%2Fconfig.json=&etag=%22a88a10e0ed8442daf9a66a410930c42ec42b582e%22",
+    "sha256": "dba3a9744ba6690cc226f5c65305695b4d14712180b153ef085cc5458ee5caa1",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-toolllama-2-7b-v1",
+    "url": "https://huggingface.co/ToolBench/ToolLLaMA-2-7b-v1/resolve/ec65fc08a4963e9d181088a4271b62d55b245b77/config.json",
+    "expected_sha256": "77ad6c4fea3e0ba0c0919e350e88e6bd30418e7a178cff6931fd2f72a4b9fa52",
+    "date_utc": "2026-09-26T01:24:20.407231+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/ToolBench/ToolLLaMA-2-7b-v1/ec65fc08a4963e9d181088a4271b62d55b245b77/config.json?%2FToolBench%2FToolLLaMA-2-7b-v1%2Fresolve%2Fec65fc08a4963e9d181088a4271b62d55b245b77%2Fconfig.json=&etag=%22db965668dacae5e5af063074be02e81da2e42cd6%22",
+    "sha256": "77ad6c4fea3e0ba0c0919e350e88e6bd30418e7a178cff6931fd2f72a4b9fa52",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-toolllama-2-7b-v2",
+    "url": "https://huggingface.co/ToolBench/ToolLLaMA-2-7b-v2/resolve/f66993d6c40a644a7d7885d4c029943861e06113/config.json",
+    "expected_sha256": "69e6ad363d752d2fe663c6df42de1f0cb3eea48ddf068555da80088b681d3ccc",
+    "date_utc": "2026-09-26T01:24:20.447197+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/ToolBench/ToolLLaMA-2-7b-v2/f66993d6c40a644a7d7885d4c029943861e06113/config.json?%2FToolBench%2FToolLLaMA-2-7b-v2%2Fresolve%2Ff66993d6c40a644a7d7885d4c029943861e06113%2Fconfig.json=&etag=%224cec1d98b4d16f9aa58fb86edc3a784e21badde9%22",
+    "sha256": "69e6ad363d752d2fe663c6df42de1f0cb3eea48ddf068555da80088b681d3ccc",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-toolllama-7b-lora-v1",
+    "url": "https://huggingface.co/ToolBench/ToolLLaMA-7b-LoRA-v1/resolve/67f2e8af850049a86fb9ee8ef581deb0f51e58e6/config.json",
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:20.472379+00:00",
+    "author_gap": "HTTP Error 404: Not Found",
+    "result": "missing_config_confirmed_http",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "model": "openbmb-toolllama-7b-v1",
+    "url": "https://huggingface.co/ToolBench/ToolLLaMA-7b-v1/resolve/f02e75dac646aef351da9372cfd854aa89190968/config.json",
+    "expected_sha256": "875af6a6d6fb8a4d8d7e362e1d80070329f24e77fa51aa310c7c772794e103de",
+    "date_utc": "2026-09-26T01:24:20.504456+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/ToolBench/ToolLLaMA-7b-v1/f02e75dac646aef351da9372cfd854aa89190968/config.json?%2FToolBench%2FToolLLaMA-7b-v1%2Fresolve%2Ff02e75dac646aef351da9372cfd854aa89190968%2Fconfig.json=&etag=%22354e80cd6f31f1838748e116c4bb50bcfa94fa57%22",
+    "sha256": "875af6a6d6fb8a4d8d7e362e1d80070329f24e77fa51aa310c7c772794e103de",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-viscpm-chat",
+    "url": "https://huggingface.co/openbmb/VisCPM-Chat/resolve/77dd5c87d6092fd6733273e7fa52f8c1d1707be9/config.json",
+    "expected_sha256": "e04bf65ae6c2d13b00f24ed6513fcf8459b5ebc1ebbd0882888e9294a953a6be",
+    "date_utc": "2026-09-26T01:24:20.504587+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/VisCPM-Chat/77dd5c87d6092fd6733273e7fa52f8c1d1707be9/config.json?%2Fopenbmb%2FVisCPM-Chat%2Fresolve%2F77dd5c87d6092fd6733273e7fa52f8c1d1707be9%2Fconfig.json=&etag=%225cdbeec16abab1636340b1bf81215b9ddc8181f8%22",
+    "sha256": "e04bf65ae6c2d13b00f24ed6513fcf8459b5ebc1ebbd0882888e9294a953a6be",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-viscpm-paint",
+    "url": "https://huggingface.co/openbmb/VisCPM-Paint/resolve/b8b90d525c87b9c03d9ed83dbc70ca3cc23954fc/config.json",
+    "expected_sha256": "7b3be809ae918f869c327702efd0e99e2d87e43f196588d56728d8a5c266ec5b",
+    "date_utc": "2026-09-26T01:24:20.595002+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/VisCPM-Paint/b8b90d525c87b9c03d9ed83dbc70ca3cc23954fc/config.json?%2Fopenbmb%2FVisCPM-Paint%2Fresolve%2Fb8b90d525c87b9c03d9ed83dbc70ca3cc23954fc%2Fconfig.json=&etag=%22ca82cf3eefe23594d4d6c56d1f01209b010b6a83%22",
+    "sha256": "7b3be809ae918f869c327702efd0e99e2d87e43f196588d56728d8a5c266ec5b",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-visrag-ret",
+    "url": "https://huggingface.co/openbmb/VisRAG-Ret/resolve/95ef596df871b606167cb7e4b7215caf1bfdf761/config.json",
+    "expected_sha256": "93a56ca6d8fe12b3ebf1604e62a877550c7bf2cd264e2d8b0a2540b569cd468d",
+    "date_utc": "2026-09-26T01:24:20.600323+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/VisRAG-Ret/95ef596df871b606167cb7e4b7215caf1bfdf761/config.json?%2Fopenbmb%2FVisRAG-Ret%2Fresolve%2F95ef596df871b606167cb7e4b7215caf1bfdf761%2Fconfig.json=&etag=%22e0740a0d0b1ebaa99f23f50667f9471c6c81cc3c%22",
+    "sha256": "93a56ca6d8fe12b3ebf1604e62a877550c7bf2cd264e2d8b0a2540b569cd468d",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-voxcpm-0.5b",
+    "url": "https://huggingface.co/openbmb/VoxCPM-0.5B/resolve/b2e656f7524303fdaf84591c75bbb87203d7c98d/config.json",
+    "expected_sha256": "3e4c4501e1b712e18f302b69944c6b82cf374098ad0e1a991506e55416dbc947",
+    "date_utc": "2026-09-26T01:24:20.609950+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/VoxCPM-0.5B/b2e656f7524303fdaf84591c75bbb87203d7c98d/config.json?%2Fopenbmb%2FVoxCPM-0.5B%2Fresolve%2Fb2e656f7524303fdaf84591c75bbb87203d7c98d%2Fconfig.json=&etag=%221ffe017ebab475ffbdcb7c563d0c5147ca7dedce%22",
+    "sha256": "3e4c4501e1b712e18f302b69944c6b82cf374098ad0e1a991506e55416dbc947",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-voxcpm1.5",
+    "url": "https://huggingface.co/openbmb/VoxCPM1.5/resolve/8cdc403854cda0e3af12252d27da038fda5982ac/config.json",
+    "expected_sha256": "2459071497a422bf25fb0f47ff8bd30181dbf62ef7903b293bcff59a615eda26",
+    "date_utc": "2026-09-26T01:24:20.618646+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/VoxCPM1.5/8cdc403854cda0e3af12252d27da038fda5982ac/config.json?%2Fopenbmb%2FVoxCPM1.5%2Fresolve%2F8cdc403854cda0e3af12252d27da038fda5982ac%2Fconfig.json=&etag=%22f836f4aea82ba5f17184b0f810e2b63cc590632e%22",
+    "sha256": "2459071497a422bf25fb0f47ff8bd30181dbf62ef7903b293bcff59a615eda26",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-voxcpm2",
+    "url": "https://huggingface.co/openbmb/VoxCPM2/resolve/32279effe8c19989596f05d353d1447f51d9e915/config.json",
+    "expected_sha256": "405f0dcd92f7feba6011ed4eac5c8d4f74cba9712f07fd5cfa3063bbdd95402c",
+    "date_utc": "2026-09-26T01:24:20.714577+00:00",
+    "http_status": 200,
+    "final_url": "https://huggingface.co/api/resolve-cache/models/openbmb/VoxCPM2/32279effe8c19989596f05d353d1447f51d9e915/config.json?%2Fopenbmb%2FVoxCPM2%2Fresolve%2F32279effe8c19989596f05d353d1447f51d9e915%2Fconfig.json=&etag=%22792f1c223ed607f9e508c0a0deb15dd9532483be%22",
+    "sha256": "405f0dcd92f7feba6011ed4eac5c8d4f74cba9712f07fd5cfa3063bbdd95402c",
+    "result": "identical"
+  },
+  {
+    "model": "openbmb-workflowllama",
+    "url": null,
+    "expected_sha256": null,
+    "date_utc": "2026-09-26T01:24:20.717666+00:00",
+    "author_gap": "未找到可直接关联的公开checkpoint配置，不能由底座推定该版本层数",
+    "result": "no_identified_checkpoint"
+  }
+]

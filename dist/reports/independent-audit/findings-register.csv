@@ -1,0 +1,62 @@
+id,severity,original_location,finding,required_correction,final_status,closure_evidence
+A01,P1,K3 KDA/MLA 输出投影；`scripts/build_compute_atlas.py` 的 `gpu-linear` 映射及衍生表,列并行映射被套在输出投影上；固定源码实际为 RowParallelLinear,按具体构造函数区分；无证据时留未知,closed,"api-hardware/final-api-hardware-audit.md#AH-04
+api-hardware/frozen-artifacts-audit.json"
+A02,P1,9 个 MoE down 模板的 Ascend API 及展开行,统一写 apply_gmm1，固定实现的 w2/down 是 apply_gmm2,修正生成器与全部衍生物,closed,"api-hardware/final-api-hardware-audit.md#AH-05
+api-hardware/frozen-artifacts-audit.json"
+A03,P1,K3 的 10 个 AMD MoE/dispatch/combine 模板,AITER Triton W4A16 类仅接受 SILU/SWIGLUOAI，K3 SiTU 不满足条件,剔除不适用路径；确证可用路径后才填写,closed,"api-hardware/final-api-hardware-audit.md#AH-01
+api-hardware/frozen-artifacts-audit.json"
+A04,P1,5 个 K3 activation 模板及展开行,SiTU 公式漏 `25*tanh(up/25)` 的 up 变换,gate 与 up 两个 beta 参数均纳入,closed,"api-hardware/final-api-hardware-audit.md#AH-03
+api-hardware/frozen-artifacts-audit.json"
+A05,P2,`dist/structure.js` Kimi-Audio GQA decoder cache 文案,GQA 落入“非注意力组件不分配语言 KV cache”分支,增加 GQA cache 语义,closed,legacy-site/frozen-recheck.json#L1_audio_gqa_cache
+A06,P2,Audio-Instruct、K2-Base、Linear-Instruct、VL-Instruct 配置来源,4 个 URL 仍是 `/resolve/main/`；SHA 固定但引用可变,固定真实 revision 并验证字节一致,closed,"independent-configs/receipts.json
+semantic-fix-recheck.json"
+A07,P2,SciCore-Omics `gene_config.nlayers=12`,配置中的 12 层 gene 模块未进入展开表,新增有来源的专用层占位/结构；不能假设为普通语言层,closed,"layer-source-reconciliation.json
+semantic-fix-recheck.json"
+A08,P2,MiniCPM-RobotManip 模型参数 C2/C6/C8 等,`vlm_config.text_config` 有已知文本参数，但摘要全未知,沿正确配置路径填值,closed,"parameter-cells-audit.json
+semantic-fix-recheck.json"
+A09,P2,MiniCPM-SALA 模型参数 C9,SALA 被模型名条件套入 KDA 的 P=n×D 公式,非 KDA 应不适用；Lightning 如需参数另明示,closed,workbook-controls-audit.json
+A10,P2,所有模板模型参数 C7，TP 输入 C20,TP=0 导致 #DIV/0!；TP=1.5 被接受为有效分片,先检查数字、正整数，再除法/求余；加整型输入校验,closed,"formula-boundaries.json
+workbook-controls-audit.json"
+A11,P2,所有模板模型参数 C3:C4/C4 验证规则,S 的 1..8 规则与 C3:C4 的 1..16 规则在导出 XML 重叠,分别设置 B 和 S 的单独范围,closed,workbook-controls-audit.json
+A12,P2,旧 OpenBMB MiniCPM3-4B `head_dim=64` 列,64 是 V 维；QK 实为64+32=96，单列未明示,拆分/明确 QK 与 V 的语义,closed,"legacy-site/frozen-recheck.json#L4_minicpm3_dimensions
+legacy-archive-erratum.md"
+A13,P2,旧 Audio 三维结构 `/nodes`、`/scope`,只有28主干层，未明示另6 MIMO层不在图内,补明确覆盖说明或独立MIMO组件，不能把主干层数改成34,closed,legacy-site/frozen-recheck.json#L2_audio_scope
+A14,P1,K3 MLA `k3-t3.s11`、全部24个展开层及硬件flow,`mla_use_nope=true`却声称旋转并填RoPE API,改NoPE身份路径；仍保留64维共享key与512+64 cache,closed,"api-hardware/final-api-hardware-audit.md#AH-02
+api-hardware/frozen-artifacts-audit.json"
+A15,P2,K2.5/2.6/2.7/K3全部视觉norm/residual/MLP步骤,普通视觉步骤被统一引到attention_qkvpacked，所引函数不含目标运算,norm/residual引类forward，GELU/MLP引MLP2.forward,closed,"api-hardware/final-api-hardware-audit.md#AH-06
+api-hardware/frozen-artifacts-audit.json"
+A16,P1,视觉projector步骤及来源,池化来源错指projector；K2.5/2.6/2.7把pre_norm放在tpool之前,依真实tower→tpool→projector.pre_norm顺序；scatter引实际merge函数,closed,"api-hardware/final-api-hardware-audit.md#AH-07
+api-hardware/frozen-artifacts-audit.json"
+A17,P1,"8份Kimi共1,149个U列数学/shape单元格",中间形状未转换符号；新S是verify但U列仍用S表示context，新N是head但U仍作tokens,按语义转换每类公式，不允许漏列,closed,"semantic-fix-recheck.json
+template-mechanical-audit.json"
+A18,P2,ToolBench_IR_bert_based_uncased 的12层；AC2起、E6:F7等,BERT encoder被套文本decode/verify与历史KV cache,使用编码/检索阶段L_text；Q/K/V同序列长度；参考BERT非decoder分支禁用cache,closed,"role-sources/receipts.json
+semantic-fix-recheck.json
+workbook-controls-audit.json"
+A19,P2,34模型中的913个视觉position_and_cache行,当前投影L_img被改成独立L_KV，下一attention又用L_img,无有据历史cache时同用L_img；视觉编码与文本decode区分,closed,"semantic-fix-recheck.json
+template-mechanical-audit.json"
+A20,P2,10份MiniCPM-o的240个音频cache行,未区分离线与流式encoder缓存条件,固定源码确有streaming cache，保留有条件分支；离线用L_audio，不得全部删除音频cache,closed,"role-sources/receipts.json
+semantic-fix-recheck.json"
+A21,P2,10份MiniCPM-o `audio_config.optional_decoder`共240层,Whisper配置残留decoder_layers不等于实际构造；这10版audio只实例化MiniCPMWhisperEncoder,从模型已展开层总数移除未实例化decoder；可另保留配置字段注记,closed,"role-sources/receipts.json
+layer-source-reconciliation.json"
+A22,P2,8份MiniCPM-o-4.5变体的tts_config各20层,语音生成组件被标文本decode/verify和S_verify,单列语音token阶段及序列长度,closed,"semantic-fix-recheck.json
+layer-source-reconciliation.json"
+A23,P2,Eurux-8x22b-kto/nca C15、两者及MiniCPM-MoE C14,漏num_local_experts；专家宽字段实际在intermediate_size却显示专家不适用,按模型语义读取别名，E=8并区分Dense/专家宽,closed,"independent-configs/receipts.json
+semantic-fix-recheck.json
+parameter-cells-audit.json"
+A24,P1,K3 69个KDA核心AD公式，首处AD14,盲替换把递归矩阵状态S改成context长度L_KV：`L_KV=L_KV̄+βkδᵀ`,矩阵状态改专用符号State；与上下文长度分开；所有69处复验,closed,"api-hardware/final-api-hardware-audit.md#AH-08
+semantic-fix-recheck.json"
+A25,P1,8份Kimi新表所有NVIDIA/AMD导出路径,只导出chain，丢source compute中的level/condition；AC只拼Ascend,保留每平台完整条件，不能凭API名声称条件路径,closed,"api-hardware/final-api-hardware-audit.md#AH-09
+semantic-fix-recheck.json"
+A26,P2,K3 `k3-t1.s15/k3-t2.s15` KDA o_norm,真实为FusedRMSNormGated(sigmoid)，引用却写普通KimiRMSNorm,引真实KimiDeltaAttention调用或FLA实现，保留融合边界,closed,"api-hardware/final-api-hardware-audit.md#AH-06
+api-hardware/frozen-artifacts-audit.json"
+A27,P2,旧Linear family `/facts/context`、architecture `/config/context`,已有model_max_length=1048576，却显示未知,填配置上限并声明不等于实测质量/运行上限,closed,legacy-site/frozen-recheck.json#L3_linear_context
+A28,P2,MiniCPM3-4B与RAG-LoRA 模型参数C12(V),MLA的V因无显式字段被写“不适用”,4B固定源码V=2560/40=64；其他逐版证实或标未核验，不可非MLA式不适用,closed,"role-sources/receipts.json
+semantic-fix-recheck.json
+parameter-cells-audit.json"
+A29,P2,SciCore-Omics gene_config 12层外部shape,新增层仍H_unknown，配置dim_model=512已知,填已知外部宽度512，内部专用计算仍可未知,closed,"semantic-fix-recheck.json
+parameter-cells-audit.json"
+A30,P2,MiniCPM-Embedding、MiniCPM-Reranker、VisRAG-Ret 各40层；AC2起、E6:F7及参数S/T,前两份固定配置is_causal=false仍被标decode/verify；第三份固定forward为整段图文embedding检索，也套verify≤8,前两份L_text单次非因果检索；VisRAG使用L_retrieval且保留因果底座；不可按RAG名称或is_decoder=false泛化EVisRAG/Kimi；公开验证说明不得继续声称所有表T=B*S,closed,"role-sources/retrieval-receipts.json
+role-sources/retrieval-card-receipts.json
+semantic-fix-recheck.json
+parameter-cells-audit.json
+final-baseline.json"

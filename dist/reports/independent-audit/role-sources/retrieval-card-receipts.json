@@ -1,0 +1,20 @@
+[
+  {
+    "id": "openbmb-evisrag-3b",
+    "url": "https://huggingface.co/openbmb/EVisRAG-3B/resolve/4bdee6eb5021216b9e776b9c4bf6352a74ff7c64/README.md",
+    "status": 200,
+    "sha256": "6af15064cbcd81c150630be81da52cbad5868cb55bac74d10e50ba8d92b23991"
+  },
+  {
+    "id": "openbmb-evisrag-7b",
+    "url": "https://huggingface.co/openbmb/EVisRAG-7B/resolve/a3a1f46475270a5b1faff944c8eccf4f145d389e/README.md",
+    "status": 200,
+    "sha256": "2bcc3703762d70fa50f93418b5c1da7cf29a623f37b2061d101590f9fd326dea"
+  },
+  {
+    "id": "openbmb-visrag-ret",
+    "url": "https://huggingface.co/openbmb/VisRAG-Ret/resolve/95ef596df871b606167cb7e4b7215caf1bfdf761/README.md",
+    "status": 200,
+    "sha256": "733c59f3d7a5e2955b68659b5ae16d1a6669da2d47a62ee980b0c14af3486ddf"
+  }
+]

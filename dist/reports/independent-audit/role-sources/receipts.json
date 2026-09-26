@@ -1,0 +1,79 @@
+[
+  {
+    "id": "openbmb-minicpm-o-2_6",
+    "url": "https://huggingface.co/openbmb/MiniCPM-o-2_6/resolve/06849bfd36da94da1f5a88fa17e8ba63f08a4c4d/modeling_minicpmo.py",
+    "status": "reused prior independent download",
+    "sha256": "12f7d91b5ba380ec23ce472fd1870a3983d97e3cd93ca733cf5db8cbdded126b"
+  },
+  {
+    "id": "openbmb-minicpm-o-2_6-int4",
+    "url": "https://huggingface.co/openbmb/MiniCPM-o-2_6-int4/resolve/2b72b5775e2c4dd617bcfd088a146cfbd698ce71/modeling_minicpmo.py",
+    "status": "reused prior independent download",
+    "sha256": "706c968bc8f8d43652c555c7088b3869a35b4f973491227ed1481a5896160783"
+  },
+  {
+    "id": "openbmb-minicpm-o-4.5-ascend-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM-o-4.5-ascend-FlagOS/resolve/60f1ded7a096349f5a44d36ad2f04068b457df24/modeling_minicpmo.py",
+    "status": "reused prior independent download",
+    "sha256": "49aa2fef0ed68c0bd2f875e4c5655d1310bd18f52d06f8183d89e4b424dcacd5"
+  },
+  {
+    "id": "openbmb-minicpm-o-4.5-hygon-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM-o-4.5-hygon-FlagOS/resolve/a316655a110bfc6eeb03979d423c3927da2294d0/modeling_minicpmo.py",
+    "status": "reused prior independent download",
+    "sha256": "a2b4d9f29fa59b7442b3187c7e36e377e1f2cd5341f2e6317825c2d1060edcb7"
+  },
+  {
+    "id": "openbmb-minicpm-o-4.5-iluvatar-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM-o-4.5-iluvatar-FlagOS/resolve/947384ac0f72866735195abbd4ae5aeb59badcf4/modeling_minicpmo.py",
+    "status": "reused prior independent download",
+    "sha256": "a2b4d9f29fa59b7442b3187c7e36e377e1f2cd5341f2e6317825c2d1060edcb7"
+  },
+  {
+    "id": "openbmb-minicpm-o-4.5-metax-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM-o-4.5-metax-FlagOS/resolve/ad47fc00d87baa857008f8da5e0cbf37a913dafb/modeling_minicpmo.py",
+    "status": "reused prior independent download",
+    "sha256": "a2b4d9f29fa59b7442b3187c7e36e377e1f2cd5341f2e6317825c2d1060edcb7"
+  },
+  {
+    "id": "openbmb-minicpm-o-4.5-nvidia-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM-o-4.5-nvidia-FlagOS/resolve/675118b6892a5f7ebe78bad174430754c4b78e04/modeling_minicpmo.py",
+    "status": "reused prior independent download",
+    "sha256": "b2b562481f9e83649cc1b85a3adf7b114e5eacb3d9b3f23272922c39bf4b5783"
+  },
+  {
+    "id": "openbmb-minicpm-o-4.5-zhenwu-flagos",
+    "url": "https://huggingface.co/FlagRelease/MiniCPM-o-4.5-zhenwu-FlagOS/resolve/a05b8da0d6d335d0b28fcc3a5d28bda4b4574424/modeling_minicpmo.py",
+    "status": "reused prior independent download",
+    "sha256": "1083d98772c5b6eb007f3fb278b22c44998358d1a629df49976ee11972908f30"
+  },
+  {
+    "id": "openbmb-minicpm-o-4_5",
+    "url": "https://huggingface.co/openbmb/MiniCPM-o-4_5/resolve/503e754207c94da6bb26850b4469f367c9ea3582/modeling_minicpmo.py",
+    "status": "reused prior independent download",
+    "sha256": "25359f891d1aa81de16b51a24a97b8c8262b83ce3920c36b92be441fde8e4282"
+  },
+  {
+    "id": "openbmb-minicpm-o-4_5-awq",
+    "url": "https://huggingface.co/openbmb/MiniCPM-o-4_5-AWQ/resolve/02b87bcf31b1e3bc66094a8f8eba2034605e5073/modeling_minicpmo.py",
+    "status": "reused prior independent download",
+    "sha256": "39a04e4326e394a8ba924f91f483757a469e6c33c8fedf5a7053c10035e912f1"
+  },
+  {
+    "id": "openbmb-minicpm3-4b",
+    "url": "https://huggingface.co/openbmb/MiniCPM3-4B/resolve/d6b14ddaefdb11c624dd75c3c779549bc90b08cb/modeling_minicpm.py",
+    "status": 200,
+    "sha256": "a964ac7a8a2fc5a6192b9abbf4b78c548dd1c6097c83f60d57705b5f8da44846"
+  },
+  {
+    "id": "openbmb-minicpm3-rag-lora",
+    "url": "https://huggingface.co/openbmb/MiniCPM3-RAG-LoRA/resolve/3ee34a2c7b518f2d9be23d7138a7d29300b240f8/modeling_minicpm.py",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "id": "transformers-4.26.1-bert",
+    "url": "https://raw.githubusercontent.com/huggingface/transformers/v4.26.1/src/transformers/models/bert/modeling_bert.py",
+    "status": "reused prior independent download",
+    "sha256": "f4f63153600c67b87f35f7c675a7e7ea687c27ed52c27bbc98b432edbd422774"
+  }
+]

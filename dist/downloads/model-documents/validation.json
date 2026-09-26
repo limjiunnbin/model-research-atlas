@@ -1,6 +1,6 @@
 {
   "status": "basic-checks-passed",
-  "independentReview": "in-progress",
+  "independentReview": "completed-data-and-source-review",
   "xlsx": 156,
   "csv": 312,
   "formulaErrors": 0,
@@ -8,5 +8,6 @@
   "archiveCRC": "all passed",
   "templateOriginalUnchanged": true,
   "nativeExcelExecution": "未在Excel程序中重算，已在Artifact Tool重算并核验XLSX缓存值",
-  "notes": "逐层展开不等于完整调用链或设备运行验证；缺口文档未计为逐层完成"
+  "notes": "逐层展开不等于完整调用链或设备运行验证；缺口文档未计为逐层完成",
+  "auditBaseline": "6613c6f584ab41eec0eed8c4c3981032595b66e5"
 }

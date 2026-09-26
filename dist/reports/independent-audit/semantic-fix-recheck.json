@@ -1,0 +1,344 @@
+{
+  "run_utc": "2026-09-26T01:56:24.042899+00:00",
+  "git_head": "083af0a41b1134b7424fe514c30120597df10a8f",
+  "scope": "semantic data checks; exported workbook equality independently checked by audit_templates.py",
+  "checks": {
+    "A06_all_known_configs_pinned": true,
+    "A07_gene_12_layers": true,
+    "A29_gene_known_width_512": true,
+    "A08_RobotManip_text_params": true,
+    "A24_KDA_state_69_rows": true,
+    "A17_template_symbols_no_known_old_uses": true,
+    "A18_BERT_encoder_shapes": true,
+    "A18_BERT_phase": true,
+    "A19_vision_cache_shapes": true,
+    "A20_audio_offline_stream_conditions": true,
+    "A21_no_uninstantiated_audio_decoder": true,
+    "A22_TTS_stage_and_axes": true,
+    "A23_MoE_E_and_expert_width": true,
+    "A25_all_GPU_conditions_and_levels_exported": true,
+    "A28_MiniCPM3_base_V64": true,
+    "A30_all_three_retrieval_roles": true,
+    "A30_EVisRAG_generation_not_overridden": true,
+    "A27_Linear_context_in_both_views": true
+  },
+  "details": {
+    "KDA_core_locations": [
+      {
+        "cell": "AD14",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD39",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD76",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD149",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD186",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD223",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD296",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD333",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD370",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD443",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD480",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD517",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD590",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD627",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD664",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD737",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD774",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD811",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD884",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD921",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD958",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1031",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1068",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1105",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1178",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1215",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1252",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1325",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1362",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1399",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1472",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1509",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1546",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1619",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1656",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1693",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1766",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1803",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1840",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1913",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1950",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD1987",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2060",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2097",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2134",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2207",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2244",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2281",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2354",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2391",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2428",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2501",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2538",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2575",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2648",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2685",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2722",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2795",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2832",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2869",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2942",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD2979",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD3016",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD3089",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD3126",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD3163",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD3236",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD3273",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      },
+      {
+        "cell": "AD3310",
+        "formula": "按key维衰减H_state_bar=diag(exp(g))H_state_prev；δ=v−kᵀH_state_bar；H_state=H_state_bar+βkδᵀ；o=qᵀH_state（含配置scale）"
+      }
+    ],
+    "old_symbol_uses": [],
+    "gpu_export_missing": [],
+    "gpu_source_steps_checked": 16978,
+    "A30_roles": [
+      {
+        "model": "openbmb-minicpm-embedding",
+        "layer_rows": 520,
+        "pass": true
+      },
+      {
+        "model": "openbmb-minicpm-reranker",
+        "layer_rows": 520,
+        "pass": true
+      },
+      {
+        "model": "openbmb-visrag-ret",
+        "layer_rows": 520,
+        "pass": true
+      }
+    ],
+    "A28_RAG_params": {
+      "H": 2560,
+      "N": 40,
+      "D": "MLA见Qn/Qr/V，不能用H/N代替",
+      "Qn": 64,
+      "Qr": 32,
+      "V": "未核验",
+      "C": 256,
+      "I": 6400,
+      "Ie": null,
+      "E": null,
+      "K": null,
+      "R": null
+    }
+  },
+  "counts": {
+    "models": 156,
+    "rows": 85402,
+    "indexed_layers": 6009
+  }
+}

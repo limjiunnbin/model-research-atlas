@@ -2453,12 +2453,13 @@
     "templateFormulaCount": 0
   },
   "scope": "Kimi目录18版本；OpenBMB报告主线、历史与模型仓库固定材料中列出的checkpoint及量化/平台变体。工具、数据集、评测与外部底座不作为独立模型混入。",
-  "auditStatus": "独立审查进行中；本版仅完成基本生成/公式/文件验证",
+  "auditStatus": "独立数据与来源审查完成；缺口与未实测项仍明确保留",
   "counts": {
     "documents": 156,
     "withLayerExpansion": 122,
     "withoutLayerExpansion": 34,
     "configLayers": 6009,
     "operatorRows": 85402
-  }
+  },
+  "auditBaseline": "6613c6f584ab41eec0eed8c4c3981032595b66e5"
 }

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "openbmb-minicpm-embedding",
+    "url": "https://huggingface.co/openbmb/MiniCPM-Embedding/resolve/dc0f82b4466b254dddc25787bf7b1cbc28f755b0/modeling_minicpm.py",
+    "status": 200,
+    "sha256": "e0e60122b2aebaeba488a944c45b530ec48ec08c27d0ade9f35ab87bac4be60d"
+  },
+  {
+    "id": "openbmb-minicpm-reranker",
+    "url": "https://huggingface.co/openbmb/MiniCPM-Reranker/resolve/dacfa5bfaa37de25dbfd6e80383bcb14863068c7/modeling_minicpm.py",
+    "status": 200,
+    "sha256": "91edfa612874262a1adba657c7ab4f84a2cca61be92197184f435f5853503b8d"
+  },
+  {
+    "id": "openbmb-visrag-ret",
+    "url": "https://huggingface.co/openbmb/VisRAG-Ret/resolve/95ef596df871b606167cb7e4b7215caf1bfdf761/modeling_visrag_ret.py",
+    "status": 200,
+    "sha256": "3b15efe4ff0dfe80f7f281b92fe50ee3d6bf2e441a7626a15dbb52cd7e2bc3e3"
+  }
+]

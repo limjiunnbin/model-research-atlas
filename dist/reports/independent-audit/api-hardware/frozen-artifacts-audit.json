@@ -1,0 +1,203 @@
+{
+  "audited_utc": "2026-09-26T01:54:51.482926+00:00",
+  "commit": "083af0a41b1134b7424fe514c30120597df10a8f",
+  "git_clean": true,
+  "metrics": {
+    "old_api_level_condition_cells": 101868,
+    "old_shape_semantic_cells": 101868,
+    "old_zip_rows": 33956,
+    "xlsx_data_rows": 16978,
+    "xlsx_cells_compared": 509580,
+    "hardware_source_csv_cells": 294,
+    "hardware_markdown_claims": 167
+  },
+  "workbooks": [
+    {
+      "model": "k2-base",
+      "path": "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2-base.xlsx",
+      "sha256": "42f4d3a19f62d9f6f0fc68037701967e34b666812f99a8e7d79778dee1804b2e",
+      "sheets": [
+        "算子表",
+        "模型参数"
+      ],
+      "data_rows": 1763,
+      "cells_compared": 52920,
+      "equals_csv": true,
+      "literal_formula_cells": [],
+      "error_cells": []
+    },
+    {
+      "model": "k2-instruct",
+      "path": "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2-instruct.xlsx",
+      "sha256": "ee4f3bdacaa26c62a83653e22ca44a0ca47bae64418cd6e7b7cedec3d0f0544f",
+      "sheets": [
+        "算子表",
+        "模型参数"
+      ],
+      "data_rows": 1763,
+      "cells_compared": 52920,
+      "equals_csv": true,
+      "literal_formula_cells": [],
+      "error_cells": []
+    },
+    {
+      "model": "k2-instruct-0905",
+      "path": "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2-instruct-0905.xlsx",
+      "sha256": "203afd304cd96f7a656dccd3b2da521dfb43224a1025c8d99cf5db29f645a0ee",
+      "sheets": [
+        "算子表",
+        "模型参数"
+      ],
+      "data_rows": 1763,
+      "cells_compared": 52920,
+      "equals_csv": true,
+      "literal_formula_cells": [],
+      "error_cells": []
+    },
+    {
+      "model": "k2-thinking",
+      "path": "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2-thinking.xlsx",
+      "sha256": "59c26f884d791ed39eef7039b420fcb3851bba426d507820a789cfd569de1d1f",
+      "sheets": [
+        "算子表",
+        "模型参数"
+      ],
+      "data_rows": 1763,
+      "cells_compared": 52920,
+      "equals_csv": true,
+      "literal_formula_cells": [],
+      "error_cells": []
+    },
+    {
+      "model": "k2.5",
+      "path": "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2.5.xlsx",
+      "sha256": "9fa039a6b2d30ae8dd8fd013893cf806d5135201991efe28456406b66794a213",
+      "sheets": [
+        "算子表",
+        "模型参数"
+      ],
+      "data_rows": 2070,
+      "cells_compared": 62130,
+      "equals_csv": true,
+      "literal_formula_cells": [],
+      "error_cells": []
+    },
+    {
+      "model": "k2.6",
+      "path": "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2.6.xlsx",
+      "sha256": "e40a12213b5daafab4f747e0a66cfbd31df3ed1f195bad66d0d8e45a15375adc",
+      "sheets": [
+        "算子表",
+        "模型参数"
+      ],
+      "data_rows": 2070,
+      "cells_compared": 62130,
+      "equals_csv": true,
+      "literal_formula_cells": [],
+      "error_cells": []
+    },
+    {
+      "model": "k2.7-code",
+      "path": "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2.7-code.xlsx",
+      "sha256": "c474eaf6f0a953761c65a52b485e05267619c24ded7afd79545a32452aed9f7c",
+      "sheets": [
+        "算子表",
+        "模型参数"
+      ],
+      "data_rows": 2070,
+      "cells_compared": 62130,
+      "equals_csv": true,
+      "literal_formula_cells": [],
+      "error_cells": []
+    },
+    {
+      "model": "k3",
+      "path": "reviewed-project/dist/downloads/model-documents/kimi-kimi-k3.xlsx",
+      "sha256": "66e543a5e9adfa7d346af565864bfdfda7be956bde95972ea5364a94fd68a3c9",
+      "sheets": [
+        "算子表",
+        "模型参数",
+        "模板对照"
+      ],
+      "data_rows": 3716,
+      "cells_compared": 111510,
+      "equals_csv": true,
+      "literal_formula_cells": [],
+      "error_cells": []
+    }
+  ],
+  "issues": [],
+  "input_sha256": {
+    "reviewed-project/data/families/kimi/compute.json": "86fdf9709a1fd9d83f484ba16de62d1f4613fd132093bc78aeec678c2d81ec77",
+    "reviewed-project/data/families/kimi/hardware.json": "6dbaa0814ec4e451fca224125ca005a3c91a28710d72e7cb2e74c0e919801e94",
+    "reviewed-project/data/families/kimi/audio-7b-instruct-architecture.json": "85cc1fb89240f8dda4311c92ad4355790460e61830d5bcd10b5dc568ab9ab9df",
+    "reviewed-project/data/families/kimi/k2-base-architecture.json": "6d845178aa114a2467120b16f4c0e0893466a291b81494b373b12e9292ccb481",
+    "reviewed-project/data/families/kimi/k2-instruct-0905-architecture.json": "1f0638c25917bc7b411df361246cfa08a8d99d82d8a4896b2c791b9ffad20ca1",
+    "reviewed-project/data/families/kimi/k2-instruct-architecture.json": "f42ffa02bdafb71472ba6888b0d3295ecb6516e2924218e67f31e8a53058e0c9",
+    "reviewed-project/data/families/kimi/k2-thinking-architecture.json": "13f22d21d6259c1859434b562abf053afa11bf7e411e257db3b56fb3bf596163",
+    "reviewed-project/data/families/kimi/k2.5-architecture.json": "3599fe5612f31a915cfe662da7211a002a1e644e6be74eb5829ec3eb4260d480",
+    "reviewed-project/data/families/kimi/k2.6-architecture.json": "67ae8562819847167fa13d8c5321d7365d1769840c250439b22a4de0f71f3687",
+    "reviewed-project/data/families/kimi/k2.7-code-architecture.json": "a771c6f4548f462e87215757cacf860a1148f453841b7cd1feab55cc813cda76",
+    "reviewed-project/data/families/kimi/k3-architecture.json": "54b1a76a84dbb470944a6036da5d97b589d54ca67f857e39f7793972c5341bef",
+    "reviewed-project/data/families/kimi/linear-48b-a3b-instruct-architecture.json": "a699b4c16d9e8518ed62ac8c439d7bdb5feac426b1483e75a39d1516f1382ec6",
+    "reviewed-project/data/families/kimi/vl-a3b-instruct-architecture.json": "5941d47a772ce4423ddfae9a04a47d0a2b161e0cb5f0812d1ec234071ce254d3",
+    "reviewed-project/dist/data/families/kimi/audio-7b-instruct-architecture.json": "85cc1fb89240f8dda4311c92ad4355790460e61830d5bcd10b5dc568ab9ab9df",
+    "reviewed-project/dist/data/families/kimi/compute.json": "86fdf9709a1fd9d83f484ba16de62d1f4613fd132093bc78aeec678c2d81ec77",
+    "reviewed-project/dist/data/families/kimi/family.json": "1c7d5c7e39ffce3a3266a7d25658bd973f9d503f32d88a0a87eb959b51b91961",
+    "reviewed-project/dist/data/families/kimi/hardware.json": "6dbaa0814ec4e451fca224125ca005a3c91a28710d72e7cb2e74c0e919801e94",
+    "reviewed-project/dist/data/families/kimi/k2-base-architecture.json": "6d845178aa114a2467120b16f4c0e0893466a291b81494b373b12e9292ccb481",
+    "reviewed-project/dist/data/families/kimi/k2-instruct-0905-architecture.json": "1f0638c25917bc7b411df361246cfa08a8d99d82d8a4896b2c791b9ffad20ca1",
+    "reviewed-project/dist/data/families/kimi/k2-instruct-0905-layers.json": "8ffbfa6f39ca7129d010685ecab08b31a4154af13817a2f3026a12a76449365f",
+    "reviewed-project/dist/data/families/kimi/k2-instruct-architecture.json": "f42ffa02bdafb71472ba6888b0d3295ecb6516e2924218e67f31e8a53058e0c9",
+    "reviewed-project/dist/data/families/kimi/k2-instruct-layers.json": "1cdfdcdfca18e0b75139e27854d0f0d33ae064541764e4329a12a376bb687044",
+    "reviewed-project/dist/data/families/kimi/k2-thinking-architecture.json": "13f22d21d6259c1859434b562abf053afa11bf7e411e257db3b56fb3bf596163",
+    "reviewed-project/dist/data/families/kimi/k2-thinking-layers.json": "9978278f5cb3236b7b0d16d67478aeb499a560caa53b5b8da54225ad5ed46d09",
+    "reviewed-project/dist/data/families/kimi/k2.5-architecture.json": "3599fe5612f31a915cfe662da7211a002a1e644e6be74eb5829ec3eb4260d480",
+    "reviewed-project/dist/data/families/kimi/k2.5-layers.json": "1951d26a8482bef475a6481ea7f64017add7b5f8fcb605b65e61433b00cff18c",
+    "reviewed-project/dist/data/families/kimi/k2.6-architecture.json": "67ae8562819847167fa13d8c5321d7365d1769840c250439b22a4de0f71f3687",
+    "reviewed-project/dist/data/families/kimi/k2.6-layers.json": "351b24a90341d1d3b1f1010f649fef88d40fe753d651fd5e54a1f33a2f0b73bb",
+    "reviewed-project/dist/data/families/kimi/k2.7-code-architecture.json": "a771c6f4548f462e87215757cacf860a1148f453841b7cd1feab55cc813cda76",
+    "reviewed-project/dist/data/families/kimi/k2.7-code-layers.json": "7308fca2613393ee5b9a3bdb362f3845002b2f2c859ee9528de4a1cd63382a2a",
+    "reviewed-project/dist/data/families/kimi/k3-architecture.json": "54b1a76a84dbb470944a6036da5d97b589d54ca67f857e39f7793972c5341bef",
+    "reviewed-project/dist/data/families/kimi/k3-layers.json": "a10b9320c9b63007232eb4c11bb1ecb853a35b60c0c3f2efb72305bc35f65b0c",
+    "reviewed-project/dist/data/families/kimi/linear-48b-a3b-instruct-architecture.json": "a699b4c16d9e8518ed62ac8c439d7bdb5feac426b1483e75a39d1516f1382ec6",
+    "reviewed-project/dist/data/families/kimi/report.json": "b7d573816fb03c8f96cf8b0d553070b7a08ce1ec6193a64979ac1ce7b652e337",
+    "reviewed-project/dist/data/families/kimi/vl-a3b-instruct-architecture.json": "5941d47a772ce4423ddfae9a04a47d0a2b161e0cb5f0812d1ec234071ce254d3",
+    "reviewed-project/dist/assets/kimi/compute/Kimi-backend-api-map.csv": "2f5374dae2da99c8a4ba4eccf2622990ea89886bc78f074681236cd0bbae54c6",
+    "reviewed-project/dist/assets/kimi/compute/Kimi-compute-atlas.json": "e8ebf7aa7317e4ccc3ded54dd95d6a18b575c0fc42ab829629a3bb338e076626",
+    "reviewed-project/dist/assets/kimi/compute/Kimi-layer-api-report.md": "7e27d8df7cadb7ca500b810acf741f134c289d9296a96eeb4810e0b5d998b7cf",
+    "reviewed-project/dist/assets/kimi/compute/Kimi-layer-compute-shapes.csv": "67f4bdf3ba55018fb886fa493fc93b0b0a841fbb716ea27989efc9dd7fc5be49",
+    "reviewed-project/dist/assets/kimi/compute/Kimi-per-model-tables.zip": "5662e8aadf17e00c0c72c6aa6c7b2bc20e6f14414a979b27c114d65220b0bca2",
+    "reviewed-project/dist/assets/kimi/compute/字段与符号说明.md": "f71281e1dcaa04a5a3b8eb7ff6ce9ab12b6131b93125238326d86d32072ef893",
+    "reviewed-project/dist/assets/kimi/Kimi-hardware-sources.csv": "c5deedad41e9a0c57203d41ac118c9b8087d28224fe71017680cdee5ae067d5c",
+    "reviewed-project/dist/assets/kimi/Kimi-implementation-hardware-ascend.md": "cf10d8a96262361ef5f570c7c9a17fb66f6b0d170acef4dc1717e1ebfe702524",
+    "reviewed-project/dist/structure.js": "fb2dd76f39b2a3c3e97b533e03f08c4e61c5c957ec54f3bddcdc969e1648a3bb",
+    "reviewed-project/dist/compute.js": "53569670f2e98c010248e341513c6ea67a7b60f4662bf8c241fca8e645340714",
+    "reviewed-project/dist/hardware.js": "914d9534839f6d48ed02ef5af2fe25ad01b2116d58ee3e3ccbe30c17b3773d49",
+    "reviewed-project/dist/model-documents.js": "369ef5f233c3c6e6dab0d903065721a49141b8a49e1d1f4bcb237d7968dac1c1",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2-base.csv": "776397d7c0a06950a74ca735a7c731706f0ada5174bf8734981500ec505ef6c0",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2-base.json": "8352a4ee881d2017c36c2e18abf730915a2f7bed11da0008651281f5c2c688bc",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2-base.xlsx": "42f4d3a19f62d9f6f0fc68037701967e34b666812f99a8e7d79778dee1804b2e",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2-instruct.csv": "675c779e10fd3fe2421e5df3e8c6ff2b0baa0b30c31acc201cb4e2b4c49f6cd8",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2-instruct.json": "304acb0bf637022f0de3c4f5e061ce22a3e14e79ca8efcde6973db20e1be4deb",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2-instruct.xlsx": "ee4f3bdacaa26c62a83653e22ca44a0ca47bae64418cd6e7b7cedec3d0f0544f",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2-instruct-0905.csv": "35969d48d2bfa17ed4f27d9d5f85501dbde89917638bdfd5d8422a9c76e8d9ca",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2-instruct-0905.json": "30d543e63cf45da10b6424a3e6863b0aa59e1e5acd7a305c37f238a4f210fddd",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2-instruct-0905.xlsx": "203afd304cd96f7a656dccd3b2da521dfb43224a1025c8d99cf5db29f645a0ee",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2-thinking.csv": "e0995a83298a95a2d8ad5c142ba7cc4922effbe8b25e761b2376c38ecb42f0be",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2-thinking.json": "189376f77074f50ca1cc574bed2b694fdb979899ad10008a4553d1a7ff191b49",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2-thinking.xlsx": "59c26f884d791ed39eef7039b420fcb3851bba426d507820a789cfd569de1d1f",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2.5.csv": "1317ec960ba085e66133243d26d7beb0569efe2ab63acce2a334a0b11b00080b",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2.5.json": "2162b27e6b28faf0ee49cd1db9116ab23e117aa647a1ffa9fdd1e996b397e8a6",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2.5.xlsx": "9fa039a6b2d30ae8dd8fd013893cf806d5135201991efe28456406b66794a213",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2.6.csv": "658ff9633c9f0c46a18f9674dbd053ebc415ad595678fe21f2a4a2161710b84b",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2.6.json": "83e2bfaacab88d4920490fd066fd37a63e94530155b997caf79fda67eeda71ce",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2.6.xlsx": "e40a12213b5daafab4f747e0a66cfbd31df3ed1f195bad66d0d8e45a15375adc",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2.7-code.csv": "87a68f79cb0764b888c1fda5495a330b0161155d133fc0d8f0769c46f4adba86",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2.7-code.json": "959f6317be0744b99ae3751369d9bf6642b6b641061e680445bb0d1d7b76899a",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k2.7-code.xlsx": "c474eaf6f0a953761c65a52b485e05267619c24ded7afd79545a32452aed9f7c",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k3.csv": "109f116e42f90c030bc760aa3f9ea400bf7cf757402ef003ca98082d4bb77746",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k3.json": "e24a849bffcdf44a53dc0fb27acf59404fac66f116dd6c593eb8f8017fb20ee0",
+    "reviewed-project/dist/downloads/model-documents/kimi-kimi-k3.xlsx": "66e543a5e9adfa7d346af565864bfdfda7be956bde95972ea5364a94fd68a3c9"
+  }
+}

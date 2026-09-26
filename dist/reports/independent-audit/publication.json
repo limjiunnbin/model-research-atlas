@@ -1,0 +1,124 @@
+{
+  "date": "2026-09-26",
+  "auditedCommit": "6613c6f584ab41eec0eed8c4c3981032595b66e5",
+  "closedFindings": 30,
+  "scope": "数据、来源、条件与导出一致性；非设备运行验证",
+  "publicCopyChanges": "仅本机路径转换、日期格式与基线哈希说明；审计结论不变",
+  "files": [
+    {
+      "file": "legacy-archive-erratum.md",
+      "originalSha256": "997fc3b4bcfbd461894c32dc92a2eceaad86b48819f8c57ae16c854f1574fbf2",
+      "publicCopySha256": "997fc3b4bcfbd461894c32dc92a2eceaad86b48819f8c57ae16c854f1574fbf2"
+    },
+    {
+      "file": "api-hardware/final-api-hardware-audit.md",
+      "originalSha256": "6f81c4aa7f150203bd43c028905177fae086ac81a81fdfe5ba3d49e6a478f9b7",
+      "publicCopySha256": "96b9a1d5747af06b51db34387fa150e111fdd82bca923dbf6f8c22a45f3d779c"
+    },
+    {
+      "file": "api-hardware/frozen-artifacts-audit.json",
+      "originalSha256": "0892646d7cbebb8e4454a03cf6385d3ee313a383ead19d8dc04acef08378faa1",
+      "publicCopySha256": "801210cc4b9a88741236889e0ed4f3b3036b44958e028b8e24002f74f375cd48"
+    },
+    {
+      "file": "final-baseline.json",
+      "originalSha256": "eddf4fdbdf122b079939145567528872cd2161290619cc8e67083e120de97c99",
+      "publicCopySha256": "ca1a5b1c501868b07d939638dda77c326717bf8473d979c80df1ee5c0f4b2b6d"
+    },
+    {
+      "file": "findings-register.csv",
+      "originalSha256": "927c55f3e61f4e72be922b937addf6855b88b6cde233c76325f633c986705bd1",
+      "publicCopySha256": "f55539383807ed2ef8d33b687ca0e4a27b2a89de4e6fdd5c78ff70fbab059fc2"
+    },
+    {
+      "file": "findings-register.json",
+      "originalSha256": "833ac4c06d35c927801eb5c9bff24af330f6d116b5deba0ee8a3369285f3ec1d",
+      "publicCopySha256": "424df30051bc82e7373a0ec9f09a2c09c9708021a207225ad8103e76617ae9d4"
+    },
+    {
+      "file": "formula-boundaries.json",
+      "originalSha256": "545ca8853253c5a5793808a4c7430a8ae64a8d0cbd96372da3ebfefc5cb289a0",
+      "publicCopySha256": "545ca8853253c5a5793808a4c7430a8ae64a8d0cbd96372da3ebfefc5cb289a0"
+    },
+    {
+      "file": "independent-configs/receipts.json",
+      "originalSha256": "ed1084f3b7f73b516895646e90760a313883bea3aeda1de1fd80eaf14bfd941a",
+      "publicCopySha256": "ed1084f3b7f73b516895646e90760a313883bea3aeda1de1fd80eaf14bfd941a"
+    },
+    {
+      "file": "k3-comparison-reconciliation.json",
+      "originalSha256": "fa320e168720b9c1cded4e3ecebb8ce8b8503fd0ab212e4c35fa60f42d2d95b3",
+      "publicCopySha256": "fa320e168720b9c1cded4e3ecebb8ce8b8503fd0ab212e4c35fa60f42d2d95b3"
+    },
+    {
+      "file": "layer-source-reconciliation.json",
+      "originalSha256": "272555911253678f6e2ae6779b995e84b9ce85ccb4fd9436ae03a18b1f7c7499",
+      "publicCopySha256": "272555911253678f6e2ae6779b995e84b9ce85ccb4fd9436ae03a18b1f7c7499"
+    },
+    {
+      "file": "legacy-site/REPORT.md",
+      "originalSha256": "cee57cfadd2dc61a5d58dec2bec97df54d9f4be21a390894cfaa91eccc4dde6c",
+      "publicCopySha256": "68da1423c58828416074bb4b0beaeafb20d4584ef74ea5a4d388b42ce2260c12"
+    },
+    {
+      "file": "legacy-site/REPOSITORY-SEMANTIC-REVIEW.md",
+      "originalSha256": "93bc8a81e10ea97abd6b4f561112ffe375e2dedb54fc49037e3a6ba8cba2ec28",
+      "publicCopySha256": "a715e2d49464eff2ece992598e8ce4003b654c0fafed078e3eed5164c6d0a9d1"
+    },
+    {
+      "file": "legacy-site/frozen-recheck.json",
+      "originalSha256": "b262567082b7507327fb1565aea627e9512f7349e14d9448306905f3465d7bf5",
+      "publicCopySha256": "b262567082b7507327fb1565aea627e9512f7349e14d9448306905f3465d7bf5"
+    },
+    {
+      "file": "parameter-cells-audit.json",
+      "originalSha256": "bf1dc9c7ab3d42ef8b626298fe2f4a5ed0cb5c4d054a70201b9cb6c9676a5683",
+      "publicCopySha256": "bf1dc9c7ab3d42ef8b626298fe2f4a5ed0cb5c4d054a70201b9cb6c9676a5683"
+    },
+    {
+      "file": "public-bundle-audit.json",
+      "originalSha256": "5663afb4d3caa4e9a8f86fed63e5ec51bb6eeb8bd8248f2635c46adacc40afac",
+      "publicCopySha256": "5663afb4d3caa4e9a8f86fed63e5ec51bb6eeb8bd8248f2635c46adacc40afac"
+    },
+    {
+      "file": "role-sources/receipts.json",
+      "originalSha256": "59c33f2dee34e194d699a5850243ae6c055c0fb35d45ad583b47b7a88965ab09",
+      "publicCopySha256": "59c33f2dee34e194d699a5850243ae6c055c0fb35d45ad583b47b7a88965ab09"
+    },
+    {
+      "file": "role-sources/retrieval-card-receipts.json",
+      "originalSha256": "336c29dbe3d0c141100dd4dba12632820f82a1e1e1f939ca8c31e9538659de9d",
+      "publicCopySha256": "336c29dbe3d0c141100dd4dba12632820f82a1e1e1f939ca8c31e9538659de9d"
+    },
+    {
+      "file": "role-sources/retrieval-receipts.json",
+      "originalSha256": "88b0610b9eeae897e7eb20eb2bed20afdd762bca472a8d5f81fbc5b1dc781d6e",
+      "publicCopySha256": "88b0610b9eeae897e7eb20eb2bed20afdd762bca472a8d5f81fbc5b1dc781d6e"
+    },
+    {
+      "file": "semantic-fix-recheck.json",
+      "originalSha256": "1fad0e1876bf8996c697214282aa539d574561b67bae95c2c9a12a414bd44d4b",
+      "publicCopySha256": "1fad0e1876bf8996c697214282aa539d574561b67bae95c2c9a12a414bd44d4b"
+    },
+    {
+      "file": "template-mechanical-audit.json",
+      "originalSha256": "a7d8886577036aeda9c58be899e6d1bf17b5330e5db29a774cd93e0f4db29cfb",
+      "publicCopySha256": "a7d8886577036aeda9c58be899e6d1bf17b5330e5db29a774cd93e0f4db29cfb"
+    },
+    {
+      "file": "workbook-controls-audit.json",
+      "originalSha256": "313111ee95c68c5d93ee8b7e36698a835648989da8e1677e016f0c910531c9fd",
+      "publicCopySha256": "313111ee95c68c5d93ee8b7e36698a835648989da8e1677e016f0c910531c9fd"
+    },
+    {
+      "file": "审计范围与阶段记录.md",
+      "originalSha256": "2ad4bfe1a769b4ef4b1a8f0e237c4bee9349669376519cbabee6b899bbb64f9e",
+      "publicCopySha256": "2ad4bfe1a769b4ef4b1a8f0e237c4bee9349669376519cbabee6b899bbb64f9e"
+    },
+    {
+      "file": "final-report.md",
+      "originalSha256": "fd7b998b7033869366efbddb8762215283d161304d4a9fb65866a010c76140ef",
+      "publicCopySha256": "334a383e8fc472bb4aacd63c968d82d1f3c1a23dadd70e51b28ceec3b5046050"
+    }
+  ]
+}

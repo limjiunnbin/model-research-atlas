@@ -1,0 +1,15 @@
+{
+  "run_utc": "2026-09-26T01:56:42.418048+00:00",
+  "git_head": "083af0a41b1134b7424fe514c30120597df10a8f",
+  "rows": 6132,
+  "xlsx_cells": 73584,
+  "states": {
+    "一致": 429,
+    "差异": 130,
+    "待核验": 1932,
+    "新增": 3641
+  },
+  "json_sha256": "f48bf2b71b760869cd14e5c8c4b08646759621612b38ca36d2db0de790b6aaa0",
+  "issues": [],
+  "limits": "Original-value completeness audited separately. Kept labels and symbols counted as agreement do not establish implementation semantics. Unknown draft/context/Markov branches remain unverified."
+}

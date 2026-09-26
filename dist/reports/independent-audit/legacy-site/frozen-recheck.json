@@ -1,0 +1,89 @@
+{
+  "checked_at": "2026-09-26T01:59:18.686982+00:00",
+  "commit": "6613c6f584ab41eec0eed8c4c3981032595b66e5",
+  "working_changes_observed": "",
+  "fixes": {
+    "L1_audio_gqa_cache": {
+      "passed": true,
+      "file": "dist/structure.js",
+      "line": 46,
+      "nodes_tested_by_type": 28,
+      "caveat": "static branch/data inspection; actual GPU cache not run"
+    },
+    "L2_audio_scope": {
+      "passed": true,
+      "file": "data/families/kimi/audio-7b-instruct-architecture.json",
+      "line": 1,
+      "scope": "仅展示28层文本主干，不包含额外6层MIMO、音频编码器或完整音频生成链；完整配置层清单见模型Excel下载中心。仅配置级结构，未审计的矩阵与参数保持为空。"
+    },
+    "L3_linear_context": {
+      "passed": true,
+      "file": "data/families/kimi/family.json",
+      "line": 2107,
+      "facts": {
+        "value": 1048576,
+        "evidence": "official",
+        "source": "https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct/blob/e1df551a447157d4658b573f9a695d57658590e9/config.json",
+        "note": "配置上限，不等于实测质量或硬件运行上限"
+      },
+      "architecture_scope": "仅配置级结构；未审计的矩阵与参数保持为空。 model_max_length=1048576为配置上限，不等于实测质量或硬件运行上限。"
+    },
+    "L4_minicpm3_dimensions": {
+      "passed": true,
+      "file": "dist/reports/openbmb/compute/OpenBMB-layer-config.csv",
+      "line": 82,
+      "rows": 62,
+      "source": "https://huggingface.co/openbmb/MiniCPM3-4B/blob/d6b14ddaefdb11c624dd75c3c779549bc90b08cb/modeling_minicpm.py#L354"
+    }
+  },
+  "frozen_artifacts": [
+    {
+      "path": "dist/structure.js",
+      "sha256": "fb2dd76f39b2a3c3e97b533e03f08c4e61c5c957ec54f3bddcdc969e1648a3bb",
+      "equals_frozen_commit": true,
+      "compared_commit": "6613c6f584ab41eec0eed8c4c3981032595b66e5"
+    },
+    {
+      "path": "data/families/kimi/audio-7b-instruct-architecture.json",
+      "sha256": "85cc1fb89240f8dda4311c92ad4355790460e61830d5bcd10b5dc568ab9ab9df",
+      "equals_frozen_commit": true,
+      "compared_commit": "6613c6f584ab41eec0eed8c4c3981032595b66e5"
+    },
+    {
+      "path": "data/families/kimi/linear-48b-a3b-instruct-architecture.json",
+      "sha256": "a699b4c16d9e8518ed62ac8c439d7bdb5feac426b1483e75a39d1516f1382ec6",
+      "equals_frozen_commit": true,
+      "compared_commit": "6613c6f584ab41eec0eed8c4c3981032595b66e5"
+    },
+    {
+      "path": "data/families/kimi/family.json",
+      "sha256": "1c7d5c7e39ffce3a3266a7d25658bd973f9d503f32d88a0a87eb959b51b91961",
+      "equals_frozen_commit": true,
+      "compared_commit": "6613c6f584ab41eec0eed8c4c3981032595b66e5"
+    },
+    {
+      "path": "dist/reports/openbmb/compute/OpenBMB-layer-config.csv",
+      "sha256": "9bcc818777d2ae9f9a2dfb374cc41c75175e49ca91831f3f879dc672e8092fb6",
+      "equals_frozen_commit": true,
+      "compared_commit": "6613c6f584ab41eec0eed8c4c3981032595b66e5"
+    },
+    {
+      "path": "dist/reports/openbmb/compute/OpenBMB-per-model-tables.zip",
+      "sha256": "db8d8e575cb6cdca8a4afef50f310d539536a247982185b722af752ed27f82b0",
+      "equals_frozen_commit": true,
+      "compared_commit": "6613c6f584ab41eec0eed8c4c3981032595b66e5"
+    },
+    {
+      "path": "dist/reports/openbmb/OpenBMB-研究报告包.zip",
+      "sha256": "1216de89876e3b1574af082d0b2257b758b417e9831d7972084bdee22af5abd8",
+      "equals_frozen_commit": true,
+      "compared_commit": "6613c6f584ab41eec0eed8c4c3981032595b66e5"
+    }
+  ],
+  "notes": "All listed legacy artifacts equal final commit; working tree clean. Changes since earlier freeze are confined to the parent audit’s new template/document scope.",
+  "expected_final_commit": "6613c6f584ab41eec0eed8c4c3981032595b66e5",
+  "changes_since_earlier_freeze": {
+    "total": 173,
+    "outside_new_template_scope": []
+  }
+}

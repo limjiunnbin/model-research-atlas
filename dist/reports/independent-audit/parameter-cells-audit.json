@@ -1,0 +1,11 @@
+{
+  "git_head": "6613c6f584ab41eec0eed8c4c3981032595b66e5",
+  "run_utc": "2026-09-26T01:57:44.547900+00:00",
+  "models": 156,
+  "counts": {
+    "model_parameter_cells": 2184,
+    "raw_config_fields": 6781,
+    "raw_config_xlsx_cells": 20343
+  },
+  "issues": []
+}
