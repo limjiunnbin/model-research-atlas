@@ -1,6 +1,6 @@
 # K3：SGLang、vLLM、TorchTitan 与定制 Runtime 方案
 
-研究基线：2026-10-07。本文把 K3 模型证据与三个上游框架的公开设计结合，给出训练、推理和调度的工程方案。上游 API 仍在演进；上线前必须锁定源码 commit、依赖和设备固件。文中架构建议是方案推导，不代表已经实现或跑过 K3 训练/推理。
+研究基线：2026-10-07；TorchTitan 官方模型列表于 2026-10-08 复核。本文把 K3 模型证据与三个上游框架的公开设计结合，给出训练、推理和调度的工程方案。上游 API 仍在演进；上线前必须锁定源码 commit、依赖和设备固件。文中架构建议是方案推导，不代表已经实现或跑过 K3 训练/推理。
 
 ## 结论
 
@@ -25,9 +25,9 @@
 |---|---|---|---|
 | **SGLang** | 面向在线 serving；RadixAttention/prefix cache、连续批处理、chunked prefill、PD/EPD 解耦、运行时调度与模型服务功能 | KDA/MLA 混合缓存管理；Latent MoE 专用 dispatch/combine；K3 多模态 processor；prefill/decode/vision 角色拆分；K3-aware admission 与状态传输 | cache 命中并不代表 KDA recurrent state 可安全共享；PD 必须传递/重建正确的 KDA 状态和 MLA cache；硬件后端、内核和功能成熟度按 commit/设备矩阵逐项核实 |
 | **vLLM** | V1 token-budget scheduler、Paged KV、前缀缓存、structured serving；明确的 scheduler 与 KV connector 扩展边界；广泛的 backend 集成 | 插入 K3 scheduler policy；hybrid KV manager 外接 KDA-state allocator；针对 MLA、KDA、Latent MoE 的模型 runner/kernel；按设备选择适配器 | 通用 paged-KV 不能自动解决 recurrent state 的状态语义；scheduler 单步 token 预算需结合 KDA/MLA/MoE 异构成本校准；vLLM 与 vLLM-Ascend 的版本耦合需要锁定 |
-| **TorchTitan** | PyTorch 原生训练；FSDP/TP/PP/CP/EP 等并行组合；配置注册、ModelSpec/扩展接口、分布式 checkpoint、数值收敛方法 | 实现 K3 模型与 sharding 描述；KDA/MLA attention 与 Latent MoE；MoE EP；分层精度、activation checkpointing、PP stage placement；DCP reshard | TorchTitan 是训练平台，不是线上推理 server；K3 不是现成训练适配承诺，需要补齐模型、数据/loss、并行切分、优化器/checkpoint 和收敛验证；支持算子组合依赖 PyTorch/设备后端 |
+| **TorchTitan** | PyTorch 原生训练；FSDP/TP/PP/CP/EP 等并行组合；配置注册、ModelSpec/扩展接口、分布式 checkpoint、数值收敛方法 | 实现 K3 模型与 sharding 描述；KDA/MLA attention 与 Latent MoE；MoE EP；分层精度、activation checkpointing、PP stage placement；DCP reshard | TorchTitan 是训练平台，不是线上推理 server；官方 README 已列出 K3；先盘点现有实现与目标版本差距，再补齐数据/loss、并行切分、优化器/checkpoint 和收敛验证；支持算子组合依赖 PyTorch/设备后端 |
 
-SGLang 最新 K3 cookbook/分支公开描述 KDA、MLA、Latent MoE、DCP/DSpark、HiCache 与多模态路径；vLLM 当前 API 也列出 K3 的 hybrid、multimodal、PP、quant 和 inner-state 能力，vLLM-Ascend 有 A3 K3 指南。它们证明相关实现正在出现，不证明所有版本/硬件/精度组合均已达到生产可用。TorchTitan 上游给出可扩展 ModelSpec、并行配置与 DCP，但不能据此宣称 K3 训练已经支持。
+SGLang 最新 K3 cookbook/分支公开描述 KDA、MLA、Latent MoE、DCP/DSpark、HiCache 与多模态路径；vLLM 当前 API 也列出 K3 的 hybrid、multimodal、PP、quant 和 inner-state 能力，vLLM-Ascend 有 A3 K3 指南。它们证明相关实现正在出现，不证明所有版本/硬件/精度组合均已达到生产可用。2026-10-08 复核时，TorchTitan 官方 README 已把 Kimi K3 列为核心模型家族，并介绍 TitanRL 的训练/生成协同。该事实更新了此前仅依据通用扩展接口的判断；本文尚未审计其 K3 全路径或验证目标设备的训练与收敛，不能从列名推定全部硬件和精度组合可用。
 
 ## 目标架构
 
@@ -104,7 +104,7 @@ cost(request) = (prefill_tokens, expected_decode_tokens, image_patches,
 
 ## 推荐决策
 
-第一阶段选择 **vLLM/SGLang 其一作为推理执行基线**，按目标设备支持矩阵及 K3 正确性测试决定，不预设赢家；另一套保留为可比 backend。K3 目前公开 cookbook 与 device-specific 指南表明两边都值得做候选，不意味着无需集成工作。**TorchTitan 作为训练基础**，先做 K3 ModelSpec 和短程 loss convergence；若设备通信、低精度或长序列算子不满足，再把需要的基础设施贡献回 PyTorch/TorchTitan 或由后端插件补齐。
+第一阶段选择 **vLLM/SGLang 其一作为推理执行基线**，按目标设备支持矩阵及 K3 正确性测试决定，不预设赢家；另一套保留为可比 backend。K3 目前公开 cookbook 与 device-specific 指南表明两边都值得做候选，不意味着无需集成工作。**TorchTitan 作为训练基础**，先盘点上游 K3 实现、补齐模型契约并做短程 loss convergence；若设备通信、低精度或长序列算子不满足，再把需要的基础设施贡献回 PyTorch/TorchTitan 或由后端插件补齐。
 
 先做一个共享 K3 schema、一个可测算子/状态 API 和统一 benchmark harness。只有 profiling 证明上游扩展点成为真实瓶颈，再把对应部件抽成独立 K3 runtime 库；不建议起步就 fork 三个大型框架并承担长期同步成本。
 

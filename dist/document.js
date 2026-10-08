@@ -19,14 +19,15 @@ export function renderMarkdown(text,source){
  return fragment;
 }
 try{
- const file=new URL(location.href).searchParams.get('file');const list=await fetch(new URL('documents.json',root)).then(r=>{if(!r.ok)throw Error('文档目录无法读取');return r.json()});
+ const file=new URL(location.href).searchParams.get('file')||document.body.dataset.document;const list=await fetch(new URL('documents.json',root)).then(r=>{if(!r.ok)throw Error('文档目录无法读取');return r.json()});
  if(!list.files.includes(file))throw Error('找不到该文档，请从研究入口选择文档。');
  const source=new URL(file,root);if(source.origin!==root.origin||!source.pathname.startsWith(root.pathname))throw Error('无效的文档地址');
  const response=await fetch(source);if(!response.ok)throw Error(`文档读取失败（${response.status}）`);
  article.replaceChildren(renderMarkdown(await response.text(),source));status.hidden=true;
  const raw=document.querySelector('#raw');raw.href=source.href;raw.hidden=false;
  const collection=document.querySelector('#collection');
- if(file.startsWith('reports/openbmb/')){collection.href=new URL('reports/openbmb/',root).href;collection.textContent='OpenBMB 报告与下载'}
+ if(file.startsWith('reports/future-models/')){collection.href=new URL('reports/future-models/',root).href;collection.textContent='未来模型分析'}
+ else if(file.startsWith('reports/openbmb/')){collection.href=new URL('reports/openbmb/',root).href;collection.textContent='OpenBMB 报告与下载'}
  else{const id=file.match(/^assets\/([^/]+)\//)?.[1];const catalog=await fetch(new URL('data/catalog.json',root)).then(r=>r.json());const family=catalog.families.find(f=>f.id===id);collection.href=new URL(family?'index.html#/family/'+family.id+'/sources':'index.html#/',root).href;collection.textContent=family?family.name+' 来源与下载':'研究入口'}
  document.title=(article.querySelector('h1')?.textContent||file.split('/').pop())+' · 文档阅读';
  const target=decodeURIComponent(location.hash.slice(1));if(target)requestAnimationFrame(()=>document.getElementById(target)?.scrollIntoView());

@@ -1,6 +1,6 @@
 # 模型研究图谱
 
-独立、本地优先的中文模型研究网站。主页并列展示 Kimi、GLM、DeepSeek 三个模型家族，以及 OpenBMB 组织研究，按各自范围浏览。无需安装 npm 包或下载权重，浏览器端不依赖 CDN。
+独立、本地优先的中文模型研究网站。主页并列展示 Kimi、GLM、DeepSeek 三个模型家族，以及 OpenBMB 组织研究和未来模型分析专题，按各自范围浏览。无需安装 npm 包或下载权重，浏览器端不依赖 CDN。
 
 ## GLM 主线与昇腾 NPU 推理优化
 
@@ -20,6 +20,10 @@ GLM-5.3-Flash 是 45 层混合注意力模型：34 层 KDA 线性注意力 + 11 
 ## K3 定制训练、推理与 Runtime 调度
 
 新增 [SGLang、vLLM、TorchTitan 对比与 K3 Runtime 方案](dist/assets/kimi/K3-SGLang-vLLM-TorchTitan与定制runtime方案.md)：围绕 KDA/MLA 混合状态、Latent MoE 专家通信和视觉路径，比较推理/训练扩展点，提出共享 K3 模型契约、上游 engine adapter、两级调度和分阶段验收。结论是复用 SGLang 或 vLLM 做推理、TorchTitan 做训练基线；不把源码支持误写为硬件实测或收敛验证。
+
+## 未来模型分析
+
+研究日期：2026-10-08。新增 [未来模型分析专题](https://limjiunnbin.github.io/model-research-atlas/reports/future-models/) 与 [完整报告](dist/reports/future-models/report.md)，共 24 章，覆盖混合注意力、压缩/稀疏检索、MoE、LatentMoE、跨层连接、原生多模态、低精度训练与状态量化、投机解码、条件记忆、TTT、潜在空间推理、Muon 和定制 Runtime。每个方向说明机制、算子与调度影响、边界和验收方法；公开事实、论文实验和未来判断分开标注。未做硬件性能或训练收敛复现。
 
 ## OpenBMB 主模型与技术演进
 
