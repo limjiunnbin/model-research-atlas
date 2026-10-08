@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-01",
+  "status": "passed",
+  "originalCache": {
+    "sourceFiles": 579,
+    "sourceBytes": 220011603,
+    "functions": 330,
+    "cppCodeRanges": 12,
+    "cannSourceRanges": 350,
+    "trackedSnapshotReferences": 59,
+    "uniqueTrackedSnapshots": 58,
+    "mode": "verified_cache",
+    "weightsDownloaded": false
+  },
+  "cleanCacheRestore": {
+    "sourceFiles": 579,
+    "sourceBytes": 220011603,
+    "functions": 330,
+    "cppCodeRanges": 12,
+    "cannSourceRanges": 350,
+    "trackedSnapshotReferences": 59,
+    "uniqueTrackedSnapshots": 58,
+    "mode": "verified_cache",
+    "weightsDownloaded": false
+  },
+  "scope": "fixed source bytes/Git blob hashes, AST functions and independent CANN/other C++ ranges; clean cache restored then verified; no weights or operator execution"
+}

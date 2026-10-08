@@ -1,6 +1,6 @@
 # 模型研究图谱
 
-独立、本地优先的中文模型研究网站。主页并列展示 Kimi 与 GLM 两个模型家族，以及 OpenBMB 组织研究；三者按各自的研究范围浏览。无需安装 npm 包或下载权重，浏览器端不依赖 CDN。
+独立、本地优先的中文模型研究网站。主页并列展示 Kimi、GLM、DeepSeek 三个模型家族，以及 OpenBMB 组织研究，按各自范围浏览。无需安装 npm 包或下载权重，浏览器端不依赖 CDN。
 
 ## GLM 主线与昇腾 NPU 推理优化
 
@@ -46,7 +46,7 @@ python3 scripts/serve.py
 ## 已实现
 
 - 模型家族 → 家族研究主页 → 版本详情、历史与技术演进、研究资料。
-- 18 个历史/公开版本条目，搜索、分支和应用筛选、任意版本并列比较。
+- Kimi 18 个历史/公开版本条目，GLM 3 个配方研究条目，DeepSeek 21 个代表 checkpoint；支持搜索、分支/应用筛选与版本并列比较。
 - 完整报告逐章/全文阅读，11 张图、30 份原始资料附件及 SHA-256，另有实现研究报告与来源 CSV，按需下载。
 - 原生 WebGL 三维结构：旋转、缩放、选层、前后层、跳层、聚焦、整体/拆解、模块/矩阵逐级进入。
 - 八个主线版本均支持配置结构；其中七个有完整权重头审计。K2-Base 使用同尺寸 Instruct 模板推导，明确注明不是 Base 文件头审计。
@@ -78,7 +78,7 @@ python3 scripts/serve.py
 
 ## 来源与维护
 
-研究快照：2026-09-19。已有资料从原任务复制，未移动或修改原文件。所有原始下载文件含哈希，模型卡与固定 revision 在网站来源页及报告内保留。
+各专题保留自己的快照日期：Kimi 2026-09-19 起，GLM 2026-09-30，DeepSeek 2026-10-01。已有资料从原任务复制，未移动或修改原文件。所有原始下载文件含哈希，模型卡与固定 revision 在网站来源页及报告内保留。
 
 证据枚举：`official` 官方披露；`derived` 计算推导；`interpretation` 解释判断；`unknown` 未知。未知值为 JSON `null`，不填零或估计日期。产品模式、思考档位不自动视为新检查点。能力定位不是统一评测排名。
 
@@ -111,3 +111,17 @@ GitHub Actions 验证数据后将 `dist/` 发布到 GitHub Pages；所有资源�
 入口 `model-documents.html`。156个具体模型/版本各有独立XLSX、算子CSV、参数CSV及在线预览，支持搜索与家族/覆盖筛选。122个条目有配置层展开；34个资料缺口条目明确标识，不能算逐层完成。K3增加模板对照sheet、逐单元格CSV与可筛选差异预览。模板原文件未发布、未覆盖。
 
 独立数据与来源审查完成；缺口与未实测项仍明确保留。审查基线 `6613c6f584ab41eec0eed8c4c3981032595b66e5`，已关闭A01–A30；34配置缺口、K3的1932项待核验、HerculesBench证据不足及设备未实测不在完成声明内。每份保留“算子表”“模型参数”以及原21列。S为verify长度，B/S/TP/EP是场景输入；配置层包括可选模块，不能直接等同实际运行次数。配置/数学推导、源码路径、权重存储与设备实测分别记录，未实测性能不填猜测值。运行 `python3 scripts/validate_model_documents.py` 检查文件哈希、CSV行数、ZIP及K3语言93层覆盖。
+
+## DeepSeek 静态研究与网站
+
+研究日期：2026-10-01。已完成选定范围的 P0–P5 及本轮静态缺口补齐，入口为 `#/family/deepseek`、[完整报告](dist/assets/deepseek/DeepSeek-研究报告.md)、[复现说明](research/deepseek/README.md) 与 [roadmap](roadmap_deepseek.md)。覆盖 V2、V3/Base、原始 R1/Zero、六版 Distill、V3.2/Exp、V4 Flash/Pro 的 Base 与后训练版，以及 Flash/Pro-DSpark、Flash-0731/Pro-0813，共 21 个 checkpoint。
+
+21 份架构包含 1,122 个主干层和 93 个全局/独立组件，compute 用 145 模板展开 76,502 个步骤；prefill/decode、参考分支、逻辑矩阵、cache、mHC、MTP、DSpark 与来源分开记录。实现研究提供 11 专题、2 条件平台和 7 候选实验，附四张 SVG、[七 sheet XLSX](dist/assets/deepseek/DeepSeek-模型与算子.xlsx)、[全层 CSV](dist/assets/deepseek/DeepSeek-all-layer-shapes.csv)、[21 份分模型表](dist/assets/deepseek/DeepSeek-per-model-tables.zip) 与 [完整研究包](dist/assets/deepseek/DeepSeek-研究报告包.zip)。
+
+全部 21 版完成各自 safetensors header/offset 审计，覆盖 1,457,766 个张量、172,146,958 字节捕获元数据，权重载荷读取为 0。逻辑参数、FP4/FP8 容器、scale、非训练表与存储副本分别核对。六个 MLA checkpoint 的独立 MTP 和四个 DSpark checkpoint 的三个 stage 已展开；DSpark 的并行 backbone、顺序 Markov、confidence 与服务验证/调度分别记录。
+
+六个公开 Distill 的完整 tokenizer/BPE 与特殊 ID 已核对，四个 Qwen 原底座完成逐条 vocab/merge 比较；两个 Llama 原底座 gated 差异保留未知。开放 Ascend 后端进一步追踪到 C++ 注册/wrapper、host/tiling 与入口。CANN 已按本地 9.2.0-beta.2 SDK 和对应开源 tag 核对 30 个算子源码家族、333 个源文件与 350 个范围；此前将其笼统记作闭源的判断已纠正。当前没有硬件，用户已移除设备验证环节，本次按静态研究与网站验收；运行/数值和权重共享证明保持证据边界，不作为当前待办。
+
+`python3 scripts/validate_deepseek_atlas.py` 检查当前研究、全层公式及导出，普通 build 已按家族分派。579 份来源字节与 330 个 AST 函数体及独立 CANN 范围复核、空缓存恢复、26 份 Draft 2020-12 schema、CSV/XLSX/ZIP、Chrome 交互与 20 个 HTTP 下载均有记录，见 [VALIDATION.md](VALIDATION.md)。[首轮包](research/deepseek/round1/README.md) 保留原 P0/P1 读取范围，当前状态看 family/architecture/compute/hardware，不由旧 verificationDepth 推断。
+
+2026-10-02 完成 A1–A5 扩展：21 版成本计算器、30 家族 CANN 约束手册、并行/通信与 P/D 研究、42 条目跨家族比较，以及 MLA/DSA/压缩/mHC/DSpark 五个机制步进演示。新增 [静态分析说明](dist/assets/deepseek/DeepSeek-静态分析.md)、[分析工作簿](dist/assets/deepseek/DeepSeek-静态分析.xlsx) 和四份 CSV，28 项下载与主研究包同步。理论成本、静态必要条件和教学数据继续保留明确口径；最新验收见 roadmap 第 17 节及 VALIDATION.md 末节。

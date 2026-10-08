@@ -1,0 +1,3768 @@
+{
+  "schemaVersion": 1,
+  "modelId": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
+  "name": "DeepSeek-R1-Distill-Llama-8B",
+  "revision": "6a6f4aa4197940add57724a7707d069478df56b1",
+  "accessed": "2026-10-01",
+  "scope": "全部分片 header、dtype/shape/连续 offsets 与索引；未读取权重数值",
+  "shards": [
+    {
+      "shard": "model-00001-of-000002.safetensors",
+      "revision": "6a6f4aa4197940add57724a7707d069478df56b1",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/resolve/6a6f4aa4197940add57724a7707d069478df56b1/model-00001-of-000002.safetensors",
+      "fileBytes": 8667826246,
+      "headerBytes": 18502,
+      "headerSha256": "7c0f49306b7417630de8396cc11e1802a28b50a9eeb90f528c24856b8a0ba353"
+    },
+    {
+      "shard": "model-00002-of-000002.safetensors",
+      "revision": "6a6f4aa4197940add57724a7707d069478df56b1",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/resolve/6a6f4aa4197940add57724a7707d069478df56b1/model-00002-of-000002.safetensors",
+      "fileBytes": 7392730108,
+      "headerBytes": 15356,
+      "headerSha256": "0a083cfe72c014b68a776988b4af658f44d1d372444f6064855dfc81f27456af"
+    }
+  ],
+  "tensorCount": 291,
+  "dtypeTensorCounts": {
+    "BF16": 291
+  },
+  "payloadBytes": 16060522496,
+  "fileBytes": 16060556354,
+  "metadataCapturedBytes": 33858,
+  "weightPayloadTransferredBytes": 0,
+  "indexDeclaredTotalSize": 16060522496,
+  "groups": {
+    "global": {
+      "tensors": 3,
+      "payloadBytes": 2101354496,
+      "parameterStoredElements": 1050677248
+    },
+    "decoder": {
+      "tensors": 288,
+      "payloadBytes": 13959168000,
+      "parameterStoredElements": 6979584000
+    }
+  },
+  "templates": [
+    {
+      "group": "global",
+      "sourceIndex": null,
+      "tensorTemplate": "model.embed_tokens.weight",
+      "storedShape": [
+        128256,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 1050673152,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 0,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 0,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 0,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 0,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 0,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 0,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 0,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 0,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 0,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 1,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 1,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 1,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 1,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 1,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 1,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 1,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 1,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 1,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 2,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 2,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 2,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 2,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 2,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 2,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 2,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 2,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 2,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 3,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 3,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 3,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 3,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 3,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 3,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 3,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 3,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 3,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 4,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 4,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 4,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 4,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 4,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 4,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 4,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 4,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 4,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 5,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 5,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 5,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 5,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 5,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 5,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 5,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 5,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 5,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 6,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 6,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 6,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 6,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 6,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 6,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 6,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 6,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 6,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 7,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 7,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 7,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 7,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 7,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 7,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 7,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 7,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 7,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 8,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 8,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 8,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 8,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 8,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 8,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 8,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 8,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 8,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 9,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 9,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 9,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 9,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 9,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 9,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 9,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 9,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 9,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 10,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 10,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 10,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 10,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 10,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 10,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 10,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 10,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 10,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 11,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 11,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 11,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 11,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 11,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 11,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 11,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 11,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 11,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 12,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 12,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 12,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 12,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 12,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 12,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 12,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 12,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 12,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 13,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 13,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 13,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 13,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 13,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 13,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 13,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 13,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 13,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 14,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 14,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 14,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 14,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 14,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 14,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 14,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 14,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 14,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 15,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 15,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 15,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 15,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 15,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 15,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 15,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 15,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 15,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 16,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 16,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 16,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 16,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 16,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 16,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 16,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 16,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 16,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 17,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 17,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 17,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 17,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 17,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 17,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 17,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 17,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 17,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 18,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 18,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 18,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 18,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 18,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 18,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 18,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 18,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 18,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 19,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 19,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 19,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 19,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 19,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 19,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 19,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 19,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 19,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 20,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 20,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 20,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 20,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 20,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 20,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 20,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 20,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 20,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 21,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 21,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 21,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 21,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 21,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 21,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 21,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 21,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 21,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 22,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 22,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 22,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 22,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 22,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 22,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 22,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 22,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 22,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 23,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 23,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 23,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 23,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 23,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 23,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 23,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 23,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 23,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 24,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 24,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 24,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 24,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 24,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 24,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 24,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 24,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 24,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 25,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 25,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 25,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 25,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 25,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 25,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 25,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 25,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 25,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 26,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 26,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 26,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 26,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 26,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 26,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 26,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 26,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 26,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 27,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 27,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 27,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 27,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 27,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 27,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 27,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 27,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 27,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 28,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 28,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 28,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 28,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 28,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 28,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 28,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 28,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 28,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 29,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 29,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 29,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 29,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 29,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 29,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 29,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 29,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 29,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 30,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 30,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 30,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 30,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 30,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 30,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 30,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 30,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 30,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 31,
+      "tensorTemplate": "model.layers.{i}.self_attn.q_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 31,
+      "tensorTemplate": "model.layers.{i}.self_attn.k_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 31,
+      "tensorTemplate": "model.layers.{i}.self_attn.v_proj.weight",
+      "storedShape": [
+        1024,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8388608,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 31,
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "storedShape": [
+        4096,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 33554432,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 31,
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 31,
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "storedShape": [
+        14336,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 31,
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "storedShape": [
+        4096,
+        14336
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 117440512,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 31,
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "decoder",
+      "sourceIndex": 31,
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "global",
+      "sourceIndex": null,
+      "tensorTemplate": "model.norm.weight",
+      "storedShape": [
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 8192,
+      "role": "parameter",
+      "copies": 1
+    },
+    {
+      "group": "global",
+      "sourceIndex": null,
+      "tensorTemplate": "lm_head.weight",
+      "storedShape": [
+        128256,
+        4096
+      ],
+      "storedDtype": "BF16",
+      "payloadBytesEach": 1050673152,
+      "role": "parameter",
+      "copies": 1
+    }
+  ],
+  "limit": "参数是存储元素，不直接等于浮点逻辑参数；FP4 打包、量化 scale、共享别名与 DSpark/MTP 命名由固定构造/loader 独立对应。"
+}

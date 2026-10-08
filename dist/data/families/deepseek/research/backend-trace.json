@@ -1,0 +1,186 @@
+{
+  "snapshot": "2026-10-01",
+  "repo": "vllm-project/vllm-ascend",
+  "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+  "paths": [
+    {
+      "id": "compressor",
+      "topic": "compression",
+      "flow": [
+        "Python Compressor.forward",
+        "torch.ops._C_ascend.compressor",
+        "PrivateUse1 注册 → vllm_ascend::compressor",
+        "EXEC_NPU_CMD(aclnnCompressor)",
+        "Compressor host/tiling 与 arch35 kernel 入口"
+      ],
+      "conditions": "ratio/coff、FP32 state、norm/rope shapes、量化 scale、slot mapping 与 token update 在 wrapper/host 层分别检查；arch35 源存在不推定设备编译成功。",
+      "ranges": [
+        {
+          "sourceId": "backend-deep-csrc-torch_binding-cpp",
+          "path": "csrc/torch_binding.cpp",
+          "symbolOrStatement": "ops.impl(\"compressor\"",
+          "line": 3226,
+          "end": 3235,
+          "sourceSha256": "cbfd870c9c16df67d4b5b2985bbe7260429aada8a0fefd2e0028dff98f806d06",
+          "rangeSha256": "16c4372da71d9e7b93782bae793a54253bbbfd167dbf9c214ed28077b47cb90d",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/torch_binding.cpp#L3226-L3235",
+          "level": "固定 C++ 源码范围；不是 AST 函数体证明"
+        },
+        {
+          "sourceId": "backend-deep-csrc-torch_binding-cpp",
+          "path": "csrc/torch_binding.cpp",
+          "symbolOrStatement": "EXEC_NPU_CMD(aclnnCompressor,",
+          "line": 910,
+          "end": 919,
+          "sourceSha256": "cbfd870c9c16df67d4b5b2985bbe7260429aada8a0fefd2e0028dff98f806d06",
+          "rangeSha256": "b7354bfe12ab7bd9f9d7063c8f472c3c32ae6c1010c1d73f0b28eb0d27bf3134",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/torch_binding.cpp#L910-L919",
+          "level": "固定 C++ 源码范围；不是 AST 函数体证明"
+        },
+        {
+          "sourceId": "backend-deep-csrc-attention-compressor-op_host-compressor_def-cpp",
+          "path": "csrc/attention/compressor/op_host/compressor_def.cpp",
+          "symbolOrStatement": "class Compressor",
+          "line": 12,
+          "end": 21,
+          "sourceSha256": "65eb4da53db001033711a2808e45d91bf90bbd25f76c2c3b9ed95273e8443939",
+          "rangeSha256": "75acc013618c12c95e72e83f4908499e0d62483decbe79370f68e93540c795bd",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/attention/compressor/op_host/compressor_def.cpp#L12-L21",
+          "level": "固定 C++ 源码范围；不是 AST 函数体证明"
+        },
+        {
+          "sourceId": "backend-deep-csrc-attention-compressor-op_host-arch35-compressor_tiling-cpp",
+          "path": "csrc/attention/compressor/op_host/arch35/compressor_tiling.cpp",
+          "symbolOrStatement": "namespace",
+          "line": 24,
+          "end": 33,
+          "sourceSha256": "016763ac551df965e8f23893a41f99e341d7d337175044e06980095d8193bc84",
+          "rangeSha256": "e17daf618558166f98a1169cc3351c4156f6fbabb7d8c0f57991df565b74c8a4",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/attention/compressor/op_host/arch35/compressor_tiling.cpp#L24-L33",
+          "level": "固定 C++ 源码范围；不是 AST 函数体证明"
+        },
+        {
+          "sourceId": "backend-deep-csrc-attention-compressor-op_kernel-arch35-compressor_kernel-h",
+          "path": "csrc/attention/compressor/op_kernel/arch35/compressor_kernel.h",
+          "symbolOrStatement": "namespace",
+          "line": 24,
+          "end": 33,
+          "sourceSha256": "b5b52edd6972bc09420f9f389833eb8ffea5b204e4e0a68ad97e7ea4f2cba973",
+          "rangeSha256": "fa5005351a0f534f9871e5fcf5537bba05f3db3703d2ea2580346683e4dffb27",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/attention/compressor/op_kernel/arch35/compressor_kernel.h#L24-L33",
+          "level": "固定 C++ 源码范围；不是 AST 函数体证明"
+        }
+      ]
+    },
+    {
+      "id": "hc-pre",
+      "topic": "mhc",
+      "flow": [
+        "DeepseekV4DecoderLayer.hc_pre",
+        "torch.ops._C_ascend.npu_hc_pre_v2",
+        "PrivateUse1 注册/shape 检查",
+        "hc_pre host/tiling",
+        "公开 AscendC hc_pre 入口"
+      ],
+      "conditions": "wrapper 显式限 hc_mult=4、mix=24；fn/base/scale、dtype、pre_mix 与 Sinkhorn 迭代等分开。TileKernels *_asc 是另一独立实现，没有看到该框架调用 TileKernels 的接线。",
+      "ranges": [
+        {
+          "sourceId": "backend-deep-csrc-torch_binding-cpp",
+          "path": "csrc/torch_binding.cpp",
+          "symbolOrStatement": "ops.impl(\"npu_hc_pre_v2\"",
+          "line": 3344,
+          "end": 3353,
+          "sourceSha256": "cbfd870c9c16df67d4b5b2985bbe7260429aada8a0fefd2e0028dff98f806d06",
+          "rangeSha256": "7acc2105f21acd4d188ffaf04df7b85462af5e81f7a2fc519fff18e410f62e72",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/torch_binding.cpp#L3344-L3353",
+          "level": "固定 C++ 源码范围；不是 AST 函数体证明"
+        },
+        {
+          "sourceId": "backend-deep-csrc-torch_binding-cpp",
+          "path": "csrc/torch_binding.cpp",
+          "symbolOrStatement": "hc_mult == HC_PRE_HC_LIMIT",
+          "line": 1415,
+          "end": 1424,
+          "sourceSha256": "cbfd870c9c16df67d4b5b2985bbe7260429aada8a0fefd2e0028dff98f806d06",
+          "rangeSha256": "7cc434bfad52ccc5ca6222e772edf6415966b3dc06f2ced54f02791c0a787c93",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/torch_binding.cpp#L1415-L1424",
+          "level": "固定 C++ 源码范围；不是 AST 函数体证明"
+        },
+        {
+          "sourceId": "backend-deep-csrc-moe-hc_pre-op_host-hc_pre_def-cpp",
+          "path": "csrc/moe/hc_pre/op_host/hc_pre_def.cpp",
+          "symbolOrStatement": "class HcPre",
+          "line": 18,
+          "end": 27,
+          "sourceSha256": "051e9b4f722a3b36f1bb447cafd7700e1e37cdd14648d417b66b3f7db03af109",
+          "rangeSha256": "17598efd4d07e4d68031fe25a67a269633d70e35533ca87d0b9a49172c1bd140",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/moe/hc_pre/op_host/hc_pre_def.cpp#L18-L27",
+          "level": "固定 C++ 源码范围；不是 AST 函数体证明"
+        },
+        {
+          "sourceId": "backend-deep-csrc-moe-hc_pre-op_kernel-hc_pre-cpp",
+          "path": "csrc/moe/hc_pre/op_kernel/hc_pre.cpp",
+          "symbolOrStatement": "extern \"C\"",
+          "line": 31,
+          "end": 40,
+          "sourceSha256": "1ecc7e68d3b23da5b603aaa43a8a8e053f239dc1bbcd4cd7dfb415abaa31c710",
+          "rangeSha256": "e0e9820a5435b2c4594ba3d28d8b3409564487ea43d235ce290f19296ebe87f6",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/moe/hc_pre/op_kernel/hc_pre.cpp#L31-L40",
+          "level": "固定 C++ 源码范围；不是 AST 函数体证明"
+        }
+      ]
+    },
+    {
+      "id": "gmm-swiglu",
+      "topic": "moe",
+      "flow": [
+        "MoE/量化路径按条件选择融合算子",
+        "_C_ascend grouped_matmul_swiglu_quant 注册",
+        "host dtype/scale/group-list 条件",
+        "aclnn wrapper/workspace/launch"
+      ],
+      "conditions": "这条 custom-op 与 torch_npu 分步 grouped_matmul + swiglu_group_quant 是不同候选分支；不串成一个执行链。FP4 容器、NZ/ND、group size 和量化 loader 要独立对应。",
+      "ranges": [
+        {
+          "sourceId": "backend-deep-csrc-torch_binding-cpp",
+          "path": "csrc/torch_binding.cpp",
+          "symbolOrStatement": "ops.impl(\"grouped_matmul_swiglu_quant\"",
+          "line": 2990,
+          "end": 2999,
+          "sourceSha256": "cbfd870c9c16df67d4b5b2985bbe7260429aada8a0fefd2e0028dff98f806d06",
+          "rangeSha256": "4d9a2ab305822dbbc73b78893ab5d0e87f0ce97b70bba4966100f81df1032a9d",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/torch_binding.cpp#L2990-L2999",
+          "level": "固定 C++ 源码范围；不是 AST 函数体证明"
+        },
+        {
+          "sourceId": "backend-deep-csrc-gmm-grouped_matmul_swiglu_quant-op_host-grouped_matmul_swiglu_quant_def-cpp",
+          "path": "csrc/gmm/grouped_matmul_swiglu_quant/op_host/grouped_matmul_swiglu_quant_def.cpp",
+          "symbolOrStatement": "class GroupedMatmulSwigluQuant",
+          "line": 16,
+          "end": 25,
+          "sourceSha256": "d9e6d9faf0d592ecd30b07cde5f209558122c360a07a1d3c1ad105e779e5e2fa",
+          "rangeSha256": "c66849701188315db38e27a0af4569b8d193dedef51713e71aa831be77e442bd",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/gmm/grouped_matmul_swiglu_quant/op_host/grouped_matmul_swiglu_quant_def.cpp#L16-L25",
+          "level": "固定 C++ 源码范围；不是 AST 函数体证明"
+        },
+        {
+          "sourceId": "backend-deep-csrc-gmm-grouped_matmul_swiglu_quant-op_host-op_api-aclnn_grouped_matmul_swiglu_quant-cpp",
+          "path": "csrc/gmm/grouped_matmul_swiglu_quant/op_host/op_api/aclnn_grouped_matmul_swiglu_quant.cpp",
+          "symbolOrStatement": "aclnnGroupedMatmulSwigluQuant",
+          "line": 409,
+          "end": 418,
+          "sourceSha256": "9a9a98f3a59a43d975166d1e7248330d409a796aad7be8f918c21f6a40362895",
+          "rangeSha256": "54592f35497142d3f6127c284ddbca874f7fc29c854b32cdc22788b05ac1d271",
+          "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/gmm/grouped_matmul_swiglu_quant/op_host/op_api/aclnn_grouped_matmul_swiglu_quant.cpp#L409-L418",
+          "level": "固定 C++ 源码范围；不是 AST 函数体证明"
+        }
+      ]
+    }
+  ],
+  "cannAuditPath": "data/families/deepseek/research/cann-operator-audit.json",
+  "limits": [
+    "公开注册、wrapper、host/tiling 与入口可追溯；未编译、运行或测量",
+    "CANN 匹配版本开源来源继续追踪；实际所走 API/库分支、ABI、硬件数值未由源码存在证明",
+    "相同名称/源码存在不证明 vLLM-Ascend 调用了 DeepSeek TileKernels"
+  ]
+}

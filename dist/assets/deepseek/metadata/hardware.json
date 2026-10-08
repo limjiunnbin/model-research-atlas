@@ -1,0 +1,1986 @@
+{
+  "schemaVersion": 1,
+  "familyId": "deepseek",
+  "updated": "2026-10-01",
+  "title": "DeepSeek 实现、硬件条件与可选后续研究",
+  "scope": "本次交付为固定来源的静态研究与网站；设备运行/性能验证已按用户要求移出本次范围。",
+  "experimentScope": {
+    "required": false,
+    "status": "excluded_from_current_scope_by_user",
+    "reason": "当前没有硬件；本次按静态研究与网站验收"
+  },
+  "optimizationNote": "以下是未来有硬件时可选的研究问题，不纳入本次验收，也不作为未完成项；源码观察与测量结果分开。",
+  "modules": [
+    {
+      "id": "mla",
+      "title": "MLA 投影、cache 与 prefill/decode",
+      "models": [
+        "v2",
+        "v3-base",
+        "v3",
+        "r1-zero",
+        "r1"
+      ],
+      "flow": [
+        "模型 forward",
+        "Ascend MLA wrapper",
+        "mla_forward 分派",
+        "prefill/decode 后端",
+        "条件 attention/device API"
+      ],
+      "meaning": "低秩 Q/KV、位置 Key 与 cache 管理分开；prefill 与 decode 的数据布局/FA/图模式分支分别记录。",
+      "code": "wrapper.forward 调用 torch.ops.vllm.mla_forward；AscendMLAImpl.forward 再分派，_forward_decode 包含普通/NZ/FA quant cache 布局及 query padding/SpecDecoding 条件。 CANN 匹配 tag 来源：attention/fused_infer_attention_score, posembedding/rotary_position_embedding。",
+      "hardware": "支持条件包括 device、head 数/维度、cache 精度与 NZ、block table、TP/CP 和图模式；读取函数不证明这些条件组成可运行栈。",
+      "limit": "CANN attention 的匹配版本开源实现与 API 已可查；实际所走分支、ABI 与数值尚未在设备验证。没有原始 FP8 权重加载、转换或设备测试。",
+      "evidence": "固定源码静态核验；设备未实测",
+      "refs": [
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-ops-mla-py",
+          "line": 269
+        },
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-attention-mla_v1-py",
+          "line": 2133
+        },
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-attention-mla_v1-py",
+          "line": 1365
+        },
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-attention-mla_v1-py",
+          "line": 1640
+        },
+        {
+          "id": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_host-fused_infer_attention_score_def-cpp",
+          "line": 20
+        },
+        {
+          "id": "cann-cann-ops-transformer-posembedding-rotary_position_embedding-op_host-rotary_position_embedding_def-cpp",
+          "line": 16
+        }
+      ],
+      "bindings": [
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-ops-mla-py:AscendMultiHeadLatentAttention.forward",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-ops-mla-py",
+          "symbol": "AscendMultiHeadLatentAttention.forward",
+          "deviceCallContexts": [
+            "torch.ops.vllm.mla_forward"
+          ],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-attention-mla_v1-py:AscendMLAImpl.forward",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-attention-mla_v1-py",
+          "symbol": "AscendMLAImpl.forward",
+          "deviceCallContexts": [],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-attention-mla_v1-py:AscendMLAImpl._forward_prefill",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-attention-mla_v1-py",
+          "symbol": "AscendMLAImpl._forward_prefill",
+          "deviceCallContexts": [
+            "torch_npu.npu_fused_infer_attention_score"
+          ],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-attention-mla_v1-py:AscendMLAImpl._forward_decode",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-attention-mla_v1-py",
+          "symbol": "AscendMLAImpl._forward_decode",
+          "deviceCallContexts": [
+            "torch_npu._npu_fused_infer_attention_score_v2_get_max_workspace",
+            "torch_npu.npu.current_stream",
+            "torch_npu.npu_fused_infer_attention_score_v2",
+            "torch_npu.npu_fused_infer_attention_score_v2.out"
+          ],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        }
+      ]
+    },
+    {
+      "id": "dsa",
+      "title": "DSA 与 Lightning Indexer",
+      "models": [
+        "v3.2-exp",
+        "v3.2"
+      ],
+      "flow": [
+        "低秩 Query",
+        "Indexer 与 scale cache",
+        "top-k / causal mask",
+        "稀疏 attention 分派"
+      ],
+      "meaning": "V3.2 在主 attention 外增加 Indexer，缓存、scale 与 top-k 长度独立。",
+      "code": "AscendDeepseekSparseAttention.forward 调用 dsa_forward；AscendDSAImpl 中 prolog、indexer、cache update 和 attention 各有单流/多流或设备条件。 CANN 匹配 tag 来源：attention/sparse_flash_attention, attention/lightning_indexer, attention/quant_lightning_indexer, posembedding/rotary_position_embedding。",
+      "hardware": "index_topk、key/head dim、量化 scale、padding、metadata 和硬件代际决定实现；模型卡的 DSA 算法不等于任意 npu kernel 支持。",
+      "limit": "V4 也使用部分 DSA 基础设施，但其 cache 与压缩语义单独建模，不能照搬 V3.2 路径。",
+      "evidence": "固定源码静态核验；设备未实测",
+      "refs": [
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-ops-dsa-py",
+          "line": 151
+        },
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-attention-dsa_v1-py",
+          "line": 1769
+        },
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-attention-dsa_v1-py",
+          "line": 2145
+        },
+        {
+          "id": "cann-cann-ops-transformer-attention-sparse_flash_attention-op_host-sparse_flash_attention_def-cpp",
+          "line": 17
+        },
+        {
+          "id": "cann-cann-ops-transformer-attention-lightning_indexer-op_host-lightning_indexer_def-cpp",
+          "line": 17
+        },
+        {
+          "id": "cann-cann-ops-transformer-attention-quant_lightning_indexer-op_host-quant_lightning_indexer_def-cpp",
+          "line": 16
+        },
+        {
+          "id": "cann-cann-ops-transformer-posembedding-rotary_position_embedding-op_host-rotary_position_embedding_def-cpp",
+          "line": 16
+        }
+      ],
+      "bindings": [
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-ops-dsa-py:AscendDeepseekSparseAttention.forward",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-ops-dsa-py",
+          "symbol": "AscendDeepseekSparseAttention.forward",
+          "deviceCallContexts": [
+            "torch.ops.vllm.dsa_forward"
+          ],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-attention-dsa_v1-py:AscendDSAImpl.forward",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-attention-dsa_v1-py",
+          "symbol": "AscendDSAImpl.forward",
+          "deviceCallContexts": [
+            "torch.ops._C_ascend.inplace_partial_rotary_mul"
+          ],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-attention-dsa_v1-py:AscendDSAImpl._forward_attention",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-attention-dsa_v1-py",
+          "symbol": "AscendDSAImpl._forward_attention",
+          "deviceCallContexts": [
+            "DeviceOperator.unpack_dsa_forward_kv_cache"
+          ],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        }
+      ]
+    },
+    {
+      "id": "compression",
+      "title": "V4 窗口、CSA/HCA 与 compressor",
+      "models": [
+        "v4-flash-base",
+        "v4-flash",
+        "v4-pro-base",
+        "v4-pro",
+        "v4-flash-dspark",
+        "v4-pro-dspark",
+        "v4-flash-0731",
+        "v4-pro-0813"
+      ],
+      "flow": [
+        "mHC 折叠后的输入",
+        "Q/KV 投影",
+        "窗口与 learned 压缩",
+        "CSA indexer 或 HCA 前缀",
+        "稀疏 attention",
+        "分组低秩输出"
+      ],
+      "meaning": "ratio=4 具有 overlap 的 learned pooling 与独立 indexer；ratio=128 使用全部压缩前缀；ratio=0 是窗口/MTP 条件。",
+      "code": "框架 Compressor.forward 使用 _C_ascend.compressor 分派；Indexer.select_topk 使用 npu_quant_lightning_indexer_v2；source forward 与 cache plan/metadata 相互约束。 CANN 匹配 tag 来源：attention/sparse_flash_mla, attention/mixed_quant_sparse_flash_mla, attention/sparse_flash_mla_metadata, attention/lightning_indexer_v2, attention/quant_lightning_indexer_v2, attention/compressor。 开放底层链：Python Compressor.forward → torch.ops._C_ascend.compressor → PrivateUse1 注册 → vllm_ascend::compressor → EXEC_NPU_CMD(aclnnCompressor) → Compressor host/tiling 与 arch35 kernel 入口。",
+      "hardware": "压缩 record 数 floor(S/r)、窗口 offset、state layout、indexer 精度和更新边界必须对齐；source dispatcher 不是已经验证的 AscendC kernel。",
+      "limit": "参考 inference 对 KV/indexer 做 QAT 精度模拟后保存默认 dtype；不能据此断言生产框架存储也为 BF16。 ratio/coff、FP32 state、norm/rope shapes、量化 scale、slot mapping 与 token update 在 wrapper/host 层分别检查；arch35 源存在不推定设备编译成功。",
+      "evidence": "固定源码静态核验；设备未实测",
+      "refs": [
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-model-py",
+          "line": 662
+        },
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-compressor-py",
+          "line": 193
+        },
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-indexer-py",
+          "line": 199
+        },
+        {
+          "id": "cann-cann-ops-transformer-attention-sparse_flash_mla-op_host-sparse_flash_mla_def-cpp",
+          "line": 17
+        },
+        {
+          "id": "cann-cann-ops-transformer-attention-mixed_quant_sparse_flash_mla-op_host-mixed_quant_sparse_flash_mla_def-cpp",
+          "line": 17
+        },
+        {
+          "id": "cann-cann-ops-transformer-attention-sparse_flash_mla_metadata-docs-aclnnSparseFlashMlaMetadata-md",
+          "line": 1
+        },
+        {
+          "id": "cann-cann-ops-transformer-attention-lightning_indexer_v2-op_host-lightning_indexer_v2_def-cpp",
+          "line": 17
+        },
+        {
+          "id": "cann-cann-ops-transformer-attention-quant_lightning_indexer_v2-op_host-quant_lightning_indexer_v2_def-cpp",
+          "line": 17
+        },
+        {
+          "id": "cann-cann-ops-transformer-attention-compressor-op_host-compressor_def-cpp",
+          "line": 12
+        },
+        {
+          "id": "backend-deep-csrc-torch_binding-cpp",
+          "line": 3226
+        },
+        {
+          "id": "backend-deep-csrc-torch_binding-cpp",
+          "line": 910
+        },
+        {
+          "id": "backend-deep-csrc-attention-compressor-op_host-compressor_def-cpp",
+          "line": 12
+        },
+        {
+          "id": "backend-deep-csrc-attention-compressor-op_host-arch35-compressor_tiling-cpp",
+          "line": 24
+        },
+        {
+          "id": "backend-deep-csrc-attention-compressor-op_kernel-arch35-compressor_kernel-h",
+          "line": 24
+        }
+      ],
+      "bindings": [
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-model-py:DeepseekV4Attention.forward",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-model-py",
+          "symbol": "DeepseekV4Attention.forward",
+          "deviceCallContexts": [],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-compressor-py:Compressor.forward",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-compressor-py",
+          "symbol": "Compressor.forward",
+          "deviceCallContexts": [
+            "torch.ops._C_ascend.compressor"
+          ],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-indexer-py:AscendIndexerOps.select_topk",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-indexer-py",
+          "symbol": "AscendIndexerOps.select_topk",
+          "deviceCallContexts": [
+            "torch.ops._C_ascend.npu_quant_lightning_indexer_v2"
+          ],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        }
+      ]
+    },
+    {
+      "id": "mhc",
+      "title": "mHC 控制投影、Sinkhorn 与 pre/post",
+      "models": [
+        "v4-flash-base",
+        "v4-flash",
+        "v4-pro-base",
+        "v4-pro",
+        "v4-flash-dspark",
+        "v4-pro-dspark",
+        "v4-flash-0731",
+        "v4-pro-0813"
+      ],
+      "flow": [
+        "四流残差",
+        "控制投影与 RMS statistic",
+        "pre/post/comb + Sinkhorn",
+        "子层计算",
+        "四流还原"
+      ],
+      "meaning": "两套 [24,4H] 控制投影；hc_pre 折叠四流，hc_post 使用 post/comb 还原。",
+      "code": "框架 hc_pre/hc_post 分派 npu_hc_pre_v2 / npu_hc_post；TileKernels wrapper 与 *_asc generator 为另一条独立实现来源，不认定框架使用了该库。 CANN 匹配 tag 来源：mhc/mhc_pre, mhc/mhc_post。 开放底层链：DeepseekV4DecoderLayer.hc_pre → torch.ops._C_ascend.npu_hc_pre_v2 → PrivateUse1 注册/shape 检查 → hc_pre host/tiling → 公开 AscendC hc_pre 入口。",
+      "hardware": "TileKernels 所选快照明确要求 Ascend 950、CANN≥9.2、Python≥3.12、PyTorch≥2.13、TileLang≥0.1.15；不能推广到 A2/A3 或旧 torch_npu。",
+      "limit": "源码生成器存在不等于编译、数值验证或融合收益；kernel 与参考之间的布局/迭代数需后续检查。 wrapper 显式限 hc_mult=4、mix=24；fn/base/scale、dtype、pre_mix 与 Sinkhorn 迭代等分开。TileKernels *_asc 是另一独立实现，没有看到该框架调用 TileKernels 的接线。",
+      "evidence": "固定源码静态核验；设备未实测",
+      "refs": [
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-model-py",
+          "line": 745
+        },
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-model-py",
+          "line": 751
+        },
+        {
+          "id": "deepseek-ai-TileKernels-tile_kernels-mhc-pre_big_fuse_kernel-py",
+          "line": 10
+        },
+        {
+          "id": "deepseek-ai-TileKernels-tile_kernels-mhc-pre_big_fuse_asc-py",
+          "line": 25
+        },
+        {
+          "id": "deepseek-ai-TileKernels-tile_kernels-mhc-sinkhorn_asc-py",
+          "line": 28
+        },
+        {
+          "id": "cann-cann-ops-transformer-mhc-mhc_pre-op_host-mhc_pre_def-cpp",
+          "line": 16
+        },
+        {
+          "id": "cann-cann-ops-transformer-mhc-mhc_post-op_host-mhc_post_def-cpp",
+          "line": 16
+        },
+        {
+          "id": "backend-deep-csrc-torch_binding-cpp",
+          "line": 3344
+        },
+        {
+          "id": "backend-deep-csrc-torch_binding-cpp",
+          "line": 1415
+        },
+        {
+          "id": "backend-deep-csrc-moe-hc_pre-op_host-hc_pre_def-cpp",
+          "line": 18
+        },
+        {
+          "id": "backend-deep-csrc-moe-hc_pre-op_kernel-hc_pre-cpp",
+          "line": 31
+        }
+      ],
+      "bindings": [
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-model-py:DeepseekV4DecoderLayer.hc_pre",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-model-py",
+          "symbol": "DeepseekV4DecoderLayer.hc_pre",
+          "deviceCallContexts": [
+            "torch.ops._C_ascend.npu_hc_pre_v2"
+          ],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-model-py:DeepseekV4DecoderLayer.hc_post",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-model-py",
+          "symbol": "DeepseekV4DecoderLayer.hc_post",
+          "deviceCallContexts": [
+            "torch.ops._C_ascend.npu_hc_post"
+          ],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "deepseek-ai-TileKernels-tile_kernels-mhc-pre_big_fuse_kernel-py:mhc_pre_big_fuse_fwd",
+          "source": "deepseek-ai-TileKernels-tile_kernels-mhc-pre_big_fuse_kernel-py",
+          "symbol": "mhc_pre_big_fuse_fwd",
+          "deviceCallContexts": [],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "deepseek-ai-TileKernels-tile_kernels-mhc-pre_big_fuse_asc-py:mhc_pre_big_fuse_fwd_asc",
+          "source": "deepseek-ai-TileKernels-tile_kernels-mhc-pre_big_fuse_asc-py",
+          "symbol": "mhc_pre_big_fuse_fwd_asc",
+          "deviceCallContexts": [],
+          "level": "TileLang Ascend kernel generator",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "deepseek-ai-TileKernels-tile_kernels-mhc-sinkhorn_asc-py:mhc_sinkhorn_fwd_asc",
+          "source": "deepseek-ai-TileKernels-tile_kernels-mhc-sinkhorn_asc-py",
+          "symbol": "mhc_sinkhorn_fwd_asc",
+          "deviceCallContexts": [],
+          "level": "TileLang Ascend kernel generator",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        }
+      ]
+    },
+    {
+      "id": "moe",
+      "title": "路由、专家 GEMM 与通信",
+      "models": [
+        "v2",
+        "v3-base",
+        "v3",
+        "r1-zero",
+        "r1",
+        "v3.2-exp",
+        "v3.2",
+        "v4-flash-base",
+        "v4-flash",
+        "v4-pro-base",
+        "v4-pro",
+        "v4-flash-dspark",
+        "v4-pro-dspark",
+        "v4-flash-0731",
+        "v4-pro-0813"
+      ],
+      "flow": [
+        "gating scores",
+        "Hash/top-k",
+        "dispatch / token gather",
+        "专家 GEMM 与 clamp/SwiGLU",
+        "combine + shared"
+      ],
+      "meaning": "V3 的分组 sigmoid 路由与 V4 的 hash/sqrtsoftplus 路由分开；专家 count、选中数、每专家 N_e 与 EP placement 不混用。",
+      "code": "MC2 token_dispatch/combine 使用 npu_moe_distribute_dispatch_v2 / combine_v2；MXFP4 GMM1 分支调用 grouped_matmul、swiglu_group_quant，另有非 DeepSeek 的 SITU 分支，不能按调用集合串成执行序列。 CANN 匹配 tag 来源：gmm/grouped_matmul, gmm/grouped_matmul_swiglu_quant, gmm/grouped_matmul_swiglu_quant_v2, mc2/moe_distribute_dispatch_v2, mc2/moe_distribute_dispatch_v3, mc2/moe_distribute_combine_v2, mc2/moe_distribute_combine_v3, activation/swi_glu, activation/swiglu_group_quant。 开放底层链：MoE/量化路径按条件选择融合算子 → _C_ascend grouped_matmul_swiglu_quant 注册 → host dtype/scale/group-list 条件 → aclnn wrapper/workspace/launch。",
+      "hardware": "通信方式、EP/TP、group_list_type、group32 scale、SWIGLU clamp、shared overlap 决定实现；原始专家格式先经对应 loader/转换。",
+      "limit": "Distill 是 Dense GQA，只适用 FFN/激活共同部分，不适用路由或专家通信；未测试任何通信或 grouped GEMM。 这条 custom-op 与 torch_npu 分步 grouped_matmul + swiglu_group_quant 是不同候选分支；不串成一个执行链。FP4 容器、NZ/ND、group size 和量化 loader 要独立对应。",
+      "evidence": "固定源码静态核验；设备未实测",
+      "refs": [
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-ops-fused_moe-moe_mlp-py",
+          "line": 27
+        },
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-ops-fused_moe-token_dispatcher-py",
+          "line": 227
+        },
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-ops-fused_moe-token_dispatcher-py",
+          "line": 327
+        },
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-quantization-methods-w4a8-w4a8_mxfp4-py",
+          "line": 352
+        },
+        {
+          "id": "deepseek-ai-TileKernels-tile_kernels-moe-topk_gate_kernel-py",
+          "line": 7
+        },
+        {
+          "id": "deepseek-ai-TileKernels-tile_kernels-moe-topk_gate_asc-py",
+          "line": 9
+        },
+        {
+          "id": "cann-cann-ops-transformer-gmm-grouped_matmul-op_host-grouped_matmul_def-cpp",
+          "line": 16
+        },
+        {
+          "id": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant-op_host-grouped_matmul_swiglu_quant_def-cpp",
+          "line": 16
+        },
+        {
+          "id": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant_v2-op_host-grouped_matmul_swiglu_quant_v2_def-cpp",
+          "line": 17
+        },
+        {
+          "id": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v2-op_host-moe_distribute_dispatch_v2_def-cpp",
+          "line": 17
+        },
+        {
+          "id": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v3-op_host-moe_distribute_dispatch_v3_def-cpp",
+          "line": 17
+        },
+        {
+          "id": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v2-op_host-moe_distribute_combine_v2_def-cpp",
+          "line": 17
+        },
+        {
+          "id": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v3-op_host-moe_distribute_combine_v3_def-cpp",
+          "line": 17
+        },
+        {
+          "id": "cann-cann-ops-nn-activation-swi_glu-op_host-swi_glu_def-cpp",
+          "line": 17
+        },
+        {
+          "id": "cann-cann-ops-nn-activation-swiglu_group_quant-op_host-swiglu_group_quant_def-cpp",
+          "line": 21
+        },
+        {
+          "id": "backend-deep-csrc-torch_binding-cpp",
+          "line": 2990
+        },
+        {
+          "id": "backend-deep-csrc-gmm-grouped_matmul_swiglu_quant-op_host-grouped_matmul_swiglu_quant_def-cpp",
+          "line": 16
+        },
+        {
+          "id": "backend-deep-csrc-gmm-grouped_matmul_swiglu_quant-op_host-op_api-aclnn_grouped_matmul_swiglu_quant-cpp",
+          "line": 409
+        }
+      ],
+      "bindings": [
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-ops-fused_moe-moe_mlp-py:apply_moe_mlp",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-ops-fused_moe-moe_mlp-py",
+          "symbol": "apply_moe_mlp",
+          "deviceCallContexts": [],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-ops-fused_moe-token_dispatcher-py:TokenDispatcherWithMC2.token_dispatch",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-ops-fused_moe-token_dispatcher-py",
+          "symbol": "TokenDispatcherWithMC2.token_dispatch",
+          "deviceCallContexts": [
+            "torch_npu.npu_moe_distribute_dispatch_v2"
+          ],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-ops-fused_moe-token_dispatcher-py:TokenDispatcherWithMC2.token_combine",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-ops-fused_moe-token_dispatcher-py",
+          "symbol": "TokenDispatcherWithMC2.token_combine",
+          "deviceCallContexts": [
+            "torch_npu.npu_moe_distribute_combine_v2"
+          ],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-quantization-methods-w4a8-w4a8_mxfp4-py:AscendW4A8MXFPDynamicFusedMoEMethod.apply_gmm1_act_quant",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-quantization-methods-w4a8-w4a8_mxfp4-py",
+          "symbol": "AscendW4A8MXFPDynamicFusedMoEMethod.apply_gmm1_act_quant",
+          "deviceCallContexts": [
+            "DeviceOperator.npu_grouped_matmul_situ_quant",
+            "torch.ops._C_ascend.npu_swiglu_group_quant",
+            "torch.ops._C_ascend.situ_mx_quant",
+            "torch_npu.npu_grouped_matmul"
+          ],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "deepseek-ai-TileKernels-tile_kernels-moe-topk_gate_kernel-py:topk_gate",
+          "source": "deepseek-ai-TileKernels-tile_kernels-moe-topk_gate_kernel-py",
+          "symbol": "topk_gate",
+          "deviceCallContexts": [],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "deepseek-ai-TileKernels-tile_kernels-moe-topk_gate_asc-py:get_topk_gate_kernel_asc",
+          "source": "deepseek-ai-TileKernels-tile_kernels-moe-topk_gate_asc-py",
+          "symbol": "get_topk_gate_kernel_asc",
+          "deviceCallContexts": [],
+          "level": "TileLang Ascend kernel generator",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        }
+      ]
+    },
+    {
+      "id": "precision",
+      "title": "FP8/MXFP4、解量化、norm 与布局",
+      "models": [
+        "v2",
+        "v3-base",
+        "v3",
+        "r1-zero",
+        "r1",
+        "r1-distill-qwen-1.5b",
+        "r1-distill-qwen-7b",
+        "r1-distill-qwen-14b",
+        "r1-distill-qwen-32b",
+        "r1-distill-llama-8b",
+        "r1-distill-llama-70b",
+        "v3.2-exp",
+        "v3.2",
+        "v4-flash-base",
+        "v4-flash",
+        "v4-pro-base",
+        "v4-pro",
+        "v4-flash-dspark",
+        "v4-pro-dspark",
+        "v4-flash-0731",
+        "v4-pro-0813"
+      ],
+      "flow": [
+        "权重格式核对",
+        "加载/转换与 scale",
+        "动态量化或 BF16 fallback",
+        "GEMM / norm",
+        "输出精度"
+      ],
+      "meaning": "V3 原始 E4M3 + F32 block scale 来自文件头；MXFP4/UE8M0 等属于明确的转换或参考条件，不能只按名称等同。",
+      "code": "AscendFp8BlockLinearMethod 可选择 mxfp8_method，其他分支走 unquantized_gemm；process_weights_after_loading 必须与 apply 一起核对。RMSNorm.forward_oot 包含 npu_rms_norm 或 add-rms 条件。 CANN 匹配 tag 来源：attention/mixed_quant_sparse_flash_mla, gmm/grouped_matmul, norm/rms_norm, norm/add_rms_norm, activation/swiglu_group_quant, matmul/mat_mul_v3, matmul/quant_batch_matmul_v4, quant/dynamic_mx_quant, math/add, math/mul, experimental/math/cast。",
+      "hardware": "硬件原生格式、转换脚本、dtype、scale 布局、NZ 与 custom-op 包版本须固定；支持一条转换路径不等于直接加载原始 FP8/FP4。",
+      "limit": "没有质量/误差或吞吐实验，不能填写量化收益。",
+      "evidence": "固定源码静态核验；设备未实测",
+      "refs": [
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-ops-layernorm-py",
+          "line": 83
+        },
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-ops-linear-py",
+          "line": 133
+        },
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-quantization-methods-w8a8-fp8_block-py",
+          "line": 198
+        },
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-quantization-methods-w8a8-fp8_block-py",
+          "line": 240
+        },
+        {
+          "id": "cann-cann-ops-transformer-attention-mixed_quant_sparse_flash_mla-op_host-mixed_quant_sparse_flash_mla_def-cpp",
+          "line": 17
+        },
+        {
+          "id": "cann-cann-ops-transformer-gmm-grouped_matmul-op_host-grouped_matmul_def-cpp",
+          "line": 16
+        },
+        {
+          "id": "cann-cann-ops-nn-norm-rms_norm-op_host-rms_norm_def-cpp",
+          "line": 17
+        },
+        {
+          "id": "cann-cann-ops-nn-norm-add_rms_norm-op_host-add_rms_norm_def-cpp",
+          "line": 17
+        },
+        {
+          "id": "cann-cann-ops-nn-activation-swiglu_group_quant-op_host-swiglu_group_quant_def-cpp",
+          "line": 21
+        },
+        {
+          "id": "cann-cann-ops-nn-matmul-mat_mul_v3-op_host-mat_mul_v3_def-cpp",
+          "line": 16
+        },
+        {
+          "id": "cann-cann-ops-nn-matmul-quant_batch_matmul_v4-op_host-quant_batch_matmul_v4_def-cpp",
+          "line": 17
+        },
+        {
+          "id": "cann-cann-ops-nn-quant-dynamic_mx_quant-op_host-dynamic_mx_quant_def-cpp",
+          "line": 25
+        },
+        {
+          "id": "cann-cann-ops-math-math-add-op_host-add_def-cpp",
+          "line": 16
+        },
+        {
+          "id": "cann-cann-ops-math-math-mul-op_host-mul_def-cpp",
+          "line": 17
+        },
+        {
+          "id": "cann-cann-ops-math-experimental-math-cast-op_host-cast_def-cpp",
+          "line": 16
+        }
+      ],
+      "bindings": [
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-ops-layernorm-py:AscendRMSNorm.forward_oot",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-ops-layernorm-py",
+          "symbol": "AscendRMSNorm.forward_oot",
+          "deviceCallContexts": [
+            "torch.ops._C_ascend.npu_add_rms_norm_bias",
+            "torch_npu.npu_rms_norm"
+          ],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-ops-linear-py:AscendUnquantizedLinearMethod.apply",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-ops-linear-py",
+          "symbol": "AscendUnquantizedLinearMethod.apply",
+          "deviceCallContexts": [
+            "torch.ops.vllm.unquantized_gemm"
+          ],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-quantization-methods-w8a8-fp8_block-py:AscendFp8BlockLinearMethod.process_weights_after_loading",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-quantization-methods-w8a8-fp8_block-py",
+          "symbol": "AscendFp8BlockLinearMethod.process_weights_after_loading",
+          "deviceCallContexts": [],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-quantization-methods-w8a8-fp8_block-py:AscendFp8BlockLinearMethod.apply",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-quantization-methods-w8a8-fp8_block-py",
+          "symbol": "AscendFp8BlockLinearMethod.apply",
+          "deviceCallContexts": [
+            "torch.ops.vllm.unquantized_gemm"
+          ],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        }
+      ]
+    },
+    {
+      "id": "mtp",
+      "title": "MTP 共享参数、加载与推测解码",
+      "models": [
+        "v3-base",
+        "v3",
+        "r1-zero",
+        "r1",
+        "v3.2-exp",
+        "v3.2",
+        "v4-flash-base",
+        "v4-flash",
+        "v4-pro-base",
+        "v4-pro"
+      ],
+      "flow": [
+        "主干表示与 token embedding",
+        "MTP 投影/子层",
+        "共享 output head",
+        "draft / verify 分派"
+      ],
+      "meaning": "论文训练目标、发布额外层、普通主干 forward 与 speculative decoding 四项分开。",
+      "code": "V3 demo 跳过 layer 61；V4 官方参考构造共享 embed/head 的 MTPBlock，框架 MTP.forward/load_weights 是独立来源。",
+      "hardware": "需要对应 speculative config、MTP checkpoint 命名、layer offset、cache/metadata 与 scheduler 条件；不能以文件头存在推断启用。",
+      "limit": "已核对五版缺失的独立 MTP 存储与固定 vLLM forward；SharedHead.norm 在该后端独立构造/加载，上游训练共享和值相同仍不由 header 证明。",
+      "evidence": "固定源码静态核验；设备未实测",
+      "refs": [
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-mtp-py",
+          "line": 274
+        },
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-mtp-py",
+          "line": 293
+        },
+        {
+          "id": "vllm-project-vllm-vllm-model_executor-models-deepseek_mtp-py",
+          "line": 113
+        },
+        {
+          "id": "vllm-project-vllm-vllm-model_executor-models-deepseek_mtp-py",
+          "line": 304
+        }
+      ],
+      "bindings": [
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-mtp-py:DeepSeekV4MTP.forward",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-mtp-py",
+          "symbol": "DeepSeekV4MTP.forward",
+          "deviceCallContexts": [],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-mtp-py:DeepSeekV4MTP.load_weights",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-mtp-py",
+          "symbol": "DeepSeekV4MTP.load_weights",
+          "deviceCallContexts": [],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "vllm-project-vllm-vllm-model_executor-models-deepseek_mtp-py:DeepSeekMultiTokenPredictorLayer.forward",
+          "source": "vllm-project-vllm-vllm-model_executor-models-deepseek_mtp-py",
+          "symbol": "DeepSeekMultiTokenPredictorLayer.forward",
+          "deviceCallContexts": [],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "vllm-project-vllm-vllm-model_executor-models-deepseek_mtp-py:DeepSeekMTP.load_weights",
+          "source": "vllm-project-vllm-vllm-model_executor-models-deepseek_mtp-py",
+          "symbol": "DeepSeekMTP.load_weights",
+          "deviceCallContexts": [],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        }
+      ]
+    },
+    {
+      "id": "dspark",
+      "title": "DSpark 半自回归 draft 与验证调度",
+      "models": [
+        "v4-flash-dspark",
+        "v4-pro-dspark",
+        "v4-flash-0731",
+        "v4-pro-0813"
+      ],
+      "flow": [
+        "目标特征与 context KV",
+        "noisy block 并行 backbone",
+        "轻量顺序 Markov 修正",
+        "confidence / prefix survival",
+        "target verify / rejection",
+        "只提交已接受状态"
+      ],
+      "meaning": "DSpark 是推测解码机制；本 V4 发布有 3 个 stage 存在 mtp.* namespace，不是把 1 个 MTP 层改名。原始 preview 不默认包含 DSpark。",
+      "code": "Ascend draft model 用独立 SWA cache，main_proj 融合目标特征；load_weights 将 mtp stage 分派到首层/末层模块；confidence 使用 sigmoid，proposer 与 speculator 独立准备 block/slot mapping。 CANN 匹配 tag 来源：attention/fused_infer_attention_score。",
+      "hardware": "block_size、num_speculative_tokens、feature层号、Markov rank、采样方式、EOS/grammar、KV提交、图/TP/EP和缓存布局须分别锁定；native block=5 与模型卡 vLLM example=7 不混为一项。",
+      "limit": "DeepSpec 的 Qwen/Gemma 训练和评测代码不是 V4 生产系统；论文负载感知 scheduler 和框架阈值/自适应配置分别核验，作者收益不是本站或 Ascend 实测。",
+      "evidence": "固定源码静态核验；设备未实测",
+      "refs": [
+        {
+          "id": "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py",
+          "line": 250
+        },
+        {
+          "id": "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py",
+          "line": 224
+        },
+        {
+          "id": "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py",
+          "line": 399
+        },
+        {
+          "id": "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py",
+          "line": 527
+        },
+        {
+          "id": "aux-vllm-project-vllm-ascend-vllm_ascend-spec_decode-dspark_proposer-py",
+          "line": 226
+        },
+        {
+          "id": "aux-vllm-project-vllm-ascend-vllm_ascend-worker-v2-spec_decode-dspark-speculator-py",
+          "line": 280
+        },
+        {
+          "id": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_host-fused_infer_attention_score_def-cpp",
+          "line": 20
+        }
+      ],
+      "bindings": [
+        {
+          "proof": "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py:DeepseekV4DSparkModel.forward",
+          "source": "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py",
+          "symbol": "DeepseekV4DSparkModel.forward",
+          "deviceCallContexts": [],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py:DeepseekV4DSparkModel.precompute_and_store_context_kv",
+          "source": "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py",
+          "symbol": "DeepseekV4DSparkModel.precompute_and_store_context_kv",
+          "deviceCallContexts": [],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py:DSparkDeepseekV4ForCausalLM.compute_confidence",
+          "source": "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py",
+          "symbol": "DSparkDeepseekV4ForCausalLM.compute_confidence",
+          "deviceCallContexts": [],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py:DSparkDeepseekV4ForCausalLM._remap_dspark_name",
+          "source": "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py",
+          "symbol": "DSparkDeepseekV4ForCausalLM._remap_dspark_name",
+          "deviceCallContexts": [],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "aux-vllm-project-vllm-ascend-vllm_ascend-spec_decode-dspark_proposer-py:AscendDSparkProposer.set_inputs_first_pass",
+          "source": "aux-vllm-project-vllm-ascend-vllm_ascend-spec_decode-dspark_proposer-py",
+          "symbol": "AscendDSparkProposer.set_inputs_first_pass",
+          "deviceCallContexts": [],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "aux-vllm-project-vllm-ascend-vllm_ascend-worker-v2-spec_decode-dspark-speculator-py:AscendDSparkSpeculator.propose",
+          "source": "aux-vllm-project-vllm-ascend-vllm_ascend-worker-v2-spec_decode-dspark-speculator-py",
+          "symbol": "AscendDSparkSpeculator.propose",
+          "deviceCallContexts": [],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        }
+      ]
+    },
+    {
+      "id": "gqa",
+      "title": "Distill 的 Qwen/Llama GQA",
+      "models": [
+        "r1-distill-qwen-1.5b",
+        "r1-distill-qwen-7b",
+        "r1-distill-qwen-14b",
+        "r1-distill-qwen-32b",
+        "r1-distill-llama-8b",
+        "r1-distill-llama-70b"
+      ],
+      "flow": [
+        "Q/K/V 投影",
+        "RoPE 与 KV cache",
+        "repeat_kv / attention",
+        "Dense FFN",
+        "残差"
+      ],
+      "meaning": "六版 Distill 使用 Qwen2/Llama 原生 Dense GQA 结构，Q/K/V bias、KV heads 和词表分别核对。",
+      "code": "所选 Transformers v4.44.0 的 eager 参考作为矩阵与数学关系来源；不是声明本机已装该版本或所有服务使用 eager。 CANN 匹配 tag 来源：attention/fused_infer_attention_score, posembedding/rotary_position_embedding。",
+      "hardware": "运行框架、SDPA/FlashAttention、分页、tokenizer 与 chat_template 须按实际底座检查；不能套用 MLA cache。",
+      "limit": "这里只定位参考模型与共同 norm/linear 条件，GQA 专属 Ascend attention 内核尚未追通。",
+      "evidence": "固定源码静态核验；设备未实测",
+      "refs": [
+        {
+          "id": "hf-transformers-modeling_qwen2-py",
+          "line": 282
+        },
+        {
+          "id": "hf-transformers-modeling_llama-py",
+          "line": 364
+        },
+        {
+          "id": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_host-fused_infer_attention_score_def-cpp",
+          "line": 20
+        },
+        {
+          "id": "cann-cann-ops-transformer-posembedding-rotary_position_embedding-op_host-rotary_position_embedding_def-cpp",
+          "line": 16
+        }
+      ],
+      "bindings": [
+        {
+          "proof": "hf-transformers-modeling_qwen2-py:Qwen2Attention.forward",
+          "source": "hf-transformers-modeling_qwen2-py",
+          "symbol": "Qwen2Attention.forward",
+          "deviceCallContexts": [],
+          "level": "参考 eager 函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "hf-transformers-modeling_llama-py:LlamaAttention.forward",
+          "source": "hf-transformers-modeling_llama-py",
+          "symbol": "LlamaAttention.forward",
+          "deviceCallContexts": [],
+          "level": "参考 eager 函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        }
+      ]
+    },
+    {
+      "id": "ffn",
+      "title": "Dense FFN 与 SwiGLU",
+      "models": [
+        "v2",
+        "v3-base",
+        "v3",
+        "r1-zero",
+        "r1",
+        "r1-distill-qwen-1.5b",
+        "r1-distill-qwen-7b",
+        "r1-distill-qwen-14b",
+        "r1-distill-qwen-32b",
+        "r1-distill-llama-8b",
+        "r1-distill-llama-70b",
+        "v3.2-exp",
+        "v3.2",
+        "v4-flash-base",
+        "v4-flash",
+        "v4-pro-base",
+        "v4-pro",
+        "v4-flash-dspark",
+        "v4-pro-dspark",
+        "v4-flash-0731",
+        "v4-pro-0813"
+      ],
+      "flow": [
+        "gate/up 投影",
+        "SiLU(gate)×up",
+        "down 投影",
+        "残差"
+      ],
+      "meaning": "Dense GQA 模型不含专家路由；V3 前 Dense 层与共享专家也有这一数学结构。",
+      "code": "固定 Qwen/Llama MLP.forward 核对参考数学；框架未量化 Linear.apply 使用 unquantized_gemm 分派。 CANN 匹配 tag 来源：activation/swi_glu, matmul/mat_mul_v3。",
+      "hardware": "三个投影、激活精度、bias、并行切分和量化布局各自固定；Linear 分派不证明某个 FFN 的完整设备时序。",
+      "limit": "已定位 AscendSiluAndMul.forward_oot 到 torch_npu.npu_swiglu；clamp 版先按前后半维分别 clamp 再调用。Dense 分支不套用专家 MC2 通信，底层 CANN 数值仍未验证。",
+      "evidence": "固定源码静态核验；设备未实测",
+      "refs": [
+        {
+          "id": "aux-vllm-project-vllm-ascend-activation-py",
+          "line": 36
+        },
+        {
+          "id": "aux-vllm-project-vllm-ascend-activation-py",
+          "line": 42
+        },
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-ops-linear-py",
+          "line": 133
+        },
+        {
+          "id": "hf-transformers-modeling_qwen2-py",
+          "line": 222
+        },
+        {
+          "id": "hf-transformers-modeling_llama-py",
+          "line": 291
+        },
+        {
+          "id": "cann-cann-ops-nn-activation-swi_glu-op_host-swi_glu_def-cpp",
+          "line": 17
+        },
+        {
+          "id": "cann-cann-ops-nn-matmul-mat_mul_v3-op_host-mat_mul_v3_def-cpp",
+          "line": 16
+        }
+      ],
+      "bindings": [
+        {
+          "proof": "aux-vllm-project-vllm-ascend-activation-py:AscendSiluAndMul.forward_oot",
+          "source": "aux-vllm-project-vllm-ascend-activation-py",
+          "symbol": "AscendSiluAndMul.forward_oot",
+          "deviceCallContexts": [
+            "torch_npu.npu_swiglu"
+          ],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "aux-vllm-project-vllm-ascend-activation-py:AscendSiluAndMulWithClamp.forward_oot",
+          "source": "aux-vllm-project-vllm-ascend-activation-py",
+          "symbol": "AscendSiluAndMulWithClamp.forward_oot",
+          "deviceCallContexts": [
+            "torch_npu.npu_swiglu"
+          ],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "vllm-project-vllm-ascend-vllm_ascend-ops-linear-py:AscendUnquantizedLinearMethod.apply",
+          "source": "vllm-project-vllm-ascend-vllm_ascend-ops-linear-py",
+          "symbol": "AscendUnquantizedLinearMethod.apply",
+          "deviceCallContexts": [
+            "torch.ops.vllm.unquantized_gemm"
+          ],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "hf-transformers-modeling_qwen2-py:Qwen2MLP.forward",
+          "source": "hf-transformers-modeling_qwen2-py",
+          "symbol": "Qwen2MLP.forward",
+          "deviceCallContexts": [],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        },
+        {
+          "proof": "hf-transformers-modeling_llama-py:LlamaMLP.forward",
+          "source": "hf-transformers-modeling_llama-py",
+          "symbol": "LlamaMLP.forward",
+          "deviceCallContexts": [],
+          "level": "框架模块/分派函数",
+          "condition": "固定版本的函数上下文；其中 API 可属于互斥条件分支，不表示顺序或整模型兼容性"
+        }
+      ]
+    },
+    {
+      "id": "cann",
+      "title": "CANN 开源算子与本地 SDK",
+      "models": [
+        "v2",
+        "v3-base",
+        "v3",
+        "r1-zero",
+        "r1",
+        "r1-distill-qwen-1.5b",
+        "r1-distill-qwen-7b",
+        "r1-distill-qwen-14b",
+        "r1-distill-qwen-32b",
+        "r1-distill-llama-8b",
+        "r1-distill-llama-70b",
+        "v3.2-exp",
+        "v3.2",
+        "v4-flash-base",
+        "v4-flash",
+        "v4-pro-base",
+        "v4-pro",
+        "v4-flash-dspark",
+        "v4-pro-dspark",
+        "v4-flash-0731",
+        "v4-pro-0813"
+      ],
+      "flow": [
+        "固定框架调用",
+        "op-plugin 条件 API",
+        "匹配 CANN tag 的 API/host/tiling",
+        "kernel 与 SDK 高级 API",
+        "运行分支/ABI/数值验证属于未来可选研究"
+      ],
+      "meaning": "CANN 相关算子公开源码可读，应按版本继续核查，不能将未完成的源代码追踪概括为闭源。本专题是所研究家族的来源清单，各版本启用的算子仍按模型和分派条件区分。",
+      "code": "本地 SDK 9.2.0-beta.2；ops-transformer/ops-nn/ops-math 固定同版本 tag；30 个源码家族和独立 op-plugin bridge，含 API/host/tiling/kernel 范围哈希。Python v2 不自动等于 aclnn V2。",
+      "hardware": "所检查安装为 aarch64 编译器/AscendC SDK，独立算子库文件未在该路径发现；源文件从对应 tag 核对。不能据 SDK 版本证明目标设备、框架或二进制兼容。",
+      "limit": "官方 MhcPre/Post 与框架自定义 HcPre/Post 独立保留；TileKernels 仍是独立实现。没有安装/更新虚拟机软件、编译或运行算子；设备实验不在本次范围。",
+      "evidence": "固定 tag 源文件和 Git blob/SHA-256、源码范围、本地包只读检查",
+      "refs": [
+        {
+          "id": "cann-cann-ops-transformer-README-md"
+        },
+        {
+          "id": "cann-cann-ops-nn-README-md"
+        },
+        {
+          "id": "cann-cann-ops-math-README-md"
+        }
+      ],
+      "bindings": []
+    }
+  ],
+  "platforms": [
+    {
+      "id": "ascend-a2-a3",
+      "name": "Ascend A2/A3：设备条件独立确认",
+      "precision": "BF16/INT8 与其他格式由具体 CANN/torch_npu 和 loader 决定",
+      "support": "只记录源码分派条件，不以设备连接或 import 成功作为整模型支持证明。",
+      "stack": "设备环境与所选 vLLM-Ascend 提交未组成已测试兼容栈；固定驱动、CANN、torch_npu、框架与 custom-op 包后验证。",
+      "boundary": "不将 Ascend 950 的 FP4/FP8/TileKernels 条件推广到 A2/A3。设备实验不在本次范围。",
+      "refs": [
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-ops-layernorm-py"
+        }
+      ]
+    },
+    {
+      "id": "ascend-950",
+      "name": "Ascend 950：V4 / TileKernels 候选平台",
+      "precision": "按模块区分 FP4、FP8、BF16、FP32 与 UE8M0 scale；格式与转换单列",
+      "support": "TileKernels 明确包含 Ascend 后端，框架 V4 模块与 compressor/mHC dispatcher 存在；仍未验证整模型或两套实现的连接关系。",
+      "stack": "TileKernels：Python≥3.12、PyTorch≥2.13、TileLang≥0.1.15、CANN≥9.2；所选 vLLM-Ascend 是独立固定源码快照。",
+      "boundary": "硬件型号一致不足以证明软件栈兼容；source presence、编译、正确性与性能分别标记。",
+      "refs": [
+        {
+          "id": "deepseek-ai-TileKernels-README-md"
+        }
+      ]
+    }
+  ],
+  "optimizations": [
+    {
+      "id": "baseline",
+      "priority": "P0",
+      "title": "先建立可运行基线",
+      "status": "未来可选 · 不纳入本次验收",
+      "scope": "precision / 如另行开展，固定具体软硬件和负载",
+      "observation": "AscendFp8BlockLinearMethod 可选择 mxfp8_method，其他分支走 unquantized_gemm；process_weights_after_loading 必须与 apply 一起核对。RMSNorm.forward_oot 包含 npu_rms_norm 或 add-rms 条件。",
+      "proposal": "固定完整环境、loader 与权重转换，先小批正确性，再记录初始 prefill/decode。",
+      "metric": "启动、logits/模块误差、trace、p50/p95、每卡显存",
+      "risk": "源码分支/量化/布局改变可能影响数值或 graph/ABI；一次改变一个变量，超出测试条件不推广。",
+      "refs": [
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-ops-layernorm-py"
+        }
+      ]
+    },
+    {
+      "id": "mla-cache",
+      "priority": "P1",
+      "title": "MLA 投影与 cache 读写",
+      "status": "未来可选 · 不纳入本次验收",
+      "scope": "mla / 如另行开展，固定具体软硬件和负载",
+      "observation": "wrapper.forward 调用 torch.ops.vllm.mla_forward；AscendMLAImpl.forward 再分派，_forward_decode 包含普通/NZ/FA quant cache 布局及 query padding/SpecDecoding 条件。",
+      "proposal": "在固定 decode shape 对比分步与融合/缓存路径；检查重复解量化与中间读写。",
+      "metric": "kernel 时间、HBM 读写、cache bytes、logits/输出误差",
+      "risk": "源码分支/量化/布局改变可能影响数值或 graph/ABI；一次改变一个变量，超出测试条件不推广。",
+      "refs": [
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-ops-mla-py"
+        }
+      ]
+    },
+    {
+      "id": "dsa-index",
+      "priority": "P1",
+      "title": "Indexer 与 sparse attention",
+      "status": "未来可选 · 不纳入本次验收",
+      "scope": "dsa / 如另行开展，固定具体软硬件和负载",
+      "observation": "AscendDeepseekSparseAttention.forward 调用 dsa_forward；AscendDSAImpl 中 prolog、indexer、cache update 和 attention 各有单流/多流或设备条件。",
+      "proposal": "分别测 index score/top-k、attention 和 metadata，变化只作用于一项，保留选择结果质量。",
+      "metric": "indexer/attention 时间、top-k 一致性、质量/误差、workspace",
+      "risk": "源码分支/量化/布局改变可能影响数值或 graph/ABI；一次改变一个变量，超出测试条件不推广。",
+      "refs": [
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-ops-dsa-py"
+        }
+      ]
+    },
+    {
+      "id": "v4-compress",
+      "priority": "P1",
+      "title": "压缩边界与 compressor 状态",
+      "status": "未来可选 · 不纳入本次验收",
+      "scope": "compression / 如另行开展，固定具体软硬件和负载",
+      "observation": "框架 Compressor.forward 使用 _C_ascend.compressor 分派；Indexer.select_topk 使用 npu_quant_lightning_indexer_v2；source forward 与 cache plan/metadata 相互约束。",
+      "proposal": "分别比较首次 prefill、decode 压缩边界与非边界；窗口/前缀/FP32 状态分别测量。",
+      "metric": "边界 p95、state/cache bytes、压缩 token 与数值误差",
+      "risk": "源码分支/量化/布局改变可能影响数值或 graph/ABI；一次改变一个变量，超出测试条件不推广。",
+      "refs": [
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-model-py"
+        }
+      ]
+    },
+    {
+      "id": "mhc-fusion",
+      "priority": "P1",
+      "title": "mHC pre/post 与 Sinkhorn 融合",
+      "status": "未来可选 · 不纳入本次验收",
+      "scope": "mhc / 如另行开展，固定具体软硬件和负载",
+      "observation": "框架 hc_pre/hc_post 分派 npu_hc_pre_v2 / npu_hc_post；TileKernels wrapper 与 *_asc generator 为另一条独立实现来源，不认定框架使用了该库。",
+      "proposal": "以参考 mix/Sinkhorn 为正确性基线，再比较可用融合路径；不预设收益。",
+      "metric": "pre/post 时间、迭代误差、row/column 归一化、HBM 读写",
+      "risk": "源码分支/量化/布局改变可能影响数值或 graph/ABI；一次改变一个变量，超出测试条件不推广。",
+      "refs": [
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-model-py"
+        }
+      ]
+    },
+    {
+      "id": "moe-comm",
+      "priority": "P1",
+      "title": "专家 GEMM 与 dispatch/combine",
+      "status": "未来可选 · 不纳入本次验收",
+      "scope": "moe / 如另行开展，固定具体软硬件和负载",
+      "observation": "MC2 token_dispatch/combine 使用 npu_moe_distribute_dispatch_v2 / combine_v2；MXFP4 GMM1 分支调用 grouped_matmul、swiglu_group_quant，另有非 DeepSeek 的 SITU 分支，不能按调用集合串成执行序列。",
+      "proposal": "固定 EP/TP、路由和 N_e 分布，测通信、专家和 shared 部分，再评估重叠。",
+      "metric": "dispatch/GEMM/combine 分段时间、N_e 分布、吞吐、误差",
+      "risk": "源码分支/量化/布局改变可能影响数值或 graph/ABI；一次改变一个变量，超出测试条件不推广。",
+      "refs": [
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-ops-fused_moe-moe_mlp-py"
+        }
+      ]
+    },
+    {
+      "id": "quant-graph",
+      "priority": "P2",
+      "title": "量化、图模式与动态负载",
+      "status": "未来可选 · 不纳入本次验收",
+      "scope": "precision / 如另行开展，固定具体软硬件和负载",
+      "observation": "AscendFp8BlockLinearMethod 可选择 mxfp8_method，其他分支走 unquantized_gemm；process_weights_after_loading 必须与 apply 一起核对。RMSNorm.forward_oot 包含 npu_rms_norm 或 add-rms 条件。",
+      "proposal": "同模型固定质量参考，分别变化量化格式或图模式；warmup 与编译时间单列。",
+      "metric": "延迟分布、显存、质量、图重编译次数",
+      "risk": "源码分支/量化/布局改变可能影响数值或 graph/ABI；一次改变一个变量，超出测试条件不推广。",
+      "refs": [
+        {
+          "id": "vllm-project-vllm-ascend-vllm_ascend-ops-layernorm-py"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "aux-vllm-project-vllm-ascend-activation-py",
+      "title": "vllm-project/vllm-ascend / vllm_ascend/ops/activation.py",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/ops/activation.py",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "79185cd8bae9801aef50873cb082bb977ff8d2b3ddb27766e4f42ffbfa12b5c0",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py",
+      "title": "vllm-project/vllm-ascend / vllm_ascend/models/deepseek_v4/dspark.py",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/models/deepseek_v4/dspark.py",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "d986e557739321ff14c2b8fdfe564bf6a5953c880c762010446634c26eae3810",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "aux-vllm-project-vllm-ascend-vllm_ascend-spec_decode-dspark_proposer-py",
+      "title": "vllm-project/vllm-ascend / vllm_ascend/spec_decode/dspark_proposer.py",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/spec_decode/dspark_proposer.py",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "70d216de21875e679d510153ebdb0f0ccf130875a0e644f0673d60b67b6b633c",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "aux-vllm-project-vllm-ascend-vllm_ascend-worker-v2-spec_decode-dspark-speculator-py",
+      "title": "vllm-project/vllm-ascend / vllm_ascend/worker/v2/spec_decode/dspark/speculator.py",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/worker/v2/spec_decode/dspark/speculator.py",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "eab380448fca7578d80707f0dfcadb093361986c73d01dc3b7a798cce85f9f9a",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "backend-deep-csrc-attention-compressor-op_host-arch35-compressor_tiling-cpp",
+      "title": "vllm-project/vllm-ascend / csrc/attention/compressor/op_host/arch35/compressor_tiling.cpp",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/attention/compressor/op_host/arch35/compressor_tiling.cpp",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "016763ac551df965e8f23893a41f99e341d7d337175044e06980095d8193bc84",
+      "accessed": "2026-10-01",
+      "kind": "backend_registration"
+    },
+    {
+      "id": "backend-deep-csrc-attention-compressor-op_host-compressor_def-cpp",
+      "title": "vllm-project/vllm-ascend / csrc/attention/compressor/op_host/compressor_def.cpp",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/attention/compressor/op_host/compressor_def.cpp",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "65eb4da53db001033711a2808e45d91bf90bbd25f76c2c3b9ed95273e8443939",
+      "accessed": "2026-10-01",
+      "kind": "backend_registration"
+    },
+    {
+      "id": "backend-deep-csrc-attention-compressor-op_kernel-arch35-compressor_kernel-h",
+      "title": "vllm-project/vllm-ascend / csrc/attention/compressor/op_kernel/arch35/compressor_kernel.h",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/attention/compressor/op_kernel/arch35/compressor_kernel.h",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "b5b52edd6972bc09420f9f389833eb8ffea5b204e4e0a68ad97e7ea4f2cba973",
+      "accessed": "2026-10-01",
+      "kind": "backend_registration"
+    },
+    {
+      "id": "backend-deep-csrc-gmm-grouped_matmul_swiglu_quant-op_host-grouped_matmul_swiglu_quant_def-cpp",
+      "title": "vllm-project/vllm-ascend / csrc/gmm/grouped_matmul_swiglu_quant/op_host/grouped_matmul_swiglu_quant_def.cpp",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/gmm/grouped_matmul_swiglu_quant/op_host/grouped_matmul_swiglu_quant_def.cpp",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "d9e6d9faf0d592ecd30b07cde5f209558122c360a07a1d3c1ad105e779e5e2fa",
+      "accessed": "2026-10-01",
+      "kind": "backend_registration"
+    },
+    {
+      "id": "backend-deep-csrc-gmm-grouped_matmul_swiglu_quant-op_host-op_api-aclnn_grouped_matmul_swiglu_quant-cpp",
+      "title": "vllm-project/vllm-ascend / csrc/gmm/grouped_matmul_swiglu_quant/op_host/op_api/aclnn_grouped_matmul_swiglu_quant.cpp",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/gmm/grouped_matmul_swiglu_quant/op_host/op_api/aclnn_grouped_matmul_swiglu_quant.cpp",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "9a9a98f3a59a43d975166d1e7248330d409a796aad7be8f918c21f6a40362895",
+      "accessed": "2026-10-01",
+      "kind": "backend_registration"
+    },
+    {
+      "id": "backend-deep-csrc-moe-hc_pre-op_host-hc_pre_def-cpp",
+      "title": "vllm-project/vllm-ascend / csrc/moe/hc_pre/op_host/hc_pre_def.cpp",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/moe/hc_pre/op_host/hc_pre_def.cpp",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "051e9b4f722a3b36f1bb447cafd7700e1e37cdd14648d417b66b3f7db03af109",
+      "accessed": "2026-10-01",
+      "kind": "backend_registration"
+    },
+    {
+      "id": "backend-deep-csrc-moe-hc_pre-op_kernel-hc_pre-cpp",
+      "title": "vllm-project/vllm-ascend / csrc/moe/hc_pre/op_kernel/hc_pre.cpp",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/moe/hc_pre/op_kernel/hc_pre.cpp",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "1ecc7e68d3b23da5b603aaa43a8a8e053f239dc1bbcd4cd7dfb415abaa31c710",
+      "accessed": "2026-10-01",
+      "kind": "backend_registration"
+    },
+    {
+      "id": "backend-deep-csrc-torch_binding-cpp",
+      "title": "vllm-project/vllm-ascend / csrc/torch_binding.cpp",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/csrc/torch_binding.cpp",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "cbfd870c9c16df67d4b5b2985bbe7260429aada8a0fefd2e0028dff98f806d06",
+      "accessed": "2026-10-01",
+      "kind": "backend_registration"
+    },
+    {
+      "id": "cann-cann-ops-math-README-md",
+      "title": "cann/ops-math / README.md",
+      "url": "https://atomgit.com/cann/ops-math/blob/0a2ce5b57caec6068d9e5658b740c2d41482aa15/README.md",
+      "revision": "0a2ce5b57caec6068d9e5658b740c2d41482aa15",
+      "sha256": "8c470ac3dcfa435f1c8ce02e626b355e56fbe48bb644c32e12be7ce6d9127ae5",
+      "accessed": "2026-10-01",
+      "kind": "official_document"
+    },
+    {
+      "id": "cann-cann-ops-math-experimental-math-cast-op_host-cast_def-cpp",
+      "title": "cann/ops-math / experimental/math/cast/op_host/cast_def.cpp",
+      "url": "https://atomgit.com/cann/ops-math/blob/0a2ce5b57caec6068d9e5658b740c2d41482aa15/experimental/math/cast/op_host/cast_def.cpp",
+      "revision": "0a2ce5b57caec6068d9e5658b740c2d41482aa15",
+      "sha256": "e347bb6872ee01cfee4bca901f20526d44ef14601962e0925c25429f29012bec",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-math-math-add-op_host-add_def-cpp",
+      "title": "cann/ops-math / math/add/op_host/add_def.cpp",
+      "url": "https://atomgit.com/cann/ops-math/blob/0a2ce5b57caec6068d9e5658b740c2d41482aa15/math/add/op_host/add_def.cpp",
+      "revision": "0a2ce5b57caec6068d9e5658b740c2d41482aa15",
+      "sha256": "9c4858e1f8c7a43060dcf2f2970f6fdeb8691966cbb95aa7599027b6b066af4e",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-math-math-mul-op_host-mul_def-cpp",
+      "title": "cann/ops-math / math/mul/op_host/mul_def.cpp",
+      "url": "https://atomgit.com/cann/ops-math/blob/0a2ce5b57caec6068d9e5658b740c2d41482aa15/math/mul/op_host/mul_def.cpp",
+      "revision": "0a2ce5b57caec6068d9e5658b740c2d41482aa15",
+      "sha256": "078b022b42a02486043e049dc1bea4f099516bb0062ab6627eb1ad30c003d0b5",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-nn-README-md",
+      "title": "cann/ops-nn / README.md",
+      "url": "https://atomgit.com/cann/ops-nn/blob/30ef7dd563c8a4b74c3161835c8e47d1d96f87b6/README.md",
+      "revision": "30ef7dd563c8a4b74c3161835c8e47d1d96f87b6",
+      "sha256": "99e5cc9e9df124f32df8662853b920e062bcc2d6d74afc85d4c973071284dddd",
+      "accessed": "2026-10-01",
+      "kind": "official_document"
+    },
+    {
+      "id": "cann-cann-ops-nn-activation-swi_glu-op_host-swi_glu_def-cpp",
+      "title": "cann/ops-nn / activation/swi_glu/op_host/swi_glu_def.cpp",
+      "url": "https://atomgit.com/cann/ops-nn/blob/30ef7dd563c8a4b74c3161835c8e47d1d96f87b6/activation/swi_glu/op_host/swi_glu_def.cpp",
+      "revision": "30ef7dd563c8a4b74c3161835c8e47d1d96f87b6",
+      "sha256": "46dbb2068be31f45cb73d43caac97ec5e431391c1b8d3e53c8fa97b11ce75b22",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-nn-activation-swiglu_group_quant-op_host-swiglu_group_quant_def-cpp",
+      "title": "cann/ops-nn / activation/swiglu_group_quant/op_host/swiglu_group_quant_def.cpp",
+      "url": "https://atomgit.com/cann/ops-nn/blob/30ef7dd563c8a4b74c3161835c8e47d1d96f87b6/activation/swiglu_group_quant/op_host/swiglu_group_quant_def.cpp",
+      "revision": "30ef7dd563c8a4b74c3161835c8e47d1d96f87b6",
+      "sha256": "8aa9c004abed27dab327414f0af271136356b2b5b949fe1f4135a4bf6a1cd973",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-nn-matmul-mat_mul_v3-op_host-mat_mul_v3_def-cpp",
+      "title": "cann/ops-nn / matmul/mat_mul_v3/op_host/mat_mul_v3_def.cpp",
+      "url": "https://atomgit.com/cann/ops-nn/blob/30ef7dd563c8a4b74c3161835c8e47d1d96f87b6/matmul/mat_mul_v3/op_host/mat_mul_v3_def.cpp",
+      "revision": "30ef7dd563c8a4b74c3161835c8e47d1d96f87b6",
+      "sha256": "2896e2090139914b825a15512bdbaf83b125e4d77c40273e9f6e6b4ce99208c9",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-nn-matmul-quant_batch_matmul_v4-op_host-quant_batch_matmul_v4_def-cpp",
+      "title": "cann/ops-nn / matmul/quant_batch_matmul_v4/op_host/quant_batch_matmul_v4_def.cpp",
+      "url": "https://atomgit.com/cann/ops-nn/blob/30ef7dd563c8a4b74c3161835c8e47d1d96f87b6/matmul/quant_batch_matmul_v4/op_host/quant_batch_matmul_v4_def.cpp",
+      "revision": "30ef7dd563c8a4b74c3161835c8e47d1d96f87b6",
+      "sha256": "4a489e3d92f2bfcc42d06f6e21859389103bac382459554f491ebb2c46a48c82",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-nn-norm-add_rms_norm-op_host-add_rms_norm_def-cpp",
+      "title": "cann/ops-nn / norm/add_rms_norm/op_host/add_rms_norm_def.cpp",
+      "url": "https://atomgit.com/cann/ops-nn/blob/30ef7dd563c8a4b74c3161835c8e47d1d96f87b6/norm/add_rms_norm/op_host/add_rms_norm_def.cpp",
+      "revision": "30ef7dd563c8a4b74c3161835c8e47d1d96f87b6",
+      "sha256": "1157325b8f3571cee94fcfae3faca67d1e721f4adbde21f859410c36ad0afec3",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-nn-norm-rms_norm-op_host-rms_norm_def-cpp",
+      "title": "cann/ops-nn / norm/rms_norm/op_host/rms_norm_def.cpp",
+      "url": "https://atomgit.com/cann/ops-nn/blob/30ef7dd563c8a4b74c3161835c8e47d1d96f87b6/norm/rms_norm/op_host/rms_norm_def.cpp",
+      "revision": "30ef7dd563c8a4b74c3161835c8e47d1d96f87b6",
+      "sha256": "7a55c87391c9f3cdd20f719789ab4fb4717da61034b34c5e083256ebaa41be0c",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-nn-quant-dynamic_mx_quant-op_host-dynamic_mx_quant_def-cpp",
+      "title": "cann/ops-nn / quant/dynamic_mx_quant/op_host/dynamic_mx_quant_def.cpp",
+      "url": "https://atomgit.com/cann/ops-nn/blob/30ef7dd563c8a4b74c3161835c8e47d1d96f87b6/quant/dynamic_mx_quant/op_host/dynamic_mx_quant_def.cpp",
+      "revision": "30ef7dd563c8a4b74c3161835c8e47d1d96f87b6",
+      "sha256": "132509cca55f973f0489588595b4d928b1ff273a072499d948c2ac96988abd2e",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-transformer-README-md",
+      "title": "cann/ops-transformer / README.md",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/README.md",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "14b597c4d7fec0f8315e9131270a43fa4609f6c5eee98566461ddcb833d85b3c",
+      "accessed": "2026-10-01",
+      "kind": "official_document"
+    },
+    {
+      "id": "cann-cann-ops-transformer-attention-compressor-op_host-compressor_def-cpp",
+      "title": "cann/ops-transformer / attention/compressor/op_host/compressor_def.cpp",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/attention/compressor/op_host/compressor_def.cpp",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "9ce975cef15cf90f41d25e9aa7380cce882175dfb72c594bc367de1e4eb2e0c0",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_host-fused_infer_attention_score_def-cpp",
+      "title": "cann/ops-transformer / attention/fused_infer_attention_score/op_host/fused_infer_attention_score_def.cpp",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/attention/fused_infer_attention_score/op_host/fused_infer_attention_score_def.cpp",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "f2155e446b486501ecdc99a571a1f0b92087328389ed82f18ce7eb55e38c0034",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-transformer-attention-lightning_indexer-op_host-lightning_indexer_def-cpp",
+      "title": "cann/ops-transformer / attention/lightning_indexer/op_host/lightning_indexer_def.cpp",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/attention/lightning_indexer/op_host/lightning_indexer_def.cpp",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "a9561d7d96f6a65fd5f66bffe8acd78b0b882399ae1abd3b97c33b15d906a855",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-transformer-attention-lightning_indexer_v2-op_host-lightning_indexer_v2_def-cpp",
+      "title": "cann/ops-transformer / attention/lightning_indexer_v2/op_host/lightning_indexer_v2_def.cpp",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/attention/lightning_indexer_v2/op_host/lightning_indexer_v2_def.cpp",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "d2ed52709045e5905d02843ff4963f0ad428c87222ec8dc093b94d56a9d74a54",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-transformer-attention-mixed_quant_sparse_flash_mla-op_host-mixed_quant_sparse_flash_mla_def-cpp",
+      "title": "cann/ops-transformer / attention/mixed_quant_sparse_flash_mla/op_host/mixed_quant_sparse_flash_mla_def.cpp",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/attention/mixed_quant_sparse_flash_mla/op_host/mixed_quant_sparse_flash_mla_def.cpp",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "ad73a73719c1dc932d05d746eb1d299a87ad12e8f2d37461bacea1a83778e7b8",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-transformer-attention-quant_lightning_indexer-op_host-quant_lightning_indexer_def-cpp",
+      "title": "cann/ops-transformer / attention/quant_lightning_indexer/op_host/quant_lightning_indexer_def.cpp",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/attention/quant_lightning_indexer/op_host/quant_lightning_indexer_def.cpp",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "422cf8b5678342d6d5b48ec91aaf1027bb8108eb5951a5fbf4574291b141ed2a",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-transformer-attention-quant_lightning_indexer_v2-op_host-quant_lightning_indexer_v2_def-cpp",
+      "title": "cann/ops-transformer / attention/quant_lightning_indexer_v2/op_host/quant_lightning_indexer_v2_def.cpp",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/attention/quant_lightning_indexer_v2/op_host/quant_lightning_indexer_v2_def.cpp",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "724253c60011837d95dd320cca1e4c404b6a40fdc67945c721e336ac565d210d",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-transformer-attention-sparse_flash_attention-op_host-sparse_flash_attention_def-cpp",
+      "title": "cann/ops-transformer / attention/sparse_flash_attention/op_host/sparse_flash_attention_def.cpp",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/attention/sparse_flash_attention/op_host/sparse_flash_attention_def.cpp",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "747d30dfb1726188e69983d9c8419cc507e023651c27a0f6f885bf251c5d7923",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-transformer-attention-sparse_flash_mla-op_host-sparse_flash_mla_def-cpp",
+      "title": "cann/ops-transformer / attention/sparse_flash_mla/op_host/sparse_flash_mla_def.cpp",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/attention/sparse_flash_mla/op_host/sparse_flash_mla_def.cpp",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "327e87c7263e5fc05d0e87e09797e0c3d296ecd290924d412fb8b2c6caa71a8c",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-transformer-attention-sparse_flash_mla_metadata-docs-aclnnSparseFlashMlaMetadata-md",
+      "title": "cann/ops-transformer / attention/sparse_flash_mla_metadata/docs/aclnnSparseFlashMlaMetadata.md",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/attention/sparse_flash_mla_metadata/docs/aclnnSparseFlashMlaMetadata.md",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "8ecaa89e0bcd92787dab8f602ca2844b85dbba0c3374b39684ff2bf8d67e91ef",
+      "accessed": "2026-10-01",
+      "kind": "official_document"
+    },
+    {
+      "id": "cann-cann-ops-transformer-gmm-grouped_matmul-op_host-grouped_matmul_def-cpp",
+      "title": "cann/ops-transformer / gmm/grouped_matmul/op_host/grouped_matmul_def.cpp",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/gmm/grouped_matmul/op_host/grouped_matmul_def.cpp",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "275e01f5bdf2b0439b7e1e1c1b710c4896435ed5a6554f4ee3027a45cec55352",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant-op_host-grouped_matmul_swiglu_quant_def-cpp",
+      "title": "cann/ops-transformer / gmm/grouped_matmul_swiglu_quant/op_host/grouped_matmul_swiglu_quant_def.cpp",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/gmm/grouped_matmul_swiglu_quant/op_host/grouped_matmul_swiglu_quant_def.cpp",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "c6a0827bc0a55f5faaf96ef44245a6b2868329659e4e9dd775e1499012701ce5",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant_v2-op_host-grouped_matmul_swiglu_quant_v2_def-cpp",
+      "title": "cann/ops-transformer / gmm/grouped_matmul_swiglu_quant_v2/op_host/grouped_matmul_swiglu_quant_v2_def.cpp",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/gmm/grouped_matmul_swiglu_quant_v2/op_host/grouped_matmul_swiglu_quant_v2_def.cpp",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "c23cbe1e84f8627348ba4d4d31952edf3586e0508535781d248fbc7b0a9e8a8d",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v2-op_host-moe_distribute_combine_v2_def-cpp",
+      "title": "cann/ops-transformer / mc2/moe_distribute_combine_v2/op_host/moe_distribute_combine_v2_def.cpp",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/mc2/moe_distribute_combine_v2/op_host/moe_distribute_combine_v2_def.cpp",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "0397db62fdd83182eb955b6bcbe411c2da2fa8fbbb0ad221e758bba3384b850b",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v3-op_host-moe_distribute_combine_v3_def-cpp",
+      "title": "cann/ops-transformer / mc2/moe_distribute_combine_v3/op_host/moe_distribute_combine_v3_def.cpp",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/mc2/moe_distribute_combine_v3/op_host/moe_distribute_combine_v3_def.cpp",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "55da2b51234520574fd45abf0c254e2861c74c50932df2baa36ac5d7697e9028",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v2-op_host-moe_distribute_dispatch_v2_def-cpp",
+      "title": "cann/ops-transformer / mc2/moe_distribute_dispatch_v2/op_host/moe_distribute_dispatch_v2_def.cpp",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/mc2/moe_distribute_dispatch_v2/op_host/moe_distribute_dispatch_v2_def.cpp",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "d3a9e38e90bf627557a2563767890f038aa1dca2a3c9688db5696bb6f8790675",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v3-op_host-moe_distribute_dispatch_v3_def-cpp",
+      "title": "cann/ops-transformer / mc2/moe_distribute_dispatch_v3/op_host/moe_distribute_dispatch_v3_def.cpp",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/mc2/moe_distribute_dispatch_v3/op_host/moe_distribute_dispatch_v3_def.cpp",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "ea9fe7c3b92cd16e36ac978b4d1920441d7ced9f140d9838a070f268a1f888d9",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-transformer-mhc-mhc_post-op_host-mhc_post_def-cpp",
+      "title": "cann/ops-transformer / mhc/mhc_post/op_host/mhc_post_def.cpp",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/mhc/mhc_post/op_host/mhc_post_def.cpp",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "8f4d8978dac4721e7fe2a1c99588034b064ccffe87b15ee963dddb31d88377d6",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-transformer-mhc-mhc_pre-op_host-mhc_pre_def-cpp",
+      "title": "cann/ops-transformer / mhc/mhc_pre/op_host/mhc_pre_def.cpp",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/mhc/mhc_pre/op_host/mhc_pre_def.cpp",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "234abb74852a5e8444779ea56107a23e8c7fed2418f2f25e6cc2f70c63faeb6a",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "cann-cann-ops-transformer-posembedding-rotary_position_embedding-op_host-rotary_position_embedding_def-cpp",
+      "title": "cann/ops-transformer / posembedding/rotary_position_embedding/op_host/rotary_position_embedding_def.cpp",
+      "url": "https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/posembedding/rotary_position_embedding/op_host/rotary_position_embedding_def.cpp",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "sha256": "e111b056feb5a1cedf88c570d1c3d1362dcb6dee5ad6931d7919c1ae3f1f8ac4",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "deepseek-ai-TileKernels-README-md",
+      "title": "deepseek-ai/TileKernels / README.md",
+      "url": "https://github.com/deepseek-ai/TileKernels/blob/66258df6175d2f630ffecb04c5ab66bff8a2ae6a/README.md",
+      "revision": "66258df6175d2f630ffecb04c5ab66bff8a2ae6a",
+      "sha256": "e0fbe098c9b1960a56d267954e3a32e9ea6235c13510cdf6fc6ccd87bbcd889e",
+      "accessed": "2026-10-01",
+      "kind": "backend_document"
+    },
+    {
+      "id": "deepseek-ai-TileKernels-tile_kernels-mhc-pre_big_fuse_asc-py",
+      "title": "deepseek-ai/TileKernels / tile_kernels/mhc/pre_big_fuse_asc.py",
+      "url": "https://github.com/deepseek-ai/TileKernels/blob/66258df6175d2f630ffecb04c5ab66bff8a2ae6a/tile_kernels/mhc/pre_big_fuse_asc.py",
+      "revision": "66258df6175d2f630ffecb04c5ab66bff8a2ae6a",
+      "sha256": "6b2a575cdce922bddabe35bf7f981073d302d889a7d578f81e2e9d01f4693929",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "deepseek-ai-TileKernels-tile_kernels-mhc-pre_big_fuse_kernel-py",
+      "title": "deepseek-ai/TileKernels / tile_kernels/mhc/pre_big_fuse_kernel.py",
+      "url": "https://github.com/deepseek-ai/TileKernels/blob/66258df6175d2f630ffecb04c5ab66bff8a2ae6a/tile_kernels/mhc/pre_big_fuse_kernel.py",
+      "revision": "66258df6175d2f630ffecb04c5ab66bff8a2ae6a",
+      "sha256": "d3d8f5ec18d426215b1dc2aabb9079e54e951216e971d602c93c5fa98d9afee8",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "deepseek-ai-TileKernels-tile_kernels-mhc-sinkhorn_asc-py",
+      "title": "deepseek-ai/TileKernels / tile_kernels/mhc/sinkhorn_asc.py",
+      "url": "https://github.com/deepseek-ai/TileKernels/blob/66258df6175d2f630ffecb04c5ab66bff8a2ae6a/tile_kernels/mhc/sinkhorn_asc.py",
+      "revision": "66258df6175d2f630ffecb04c5ab66bff8a2ae6a",
+      "sha256": "d820140532211c7403529abdcd2bcfa289ff4643445243f10fb054083d0c436e",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "deepseek-ai-TileKernels-tile_kernels-moe-topk_gate_asc-py",
+      "title": "deepseek-ai/TileKernels / tile_kernels/moe/topk_gate_asc.py",
+      "url": "https://github.com/deepseek-ai/TileKernels/blob/66258df6175d2f630ffecb04c5ab66bff8a2ae6a/tile_kernels/moe/topk_gate_asc.py",
+      "revision": "66258df6175d2f630ffecb04c5ab66bff8a2ae6a",
+      "sha256": "7e12aa54281f0f19e2b871f96c86dc1bbb10dc80ec726fb51506cc78a8d550a1",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "deepseek-ai-TileKernels-tile_kernels-moe-topk_gate_kernel-py",
+      "title": "deepseek-ai/TileKernels / tile_kernels/moe/topk_gate_kernel.py",
+      "url": "https://github.com/deepseek-ai/TileKernels/blob/66258df6175d2f630ffecb04c5ab66bff8a2ae6a/tile_kernels/moe/topk_gate_kernel.py",
+      "revision": "66258df6175d2f630ffecb04c5ab66bff8a2ae6a",
+      "sha256": "46b5b8e7d2ae2cff12363d2de4bde3cd335c3b071a363a7f0e1f8591faa7aff8",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "hf-transformers-modeling_llama-py",
+      "title": "Transformers v4.44.0 / src/transformers/models/llama/modeling_llama.py",
+      "url": "https://github.com/huggingface/transformers/blob/984bc11b0882ff1e5b34ba717ea357e069ceced9/src/transformers/models/llama/modeling_llama.py",
+      "revision": "984bc11b0882ff1e5b34ba717ea357e069ceced9",
+      "sha256": "403f03d3c9511f916b9eb988836dbaa1664672456a6a32189e23391a039686d3",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "hf-transformers-modeling_qwen2-py",
+      "title": "Transformers v4.44.0 / src/transformers/models/qwen2/modeling_qwen2.py",
+      "url": "https://github.com/huggingface/transformers/blob/984bc11b0882ff1e5b34ba717ea357e069ceced9/src/transformers/models/qwen2/modeling_qwen2.py",
+      "revision": "984bc11b0882ff1e5b34ba717ea357e069ceced9",
+      "sha256": "957e2df6b6999765ed93b6cb8ab8a94d89b449f08e868b95af3c5e6d9c0dbbb5",
+      "accessed": "2026-10-01",
+      "kind": "reference_code"
+    },
+    {
+      "id": "vllm-project-vllm-ascend-vllm_ascend-attention-dsa_v1-py",
+      "title": "vllm-project/vllm-ascend / vllm_ascend/attention/dsa_v1.py",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/attention/dsa_v1.py",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "83589db7ca6100fa7c3a959dec6bb3c6a85de14a0dc6fb11841ed6bb01cb588b",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "vllm-project-vllm-ascend-vllm_ascend-attention-mla_v1-py",
+      "title": "vllm-project/vllm-ascend / vllm_ascend/attention/mla_v1.py",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/attention/mla_v1.py",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "57666b33e89226cef055acde7e49fd06009c8c6845384211ce46d88cf7fae745",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-compressor-py",
+      "title": "vllm-project/vllm-ascend / vllm_ascend/models/deepseek_v4/compressor.py",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/models/deepseek_v4/compressor.py",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "9d190ff5544423b41aaa976057e46ffdcb9ac3c87f5b5d7567565612be108523",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-indexer-py",
+      "title": "vllm-project/vllm-ascend / vllm_ascend/models/deepseek_v4/indexer.py",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/models/deepseek_v4/indexer.py",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "a4bb79c3d77dcaa5e27533c86ebeb0359f8ee288b5ee8b06c34677b329c5082b",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-model-py",
+      "title": "vllm-project/vllm-ascend / vllm_ascend/models/deepseek_v4/model.py",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/models/deepseek_v4/model.py",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "c7c2e7c11df159ff0bdadab9f93fd66fd803c9ae189d03d7ff03191ec4f347cf",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-mtp-py",
+      "title": "vllm-project/vllm-ascend / vllm_ascend/models/deepseek_v4/mtp.py",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/models/deepseek_v4/mtp.py",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "65683ca8affc6a11f92c4c460eae588a108dabd871d7ecb8df764dfea3839cbe",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "vllm-project-vllm-ascend-vllm_ascend-ops-dsa-py",
+      "title": "vllm-project/vllm-ascend / vllm_ascend/ops/dsa.py",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/ops/dsa.py",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "b2b9c56ab8dbb873eb38470aceb777877d0cada6cf610136add8c16e5089b278",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "vllm-project-vllm-ascend-vllm_ascend-ops-fused_moe-moe_mlp-py",
+      "title": "vllm-project/vllm-ascend / vllm_ascend/ops/fused_moe/moe_mlp.py",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/ops/fused_moe/moe_mlp.py",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "2bf107e3287e3a4c69512e60e65495448f34a4451eab32ae3b23b5c2a46d2558",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "vllm-project-vllm-ascend-vllm_ascend-ops-fused_moe-token_dispatcher-py",
+      "title": "vllm-project/vllm-ascend / vllm_ascend/ops/fused_moe/token_dispatcher.py",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/ops/fused_moe/token_dispatcher.py",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "ad5153e170eb7cbb148ac0248463f7301f3c69e78e2709d5f38dd1f35d6bfd0f",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "vllm-project-vllm-ascend-vllm_ascend-ops-layernorm-py",
+      "title": "vllm-project/vllm-ascend / vllm_ascend/ops/layernorm.py",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/ops/layernorm.py",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "92ce942c1b9afeb906c248f06838b82eea0711361612c543fcdf14136ce5ce68",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "vllm-project-vllm-ascend-vllm_ascend-ops-linear-py",
+      "title": "vllm-project/vllm-ascend / vllm_ascend/ops/linear.py",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/ops/linear.py",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "7654777d9252fc6a3cc2c95f92b67a42410a0de24a5912ef20e807cf64ab74e6",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "vllm-project-vllm-ascend-vllm_ascend-ops-mla-py",
+      "title": "vllm-project/vllm-ascend / vllm_ascend/ops/mla.py",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/ops/mla.py",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "e14080c6c0106f2734f5441254e285e7a39fd8980046febe5232b4c9dba75400",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "vllm-project-vllm-ascend-vllm_ascend-quantization-methods-w4a8-w4a8_mxfp4-py",
+      "title": "vllm-project/vllm-ascend / vllm_ascend/quantization/methods/w4a8/w4a8_mxfp4.py",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/quantization/methods/w4a8/w4a8_mxfp4.py",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "9afcede65929aa1d65cf2ea726675a163b5634ac47b37d0e0acadecd38fb3109",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "vllm-project-vllm-ascend-vllm_ascend-quantization-methods-w8a8-fp8_block-py",
+      "title": "vllm-project/vllm-ascend / vllm_ascend/quantization/methods/w8a8/fp8_block.py",
+      "url": "https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/quantization/methods/w8a8/fp8_block.py",
+      "revision": "a8fcedb03d93e60efceddbfc912406f7fa491d57",
+      "sha256": "0af897fbc56e9c35e852fb51e7973475263e9e940d79f71e9cbee4e304d30e37",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    },
+    {
+      "id": "vllm-project-vllm-vllm-model_executor-models-deepseek_mtp-py",
+      "title": "vllm-project/vllm / vllm/model_executor/models/deepseek_mtp.py",
+      "url": "https://github.com/vllm-project/vllm/blob/bcee730b1a9d25f0fd283a0ef6c19133ebeebf4f/vllm/model_executor/models/deepseek_mtp.py",
+      "revision": "bcee730b1a9d25f0fd283a0ef6c19133ebeebf4f",
+      "sha256": "aae80e30b2dbfd1df41b83f51aaba4722e9f2dc3b4479d2a38ce1e32926fac11",
+      "accessed": "2026-10-01",
+      "kind": "backend_code"
+    }
+  ],
+  "protocol": [
+    "环境：设备型号、卡数/拓扑、驱动固件、CANN、torch_npu、框架、custom-op 包、容器 digest，禁止只用路径名冒充版本号。",
+    "模型：checkpoint revision、原始与转换精度、scale/packing、转换脚本 commit、weight header 哈希/覆盖。",
+    "负载：B、L_q、L_kv、并发、输入/输出长度、padding/ragged、TP/EP/DP、graph 与环境开关。",
+    "正确性：先固定参考与种子，检查模块/logits 的绝对/相对误差；量化额外检查任务质量。",
+    "性能：分别测 prefill/decode/verify/服务；记录 warmup、次数、时间单位、p50/p95、吞吐口径、峰值显存与原始 trace。",
+    "一次只改变一个主要变量；保存成功、失败与未执行状态；不把上游 README 数字或静态公式当成本项目实测。"
+  ],
+  "versionNotes": [
+    {
+      "models": [
+        "v2",
+        "v3-base",
+        "v3",
+        "r1-zero",
+        "r1",
+        "r1-distill-qwen-1.5b",
+        "r1-distill-qwen-7b",
+        "r1-distill-qwen-14b",
+        "r1-distill-qwen-32b",
+        "r1-distill-llama-8b",
+        "r1-distill-llama-70b",
+        "v3.2-exp",
+        "v3.2",
+        "v4-flash-base",
+        "v4-flash",
+        "v4-pro-base",
+        "v4-pro",
+        "v4-flash-dspark",
+        "v4-pro-dspark",
+        "v4-flash-0731",
+        "v4-pro-0813"
+      ],
+      "text": "官方模型代码、框架源码、TileKernels 分别固定版本；函数调用集合是上下文证据，不是执行顺序或 1:1 kernel 对应。"
+    },
+    {
+      "models": [
+        "v2",
+        "v3-base",
+        "v3",
+        "r1-zero",
+        "r1",
+        "r1-distill-qwen-1.5b",
+        "r1-distill-qwen-7b",
+        "r1-distill-qwen-14b",
+        "r1-distill-qwen-32b",
+        "r1-distill-llama-8b",
+        "r1-distill-llama-70b",
+        "v3.2-exp",
+        "v3.2",
+        "v4-flash-base",
+        "v4-flash",
+        "v4-pro-base",
+        "v4-pro",
+        "v4-flash-dspark",
+        "v4-pro-dspark",
+        "v4-flash-0731",
+        "v4-pro-0813"
+      ],
+      "text": "CANN 9.2.0-beta.2 的匹配开源仓和本地 SDK 已核查；源码可查、独立算子库是否安装、框架分派、ABI、设备正确性与性能分别记录。"
+    },
+    {
+      "models": [
+        "v2",
+        "v3-base",
+        "v3",
+        "r1-zero",
+        "r1",
+        "r1-distill-qwen-1.5b",
+        "r1-distill-qwen-7b",
+        "r1-distill-qwen-14b",
+        "r1-distill-qwen-32b",
+        "r1-distill-llama-8b",
+        "r1-distill-llama-70b",
+        "v3.2-exp",
+        "v3.2",
+        "v4-flash-base",
+        "v4-flash",
+        "v4-pro-base",
+        "v4-pro",
+        "v4-flash-dspark",
+        "v4-pro-dspark",
+        "v4-flash-0731",
+        "v4-pro-0813"
+      ],
+      "text": "设备验证不纳入本次验收，所有性能字段保持未知。"
+    }
+  ],
+  "downloads": {
+    "report": "assets/deepseek/DeepSeek-implementation-hardware-ascend.md",
+    "sources": "assets/deepseek/DeepSeek-sources.csv"
+  }
+}

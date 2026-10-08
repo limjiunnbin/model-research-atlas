@@ -1,0 +1,53 @@
+{
+  "status": "passed",
+  "date": "2026-10-02",
+  "draft": "2020-12",
+  "validator": "jsonschema 4.25.1",
+  "documents": 28,
+  "files": {
+    "family": [
+      "data/families/deepseek/family.json"
+    ],
+    "report": [
+      "data/families/deepseek/report.json"
+    ],
+    "compute": [
+      "data/families/deepseek/compute.json"
+    ],
+    "hardware": [
+      "data/families/deepseek/hardware.json"
+    ],
+    "catalog": [
+      "data/catalog.json"
+    ],
+    "analysis": [
+      "data/families/deepseek/analysis.json"
+    ],
+    "comparison": [
+      "data/analysis/cross-family.json"
+    ],
+    "architecture": [
+      "data/families/deepseek/v4-pro-base-architecture.json",
+      "data/families/deepseek/v4-pro-architecture.json",
+      "data/families/deepseek/v4-flash-base-architecture.json",
+      "data/families/deepseek/v3-base-architecture.json",
+      "data/families/deepseek/v3.2-exp-architecture.json",
+      "data/families/deepseek/r1-distill-qwen-1.5b-architecture.json",
+      "data/families/deepseek/v4-pro-0813-architecture.json",
+      "data/families/deepseek/v3-architecture.json",
+      "data/families/deepseek/r1-distill-qwen-7b-architecture.json",
+      "data/families/deepseek/v2-architecture.json",
+      "data/families/deepseek/v4-pro-dspark-architecture.json",
+      "data/families/deepseek/v3.2-architecture.json",
+      "data/families/deepseek/v4-flash-dspark-architecture.json",
+      "data/families/deepseek/r1-architecture.json",
+      "data/families/deepseek/v4-flash-0731-architecture.json",
+      "data/families/deepseek/r1-distill-qwen-14b-architecture.json",
+      "data/families/deepseek/r1-distill-llama-70b-architecture.json",
+      "data/families/deepseek/r1-distill-qwen-32b-architecture.json",
+      "data/families/deepseek/v4-flash-architecture.json",
+      "data/families/deepseek/r1-zero-architecture.json",
+      "data/families/deepseek/r1-distill-llama-8b-architecture.json"
+    ]
+  }
+}

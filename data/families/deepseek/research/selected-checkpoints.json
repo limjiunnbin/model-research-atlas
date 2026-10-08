@@ -1,0 +1,420 @@
+{
+  "accessed": "2026-10-01",
+  "directorySource": "hf-directory",
+  "selected": [
+    {
+      "name": "DeepSeek-V2",
+      "modelId": "deepseek-ai/DeepSeek-V2",
+      "revision": "4461458f186c35188585855f28f77af5661ad489",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V2/tree/4461458f186c35188585855f28f77af5661ad489",
+      "materials": {
+        "modelCard": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/README.md",
+        "config": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json",
+        "weightIndex": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/model.safetensors.index.json",
+        "license": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/LICENSE"
+        ],
+        "referenceCode": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/modeling_deepseek.py"
+        ],
+        "papers": [
+          "https://arxiv.org/abs/2311.18743",
+          "https://arxiv.org/abs/2405.04434"
+        ],
+        "status": "fixed-revision file names / paper tags checked; content read only where separately listed in sources.json",
+        "note": "没有权重索引可能是单文件权重；不凭文件目录推断张量 shape、dtype 或 builtin 框架版本"
+      },
+      "materialsSource": "hf-deepseek-v2-metadata"
+    },
+    {
+      "name": "DeepSeek-V3-Base",
+      "modelId": "deepseek-ai/DeepSeek-V3-Base",
+      "revision": "afb92e1fa402c2be2a9eb085312bb02e0384d6c7",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/tree/afb92e1fa402c2be2a9eb085312bb02e0384d6c7",
+      "materials": {
+        "modelCard": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/README.md",
+        "config": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json",
+        "weightIndex": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/model.safetensors.index.json",
+        "license": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/LICENSE-CODE",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/LICENSE-MODEL"
+        ],
+        "referenceCode": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/inference/convert.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/inference/fp8_cast_bf16.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/inference/generate.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/inference/kernel.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/inference/model.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/modeling_deepseek.py"
+        ],
+        "papers": [
+          "https://arxiv.org/abs/2412.19437"
+        ],
+        "status": "fixed-revision file names / paper tags checked; content read only where separately listed in sources.json",
+        "note": "没有权重索引可能是单文件权重；不凭文件目录推断张量 shape、dtype 或 builtin 框架版本"
+      },
+      "materialsSource": "hf-deepseek-v3-base-metadata"
+    },
+    {
+      "name": "DeepSeek-V3",
+      "modelId": "deepseek-ai/DeepSeek-V3",
+      "revision": "e815299b0bcbac849fa540c768ef21845365c9eb",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3/tree/e815299b0bcbac849fa540c768ef21845365c9eb",
+      "materials": {
+        "modelCard": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/README.md",
+        "config": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json",
+        "weightIndex": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/model.safetensors.index.json",
+        "license": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/LICENSE-CODE",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/LICENSE-MODEL"
+        ],
+        "referenceCode": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/inference/convert.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/inference/fp8_cast_bf16.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/inference/generate.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/inference/kernel.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/inference/model.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/modeling_deepseek.py"
+        ],
+        "papers": [
+          "https://arxiv.org/abs/2412.19437"
+        ],
+        "status": "fixed-revision file names / paper tags checked; content read only where separately listed in sources.json",
+        "note": "没有权重索引可能是单文件权重；不凭文件目录推断张量 shape、dtype 或 builtin 框架版本"
+      },
+      "materialsSource": "hf-deepseek-v3-metadata"
+    },
+    {
+      "name": "DeepSeek-R1-Zero",
+      "modelId": "deepseek-ai/DeepSeek-R1-Zero",
+      "revision": "72234287cbc67dbf474d911359ae32b61a2fdc7e",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/tree/72234287cbc67dbf474d911359ae32b61a2fdc7e",
+      "materials": {
+        "modelCard": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/README.md",
+        "config": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json",
+        "weightIndex": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/model.safetensors.index.json",
+        "license": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/LICENSE"
+        ],
+        "referenceCode": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/modeling_deepseek.py"
+        ],
+        "papers": [
+          "https://arxiv.org/abs/2501.12948"
+        ],
+        "status": "fixed-revision file names / paper tags checked; content read only where separately listed in sources.json",
+        "note": "没有权重索引可能是单文件权重；不凭文件目录推断张量 shape、dtype 或 builtin 框架版本"
+      },
+      "materialsSource": "hf-deepseek-r1-zero-metadata"
+    },
+    {
+      "name": "DeepSeek-R1",
+      "modelId": "deepseek-ai/DeepSeek-R1",
+      "revision": "56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1/tree/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad",
+      "materials": {
+        "modelCard": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/README.md",
+        "config": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json",
+        "weightIndex": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/model.safetensors.index.json",
+        "license": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/LICENSE"
+        ],
+        "referenceCode": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/modeling_deepseek.py"
+        ],
+        "papers": [
+          "https://arxiv.org/abs/2501.12948"
+        ],
+        "status": "fixed-revision file names / paper tags checked; content read only where separately listed in sources.json",
+        "note": "没有权重索引可能是单文件权重；不凭文件目录推断张量 shape、dtype 或 builtin 框架版本"
+      },
+      "materialsSource": "hf-deepseek-r1-metadata"
+    },
+    {
+      "name": "DeepSeek-R1-Distill-Qwen-1.5B",
+      "modelId": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+      "revision": "ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/tree/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562",
+      "materials": {
+        "modelCard": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/README.md",
+        "config": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json",
+        "weightIndex": null,
+        "license": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/LICENSE"
+        ],
+        "referenceCode": [],
+        "papers": [
+          "https://arxiv.org/abs/2501.12948"
+        ],
+        "status": "fixed-revision file names / paper tags checked; content read only where separately listed in sources.json",
+        "note": "没有权重索引可能是单文件权重；不凭文件目录推断张量 shape、dtype 或 builtin 框架版本"
+      },
+      "materialsSource": "hf-deepseek-r1-distill-qwen-1.5b-metadata"
+    },
+    {
+      "name": "DeepSeek-R1-Distill-Qwen-7B",
+      "modelId": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+      "revision": "916b56a44061fd5cd7d6a8fb632557ed4f724f60",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/tree/916b56a44061fd5cd7d6a8fb632557ed4f724f60",
+      "materials": {
+        "modelCard": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/README.md",
+        "config": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json",
+        "weightIndex": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/model.safetensors.index.json",
+        "license": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/LICENSE"
+        ],
+        "referenceCode": [],
+        "papers": [
+          "https://arxiv.org/abs/2501.12948"
+        ],
+        "status": "fixed-revision file names / paper tags checked; content read only where separately listed in sources.json",
+        "note": "没有权重索引可能是单文件权重；不凭文件目录推断张量 shape、dtype 或 builtin 框架版本"
+      },
+      "materialsSource": "hf-deepseek-r1-distill-qwen-7b-metadata"
+    },
+    {
+      "name": "DeepSeek-R1-Distill-Qwen-14B",
+      "modelId": "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B",
+      "revision": "1df8507178afcc1bef68cd8c393f61a886323761",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/tree/1df8507178afcc1bef68cd8c393f61a886323761",
+      "materials": {
+        "modelCard": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/README.md",
+        "config": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json",
+        "weightIndex": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/model.safetensors.index.json",
+        "license": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/LICENSE"
+        ],
+        "referenceCode": [],
+        "papers": [
+          "https://arxiv.org/abs/2501.12948"
+        ],
+        "status": "fixed-revision file names / paper tags checked; content read only where separately listed in sources.json",
+        "note": "没有权重索引可能是单文件权重；不凭文件目录推断张量 shape、dtype 或 builtin 框架版本"
+      },
+      "materialsSource": "hf-deepseek-r1-distill-qwen-14b-metadata"
+    },
+    {
+      "name": "DeepSeek-R1-Distill-Qwen-32B",
+      "modelId": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+      "revision": "711ad2ea6aa40cfca18895e8aca02ab92df1a746",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/tree/711ad2ea6aa40cfca18895e8aca02ab92df1a746",
+      "materials": {
+        "modelCard": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/README.md",
+        "config": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json",
+        "weightIndex": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/model.safetensors.index.json",
+        "license": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/LICENSE"
+        ],
+        "referenceCode": [],
+        "papers": [
+          "https://arxiv.org/abs/2501.12948"
+        ],
+        "status": "fixed-revision file names / paper tags checked; content read only where separately listed in sources.json",
+        "note": "没有权重索引可能是单文件权重；不凭文件目录推断张量 shape、dtype 或 builtin 框架版本"
+      },
+      "materialsSource": "hf-deepseek-r1-distill-qwen-32b-metadata"
+    },
+    {
+      "name": "DeepSeek-R1-Distill-Llama-8B",
+      "modelId": "deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
+      "revision": "6a6f4aa4197940add57724a7707d069478df56b1",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/tree/6a6f4aa4197940add57724a7707d069478df56b1",
+      "materials": {
+        "modelCard": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/README.md",
+        "config": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json",
+        "weightIndex": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/model.safetensors.index.json",
+        "license": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/LICENSE"
+        ],
+        "referenceCode": [],
+        "papers": [
+          "https://arxiv.org/abs/2501.12948"
+        ],
+        "status": "fixed-revision file names / paper tags checked; content read only where separately listed in sources.json",
+        "note": "没有权重索引可能是单文件权重；不凭文件目录推断张量 shape、dtype 或 builtin 框架版本"
+      },
+      "materialsSource": "hf-deepseek-r1-distill-llama-8b-metadata"
+    },
+    {
+      "name": "DeepSeek-R1-Distill-Llama-70B",
+      "modelId": "deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+      "revision": "b1c0b44b4369b597ad119a196caf79a9c40e141e",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/tree/b1c0b44b4369b597ad119a196caf79a9c40e141e",
+      "materials": {
+        "modelCard": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/README.md",
+        "config": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json",
+        "weightIndex": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/model.safetensors.index.json",
+        "license": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/LICENSE"
+        ],
+        "referenceCode": [],
+        "papers": [
+          "https://arxiv.org/abs/2501.12948"
+        ],
+        "status": "fixed-revision file names / paper tags checked; content read only where separately listed in sources.json",
+        "note": "没有权重索引可能是单文件权重；不凭文件目录推断张量 shape、dtype 或 builtin 框架版本"
+      },
+      "materialsSource": "hf-deepseek-r1-distill-llama-70b-metadata"
+    },
+    {
+      "name": "DeepSeek-V3.2-Exp",
+      "modelId": "deepseek-ai/DeepSeek-V3.2-Exp",
+      "revision": "194c67e12b1b0d6df0ef373ddcf215bc84027409",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/tree/194c67e12b1b0d6df0ef373ddcf215bc84027409",
+      "materials": {
+        "modelCard": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/README.md",
+        "config": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json",
+        "weightIndex": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/model.safetensors.index.json",
+        "license": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/LICENSE"
+        ],
+        "referenceCode": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/inference/convert.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/inference/generate.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/inference/kernel.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/inference/model.py"
+        ],
+        "papers": [],
+        "status": "fixed-revision file names / paper tags checked; content read only where separately listed in sources.json",
+        "note": "没有权重索引可能是单文件权重；不凭文件目录推断张量 shape、dtype 或 builtin 框架版本"
+      },
+      "materialsSource": "hf-deepseek-v3.2-exp-metadata"
+    },
+    {
+      "name": "DeepSeek-V3.2",
+      "modelId": "deepseek-ai/DeepSeek-V3.2",
+      "revision": "a7e62ac04ecb2c0a54d736dc46601c5606cf10a6",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/tree/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6",
+      "materials": {
+        "modelCard": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/README.md",
+        "config": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json",
+        "weightIndex": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/model.safetensors.index.json",
+        "license": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/LICENSE"
+        ],
+        "referenceCode": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/inference/convert.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/inference/generate.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/inference/kernel.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/inference/model.py"
+        ],
+        "papers": [],
+        "status": "fixed-revision file names / paper tags checked; content read only where separately listed in sources.json",
+        "note": "没有权重索引可能是单文件权重；不凭文件目录推断张量 shape、dtype 或 builtin 框架版本"
+      },
+      "materialsSource": "hf-deepseek-v3.2-metadata"
+    },
+    {
+      "name": "DeepSeek-V4-Flash-Base",
+      "modelId": "deepseek-ai/DeepSeek-V4-Flash-Base",
+      "revision": "8855555deef230a27a21a8d6f294b7b7497759b6",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/tree/8855555deef230a27a21a8d6f294b7b7497759b6",
+      "materials": {
+        "modelCard": null,
+        "config": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json",
+        "weightIndex": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/model.safetensors.index.json",
+        "license": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/LICENSE"
+        ],
+        "referenceCode": [],
+        "papers": [],
+        "status": "fixed-revision file names / paper tags checked; content read only where separately listed in sources.json",
+        "note": "没有权重索引可能是单文件权重；不凭文件目录推断张量 shape、dtype 或 builtin 框架版本"
+      },
+      "materialsSource": "hf-deepseek-v4-flash-base-metadata"
+    },
+    {
+      "name": "DeepSeek-V4-Flash",
+      "modelId": "deepseek-ai/DeepSeek-V4-Flash",
+      "revision": "60d8d70770c6776ff598c94bb586a859a38244f1",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/tree/60d8d70770c6776ff598c94bb586a859a38244f1",
+      "materials": {
+        "modelCard": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/README.md",
+        "config": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json",
+        "weightIndex": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/model.safetensors.index.json",
+        "license": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/LICENSE"
+        ],
+        "referenceCode": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/inference/convert.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/inference/generate.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/inference/kernel.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/inference/model.py"
+        ],
+        "papers": [
+          "https://arxiv.org/abs/2606.19348"
+        ],
+        "status": "fixed-revision file names / paper tags checked; content read only where separately listed in sources.json",
+        "note": "没有权重索引可能是单文件权重；不凭文件目录推断张量 shape、dtype 或 builtin 框架版本"
+      },
+      "materialsSource": "hf-deepseek-v4-flash-metadata"
+    },
+    {
+      "name": "DeepSeek-V4-Pro-Base",
+      "modelId": "deepseek-ai/DeepSeek-V4-Pro-Base",
+      "revision": "98730c030fbdbaca4950788280a35c4642b208a9",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/tree/98730c030fbdbaca4950788280a35c4642b208a9",
+      "materials": {
+        "modelCard": null,
+        "config": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json",
+        "weightIndex": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/model.safetensors.index.json",
+        "license": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/LICENSE"
+        ],
+        "referenceCode": [],
+        "papers": [],
+        "status": "fixed-revision file names / paper tags checked; content read only where separately listed in sources.json",
+        "note": "没有权重索引可能是单文件权重；不凭文件目录推断张量 shape、dtype 或 builtin 框架版本"
+      },
+      "materialsSource": "hf-deepseek-v4-pro-base-metadata"
+    },
+    {
+      "name": "DeepSeek-V4-Pro",
+      "modelId": "deepseek-ai/DeepSeek-V4-Pro",
+      "revision": "b5968e9190ef611bbf34a7229255be88a0e937c1",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/tree/b5968e9190ef611bbf34a7229255be88a0e937c1",
+      "materials": {
+        "modelCard": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/README.md",
+        "config": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json",
+        "weightIndex": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/model.safetensors.index.json",
+        "license": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/LICENSE"
+        ],
+        "referenceCode": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/inference/convert.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/inference/generate.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/inference/kernel.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/inference/model.py"
+        ],
+        "papers": [
+          "https://arxiv.org/abs/2606.19348"
+        ],
+        "status": "fixed-revision file names / paper tags checked; content read only where separately listed in sources.json",
+        "note": "没有权重索引可能是单文件权重；不凭文件目录推断张量 shape、dtype 或 builtin 框架版本"
+      },
+      "materialsSource": "hf-deepseek-v4-pro-metadata"
+    }
+  ],
+  "deferred": [
+    "deepseek-ai/DeepSeek-V4.1-Flash",
+    "deepseek-ai/DeepSeek-V4-Flash-0731",
+    "deepseek-ai/DeepSeek-V4-Pro-0813",
+    "deepseek-ai/DeepSeek-V4-Flash-Vision-Exp",
+    "deepseek-ai/DeepSeek-V3-0324",
+    "deepseek-ai/DeepSeek-V4-Pro-DSpark",
+    "deepseek-ai/DeepSeek-R1-0528",
+    "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B",
+    "deepseek-ai/DeepSeek-V4-Flash-DSpark",
+    "deepseek-ai/DeepSeek-V2-Chat",
+    "deepseek-ai/DeepSeek-V2-Lite",
+    "deepseek-ai/DeepSeek-V2-Lite-Chat",
+    "deepseek-ai/DeepSeek-V2-Chat-0628",
+    "deepseek-ai/DeepSeek-V2.5",
+    "deepseek-ai/DeepSeek-V2.5-1210",
+    "deepseek-ai/DeepSeek-V3.1-Base",
+    "deepseek-ai/DeepSeek-V3.1",
+    "deepseek-ai/DeepSeek-V3.1-Terminus",
+    "deepseek-ai/DeepSeek-V3.2-Exp-Base",
+    "deepseek-ai/DeepSeek-V3.2-Speciale"
+  ]
+}

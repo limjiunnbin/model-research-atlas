@@ -1,0 +1,257 @@
+{
+  "status": "passed",
+  "date": "2026-10-02",
+  "browser": "Google Chrome via Playwright; WebGL UI",
+  "checks": [
+    {
+      "name": "home and DeepSeek entry",
+      "detail": "4 research entries"
+    },
+    {
+      "name": "family overview",
+      "detail": "21 representative checkpoints"
+    },
+    {
+      "name": "search, empty result, reset and comparison",
+      "detail": "6 Distills; V3/DSA/V4/GQA parameters and unknown storage remain distinct"
+    },
+    {
+      "name": "V3 storage, layer navigation and separate MTP",
+      "detail": "61 main layers; actual FP8/scales; shared alias uncertainty visible"
+    },
+    {
+      "name": "DSA module to implementation",
+      "detail": "indexer cache and current-model topic jump"
+    },
+    {
+      "name": "V4 3D canvas picking and mHC matrices",
+      "detail": "43 main layers; four streams; real canvas click, rotate and zoom"
+    },
+    {
+      "name": "Distill GQA/Dense topic routing",
+      "detail": "no MoE module; FFN link and GQA cache"
+    },
+    {
+      "name": "V3 compute MTP source index and phase/search",
+      "detail": "source layer 61; empty filter works"
+    },
+    {
+      "name": "compute phase, implementation-path and backend filters",
+      "detail": "dsa-decode"
+    },
+    {
+      "name": "V4 MTP namespace and storage boundary",
+      "detail": "mtp.0 is distinct from main layer indices"
+    },
+    {
+      "name": "DSpark stages, matrix/head and protocol paths",
+      "detail": "3 actual stages; Markov/confidence; config/block/service count distinctions"
+    },
+    {
+      "name": "implementation, platform conditions and optional future research",
+      "detail": "11 topics; 2 conditional platforms; 7 optional candidates excluded from acceptance"
+    },
+    {
+      "name": "CANN fixed source/package and API version distinction",
+      "detail": "30 families; SDK availability separate from installed operator libraries; source/ABI/runtime distinct"
+    },
+    {
+      "name": "full report and figure gallery",
+      "detail": "11 chapters; 4 loaded SVG diagrams"
+    },
+    {
+      "name": "all attachments over HTTP and actual XLSX download",
+      "detail": "28 HTTP 200 responses, sizes and SHA-256 match"
+    },
+    {
+      "name": "Markdown online reader",
+      "detail": "4 relative images resolved; correct family return link"
+    },
+    {
+      "name": "static cost inputs, precision/path and current JSON export",
+      "detail": "batch scaling; latent/expanded caches; invalid input; target verify and one-layer scope"
+    },
+    {
+      "name": "cost calculator for all 21 checkpoints",
+      "detail": "every main model produces finite static results"
+    },
+    {
+      "name": "CANN contract filters, necessary predicates and unknown boundaries",
+      "detail": "30 families; RMSNorm/SwiGLU contradictions; invalid shapes; API V4 subset; no false runtime pass"
+    },
+    {
+      "name": "all 30 CANN contract families load",
+      "detail": "document tables or explicitly limited API forwarding evidence"
+    },
+    {
+      "name": "parallel capacity, route assumptions, collectives and P/D",
+      "detail": "TP/DP/EP groups; invalid equal split; local-only routes; TP=1 ring; current assumptions export"
+    },
+    {
+      "name": "cross-family selection, source depth and unknown facts",
+      "detail": "42 entries; DeepSeek/Kimi/GLM defaults; historical nulls; filters, reset and six-model limit"
+    },
+    {
+      "name": "five mechanisms, all steps, controls and restart",
+      "detail": "MLA/DSA/compression/mHC/DSpark; 25 stages; teaching boundaries and fixed references"
+    },
+    {
+      "name": "all 21 model detail pages",
+      "detail": "all structure maps load and desktop widths fit"
+    },
+    {
+      "name": "existing family and organization regression",
+      "detail": "Kimi 93 layers and compute; GLM detail; OpenBMB report"
+    },
+    {
+      "name": "390px mobile layout",
+      "detail": [
+        {
+          "route": "models",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "compare",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "model/v4-flash",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "model/v4-flash-dspark",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "compute/v3.2/decoder-4",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "compute/v4-flash-dspark/dspark-3",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "technology/speculation",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "implementation/cann/v4-flash-dspark",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "implementation",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "hardware",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "ascend",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "report/all",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "gallery",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "sources",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "cost",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "contracts",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "parallel",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "mechanisms/mla",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "mechanisms/dsa",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "mechanisms/compression",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "mechanisms/mhc",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "mechanisms/dspark",
+          "viewport": 390,
+          "body": 390
+        },
+        {
+          "route": "global cross-family comparison",
+          "viewport": 390,
+          "body": 390
+        }
+      ]
+    },
+    {
+      "name": "WebGL disabled: 2D fallback and matrix navigation",
+      "detail": "native browser flags; same layer/module data"
+    },
+    {
+      "name": "console and network errors",
+      "detail": "none across tested pages"
+    }
+  ],
+  "consoleErrors": [],
+  "failedResponses": [],
+  "screenshots": [
+    "cann-sources.png",
+    "v4-structure.png",
+    "dspark-structure.png",
+    "mobile-structure.png",
+    "lineage.png",
+    "v3-mla.png",
+    "v4-layers-mhc.png",
+    "dspark-protocol.png",
+    "static-cost.png",
+    "cann-contracts.png",
+    "parallel-analysis.png",
+    "cross-family.png",
+    "mechanism-mla.png",
+    "mechanism-dsa.png",
+    "mechanism-compression.png",
+    "mechanism-mhc.png",
+    "mechanism-dspark.png"
+  ],
+  "scope": "Static website UI and HTTP attachment checks; no model inference or Ascend experiments"
+}

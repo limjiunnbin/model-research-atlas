@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "snapshot": "2026-10-01",
+  "computeSha256": "8542d9699ad86a37d76942e15692f0e1b8c497eab45a7c926b7913a15731e346",
+  "expandedRows": 76502,
+  "templateRows": 6170,
+  "matrixTemplateRows": 2703,
+  "perModel": [
+    {
+      "modelId": "v2",
+      "path": "assets/deepseek/per-model/v2-layers.csv",
+      "rows": 2162
+    },
+    {
+      "modelId": "v3-base",
+      "path": "assets/deepseek/per-model/v3-base-layers.csv",
+      "rows": 3694
+    },
+    {
+      "modelId": "v3",
+      "path": "assets/deepseek/per-model/v3-layers.csv",
+      "rows": 3694
+    },
+    {
+      "modelId": "r1-zero",
+      "path": "assets/deepseek/per-model/r1-zero-layers.csv",
+      "rows": 3694
+    },
+    {
+      "modelId": "r1",
+      "path": "assets/deepseek/per-model/r1-layers.csv",
+      "rows": 3694
+    },
+    {
+      "modelId": "r1-distill-qwen-1.5b",
+      "path": "assets/deepseek/per-model/r1-distill-qwen-1.5b-layers.csv",
+      "rows": 794
+    },
+    {
+      "modelId": "r1-distill-qwen-7b",
+      "path": "assets/deepseek/per-model/r1-distill-qwen-7b-layers.csv",
+      "rows": 794
+    },
+    {
+      "modelId": "r1-distill-qwen-14b",
+      "path": "assets/deepseek/per-model/r1-distill-qwen-14b-layers.csv",
+      "rows": 1354
+    },
+    {
+      "modelId": "r1-distill-qwen-32b",
+      "path": "assets/deepseek/per-model/r1-distill-qwen-32b-layers.csv",
+      "rows": 1802
+    },
+    {
+      "modelId": "r1-distill-llama-8b",
+      "path": "assets/deepseek/per-model/r1-distill-llama-8b-layers.csv",
+      "rows": 714
+    },
+    {
+      "modelId": "r1-distill-llama-70b",
+      "path": "assets/deepseek/per-model/r1-distill-llama-70b-layers.csv",
+      "rows": 1770
+    },
+    {
+      "modelId": "v3.2-exp",
+      "path": "assets/deepseek/per-model/v3.2-exp-layers.csv",
+      "rows": 4684
+    },
+    {
+      "modelId": "v3.2",
+      "path": "assets/deepseek/per-model/v3.2-layers.csv",
+      "rows": 4684
+    },
+    {
+      "modelId": "v4-flash-base",
+      "path": "assets/deepseek/per-model/v4-flash-base-layers.csv",
+      "rows": 4396
+    },
+    {
+      "modelId": "v4-flash",
+      "path": "assets/deepseek/per-model/v4-flash-layers.csv",
+      "rows": 4392
+    },
+    {
+      "modelId": "v4-pro-base",
+      "path": "assets/deepseek/per-model/v4-pro-base-layers.csv",
+      "rows": 6216
+    },
+    {
+      "modelId": "v4-pro",
+      "path": "assets/deepseek/per-model/v4-pro-layers.csv",
+      "rows": 6212
+    },
+    {
+      "modelId": "v4-flash-dspark",
+      "path": "assets/deepseek/per-model/v4-flash-dspark-layers.csv",
+      "rows": 4528
+    },
+    {
+      "modelId": "v4-pro-dspark",
+      "path": "assets/deepseek/per-model/v4-pro-dspark-layers.csv",
+      "rows": 6348
+    },
+    {
+      "modelId": "v4-flash-0731",
+      "path": "assets/deepseek/per-model/v4-flash-0731-layers.csv",
+      "rows": 4528
+    },
+    {
+      "modelId": "v4-pro-0813",
+      "path": "assets/deepseek/per-model/v4-pro-0813-layers.csv",
+      "rows": 6348
+    }
+  ],
+  "workbook": {
+    "path": "assets/deepseek/DeepSeek-模型与算子.xlsx",
+    "sheets": [
+      {
+        "name": "版本概览",
+        "rows": 21,
+        "columns": 13
+      },
+      {
+        "name": "矩阵模板",
+        "rows": 2703,
+        "columns": 16
+      },
+      {
+        "name": "算子模板",
+        "rows": 6170,
+        "columns": 14
+      },
+      {
+        "name": "来源",
+        "rows": 579,
+        "columns": 8
+      },
+      {
+        "name": "实验与缺口",
+        "rows": 8,
+        "columns": 8
+      },
+      {
+        "name": "推测解码",
+        "rows": 45,
+        "columns": 6
+      },
+      {
+        "name": "Tokenizer核对",
+        "rows": 6,
+        "columns": 11
+      }
+    ]
+  },
+  "scope": "独立研究工作簿；模板/参数/源码证据与设备实测分开，全层 CSV 使用相同模板展开；未知性能字段为空"
+}

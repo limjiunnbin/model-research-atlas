@@ -1,5 +1,13 @@
 {
   "files": [
+    "assets/deepseek/DeepSeek-implementation-hardware-ascend.md",
+    "assets/deepseek/DeepSeek-roadmap.md",
+    "assets/deepseek/DeepSeek-研究报告.md",
+    "assets/deepseek/DeepSeek-静态分析.md",
+    "assets/deepseek/README.md",
+    "assets/deepseek/round1/README.md",
+    "assets/deepseek/round1/report.md",
+    "assets/deepseek/字段与符号说明.md",
     "assets/glm/GLM-implementation-hardware-ascend.md",
     "assets/kimi/K3-SGLang-vLLM-TorchTitan与定制runtime方案.md",
     "assets/kimi/Kimi-K2至K3深度研究报告.md",

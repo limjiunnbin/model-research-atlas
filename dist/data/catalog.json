@@ -29,6 +29,26 @@
         "3 个名称条目",
         "45 层逐矩阵结构"
       ]
+    },
+    {
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "publisher": "DeepSeek",
+      "description": "V3 可复核基线、V3.2 DSA、V4 压缩注意力与 mHC、MTP/DSpark 推测解码，以及 R1/Distill 底座关系。",
+      "path": "data/families/deepseek/family.json",
+      "updated": "2026-10-01",
+      "modelCount": 21,
+      "figureCount": 4,
+      "topics": [
+        "MLA / DSA / CSA / HCA",
+        "R1 与 Distill",
+        "Ascend 源码研究"
+      ],
+      "counts": [
+        "21 个代表 checkpoint",
+        "全部 checkpoint 文件头审计",
+        "MTP / DSpark 与服务协议"
+      ]
     }
   ],
   "reports": [
@@ -41,5 +61,6 @@
       "updated": "2026-09-23",
       "repositoryCount": 88
     }
-  ]
+  ],
+  "comparisonPath": "data/analysis/cross-family.json"
 }

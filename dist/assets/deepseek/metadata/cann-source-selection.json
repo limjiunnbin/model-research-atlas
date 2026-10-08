@@ -1,0 +1,1602 @@
+{
+  "tag": "v9.2.0-beta.2",
+  "repos": {
+    "ops-transformer": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+    "ops-nn": "30ef7dd563c8a4b74c3161835c8e47d1d96f87b6",
+    "ops-math": "0a2ce5b57caec6068d9e5658b740c2d41482aa15"
+  },
+  "pluginRevision": "d83570a35dfe0d8e9869c3ecfca6647cfccdd9c8",
+  "operators": [
+    {
+      "id": "fused-infer-attention",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "attention/fused_infer_attention_score",
+      "topics": [
+        "mla",
+        "gqa",
+        "dspark"
+      ],
+      "frameworkContext": "npu_fused_infer_attention_score / v2 / workspace / out",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-docs-aclnnFusedInferAttentionScore-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-docs-aclnnFusedInferAttentionScoreV2-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-docs-aclnnFusedInferAttentionScoreV3-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-docs-aclnnFusedInferAttentionScoreV4-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-docs-aclnnFusedInferAttentionScoreV5-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_api-aclnn_fused_infer_attention_score-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_api-aclnn_fused_infer_attention_score-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_api-aclnn_fused_infer_attention_score_inner-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_api-aclnn_fused_infer_attention_score_v2-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_api-aclnn_fused_infer_attention_score_v2-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_api-aclnn_fused_infer_attention_score_v3-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_api-aclnn_fused_infer_attention_score_v3-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_api-aclnn_fused_infer_attention_score_v4-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_api-aclnn_fused_infer_attention_score_v4-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_api-aclnn_fused_infer_attention_score_v5-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_api-aclnn_fused_infer_attention_score_v5-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_host-fused_infer_attention_score_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_host-arch35-fia_tiling_fullquant_gqa-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_host-arch35-fia_tiling_fullquant_mx-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_kernel-fused_infer_attention_score-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_kernel-fused_infer_attention_score_apt-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_kernel-arch35-fia_arch35_antiquant-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-fused_infer_attention_score-op_kernel-arch35-fia_arch35_empty-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "sparse-flash-attention",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "attention/sparse_flash_attention",
+      "topics": [
+        "dsa"
+      ],
+      "frameworkContext": "sparse attention dispatcher",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_attention-docs-aclnnSparseFlashAttention-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_attention-docs-aclnnSparseFlashAttentionV2-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_attention-op_host-op_api-aclnn_sparse_flash_attention-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_attention-op_host-op_api-aclnn_sparse_flash_attention-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_attention-op_host-op_api-aclnn_sparse_flash_attention_v2-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_attention-op_host-op_api-aclnn_sparse_flash_attention_v2-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_attention-op_host-sparse_flash_attention_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_attention-op_host-sparse_flash_attention_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_attention-op_kernel-sparse_flash_attention-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_attention-op_kernel-arch35-sparse_flash_attention_kernel_mla_arch35-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_attention-op_kernel-arch35-sparse_flash_attention_kvcache-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "sparse-flash-mla",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "attention/sparse_flash_mla",
+      "topics": [
+        "compression"
+      ],
+      "frameworkContext": "V4 sparse MLA",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_mla-docs-aclnnSparseFlashMla-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_mla-op_host-sparse_flash_mla_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_mla-op_host-sparse_flash_mla_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_mla-op_kernel-sparse_flash_mla-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_mla-op_kernel-arch35-sparse_flash_mla_csa_block_cube_arch35-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_mla-op_kernel-arch35-sparse_flash_mla_csa_block_vector_arch35-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "mixed-quant-sparse-mla",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "attention/mixed_quant_sparse_flash_mla",
+      "topics": [
+        "compression",
+        "precision"
+      ],
+      "frameworkContext": "V4 mixed-quant sparse MLA",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-mixed_quant_sparse_flash_mla-docs-aclnnMixedQuantSparseFlashMla-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-mixed_quant_sparse_flash_mla-op_host-mixed_quant_sparse_flash_mla_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-mixed_quant_sparse_flash_mla-op_host-mixed_quant_sparse_flash_mla_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-mixed_quant_sparse_flash_mla-op_kernel-mixed_quant_sparse_flash_mla-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-mixed_quant_sparse_flash_mla-op_kernel-arch35-mixed_quant_sparse_flash_mla_csa_block_cube-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-mixed_quant_sparse_flash_mla-op_kernel-arch35-mixed_quant_sparse_flash_mla_csa_block_vector-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "sparse-mla-metadata",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "attention/sparse_flash_mla_metadata",
+      "topics": [
+        "compression"
+      ],
+      "frameworkContext": "metadata preparation",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_mla_metadata-docs-aclnnSparseFlashMlaMetadata-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_mla_metadata-op_host-op_api-aclnn_sparse_flash_mla_metadata-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-sparse_flash_mla_metadata-op_host-op_api-aclnn_sparse_flash_mla_metadata-h",
+          "role": "api"
+        }
+      ]
+    },
+    {
+      "id": "lightning-indexer",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "attention/lightning_indexer",
+      "topics": [
+        "dsa"
+      ],
+      "frameworkContext": "indexer",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-lightning_indexer-docs-aclnnLightningIndexer-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-lightning_indexer-op_host-op_api-aclnn_lightning_indexer-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-lightning_indexer-op_host-op_api-aclnn_lightning_indexer-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-lightning_indexer-op_host-lightning_indexer_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-lightning_indexer-op_host-lightning_indexer_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-lightning_indexer-op_kernel-lightning_indexer-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-lightning_indexer-op_kernel-arch35-lightning_indexer_kernel_arch35-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-lightning_indexer-op_kernel-arch35-lightning_indexer_service_cube_arch35-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "lightning-indexer-v2",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "attention/lightning_indexer_v2",
+      "topics": [
+        "compression"
+      ],
+      "frameworkContext": "V4 indexer",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-lightning_indexer_v2-docs-aclnnLightningIndexerV2-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-lightning_indexer_v2-op_host-lightning_indexer_v2_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-lightning_indexer_v2-op_host-lightning_indexer_v2_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-lightning_indexer_v2-op_kernel-lightning_indexer_v2-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-lightning_indexer_v2-op_kernel-arch35-lightning_indexer_v2_kernel_arch35-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-lightning_indexer_v2-op_kernel-arch35-lightning_indexer_v2_service_cube_arch35-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "quant-lightning-indexer",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "attention/quant_lightning_indexer",
+      "topics": [
+        "dsa"
+      ],
+      "frameworkContext": "quant indexer",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-quant_lightning_indexer-docs-aclnnQuantLightningIndexer-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-quant_lightning_indexer-op_host-op_api-aclnn_quant_lightning_indexer-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-quant_lightning_indexer-op_host-op_api-aclnn_quant_lightning_indexer-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-quant_lightning_indexer-op_host-quant_lightning_indexer_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-quant_lightning_indexer-op_host-quant_lightning_indexer_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-quant_lightning_indexer-op_kernel-quant_lightning_indexer-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-quant_lightning_indexer-op_kernel-arch35-quant_lightning_indexer_kernel_arch35-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-quant_lightning_indexer-op_kernel-arch35-quant_lightning_indexer_service_cube_arch35-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "quant-lightning-indexer-v2",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "attention/quant_lightning_indexer_v2",
+      "topics": [
+        "compression"
+      ],
+      "frameworkContext": "_C_ascend.npu_quant_lightning_indexer_v2",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-quant_lightning_indexer_v2-docs-aclnnQuantLightningIndexerV2-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-quant_lightning_indexer_v2-op_host-quant_lightning_indexer_v2_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-quant_lightning_indexer_v2-op_host-quant_lightning_indexer_v2_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-quant_lightning_indexer_v2-op_kernel-quant_lightning_indexer_v2-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-quant_lightning_indexer_v2-op_kernel-arch35-quant_lightning_indexer_v2_kernel_arch35-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-quant_lightning_indexer_v2-op_kernel-arch35-quant_lightning_indexer_v2_service_cube_arch35-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "compressor",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "attention/compressor",
+      "topics": [
+        "compression"
+      ],
+      "frameworkContext": "_C_ascend.compressor / aclnnCompressor",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-compressor-docs-aclnnCompressor-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-compressor-op_host-compressor_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-compressor-op_host-arch35-compressor_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-compressor-op_host-compressor_tiling_register-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-compressor-op_kernel-compressor-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-compressor-op_kernel-arch35-compressor_block_cube-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-attention-compressor-op_kernel-arch35-compressor_block_cube_full_load-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "mhc-pre",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "mhc/mhc_pre",
+      "topics": [
+        "mhc"
+      ],
+      "frameworkContext": "official MhcPre; framework custom HcPreV2 kept separate",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_pre-docs-aclnnMhcPre-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_pre-docs-aclnnMhcPreV2-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_pre-op_host-op_api-aclnn_mhc_pre-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_pre-op_host-op_api-aclnn_mhc_pre-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_pre-op_host-op_api-aclnn_mhc_pre_v2-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_pre-op_host-mhc_pre_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_pre-op_host-op_tiling-arch35-mhc_pre_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_pre-op_kernel-mhc_pre_apt-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_pre-op_kernel-arch35-mhc_pre_cube_compute-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_pre-op_kernel-arch35-mhc_pre_m_k_split-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "mhc-post",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "mhc/mhc_post",
+      "topics": [
+        "mhc"
+      ],
+      "frameworkContext": "official MhcPost; framework custom HcPost kept separate",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_post-docs-aclnnMhcPost-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_post-op_host-op_api-aclnn_mhc_post-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_post-op_host-op_api-aclnn_mhc_post-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_post-op_host-mhc_post_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_post-op_host-op_tiling-arch35-mhc_post_tiling_base_arch35-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_post-op_host-op_tiling-arch35-mhc_post_tiling_nohres_arch35-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_post-op_kernel-mhc_post-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_post-op_kernel-mhc_post_apt-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_post-op_kernel-arch35-mhc_post_arch35-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mhc-mhc_post-op_kernel-arch35-mhc_post_nohres-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "grouped-matmul",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "gmm/grouped_matmul",
+      "topics": [
+        "moe",
+        "precision"
+      ],
+      "frameworkContext": "npu_grouped_matmul",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-docs-aclnnGroupedMatmul-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-docs-aclnnGroupedMatmulV2-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-docs-aclnnGroupedMatmulV3-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-docs-aclnnGroupedMatmulV4-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-docs-aclnnGroupedMatmulV5-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-docs-aclnnGroupedMatmulWeightNz-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-op_api-aclnn_grouped_matmul-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-op_api-aclnn_grouped_matmul-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-op_api-aclnn_grouped_matmul_v2-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-op_api-aclnn_grouped_matmul_v3-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-op_api-aclnn_grouped_matmul_v4-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-op_api-aclnn_grouped_matmul_v5-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-op_api-aclnn_grouped_matmul_weight_nz-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-op_host-grouped_matmul_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-op_host-op_tiling-arch35-grouped_no_quant_matmul_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-op_host-op_tiling-arch35-grouped_quant_basic_api_matmul_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-op_kernel-grouped_matmul-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-op_kernel-grouped_matmul_a4w4_interface-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-op_kernel-arch35-int4_tensor_to_int8_preprocess-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul-op_kernel-arch35-int4_weight_to_int8_preprocess-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "grouped-matmul-swiglu",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "gmm/grouped_matmul_swiglu_quant",
+      "topics": [
+        "moe"
+      ],
+      "frameworkContext": "grouped_matmul_swiglu_quant",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant-docs-aclnnGroupedMatmulSwigluQuant-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant-docs-aclnnGroupedMatmulSwigluQuantWeightNZ-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant-op_api-aclnn_grouped_matmul_swiglu_quant-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant-op_api-aclnn_grouped_matmul_swiglu_quant-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant-op_api-aclnn_grouped_matmul_swiglu_quant_weight_nz-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant-op_host-grouped_matmul_swiglu_quant_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant-op_host-grouped_matmul_swiglu_quant_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant-op_kernel-grouped_matmul_swiglu_quant-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant-op_kernel-grouped_matmul_swiglu_pipeline-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant-op_kernel-grouped_matmul_swiglu_quant_a8w4_msd_mid-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "grouped-matmul-swiglu-v2",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "gmm/grouped_matmul_swiglu_quant_v2",
+      "topics": [
+        "moe"
+      ],
+      "frameworkContext": "V2 API alternative",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant_v2-docs-aclnnGroupedMatmulSwigluQuantV2-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant_v2-docs-aclnnGroupedMatmulSwigluQuantWeightNzV2-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant_v2-op_api-aclnn_grouped_matmul_swiglu_quant_v2-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant_v2-op_api-aclnn_grouped_matmul_swiglu_quant_v2-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant_v2-op_api-aclnn_grouped_matmul_swiglu_quant_weight_nz_v2-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant_v2-op_host-grouped_matmul_swiglu_quant_v2_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant_v2-op_host-op_tiling-arch35-grouped_matmul_swiglu_quant_v2_basic_api_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant_v2-op_host-op_tiling-arch35-grouped_matmul_swiglu_quant_v2_basic_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant_v2-op_kernel-grouped_matmul_swiglu_quant_v2-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant_v2-op_kernel-grouped_matmul_swiglu_quant_v2_apt-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant_v2-op_kernel-arch35-grouped_matmul_swiglu_quant_v2_mxfp4_weight_nz-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-gmm-grouped_matmul_swiglu_quant_v2-op_kernel-arch35-grouped_matmul_swiglu_quant_v2_mxquant-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "moe-dispatch-v2",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "mc2/moe_distribute_dispatch_v2",
+      "topics": [
+        "moe"
+      ],
+      "frameworkContext": "npu_moe_distribute_dispatch_v2",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v2-docs-aclnnMoeDistributeDispatchV2-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v2-docs-aclnnMoeDistributeDispatchV3-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v2-docs-aclnnMoeDistributeDispatchV4-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v2-op_api-aclnn_moe_distribute_dispatch_v2-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v2-op_api-aclnn_moe_distribute_dispatch_v2-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v2-op_api-aclnn_moe_distribute_dispatch_v3-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v2-op_api-aclnn_moe_distribute_dispatch_v3-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v2-op_api-aclnn_moe_distribute_dispatch_v4-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v2-op_api-aclnn_moe_distribute_dispatch_v4-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v2-op_host-moe_distribute_dispatch_v2_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v2-op_host-op_tiling-arch35-moe_distribute_dispatch_v2_tiling_arch35-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v2-op_host-op_tiling-moe_distribute_dispatch_tiling_helper-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v2-op_kernel-arch35-moe_distribute_dispatch_v2_apt-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v2-op_kernel-arch22-moe_distribute_dispatch_v2_a2-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v2-op_kernel-arch35-moe_distribute_dispatch_v2_a5_ccu-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v2-op_kernel-arch35-moe_distribute_dispatch_v2_a5_full_mesh-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "moe-dispatch-v3",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "mc2/moe_distribute_dispatch_v3",
+      "topics": [
+        "moe"
+      ],
+      "frameworkContext": "plugin V3/V4 alternatives",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v3-op_api-aclnn_moe_distribute_dispatch_v5-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v3-op_host-moe_distribute_dispatch_v3_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v3-op_host-op_tiling-arch35-moe_distribute_dispatch_v3_tiling_a5-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v3-op_host-op_tiling-moe_distribute_dispatch_v3_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v3-op_kernel-arch35-moe_distribute_dispatch_v3_apt-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_dispatch_v3-op_kernel-arch22-moe_distribute_dispatch_v3_a3-cpp",
+          "role": "kernel_entry"
+        }
+      ]
+    },
+    {
+      "id": "moe-combine-v2",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "mc2/moe_distribute_combine_v2",
+      "topics": [
+        "moe"
+      ],
+      "frameworkContext": "npu_moe_distribute_combine_v2",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v2-docs-aclnnMoeDistributeCombineV2-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v2-docs-aclnnMoeDistributeCombineV3-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v2-docs-aclnnMoeDistributeCombineV4-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v2-op_api-aclnn_moe_distribute_combine_v2-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v2-op_api-aclnn_moe_distribute_combine_v2-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v2-op_api-aclnn_moe_distribute_combine_v3-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v2-op_api-aclnn_moe_distribute_combine_v3-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v2-op_api-aclnn_moe_distribute_combine_v4-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v2-op_api-aclnn_moe_distribute_combine_v4-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v2-op_host-moe_distribute_combine_v2_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v2-op_host-op_tiling-arch35-moe_distribute_combine_tiling_arch35-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v2-op_host-op_tiling-moe_distribute_combine_tiling_helper-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v2-op_kernel-arch35-moe_distribute_combine_v2_apt-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v2-op_kernel-arch22-moe_distribute_combine_v2_a2-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v2-op_kernel-arch35-moe_distribute_combine_v2_a5_ccu-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v2-op_kernel-arch35-moe_distribute_combine_v2_a5_mte-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "moe-combine-v3",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "mc2/moe_distribute_combine_v3",
+      "topics": [
+        "moe"
+      ],
+      "frameworkContext": "plugin V3/V4 alternatives",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v3-op_api-aclnn_moe_distribute_combine_v5-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v3-op_host-moe_distribute_combine_v3_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v3-op_host-op_tiling-arch35-moe_distribute_combine_v3_tiling_a5-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v3-op_host-op_tiling-moe_distribute_combine_v3_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v3-op_kernel-arch35-moe_distribute_combine_v3_apt-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-mc2-moe_distribute_combine_v3-op_kernel-arch22-moe_distribute_combine_v3_a3-cpp",
+          "role": "kernel_entry"
+        }
+      ]
+    },
+    {
+      "id": "rotary-position",
+      "repo": "cann/ops-transformer",
+      "revision": "5f33f1e23d41fe0a047d01b7c7ae278777cac1f5",
+      "tag": "v9.2.0-beta.2",
+      "directory": "posembedding/rotary_position_embedding",
+      "topics": [
+        "mla",
+        "dsa",
+        "gqa"
+      ],
+      "frameworkContext": "official rotary operator; custom inplace partial rotary is distinct",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-transformer-posembedding-rotary_position_embedding-docs-aclnnRotaryPositionEmbedding-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-posembedding-rotary_position_embedding-docs-aclnnRotaryPositionEmbeddingV2-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-posembedding-rotary_position_embedding-op_host-op_api-aclnn_rotary_position_embedding-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-posembedding-rotary_position_embedding-op_host-op_api-aclnn_rotary_position_embedding-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-posembedding-rotary_position_embedding-op_host-op_api-aclnn_rotary_position_embedding_v2-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-posembedding-rotary_position_embedding-op_host-rotary_position_embedding_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-posembedding-rotary_position_embedding-op_host-rope_interleaved_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-posembedding-rotary_position_embedding-op_host-rope_regbase_tiling_a_and_b-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-posembedding-rotary_position_embedding-op_kernel-rotary_position_embedding-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-posembedding-rotary_position_embedding-op_kernel-rotary_position_embedding_apt-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-posembedding-rotary_position_embedding-op_kernel-arch35-rotary_position_embedding_a_and_b-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-transformer-posembedding-rotary_position_embedding-op_kernel-arch35-rotary_position_embedding_ab-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "rms-norm",
+      "repo": "cann/ops-nn",
+      "revision": "30ef7dd563c8a4b74c3161835c8e47d1d96f87b6",
+      "tag": "v9.2.0-beta.2",
+      "directory": "norm/rms_norm",
+      "topics": [
+        "precision"
+      ],
+      "frameworkContext": "npu_rms_norm",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-nn-norm-rms_norm-docs-aclnnRmsNorm-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-norm-rms_norm-op_host-rms_norm_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-norm-rms_norm-op_host-rms_norm_tiling_arch35-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-norm-rms_norm-op_host-rms_norm_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-norm-rms_norm-op_kernel-rms_norm-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-norm-rms_norm-op_kernel-rms_norm_apt-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-norm-rms_norm-op_kernel-arch35-rms_norm_regbase-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-norm-rms_norm-op_kernel-arch35-rms_norm_regbase_perf-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "add-rms-norm",
+      "repo": "cann/ops-nn",
+      "revision": "30ef7dd563c8a4b74c3161835c8e47d1d96f87b6",
+      "tag": "v9.2.0-beta.2",
+      "directory": "norm/add_rms_norm",
+      "topics": [
+        "precision"
+      ],
+      "frameworkContext": "npu_add_rms_norm; custom bias path is distinct",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-nn-norm-add_rms_norm-docs-aclnnAddRmsNorm-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-norm-add_rms_norm-op_host-op_api-aclnn_add_rms_norm-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-norm-add_rms_norm-op_host-op_api-aclnn_add_rms_norm-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-norm-add_rms_norm-op_host-add_rms_norm_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-norm-add_rms_norm-op_host-add_rms_norm_tiling_arch35-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-norm-add_rms_norm-op_host-add_rms_norm_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-norm-add_rms_norm-op_kernel-add_rms_norm-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-norm-add_rms_norm-op_kernel-add_rms_norm_apt-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-norm-add_rms_norm-op_kernel-arch35-add_rms_norm_regbase-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-norm-add_rms_norm-op_kernel-arch35-add_rms_norm_regbase_split_d-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "swiglu",
+      "repo": "cann/ops-nn",
+      "revision": "30ef7dd563c8a4b74c3161835c8e47d1d96f87b6",
+      "tag": "v9.2.0-beta.2",
+      "directory": "activation/swi_glu",
+      "topics": [
+        "ffn",
+        "moe"
+      ],
+      "frameworkContext": "npu_swiglu generated op_api",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-nn-activation-swi_glu-docs-aclnnSwiGlu-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-activation-swi_glu-op_host-swi_glu_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-activation-swi_glu-op_host-swi_glu_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-activation-swi_glu-op_kernel-swi_glu-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-activation-swi_glu-op_kernel-swi_glu_apt-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-activation-swi_glu-op_kernel-arch35-swi_glu_bf16-hpp",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-activation-swi_glu-op_kernel-arch35-swi_glu_impl-hpp",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "swiglu-group-quant",
+      "repo": "cann/ops-nn",
+      "revision": "30ef7dd563c8a4b74c3161835c8e47d1d96f87b6",
+      "tag": "v9.2.0-beta.2",
+      "directory": "activation/swiglu_group_quant",
+      "topics": [
+        "moe",
+        "precision"
+      ],
+      "frameworkContext": "npu_swiglu_group_quant",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-nn-activation-swiglu_group_quant-docs-aclnnSwigluGroupQuant-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-activation-swiglu_group_quant-docs-torchapi_swiglu_group_quant-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-activation-swiglu_group_quant-op_host-swiglu_group_quant_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-activation-swiglu_group_quant-op_host-arch35-swiglu_group_quant_hifp8_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-activation-swiglu_group_quant-op_host-arch35-swiglu_group_quant_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-activation-swiglu_group_quant-op_kernel-swiglu_group_quant-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-activation-swiglu_group_quant-op_kernel-arch35-swiglu_dynamic_group_quant_hifp8-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-activation-swiglu_group_quant-op_kernel-arch35-swiglu_group_quant_base-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "matmul",
+      "repo": "cann/ops-nn",
+      "revision": "30ef7dd563c8a4b74c3161835c8e47d1d96f87b6",
+      "tag": "v9.2.0-beta.2",
+      "directory": "matmul/mat_mul_v3",
+      "topics": [
+        "ffn",
+        "precision"
+      ],
+      "frameworkContext": "Mm/Matmul API candidates; not an unconditional GEMM dispatch",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-mat_mul_v3-docs-aclnnAddmm&aclnnInplaceAddmm-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-mat_mul_v3-docs-aclnnAddmmWeightNz-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-mat_mul_v3-docs-aclnnMatmul-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-mat_mul_v3-docs-aclnnMatmulWeightNz-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-mat_mul_v3-docs-aclnnMm-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-mat_mul_v3-op_host-op_api-aclnn_addmm-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-mat_mul_v3-op_host-op_api-aclnn_addmm-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-mat_mul_v3-op_host-op_api-aclnn_matmul-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-mat_mul_v3-op_host-op_api-aclnn_matmul-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-mat_mul_v3-op_host-op_api-aclnn_mm-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-mat_mul_v3-op_host-op_api-aclnn_mm-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-mat_mul_v3-op_host-mat_mul_v3_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-mat_mul_v3-op_host-op_tiling-arch35-matmul_v3_asw_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-mat_mul_v3-op_host-op_tiling-arch35-matmul_v3_basic_aswt_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-mat_mul_v3-op_kernel-arch35-mat_mul_v3-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-mat_mul_v3-op_kernel-mat_mul_v3-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-mat_mul_v3-op_kernel-arch35-block_scheduler_aswt-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-mat_mul_v3-op_kernel-arch35-block_scheduler_mul-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "quant-matmul",
+      "repo": "cann/ops-nn",
+      "revision": "30ef7dd563c8a4b74c3161835c8e47d1d96f87b6",
+      "tag": "v9.2.0-beta.2",
+      "directory": "matmul/quant_batch_matmul_v4",
+      "topics": [
+        "precision"
+      ],
+      "frameworkContext": "quantized GEMM candidate",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-quant_batch_matmul_v4-docs-aclnnQuantMatmulV5-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-quant_batch_matmul_v4-op_host-op_api-aclnn_quant_matmul_v5-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-quant_batch_matmul_v4-op_host-op_api-aclnn_quant_matmul_v5-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-quant_batch_matmul_v4-op_host-quant_batch_matmul_v4_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-quant_batch_matmul_v4-op_host-op_tiling-arch35-adaptive_sliding_window_basic_api_v4_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-quant_batch_matmul_v4-op_host-op_tiling-arch35-quant_batch_matmul_v4_asw_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-quant_batch_matmul_v4-op_kernel-arch35-quant_batch_matmul_v4-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-quant_batch_matmul_v4-op_kernel-quant_batch_matmul_v4-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-quant_batch_matmul_v4-op_kernel-arch35-matmul_custom_impl-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-matmul-quant_batch_matmul_v4-op_kernel-arch35-quant_batch_matmul_v4_constant-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "dynamic-mx-quant",
+      "repo": "cann/ops-nn",
+      "revision": "30ef7dd563c8a4b74c3161835c8e47d1d96f87b6",
+      "tag": "v9.2.0-beta.2",
+      "directory": "quant/dynamic_mx_quant",
+      "topics": [
+        "precision"
+      ],
+      "frameworkContext": "MX quantization",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-nn-quant-dynamic_mx_quant-docs-aclnnDynamicMxQuant-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-quant-dynamic_mx_quant-docs-aclnnDynamicMxQuantV2-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-quant-dynamic_mx_quant-docs-aclnnDynamicMxQuantV3-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-quant-dynamic_mx_quant-op_host-dynamic_mx_quant_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-quant-dynamic_mx_quant-op_host-arch35-dynamic_mx_quant_optimize_tiling_arch35-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-quant-dynamic_mx_quant-op_host-arch35-dynamic_mx_quant_tail_axis_tiling_arch35-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-quant-dynamic_mx_quant-op_kernel-dynamic_mx_quant-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-quant-dynamic_mx_quant-op_kernel-arch35-dynamic_mx_quant_not_tail_axis-h",
+          "role": "kernel_body"
+        },
+        {
+          "sourceId": "cann-cann-ops-nn-quant-dynamic_mx_quant-op_kernel-arch35-dynamic_mx_quant_not_tail_axis_base-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "add",
+      "repo": "cann/ops-math",
+      "revision": "0a2ce5b57caec6068d9e5658b740c2d41482aa15",
+      "tag": "v9.2.0-beta.2",
+      "directory": "math/add",
+      "topics": [
+        "precision"
+      ],
+      "frameworkContext": "mathematical building block; not a per-step kernel assignment",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-math-math-add-docs-aclnnAdd&aclnnInplaceAdd-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-math-add-docs-aclnnAddV3&aclnnInplaceAddV3-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-math-add-docs-aclnnAdds-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-math-add-docs-aclnnInplaceAdds-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-math-add-op_api-aclnn_add-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-math-add-op_api-aclnn_add-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-math-add-op_api-aclnn_add_v3-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-math-add-op_api-aclnn_add_v3-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-math-add-op_host-add_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-math-add-op_host-arch35-add_tiling_arch35-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-math-add-op_kernel-arch35-add-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-math-add-op_kernel-arch35-add_dag-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "mul",
+      "repo": "cann/ops-math",
+      "revision": "0a2ce5b57caec6068d9e5658b740c2d41482aa15",
+      "tag": "v9.2.0-beta.2",
+      "directory": "math/mul",
+      "topics": [
+        "precision"
+      ],
+      "frameworkContext": "mathematical building block; not a per-step kernel assignment",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-math-math-mul-docs-aclnnMul&aclnnInplaceMul-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-math-mul-op_api-aclnn_mul-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-math-mul-op_api-aclnn_mul-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-math-mul-op_host-mul_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-math-mul-op_host-arch35-mul_tiling_arch35-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-math-mul-op_kernel-mul_apt-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-math-mul-op_kernel-arch35-mul_dag-h",
+          "role": "kernel_body"
+        }
+      ]
+    },
+    {
+      "id": "cast",
+      "repo": "cann/ops-math",
+      "revision": "0a2ce5b57caec6068d9e5658b740c2d41482aa15",
+      "tag": "v9.2.0-beta.2",
+      "directory": "experimental/math/cast",
+      "topics": [
+        "precision"
+      ],
+      "frameworkContext": "experimental Cast; availability not production selection",
+      "sources": [
+        {
+          "sourceId": "cann-cann-ops-math-experimental-math-cast-docs-aclnnCast-md",
+          "role": "documentation"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-experimental-math-cast-op_api-aclnn_cast-cpp",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-experimental-math-cast-op_api-aclnn_cast-h",
+          "role": "api"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-experimental-math-cast-op_host-cast_def-cpp",
+          "role": "definition"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-experimental-math-cast-op_host-cast_tiling-cpp",
+          "role": "tiling"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-experimental-math-cast-op_kernel-cast-cpp",
+          "role": "kernel_entry"
+        },
+        {
+          "sourceId": "cann-cann-ops-math-experimental-math-cast-op_kernel-cast-h",
+          "role": "kernel_body"
+        }
+      ]
+    }
+  ]
+}

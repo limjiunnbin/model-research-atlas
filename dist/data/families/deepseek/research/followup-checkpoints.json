@@ -1,0 +1,42 @@
+{
+  "accessed": "2026-10-01",
+  "scope": "保留首轮 17 模型快照；补充 2 个 DSpark 挂接 checkpoint 与 2 个带 DSpark 的正式发布",
+  "models": [
+    {
+      "name": "DeepSeek-V4-Flash-DSpark",
+      "modelId": "deepseek-ai/DeepSeek-V4-Flash-DSpark",
+      "revision": "62af8fffb2f7030cac4de2f0169f5b8d1101b646",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/tree/62af8fffb2f7030cac4de2f0169f5b8d1101b646",
+      "kind": "speculative",
+      "baseModel": "deepseek-ai/DeepSeek-V4-Flash",
+      "materialsSource": "follow-deepseek-v4-flash-dspark-metadata"
+    },
+    {
+      "name": "DeepSeek-V4-Pro-DSpark",
+      "modelId": "deepseek-ai/DeepSeek-V4-Pro-DSpark",
+      "revision": "7c09739fd136abfb70a49ec334157f65f45b52cd",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/tree/7c09739fd136abfb70a49ec334157f65f45b52cd",
+      "kind": "speculative",
+      "baseModel": "deepseek-ai/DeepSeek-V4-Pro",
+      "materialsSource": "follow-deepseek-v4-pro-dspark-metadata"
+    },
+    {
+      "name": "DeepSeek-V4-Flash-0731",
+      "modelId": "deepseek-ai/DeepSeek-V4-Flash-0731",
+      "revision": "7872f01b1d1fe23eabc4c98b48bffcef5a386062",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/tree/7872f01b1d1fe23eabc4c98b48bffcef5a386062",
+      "kind": "release",
+      "baseModel": null,
+      "materialsSource": "follow-deepseek-v4-flash-0731-metadata"
+    },
+    {
+      "name": "DeepSeek-V4-Pro-0813",
+      "modelId": "deepseek-ai/DeepSeek-V4-Pro-0813",
+      "revision": "72e1d3230f6c080a530b0a1d46f8eb4602340597",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/tree/72e1d3230f6c080a530b0a1d46f8eb4602340597",
+      "kind": "release",
+      "baseModel": null,
+      "materialsSource": "follow-deepseek-v4-pro-0813-metadata"
+    }
+  ]
+}

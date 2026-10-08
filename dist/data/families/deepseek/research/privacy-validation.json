@@ -1,0 +1,7 @@
+{
+  "date": "2026-10-02",
+  "status": "passed",
+  "textFiles": 257,
+  "archiveEntries": 256,
+  "scope": "delivered text, CSV, XLSX XML and nested archives checked for known private machine addresses, account associations/distinctive IDs, Multipass paths and credential markers; public source path words are not classified as account identities; no device execution"
+}

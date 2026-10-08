@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "date": "2026-10-02",
+  "costCases": 672,
+  "independentChecks": 1630,
+  "costExportScenarios": 84,
+  "parallelExportScenarios": 63,
+  "scope": "Canonical matrix enumeration, explicit causal/slot position sums, analytical collectives and synthetic algebra/probabilities; no hardware experiment"
+}

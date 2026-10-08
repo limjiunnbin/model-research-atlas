@@ -1,0 +1,235 @@
+{
+  "capture": "local Multipass installation; static file inspection",
+  "version": "9.2.0-beta.2",
+  "architecture": "aarch64",
+  "componentVersions": [
+    {
+      "path": "share/info/test-ops/version.info",
+      "sha256": "f7d5214a64c9517b7ff9ee923c9836cacb7353e361059dfa0706d079de43bcd5",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/metadef/version.info",
+      "sha256": "f5c993a9c2062e88b4676978c00880a86bd5ede5194e5f691910d8c000d28cd2",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/aoe/version.info",
+      "sha256": "0eeba64764a7440a0e20768564770cd85b9fb13f1a92f820d99e35687e0dbb00",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/mindstudio-opprof/version.info",
+      "sha256": "c6d66690fd2c6792e6344dd74502dee6b912d58f6c06dd778727afa78ae96667",
+      "version": "26.2.0"
+    },
+    {
+      "path": "share/info/msmemscope/version.info",
+      "sha256": "13f294a1c97a8a694b746a61d5111a35ce54f16f1d6d93485aaf900c05b7911c",
+      "version": "26.2.0"
+    },
+    {
+      "path": "share/info/pto_isa/version.info",
+      "sha256": "26b0736182c008e9bf8f279cf862afb1186a7a532ff5e5709567435df4243dc7",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/asc-tools/version.info",
+      "sha256": "71fa96812165b12968e3ec74539e9d2792c11965ca2bbe7860b58835b75e10be",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/ge-executor/version.info",
+      "sha256": "dc8545ac233617cafa893294e1c66b6c7720f641cf561bf9895d95e7486a174e",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/graph_autofusion/version.info",
+      "sha256": "f9bd20924b69a328c533895da3d6c9b423b6ce356f22210f62cf6c191466ee03",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/pypto/version.info",
+      "sha256": "dea5a6e9d85c498eae0ea05f85d3b46850844dc191e649c23eed58a0d1ca4847",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/mindstudio-debugger/version.info",
+      "sha256": "bf974234bae2b9bbc85b9423c339bb9ba38dbe2d514e49bb1c5565bf116bb9e4",
+      "version": "26.2.0"
+    },
+    {
+      "path": "share/info/runtime/version.info",
+      "sha256": "f2873bd0984123ccd4b1d1e8abb16e188e377feeaaac74cf4e0aa9bfeff0adef",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/bisheng-compiler/version.info",
+      "sha256": "f2873bd0984123ccd4b1d1e8abb16e188e377feeaaac74cf4e0aa9bfeff0adef",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/mindstudio-sanitizer/version.info",
+      "sha256": "2c6f69448a5e15c2ab3eb58371f12b0bb8d9f98c324a76d8f50f282ad87f2206",
+      "version": "26.2.0"
+    },
+    {
+      "path": "share/info/pto_as/version.info",
+      "sha256": "26b0736182c008e9bf8f279cf862afb1186a7a532ff5e5709567435df4243dc7",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/acl_extend/version.info",
+      "sha256": "f5c993a9c2062e88b4676978c00880a86bd5ede5194e5f691910d8c000d28cd2",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/ncs/version.info",
+      "sha256": "d6cb3bd7220dd46832ccd7ceaf8db6dc6ad6dc3348e6b2580d382d707fc5707d",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/simulator/version.info",
+      "sha256": "f2873bd0984123ccd4b1d1e8abb16e188e377feeaaac74cf4e0aa9bfeff0adef",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/platform_profiler/version.info",
+      "sha256": "913d79c156a9b3214b4989e8bc66c97f3e4eecd6242899ba84630dc30aa27011",
+      "version": "1.0.0"
+    },
+    {
+      "path": "share/info/opbase/version.info",
+      "sha256": "55cdd665ac6a6cd971c5ab4f89b6073e901a0c30d84beef0f89b571aea8a57f3",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/mindstudio-operator-tools/version.info",
+      "sha256": "f3b75cb1cdb0d90ba078081353146dcf42a738bbe56709212d45ad193ea019d6",
+      "version": "26.2.0"
+    },
+    {
+      "path": "share/info/ascendnpu-ir/version.info",
+      "sha256": "caa72d84cac4d3245cd99e5a0b4c57a5529dfeba4cbf17b9aa0d82c467e44296",
+      "version": "1.2.0"
+    },
+    {
+      "path": "share/info/msboost/version.info",
+      "sha256": "8a06f1c23fff73e441e90024b3cdf7c4afbb3b8342a53076e8b07280e890ade8",
+      "version": "26.2.0"
+    },
+    {
+      "path": "share/info/asc-devkit/version.info",
+      "sha256": "9d7d655daa6850447b052d7968ead43b71f6e63de7a537de56aa1ee1f8dc32e6",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/ge-compiler/version.info",
+      "sha256": "d36913aabc1cf81675d93e99ada9e3610137717a89394a3fdcc8b3fb0cd01823",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/msserviceprofiler/version.info",
+      "sha256": "c756a159b27e5064825097a2b542be775b1fad6c4a47327ce9e4939f9ae4a7a6",
+      "version": "26.2.0"
+    },
+    {
+      "path": "share/info/hcomm/version.info",
+      "sha256": "caedf905d2460f33eb1d67c7afa65c5a768a5efb9b885355893f3269e36aa557",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/pyACL/version.info",
+      "sha256": "f7d5214a64c9517b7ff9ee923c9836cacb7353e361059dfa0706d079de43bcd5",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/mstx/version.info",
+      "sha256": "a2a999fbb6af23baf3996ac9e6e1372b7af6d654d544b0ca470d0d1f2f0e091f",
+      "version": "26.2.0"
+    },
+    {
+      "path": "share/info/operator_cmp/version.info",
+      "sha256": "5ba48bf5e10c40468ef620d8c90a4973189da56e0d61ac89e7e412968d48b3c8",
+      "version": "26.2.0"
+    },
+    {
+      "path": "share/info/msprof/version.info",
+      "sha256": "efe75d563d7a8e48c92c43d90a83aa6630124f80ac87b8110092e0df989963c5",
+      "version": "26.2.0"
+    },
+    {
+      "path": "share/info/dflow-executor/version.info",
+      "sha256": "2b18d914067723ad12508624ed58e955946be10f3494c78fa2715df6f9847ed8",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/mspti/version.info",
+      "sha256": "1ea5332e0782c2bd0a1d119b7f8c8b544b58d662aea46cf7758530eab70d358e",
+      "version": "26.2.0"
+    },
+    {
+      "path": "share/info/oam_tools/version.info",
+      "sha256": "0647e189ba9dc8324d8b3a3d525c4aa692fa126a4352b64d957040dbae5ac355",
+      "version": "9.2.0-beta.2"
+    },
+    {
+      "path": "share/info/ms_fmk_transplt/version.info",
+      "sha256": "e7c7cb89bc86af2dd003aad3bba19cc79d428dafcb427530db7ca7a9df685a16",
+      "version": "26.2.0"
+    },
+    {
+      "path": "share/info/tbe-tik/version.info",
+      "sha256": "27821dd7c5304aac6477cea7aec9dc1b74de4429e9fb1584712f5ebb0ad4f5fc",
+      "version": "9.2.0-beta.2"
+    }
+  ],
+  "files": [
+    {
+      "path": "compiler/version.info",
+      "bytes": 275,
+      "sha256": "9d7d655daa6850447b052d7968ead43b71f6e63de7a537de56aa1ee1f8dc32e6",
+      "lines": 8
+    },
+    {
+      "path": "opp/version.info",
+      "bytes": 288,
+      "sha256": "55cdd665ac6a6cd971c5ab4f89b6073e901a0c30d84beef0f89b571aea8a57f3",
+      "lines": 8
+    },
+    {
+      "path": "aarch64-linux/asc/include/adv_api/activation/swiglu.h",
+      "bytes": 4388,
+      "sha256": "96775defc5a1f334c6aeedd4e7cd6d898f8b90b0d1233e25cafc19a5914ef2bc",
+      "lines": 122
+    },
+    {
+      "path": "aarch64-linux/asc/impl/adv_api/detail/activation/swiglu/swiglu_3510_impl.h",
+      "bytes": 6449,
+      "sha256": "7c9e75edb2fabcd7dfe5b6f77d560ae105d1d0d70120320be48ed27d584c00f0",
+      "lines": 130
+    },
+    {
+      "path": "aarch64-linux/asc/include/adv_api/normalization/rmsnorm.h",
+      "bytes": 4475,
+      "sha256": "9f8e934285eb947d36f81868ec0f1e8511f6000ede49e6a7830f01b0a17c8912",
+      "lines": 99
+    },
+    {
+      "path": "aarch64-linux/asc/include/adv_api/matmul/matmul.h",
+      "bytes": 19245,
+      "sha256": "ebcd4255afadac0fe41d559560b01572b6c18b1d4474ac816ee8f273fa55edba",
+      "lines": 414
+    }
+  ],
+  "aclnnopHeaders": [
+    "aarch64-linux/include/aclnnop/aclnn_util.h",
+    "aarch64-linux/include/aclnnop/level2/aclnn_util.h"
+  ],
+  "opapiLibraries": [
+    "aarch64-linux/lib64/libopapi_oam.so"
+  ],
+  "operatorLibraryComponents": [],
+  "operatorExecution": false,
+  "scope": "本地安装提供编译器/AscendC SDK 与高级 API 源码；所检查安装路径未发现 ops-nn/ops-math/ops-transformer 的 libopapi 和独立算子头文件。不能将 SDK 高级 API 等同已安装完整 aclnn 算子库。对应算子源码继续由匹配 tag 核对；未安装、编译、加载或运行任何算子。"
+}

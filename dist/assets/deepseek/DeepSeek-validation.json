@@ -1,0 +1,37 @@
+{
+  "status": "passed",
+  "date": "2026-10-01",
+  "scope": "21 checkpoint 全文件头/矩阵、独立 MTP/DSpark、CANN 固定来源/范围、shape、引用与导出",
+  "checks": {
+    "sourceFiles": 579,
+    "functionProofs": 330,
+    "matrixInstances": 33507,
+    "auditedTensors": 1457766,
+    "headerMetadataBytes": 172146958,
+    "models": 21,
+    "languageLayers": 1122,
+    "expandedStepShapes": 76502,
+    "downloads": 28,
+    "figures": 4,
+    "cannOperatorFamilies": 30,
+    "cannSourceRanges": 350
+  },
+  "exports": {
+    "csvRows": 76502,
+    "csvColumns": 22,
+    "perModelCSVs": 21,
+    "xlsxSheets": 7,
+    "xlsxCells": 134933,
+    "zipArchives": 2
+  },
+  "downloadsChecked": true,
+  "computeSteps": 76502,
+  "computeTemplates": 145,
+  "deviceExperiments": "excluded_from_current_scope_by_user",
+  "limits": [
+    "没有执行权重值加载或设备实验",
+    "Llama 原底座 gated，差异保留未知",
+    "header 不证明上游训练共享别名或权重值相同",
+    "CANN 相关源码/包内资料可查；实际库/分派、ABI、编译与设备数值仍未由静态研究证明"
+  ]
+}

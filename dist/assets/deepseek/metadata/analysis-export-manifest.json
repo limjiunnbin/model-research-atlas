@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "snapshot": "2026-10-02",
+  "path": "assets/deepseek/DeepSeek-静态分析.xlsx",
+  "analysisSha256": "c689ee33f663e0d5d0fbfc9a3c7a207d109d8e7afc4ccc6919c8f947e26c9452",
+  "sheets": [
+    {
+      "name": "成本场景",
+      "rows": 84,
+      "columns": 29,
+      "cells": 2436,
+      "csv": "DeepSeek-cost-scenarios.csv"
+    },
+    {
+      "name": "并行场景",
+      "rows": 63,
+      "columns": 26,
+      "cells": 1638,
+      "csv": "DeepSeek-parallel-scenarios.csv"
+    },
+    {
+      "name": "跨家族比较",
+      "rows": 42,
+      "columns": 13,
+      "cells": 546,
+      "csv": "跨家族比较.csv"
+    },
+    {
+      "name": "机制要点",
+      "rows": 5,
+      "columns": 5,
+      "cells": 25,
+      "csv": null
+    },
+    {
+      "name": "算子条件",
+      "rows": 4207,
+      "columns": 12,
+      "cells": 50484,
+      "csv": "DeepSeek-CANN-contracts.csv"
+    }
+  ],
+  "dataCells": 55129,
+  "scope": "Fixed analytical scenarios and source rows; numbers typed; unknown measurements blank; no hardware validation"
+}

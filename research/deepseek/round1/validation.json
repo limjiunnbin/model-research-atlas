@@ -1,0 +1,81 @@
+{
+  "status": "passed",
+  "date": "2026-10-01",
+  "modelRevision": "e815299b0bcbac849fa540c768ef21845365c9eb",
+  "referenceRevision": "9b4e9788e4a3a731f7567338ed15d3ec549ce03b",
+  "checks": {
+    "trackedInputHashes": 20,
+    "upstreamInputHashes": 39,
+    "configFields": 38,
+    "layerMappings": 61,
+    "matrixShapesAndCounts": 23,
+    "parameterFormulaChecks": 12,
+    "sourceFunctionHashes": 32,
+    "crossStepShapeChecks": 448,
+    "scenarioOperatorShapeChecks": 348,
+    "cacheFormulaCases": 2,
+    "indexRepresentativeNames": 85,
+    "versionRelationships": 17,
+    "csvDataRows": 425
+  },
+  "mainUniqueLogical": 671026419200,
+  "sourceCodeReverified": true,
+  "exportsChecked": true,
+  "mlaAlgebra": {
+    "seed": 20261001,
+    "numericType": "Python float / FP64 synthetic algebra",
+    "maxScoreAbsError": 1.1102230246251565e-16,
+    "maxOutputAbsError": 5.551115123125783e-17,
+    "limit": "固定合成小矩阵的代数复算；未测试 RoPE 实现、FP8/BF16 舍入、checkpoint 或设备 kernel"
+  },
+  "routingArithmetic": {
+    "syntheticTokens": 8,
+    "assignments": 64,
+    "expectedAssignments": 64,
+    "weightSumAfterScale": 2.5,
+    "limit": "配置约束和参考路由数学关系复算，不运行上游 Gate"
+  },
+  "cacheCases": [
+    {
+      "phase": "prefill",
+      "itemsizeAssumption": 2,
+      "layers": 61,
+      "naiveActiveElements": 19988480,
+      "naiveActiveBytesBF16Assumption": 39976960,
+      "absorbActiveElements": 281088,
+      "absorbActiveBytesBF16Assumption": 562176
+    },
+    {
+      "phase": "decode",
+      "itemsizeAssumption": 2,
+      "layers": 61,
+      "naiveActiveElements": 39976960,
+      "naiveActiveBytesBF16Assumption": 79953920,
+      "absorbActiveElements": 562176,
+      "absorbActiveBytesBF16Assumption": 1124352
+    }
+  ],
+  "exports": [
+    {
+      "path": "research/deepseek/round1/v3-parameters.csv",
+      "rows": 77,
+      "columns": 17,
+      "sha256": "42f4809325acfe085df5028837b52cb3918aef3e0b98690c4938b3cd0e3c3f2d",
+      "bytes": 24001
+    },
+    {
+      "path": "research/deepseek/round1/v3-representative-operators.csv",
+      "rows": 348,
+      "columns": 24,
+      "sha256": "c338002e543eb80746f9c50dfb7172323c42927f5d651ce5c3999bee8c05dc9c",
+      "bytes": 211685
+    }
+  ],
+  "limits": [
+    "静态配置/shape/源码哈希/索引名称与独立数学复算",
+    "未执行上游模型代码或加载 checkpoint",
+    "未读取权重文件头",
+    "未运行 GPU/NPU 或性能实验",
+    "当前验证器仅覆盖首轮研究契约；P5a 后另接网站验证分派"
+  ]
+}

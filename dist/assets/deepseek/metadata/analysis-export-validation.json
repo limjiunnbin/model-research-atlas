@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "date": "2026-10-02",
+  "xlsxSheets": 5,
+  "xlsxDataCells": 55129,
+  "csvDataRows": 4396,
+  "csvFiles": 4,
+  "unknownMeasurements": "blank",
+  "scope": "every analytical export value compared with canonical JSON"
+}

@@ -1,0 +1,4441 @@
+{
+  "schemaVersion": 1,
+  "kind": "deepseek_v3_round1_research",
+  "familyId": "deepseek",
+  "authored": "2026-10-01",
+  "modelId": "deepseek-ai/DeepSeek-V3",
+  "revision": "e815299b0bcbac849fa540c768ef21845365c9eb",
+  "referenceRevision": "9b4e9788e4a3a731f7567338ed15d3ec549ce03b",
+  "scope": "P0/P1；两个代表主干层，MP=1，初始 prefill 与常规 decode；非网站 compute 契约，非权重头审计/设备测试",
+  "configPath": "data/families/deepseek/configs/DeepSeek-V3-config.json",
+  "configFields": [
+    {
+      "field": "attention_bias",
+      "value": false,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": null,
+      "demoValue": null,
+      "comparison": "not_mapped"
+    },
+    {
+      "field": "bos_token_id",
+      "value": 0,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": null,
+      "demoValue": null,
+      "comparison": "not_mapped"
+    },
+    {
+      "field": "eos_token_id",
+      "value": 1,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": null,
+      "demoValue": null,
+      "comparison": "not_mapped"
+    },
+    {
+      "field": "ep_size",
+      "value": 1,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": null,
+      "demoValue": null,
+      "comparison": "not_mapped"
+    },
+    {
+      "field": "first_k_dense_replace",
+      "value": 3,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": "n_dense_layers",
+      "demoValue": 3,
+      "comparison": "equal"
+    },
+    {
+      "field": "hidden_act",
+      "value": "silu",
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": null,
+      "demoValue": null,
+      "comparison": "not_mapped"
+    },
+    {
+      "field": "hidden_size",
+      "value": 7168,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": "dim",
+      "demoValue": 7168,
+      "comparison": "equal"
+    },
+    {
+      "field": "intermediate_size",
+      "value": 18432,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": "inter_dim",
+      "demoValue": 18432,
+      "comparison": "equal"
+    },
+    {
+      "field": "kv_lora_rank",
+      "value": 512,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": "kv_lora_rank",
+      "demoValue": 512,
+      "comparison": "equal"
+    },
+    {
+      "field": "max_position_embeddings",
+      "value": 163840,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": null,
+      "demoValue": null,
+      "comparison": "not_mapped"
+    },
+    {
+      "field": "model_type",
+      "value": "deepseek_v3",
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": null,
+      "demoValue": null,
+      "comparison": "not_mapped"
+    },
+    {
+      "field": "moe_intermediate_size",
+      "value": 2048,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": "moe_inter_dim",
+      "demoValue": 2048,
+      "comparison": "equal"
+    },
+    {
+      "field": "moe_layer_freq",
+      "value": 1,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": null,
+      "demoValue": null,
+      "comparison": "not_mapped"
+    },
+    {
+      "field": "n_group",
+      "value": 8,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": "n_expert_groups",
+      "demoValue": 8,
+      "comparison": "equal"
+    },
+    {
+      "field": "n_routed_experts",
+      "value": 256,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": "n_routed_experts",
+      "demoValue": 256,
+      "comparison": "equal"
+    },
+    {
+      "field": "n_shared_experts",
+      "value": 1,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": "n_shared_experts",
+      "demoValue": 1,
+      "comparison": "equal"
+    },
+    {
+      "field": "norm_topk_prob",
+      "value": true,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": null,
+      "demoValue": null,
+      "comparison": "not_mapped"
+    },
+    {
+      "field": "num_attention_heads",
+      "value": 128,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": "n_heads",
+      "demoValue": 128,
+      "comparison": "equal"
+    },
+    {
+      "field": "num_experts_per_tok",
+      "value": 8,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": "n_activated_experts",
+      "demoValue": 8,
+      "comparison": "equal"
+    },
+    {
+      "field": "num_hidden_layers",
+      "value": 61,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": "n_layers",
+      "demoValue": 61,
+      "comparison": "equal"
+    },
+    {
+      "field": "num_key_value_heads",
+      "value": 128,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": null,
+      "demoValue": null,
+      "comparison": "not_mapped"
+    },
+    {
+      "field": "num_nextn_predict_layers",
+      "value": 1,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": null,
+      "demoValue": null,
+      "comparison": "not_mapped"
+    },
+    {
+      "field": "q_lora_rank",
+      "value": 1536,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": "q_lora_rank",
+      "demoValue": 1536,
+      "comparison": "equal"
+    },
+    {
+      "field": "qk_nope_head_dim",
+      "value": 128,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": "qk_nope_head_dim",
+      "demoValue": 128,
+      "comparison": "equal"
+    },
+    {
+      "field": "qk_rope_head_dim",
+      "value": 64,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": "qk_rope_head_dim",
+      "demoValue": 64,
+      "comparison": "equal"
+    },
+    {
+      "field": "quantization_config",
+      "value": {
+        "activation_scheme": "dynamic",
+        "fmt": "e4m3",
+        "quant_method": "fp8",
+        "weight_block_size": [
+          128,
+          128
+        ]
+      },
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": null,
+      "demoValue": null,
+      "comparison": "not_mapped"
+    },
+    {
+      "field": "rms_norm_eps",
+      "value": 1e-06,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": null,
+      "demoValue": null,
+      "comparison": "not_mapped"
+    },
+    {
+      "field": "rope_scaling",
+      "value": {
+        "beta_fast": 32,
+        "beta_slow": 1,
+        "factor": 40,
+        "mscale": 1.0,
+        "mscale_all_dim": 1.0,
+        "original_max_position_embeddings": 4096,
+        "type": "yarn"
+      },
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": null,
+      "demoValue": null,
+      "comparison": "not_mapped"
+    },
+    {
+      "field": "rope_theta",
+      "value": 10000,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": null,
+      "demoValue": null,
+      "comparison": "not_mapped"
+    },
+    {
+      "field": "routed_scaling_factor",
+      "value": 2.5,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": "route_scale",
+      "demoValue": 2.5,
+      "comparison": "equal"
+    },
+    {
+      "field": "scoring_func",
+      "value": "sigmoid",
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": "score_func",
+      "demoValue": "sigmoid",
+      "comparison": "equal"
+    },
+    {
+      "field": "tie_word_embeddings",
+      "value": false,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": null,
+      "demoValue": null,
+      "comparison": "not_mapped"
+    },
+    {
+      "field": "topk_group",
+      "value": 4,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": "n_limited_groups",
+      "demoValue": 4,
+      "comparison": "equal"
+    },
+    {
+      "field": "topk_method",
+      "value": "noaux_tc",
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": null,
+      "demoValue": null,
+      "comparison": "not_mapped"
+    },
+    {
+      "field": "torch_dtype",
+      "value": "bfloat16",
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": null,
+      "demoValue": null,
+      "comparison": "not_mapped"
+    },
+    {
+      "field": "use_cache",
+      "value": true,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": null,
+      "demoValue": null,
+      "comparison": "not_mapped"
+    },
+    {
+      "field": "v_head_dim",
+      "value": 128,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": "v_head_dim",
+      "demoValue": 128,
+      "comparison": "equal"
+    },
+    {
+      "field": "vocab_size",
+      "value": 129280,
+      "evidence": "official",
+      "source_id": "hf-v3-config-json",
+      "demoField": "vocab_size",
+      "demoValue": 129280,
+      "comparison": "equal"
+    }
+  ],
+  "symbols": {
+    "H": {
+      "meaning": "残差隐藏宽度",
+      "value": 7168
+    },
+    "Vocab": {
+      "meaning": "词表大小",
+      "value": 129280
+    },
+    "N_head": {
+      "meaning": "全局 attention heads；本轮 MP=1",
+      "value": 128
+    },
+    "R_q": {
+      "meaning": "Q 低秩维度",
+      "value": 1536
+    },
+    "R_kv": {
+      "meaning": "KV 低秩维度",
+      "value": 512
+    },
+    "D_nope": {
+      "meaning": "非位置 Q/K 子维",
+      "value": 128
+    },
+    "D_rope": {
+      "meaning": "位置 Q/K 子维",
+      "value": 64
+    },
+    "D_v": {
+      "meaning": "V 子维",
+      "value": 128
+    },
+    "I_dense": {
+      "meaning": "Dense FFN 中间宽度",
+      "value": 18432
+    },
+    "I_expert": {
+      "meaning": "单专家中间宽度",
+      "value": 2048
+    },
+    "E": {
+      "meaning": "路由专家总数",
+      "value": 256
+    },
+    "K": {
+      "meaning": "每 token 选择的专家数",
+      "value": 8
+    },
+    "N_shared": {
+      "meaning": "共享专家数",
+      "value": 1
+    },
+    "G": {
+      "meaning": "专家组数",
+      "value": 8
+    },
+    "G_keep": {
+      "meaning": "保留专家组数",
+      "value": 4
+    },
+    "B": {
+      "meaning": "padded 参考路径的 batch",
+      "value": null
+    },
+    "L_q": {
+      "meaning": "本次每请求新增 token 数",
+      "value": null
+    },
+    "L_kv": {
+      "meaning": "历史与本次可见 KV 长度",
+      "value": null
+    },
+    "N_tok": {
+      "meaning": "本轮 padded 路径 B*L_q",
+      "value": null
+    },
+    "N_e": {
+      "meaning": "代表专家收到的 token 数；动态值，不假设均匀路由",
+      "value": null
+    }
+  },
+  "layerMapping": {
+    "Dense": [
+      0,
+      1,
+      2
+    ],
+    "MoE": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60
+    ]
+  },
+  "representatives": [
+    {
+      "kind": "Dense",
+      "sourceLayer": 0,
+      "displayLayer": 1
+    },
+    {
+      "kind": "MoE",
+      "sourceLayer": 3,
+      "displayLayer": 4
+    }
+  ],
+  "matrices": [
+    {
+      "id": "attention:self_attn.q_a_proj.weight",
+      "tensorTemplate": "model.layers.{i}.self_attn.q_a_proj.weight",
+      "owner": "attention",
+      "shapeExpressions": [
+        "R_q",
+        "H"
+      ],
+      "logicalShape": [
+        1536,
+        7168
+      ],
+      "logicalParametersEach": 11010048,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 11010048,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3Attention.__init__",
+      "declaredScaleInIndex": true,
+      "expectedScaleShape": [
+        12,
+        56
+      ],
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "attention:self_attn.q_a_layernorm.weight",
+      "tensorTemplate": "model.layers.{i}.self_attn.q_a_layernorm.weight",
+      "owner": "attention",
+      "shapeExpressions": [
+        "R_q"
+      ],
+      "logicalShape": [
+        1536
+      ],
+      "logicalParametersEach": 1536,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 1536,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3Attention.__init__",
+      "declaredScaleInIndex": false,
+      "expectedScaleShape": null,
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "attention:self_attn.q_b_proj.weight",
+      "tensorTemplate": "model.layers.{i}.self_attn.q_b_proj.weight",
+      "owner": "attention",
+      "shapeExpressions": [
+        "N_head*(D_nope+D_rope)",
+        "R_q"
+      ],
+      "logicalShape": [
+        24576,
+        1536
+      ],
+      "logicalParametersEach": 37748736,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 37748736,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3Attention.__init__",
+      "declaredScaleInIndex": true,
+      "expectedScaleShape": [
+        192,
+        12
+      ],
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "attention:self_attn.kv_a_proj_with_mqa.weight",
+      "tensorTemplate": "model.layers.{i}.self_attn.kv_a_proj_with_mqa.weight",
+      "owner": "attention",
+      "shapeExpressions": [
+        "R_kv+D_rope",
+        "H"
+      ],
+      "logicalShape": [
+        576,
+        7168
+      ],
+      "logicalParametersEach": 4128768,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 4128768,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3Attention.__init__",
+      "declaredScaleInIndex": true,
+      "expectedScaleShape": [
+        5,
+        56
+      ],
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "attention:self_attn.kv_a_layernorm.weight",
+      "tensorTemplate": "model.layers.{i}.self_attn.kv_a_layernorm.weight",
+      "owner": "attention",
+      "shapeExpressions": [
+        "R_kv"
+      ],
+      "logicalShape": [
+        512
+      ],
+      "logicalParametersEach": 512,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 512,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3Attention.__init__",
+      "declaredScaleInIndex": false,
+      "expectedScaleShape": null,
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "attention:self_attn.kv_b_proj.weight",
+      "tensorTemplate": "model.layers.{i}.self_attn.kv_b_proj.weight",
+      "owner": "attention",
+      "shapeExpressions": [
+        "N_head*(D_nope+D_v)",
+        "R_kv"
+      ],
+      "logicalShape": [
+        32768,
+        512
+      ],
+      "logicalParametersEach": 16777216,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 16777216,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3Attention.__init__",
+      "declaredScaleInIndex": true,
+      "expectedScaleShape": [
+        256,
+        4
+      ],
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "attention:self_attn.o_proj.weight",
+      "tensorTemplate": "model.layers.{i}.self_attn.o_proj.weight",
+      "owner": "attention",
+      "shapeExpressions": [
+        "H",
+        "N_head*D_v"
+      ],
+      "logicalShape": [
+        7168,
+        16384
+      ],
+      "logicalParametersEach": 117440512,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 117440512,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3Attention.__init__",
+      "declaredScaleInIndex": true,
+      "expectedScaleShape": [
+        56,
+        128
+      ],
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "block_norm:input_layernorm.weight",
+      "tensorTemplate": "model.layers.{i}.input_layernorm.weight",
+      "owner": "block_norm",
+      "shapeExpressions": [
+        "H"
+      ],
+      "logicalShape": [
+        7168
+      ],
+      "logicalParametersEach": 7168,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 7168,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3DecoderLayer.__init__",
+      "declaredScaleInIndex": false,
+      "expectedScaleShape": null,
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "block_norm:post_attention_layernorm.weight",
+      "tensorTemplate": "model.layers.{i}.post_attention_layernorm.weight",
+      "owner": "block_norm",
+      "shapeExpressions": [
+        "H"
+      ],
+      "logicalShape": [
+        7168
+      ],
+      "logicalParametersEach": 7168,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 7168,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3DecoderLayer.__init__",
+      "declaredScaleInIndex": false,
+      "expectedScaleShape": null,
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "dense:mlp.gate_proj.weight",
+      "tensorTemplate": "model.layers.{i}.mlp.gate_proj.weight",
+      "owner": "dense",
+      "shapeExpressions": [
+        "I_dense",
+        "H"
+      ],
+      "logicalShape": [
+        18432,
+        7168
+      ],
+      "logicalParametersEach": 132120576,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 132120576,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3MLP.__init__",
+      "declaredScaleInIndex": true,
+      "expectedScaleShape": [
+        144,
+        56
+      ],
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "dense:mlp.up_proj.weight",
+      "tensorTemplate": "model.layers.{i}.mlp.up_proj.weight",
+      "owner": "dense",
+      "shapeExpressions": [
+        "I_dense",
+        "H"
+      ],
+      "logicalShape": [
+        18432,
+        7168
+      ],
+      "logicalParametersEach": 132120576,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 132120576,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3MLP.__init__",
+      "declaredScaleInIndex": true,
+      "expectedScaleShape": [
+        144,
+        56
+      ],
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "dense:mlp.down_proj.weight",
+      "tensorTemplate": "model.layers.{i}.mlp.down_proj.weight",
+      "owner": "dense",
+      "shapeExpressions": [
+        "H",
+        "I_dense"
+      ],
+      "logicalShape": [
+        7168,
+        18432
+      ],
+      "logicalParametersEach": 132120576,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 132120576,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3MLP.__init__",
+      "declaredScaleInIndex": true,
+      "expectedScaleShape": [
+        56,
+        144
+      ],
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "router:mlp.gate.weight",
+      "tensorTemplate": "model.layers.{i}.mlp.gate.weight",
+      "owner": "router",
+      "shapeExpressions": [
+        "E",
+        "H"
+      ],
+      "logicalShape": [
+        256,
+        7168
+      ],
+      "logicalParametersEach": 1835008,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 1835008,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:MoEGate.__init__",
+      "declaredScaleInIndex": false,
+      "expectedScaleShape": null,
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "router:mlp.gate.e_score_correction_bias",
+      "tensorTemplate": "model.layers.{i}.mlp.gate.e_score_correction_bias",
+      "owner": "router",
+      "shapeExpressions": [
+        "E"
+      ],
+      "logicalShape": [
+        256
+      ],
+      "logicalParametersEach": 256,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 256,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:MoEGate.__init__",
+      "declaredScaleInIndex": false,
+      "expectedScaleShape": null,
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "routed:mlp.experts.{e}.gate_proj.weight",
+      "tensorTemplate": "model.layers.{i}.mlp.experts.{e}.gate_proj.weight",
+      "owner": "routed",
+      "shapeExpressions": [
+        "I_expert",
+        "H"
+      ],
+      "logicalShape": [
+        2048,
+        7168
+      ],
+      "logicalParametersEach": 14680064,
+      "countExpression": "E",
+      "count": 256,
+      "logicalParameters": 3758096384,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3MLP.__init__",
+      "declaredScaleInIndex": true,
+      "expectedScaleShape": [
+        16,
+        56
+      ],
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "routed:mlp.experts.{e}.up_proj.weight",
+      "tensorTemplate": "model.layers.{i}.mlp.experts.{e}.up_proj.weight",
+      "owner": "routed",
+      "shapeExpressions": [
+        "I_expert",
+        "H"
+      ],
+      "logicalShape": [
+        2048,
+        7168
+      ],
+      "logicalParametersEach": 14680064,
+      "countExpression": "E",
+      "count": 256,
+      "logicalParameters": 3758096384,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3MLP.__init__",
+      "declaredScaleInIndex": true,
+      "expectedScaleShape": [
+        16,
+        56
+      ],
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "routed:mlp.experts.{e}.down_proj.weight",
+      "tensorTemplate": "model.layers.{i}.mlp.experts.{e}.down_proj.weight",
+      "owner": "routed",
+      "shapeExpressions": [
+        "H",
+        "I_expert"
+      ],
+      "logicalShape": [
+        7168,
+        2048
+      ],
+      "logicalParametersEach": 14680064,
+      "countExpression": "E",
+      "count": 256,
+      "logicalParameters": 3758096384,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3MLP.__init__",
+      "declaredScaleInIndex": true,
+      "expectedScaleShape": [
+        56,
+        16
+      ],
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "shared:mlp.shared_experts.gate_proj.weight",
+      "tensorTemplate": "model.layers.{i}.mlp.shared_experts.gate_proj.weight",
+      "owner": "shared",
+      "shapeExpressions": [
+        "N_shared*I_expert",
+        "H"
+      ],
+      "logicalShape": [
+        2048,
+        7168
+      ],
+      "logicalParametersEach": 14680064,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 14680064,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3MLP.__init__",
+      "declaredScaleInIndex": true,
+      "expectedScaleShape": [
+        16,
+        56
+      ],
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "shared:mlp.shared_experts.up_proj.weight",
+      "tensorTemplate": "model.layers.{i}.mlp.shared_experts.up_proj.weight",
+      "owner": "shared",
+      "shapeExpressions": [
+        "N_shared*I_expert",
+        "H"
+      ],
+      "logicalShape": [
+        2048,
+        7168
+      ],
+      "logicalParametersEach": 14680064,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 14680064,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3MLP.__init__",
+      "declaredScaleInIndex": true,
+      "expectedScaleShape": [
+        16,
+        56
+      ],
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "shared:mlp.shared_experts.down_proj.weight",
+      "tensorTemplate": "model.layers.{i}.mlp.shared_experts.down_proj.weight",
+      "owner": "shared",
+      "shapeExpressions": [
+        "H",
+        "N_shared*I_expert"
+      ],
+      "logicalShape": [
+        7168,
+        2048
+      ],
+      "logicalParametersEach": 14680064,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 14680064,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3MLP.__init__",
+      "declaredScaleInIndex": true,
+      "expectedScaleShape": [
+        56,
+        16
+      ],
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "global:model.embed_tokens.weight",
+      "tensorTemplate": "model.embed_tokens.weight",
+      "owner": "global",
+      "shapeExpressions": [
+        "Vocab",
+        "H"
+      ],
+      "logicalShape": [
+        129280,
+        7168
+      ],
+      "logicalParametersEach": 926679040,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 926679040,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3Model.__init__",
+      "declaredScaleInIndex": false,
+      "expectedScaleShape": null,
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "global:model.norm.weight",
+      "tensorTemplate": "model.norm.weight",
+      "owner": "global",
+      "shapeExpressions": [
+        "H"
+      ],
+      "logicalShape": [
+        7168
+      ],
+      "logicalParametersEach": 7168,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 7168,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3Model.__init__",
+      "declaredScaleInIndex": false,
+      "expectedScaleShape": null,
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    },
+    {
+      "id": "global:lm_head.weight",
+      "tensorTemplate": "lm_head.weight",
+      "owner": "global",
+      "shapeExpressions": [
+        "Vocab",
+        "H"
+      ],
+      "logicalShape": [
+        129280,
+        7168
+      ],
+      "logicalParametersEach": 926679040,
+      "countExpression": "1",
+      "count": 1,
+      "logicalParameters": 926679040,
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "hf-v3-modeling_deepseek-py",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "proof_id": "hf-v3-modeling_deepseek-py:DeepseekV3ForCausalLM.__init__",
+      "declaredScaleInIndex": false,
+      "expectedScaleShape": null,
+      "storedShape": null,
+      "storedDtype": null,
+      "payloadBytes": null,
+      "storageEvidence": "unknown; index provides names/shards, not tensor header shape/dtype"
+    }
+  ],
+  "parameterTotals": {
+    "attention": 187107328,
+    "blockNorm": 14336,
+    "denseFFN": 396361728,
+    "singleRoutedExpert": 44040192,
+    "allRoutedExperts": 11274289152,
+    "selectedRoutedExpertProxy": 352321536,
+    "sharedExperts": 44040192,
+    "routerIncludingCorrectionBias": 1835264,
+    "denseLayer": 583483392,
+    "moeLayer": 11507286272,
+    "global": 1853365248,
+    "mainUniqueLogical": 671026419200,
+    "scope": "主干 61 层、独立 embedding/head、norm 与路由校正参数；排除 MTP 和量化 scale；配置+源码推导，非权重审计"
+  },
+  "steps": [
+    {
+      "id": "attn_norm",
+      "title": "Attention 前 RMSNorm",
+      "op": "norm",
+      "inputs": {
+        "x": [
+          "B",
+          "L_q",
+          "H"
+        ]
+      },
+      "outputs": {
+        "x_norm": [
+          "B",
+          "L_q",
+          "H"
+        ]
+      },
+      "relation": "RMSNorm(x; gamma[H], eps)",
+      "branch": "both",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:Block.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "q_a",
+      "title": "Q 低秩下投影",
+      "op": "linear",
+      "inputs": {
+        "x_norm": [
+          "B",
+          "L_q",
+          "H"
+        ],
+        "W_qa": [
+          "R_q",
+          "H"
+        ]
+      },
+      "outputs": {
+        "q_low": [
+          "B",
+          "L_q",
+          "R_q"
+        ]
+      },
+      "relation": "q_low=x_norm @ W_qa^T",
+      "branch": "both",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "q_norm",
+      "title": "Q 低秩 RMSNorm",
+      "op": "norm",
+      "inputs": {
+        "q_low": [
+          "B",
+          "L_q",
+          "R_q"
+        ]
+      },
+      "outputs": {
+        "q_low_norm": [
+          "B",
+          "L_q",
+          "R_q"
+        ]
+      },
+      "relation": "RMSNorm(q_low; gamma[R_q])",
+      "branch": "both",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "q_b",
+      "title": "Q 上投影",
+      "op": "linear",
+      "inputs": {
+        "q_low_norm": [
+          "B",
+          "L_q",
+          "R_q"
+        ],
+        "W_qb": [
+          "N_head*(D_nope+D_rope)",
+          "R_q"
+        ]
+      },
+      "outputs": {
+        "q_flat": [
+          "B",
+          "L_q",
+          "N_head*(D_nope+D_rope)"
+        ]
+      },
+      "relation": "q_flat=q_low_norm @ W_qb^T",
+      "branch": "both",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "q_view",
+      "title": "Q heads reshape",
+      "op": "reshape",
+      "inputs": {
+        "q_flat": [
+          "B",
+          "L_q",
+          "N_head*(D_nope+D_rope)"
+        ]
+      },
+      "outputs": {
+        "q": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_nope+D_rope"
+        ]
+      },
+      "relation": "reshape q_flat to heads",
+      "branch": "both",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "q_split",
+      "title": "拆分 Q NoPE 与 RoPE",
+      "op": "split",
+      "inputs": {
+        "q": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_nope+D_rope"
+        ]
+      },
+      "outputs": {
+        "q_nope": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_nope"
+        ],
+        "q_pe": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_rope"
+        ]
+      },
+      "relation": "split last axis [D_nope,D_rope]",
+      "branch": "both",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "q_rope",
+      "title": "Q 位置旋转",
+      "op": "rope",
+      "inputs": {
+        "q_pe": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_rope"
+        ]
+      },
+      "outputs": {
+        "q_rot": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_rope"
+        ]
+      },
+      "relation": "apply_rotary_emb(q_pe, freqs_cis)",
+      "branch": "both",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "旋转先转 FP32/complex，返回输入 dtype",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": "位置频率切片不是可训练矩阵"
+    },
+    {
+      "id": "kv_a",
+      "title": "KV 低秩及共享位置投影",
+      "op": "linear",
+      "inputs": {
+        "x_norm": [
+          "B",
+          "L_q",
+          "H"
+        ],
+        "W_kva": [
+          "R_kv+D_rope",
+          "H"
+        ]
+      },
+      "outputs": {
+        "kv_joint": [
+          "B",
+          "L_q",
+          "R_kv+D_rope"
+        ]
+      },
+      "relation": "kv_joint=x_norm @ W_kva^T",
+      "branch": "both",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "kv_split",
+      "title": "拆分潜变量与共享位置 Key",
+      "op": "split",
+      "inputs": {
+        "kv_joint": [
+          "B",
+          "L_q",
+          "R_kv+D_rope"
+        ]
+      },
+      "outputs": {
+        "kv_low": [
+          "B",
+          "L_q",
+          "R_kv"
+        ],
+        "k_pe": [
+          "B",
+          "L_q",
+          "D_rope"
+        ]
+      },
+      "relation": "split last axis [R_kv,D_rope]",
+      "branch": "both",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "k_unsqueeze",
+      "title": "为共享位置 Key 增加 head 轴",
+      "op": "reshape",
+      "inputs": {
+        "k_pe": [
+          "B",
+          "L_q",
+          "D_rope"
+        ]
+      },
+      "outputs": {
+        "k_pe_single": [
+          "B",
+          "L_q",
+          "1",
+          "D_rope"
+        ]
+      },
+      "relation": "unsqueeze head axis=2",
+      "branch": "both",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "k_rope",
+      "title": "共享 Key 位置旋转",
+      "op": "rope",
+      "inputs": {
+        "k_pe_single": [
+          "B",
+          "L_q",
+          "1",
+          "D_rope"
+        ]
+      },
+      "outputs": {
+        "k_rot_single": [
+          "B",
+          "L_q",
+          "1",
+          "D_rope"
+        ]
+      },
+      "relation": "apply_rotary_emb(k_pe.unsqueeze(2), freqs_cis)",
+      "branch": "both",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "旋转先转 FP32/complex，返回输入 dtype",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "k_squeeze",
+      "title": "共享位置 Key 去掉单 head 轴",
+      "op": "reshape",
+      "inputs": {
+        "k_rot_single": [
+          "B",
+          "L_q",
+          "1",
+          "D_rope"
+        ]
+      },
+      "outputs": {
+        "k_rot": [
+          "B",
+          "L_q",
+          "D_rope"
+        ]
+      },
+      "relation": "squeeze head axis for compressed positional cache",
+      "branch": "both",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "kv_norm",
+      "title": "KV 低秩 RMSNorm",
+      "op": "norm",
+      "inputs": {
+        "kv_low": [
+          "B",
+          "L_q",
+          "R_kv"
+        ]
+      },
+      "outputs": {
+        "c_new": [
+          "B",
+          "L_q",
+          "R_kv"
+        ]
+      },
+      "relation": "RMSNorm(kv_low; gamma[R_kv])",
+      "branch": "both",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "kv_b",
+      "title": "展开 KV 上投影",
+      "op": "linear",
+      "inputs": {
+        "c_new": [
+          "B",
+          "L_q",
+          "R_kv"
+        ],
+        "W_kvb": [
+          "N_head*(D_nope+D_v)",
+          "R_kv"
+        ]
+      },
+      "outputs": {
+        "kv_flat": [
+          "B",
+          "L_q",
+          "N_head*(D_nope+D_v)"
+        ]
+      },
+      "relation": "kv_flat=c_new @ W_kvb^T",
+      "branch": "naive",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "kv_view",
+      "title": "展开 KV heads reshape",
+      "op": "reshape",
+      "inputs": {
+        "kv_flat": [
+          "B",
+          "L_q",
+          "N_head*(D_nope+D_v)"
+        ]
+      },
+      "outputs": {
+        "kv_heads": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_nope+D_v"
+        ]
+      },
+      "relation": "reshape kv_flat to heads",
+      "branch": "naive",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "kv_heads_split",
+      "title": "拆分展开 Key 与 Value",
+      "op": "split",
+      "inputs": {
+        "kv_heads": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_nope+D_v"
+        ]
+      },
+      "outputs": {
+        "k_nope": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_nope"
+        ],
+        "v_new": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_v"
+        ]
+      },
+      "relation": "split last axis [D_nope,D_v]",
+      "branch": "naive",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "k_broadcast",
+      "title": "共享位置 Key 广播",
+      "op": "broadcast",
+      "inputs": {
+        "k_rot_single": [
+          "B",
+          "L_q",
+          "1",
+          "D_rope"
+        ]
+      },
+      "outputs": {
+        "k_rot_heads": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_rope"
+        ]
+      },
+      "relation": "expand head axis without adding parameters",
+      "branch": "naive",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "k_concat",
+      "title": "构造完整 Key",
+      "op": "concat",
+      "inputs": {
+        "k_nope": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_nope"
+        ],
+        "k_rot_heads": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_rope"
+        ]
+      },
+      "outputs": {
+        "k_new": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_nope+D_rope"
+        ]
+      },
+      "relation": "concat NoPE and rotated Key",
+      "branch": "naive",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "q_concat",
+      "title": "构造完整 Query",
+      "op": "concat",
+      "inputs": {
+        "q_nope": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_nope"
+        ],
+        "q_rot": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_rope"
+        ]
+      },
+      "outputs": {
+        "q_full": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_nope+D_rope"
+        ]
+      },
+      "relation": "concat NoPE and rotated Query",
+      "branch": "naive",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "k_cache",
+      "title": "写展开 Key cache",
+      "op": "cache_write",
+      "inputs": {
+        "k_new": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_nope+D_rope"
+        ]
+      },
+      "outputs": {
+        "k_cache": [
+          "B",
+          "L_kv",
+          "N_head",
+          "D_nope+D_rope"
+        ]
+      },
+      "relation": "write [start_pos:start_pos+L_q]; read active [:L_kv]",
+      "branch": "naive",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "v_cache",
+      "title": "写展开 Value cache",
+      "op": "cache_write",
+      "inputs": {
+        "v_new": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_v"
+        ]
+      },
+      "outputs": {
+        "v_cache": [
+          "B",
+          "L_kv",
+          "N_head",
+          "D_v"
+        ]
+      },
+      "relation": "write active new values",
+      "branch": "naive",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "naive_scores",
+      "title": "展开 QK 打分",
+      "op": "einsum",
+      "inputs": {
+        "q_full": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_nope+D_rope"
+        ],
+        "k_cache": [
+          "B",
+          "L_kv",
+          "N_head",
+          "D_nope+D_rope"
+        ]
+      },
+      "outputs": {
+        "scores": [
+          "B",
+          "L_q",
+          "N_head",
+          "L_kv"
+        ]
+      },
+      "relation": "scores=alpha*einsum(bqhd,bshd->bqhs)",
+      "branch": "naive",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": "",
+      "einsum": "bqhd,bshd->bqhs"
+    },
+    {
+      "id": "absorb_weight",
+      "title": "按需解量化 KV 上投影并分头",
+      "op": "reshape",
+      "inputs": {
+        "W_kvb": [
+          "N_head*(D_nope+D_v)",
+          "R_kv"
+        ]
+      },
+      "outputs": {
+        "W_kvb_heads": [
+          "N_head",
+          "D_nope+D_v",
+          "R_kv"
+        ]
+      },
+      "relation": "weight_dequant iff scale exists; view heads",
+      "branch": "absorb",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "FP8 条件分支解量化到 torch.get_default_dtype()",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": "不假设预先缓存了反量化权重；源码每次进入该分支进行条件处理"
+    },
+    {
+      "id": "absorb_weight_split",
+      "title": "区分潜变量 Key/Value 权重",
+      "op": "split",
+      "inputs": {
+        "W_kvb_heads": [
+          "N_head",
+          "D_nope+D_v",
+          "R_kv"
+        ]
+      },
+      "outputs": {
+        "W_k": [
+          "N_head",
+          "D_nope",
+          "R_kv"
+        ],
+        "W_v": [
+          "N_head",
+          "D_v",
+          "R_kv"
+        ]
+      },
+      "relation": "slice key prefix and value suffix along axis 1",
+      "branch": "absorb",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": "",
+      "axis": 1
+    },
+    {
+      "id": "q_absorb",
+      "title": "将 Key 上投影吸收到 Query",
+      "op": "einsum",
+      "inputs": {
+        "q_nope": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_nope"
+        ],
+        "W_k": [
+          "N_head",
+          "D_nope",
+          "R_kv"
+        ]
+      },
+      "outputs": {
+        "q_abs": [
+          "B",
+          "L_q",
+          "N_head",
+          "R_kv"
+        ]
+      },
+      "relation": "einsum(bqhd,hdc->bqhc)",
+      "branch": "absorb",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": "",
+      "einsum": "bqhd,hdc->bqhc"
+    },
+    {
+      "id": "latent_cache",
+      "title": "写归一化 KV 潜变量 cache",
+      "op": "cache_write",
+      "inputs": {
+        "c_new": [
+          "B",
+          "L_q",
+          "R_kv"
+        ]
+      },
+      "outputs": {
+        "c_cache": [
+          "B",
+          "L_kv",
+          "R_kv"
+        ]
+      },
+      "relation": "cache normalized low-rank KV, not expanded K/V",
+      "branch": "absorb",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "pe_cache",
+      "title": "写共享位置 cache",
+      "op": "cache_write",
+      "inputs": {
+        "k_rot": [
+          "B",
+          "L_q",
+          "D_rope"
+        ]
+      },
+      "outputs": {
+        "pe_cache": [
+          "B",
+          "L_kv",
+          "D_rope"
+        ]
+      },
+      "relation": "cache rotated shared positional key",
+      "branch": "absorb",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "latent_score",
+      "title": "潜变量打分",
+      "op": "einsum",
+      "inputs": {
+        "q_abs": [
+          "B",
+          "L_q",
+          "N_head",
+          "R_kv"
+        ],
+        "c_cache": [
+          "B",
+          "L_kv",
+          "R_kv"
+        ]
+      },
+      "outputs": {
+        "score_nope": [
+          "B",
+          "L_q",
+          "N_head",
+          "L_kv"
+        ]
+      },
+      "relation": "einsum(bqhc,bsc->bqhs)",
+      "branch": "absorb",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": "",
+      "einsum": "bqhc,bsc->bqhs"
+    },
+    {
+      "id": "rope_score",
+      "title": "共享位置打分",
+      "op": "einsum",
+      "inputs": {
+        "q_rot": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_rope"
+        ],
+        "pe_cache": [
+          "B",
+          "L_kv",
+          "D_rope"
+        ]
+      },
+      "outputs": {
+        "score_rope": [
+          "B",
+          "L_q",
+          "N_head",
+          "L_kv"
+        ]
+      },
+      "relation": "einsum(bqhr,bsr->bqhs)",
+      "branch": "absorb",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": "",
+      "einsum": "bqhr,bsr->bqhs"
+    },
+    {
+      "id": "score_combine",
+      "title": "合并两路 attention 分数",
+      "op": "add",
+      "inputs": {
+        "score_nope": [
+          "B",
+          "L_q",
+          "N_head",
+          "L_kv"
+        ],
+        "score_rope": [
+          "B",
+          "L_q",
+          "N_head",
+          "L_kv"
+        ]
+      },
+      "outputs": {
+        "scores": [
+          "B",
+          "L_q",
+          "N_head",
+          "L_kv"
+        ]
+      },
+      "relation": "alpha*(score_nope+score_rope)",
+      "branch": "absorb",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "attention_prob",
+      "title": "Mask 与 attention softmax",
+      "op": "masked_softmax",
+      "inputs": {
+        "scores": [
+          "B",
+          "L_q",
+          "N_head",
+          "L_kv"
+        ]
+      },
+      "outputs": {
+        "prob": [
+          "B",
+          "L_q",
+          "N_head",
+          "L_kv"
+        ]
+      },
+      "relation": "initial prefill adds causal [L_q,L_q] mask; decode L_q=1 mask=None; softmax over L_kv",
+      "branch": "both",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "softmax 显式 FP32，然后 type_as(x)",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": "本轮 prefill 为 start_pos=0；不声称支持带历史 chunked prefill 的方形 mask"
+    },
+    {
+      "id": "naive_context",
+      "title": "展开 Value 加权聚合",
+      "op": "einsum",
+      "inputs": {
+        "prob": [
+          "B",
+          "L_q",
+          "N_head",
+          "L_kv"
+        ],
+        "v_cache": [
+          "B",
+          "L_kv",
+          "N_head",
+          "D_v"
+        ]
+      },
+      "outputs": {
+        "attn_heads": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_v"
+        ]
+      },
+      "relation": "einsum(bqhs,bshd->bqhd)",
+      "branch": "naive",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": "",
+      "einsum": "bqhs,bshd->bqhd"
+    },
+    {
+      "id": "latent_context",
+      "title": "潜变量加权聚合",
+      "op": "einsum",
+      "inputs": {
+        "prob": [
+          "B",
+          "L_q",
+          "N_head",
+          "L_kv"
+        ],
+        "c_cache": [
+          "B",
+          "L_kv",
+          "R_kv"
+        ]
+      },
+      "outputs": {
+        "latent_context": [
+          "B",
+          "L_q",
+          "N_head",
+          "R_kv"
+        ]
+      },
+      "relation": "einsum(bqhs,bsc->bqhc)",
+      "branch": "absorb",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": "",
+      "einsum": "bqhs,bsc->bqhc"
+    },
+    {
+      "id": "value_expand",
+      "title": "聚合后 Value 上投影",
+      "op": "einsum",
+      "inputs": {
+        "latent_context": [
+          "B",
+          "L_q",
+          "N_head",
+          "R_kv"
+        ],
+        "W_v": [
+          "N_head",
+          "D_v",
+          "R_kv"
+        ]
+      },
+      "outputs": {
+        "attn_heads": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_v"
+        ]
+      },
+      "relation": "einsum(bqhc,hdc->bqhd)",
+      "branch": "absorb",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": "",
+      "einsum": "bqhc,hdc->bqhd"
+    },
+    {
+      "id": "attn_flatten",
+      "title": "合并 attention heads",
+      "op": "reshape",
+      "inputs": {
+        "attn_heads": [
+          "B",
+          "L_q",
+          "N_head",
+          "D_v"
+        ]
+      },
+      "outputs": {
+        "attn_flat": [
+          "B",
+          "L_q",
+          "N_head*D_v"
+        ]
+      },
+      "relation": "flatten head and value axes",
+      "branch": "both",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "o_proj",
+      "title": "Attention 输出投影",
+      "op": "linear",
+      "inputs": {
+        "attn_flat": [
+          "B",
+          "L_q",
+          "N_head*D_v"
+        ],
+        "W_o": [
+          "H",
+          "N_head*D_v"
+        ]
+      },
+      "outputs": {
+        "attn_out": [
+          "B",
+          "L_q",
+          "H"
+        ]
+      },
+      "relation": "attn_out=attn_flat @ W_o^T",
+      "branch": "both",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLA.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "attn_residual",
+      "title": "Attention 残差相加",
+      "op": "add",
+      "inputs": {
+        "x": [
+          "B",
+          "L_q",
+          "H"
+        ],
+        "attn_out": [
+          "B",
+          "L_q",
+          "H"
+        ]
+      },
+      "outputs": {
+        "after_attn": [
+          "B",
+          "L_q",
+          "H"
+        ]
+      },
+      "relation": "after_attn=x+attn_out",
+      "branch": "both",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:Block.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "ffn_norm",
+      "title": "FFN 前 RMSNorm",
+      "op": "norm",
+      "inputs": {
+        "after_attn": [
+          "B",
+          "L_q",
+          "H"
+        ]
+      },
+      "outputs": {
+        "ffn_input": [
+          "B",
+          "L_q",
+          "H"
+        ]
+      },
+      "relation": "RMSNorm(after_attn; gamma[H], eps)",
+      "branch": "both",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:Block.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "dense_gate",
+      "title": "Dense gate 投影",
+      "op": "linear",
+      "inputs": {
+        "ffn_input": [
+          "B",
+          "L_q",
+          "H"
+        ],
+        "W_gate": [
+          "I_dense",
+          "H"
+        ]
+      },
+      "outputs": {
+        "g": [
+          "B",
+          "L_q",
+          "I_dense"
+        ]
+      },
+      "relation": "g=ffn_input @ W_gate^T",
+      "branch": "both",
+      "layerKind": "Dense",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLP.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "dense_up",
+      "title": "Dense up 投影",
+      "op": "linear",
+      "inputs": {
+        "ffn_input": [
+          "B",
+          "L_q",
+          "H"
+        ],
+        "W_up": [
+          "I_dense",
+          "H"
+        ]
+      },
+      "outputs": {
+        "u": [
+          "B",
+          "L_q",
+          "I_dense"
+        ]
+      },
+      "relation": "u=ffn_input @ W_up^T",
+      "branch": "both",
+      "layerKind": "Dense",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLP.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "dense_activation",
+      "title": "Dense SwiGLU",
+      "op": "multiply",
+      "inputs": {
+        "g": [
+          "B",
+          "L_q",
+          "I_dense"
+        ],
+        "u": [
+          "B",
+          "L_q",
+          "I_dense"
+        ]
+      },
+      "outputs": {
+        "gu": [
+          "B",
+          "L_q",
+          "I_dense"
+        ]
+      },
+      "relation": "SiLU(g)*u",
+      "branch": "both",
+      "layerKind": "Dense",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLP.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "dense_down",
+      "title": "Dense down 投影",
+      "op": "linear",
+      "inputs": {
+        "gu": [
+          "B",
+          "L_q",
+          "I_dense"
+        ],
+        "W_down": [
+          "H",
+          "I_dense"
+        ]
+      },
+      "outputs": {
+        "ffn_out": [
+          "B",
+          "L_q",
+          "H"
+        ]
+      },
+      "relation": "gu @ W_down^T",
+      "branch": "both",
+      "layerKind": "Dense",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLP.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "moe_flatten",
+      "title": "MoE token 展平",
+      "op": "reshape",
+      "inputs": {
+        "ffn_input": [
+          "B",
+          "L_q",
+          "H"
+        ]
+      },
+      "outputs": {
+        "tokens": [
+          "N_tok",
+          "H"
+        ]
+      },
+      "relation": "N_tok=B*L_q for padded demo",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MoE.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "router_linear",
+      "title": "路由打分投影",
+      "op": "linear",
+      "inputs": {
+        "tokens": [
+          "N_tok",
+          "H"
+        ],
+        "W_router": [
+          "E",
+          "H"
+        ]
+      },
+      "outputs": {
+        "logits": [
+          "N_tok",
+          "E"
+        ]
+      },
+      "relation": "linear(tokens,W_router)",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "demo 未显式转 FP32；HF MoEGate.forward 显式将输入与权重转 FP32",
+      "proof_id": "gh-deepseek-v3-inference-model-py:Gate.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "router_sigmoid",
+      "title": "路由 sigmoid",
+      "op": "activation",
+      "inputs": {
+        "logits": [
+          "N_tok",
+          "E"
+        ]
+      },
+      "outputs": {
+        "original_scores": [
+          "N_tok",
+          "E"
+        ]
+      },
+      "relation": "sigmoid(logits)",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:Gate.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "router_bias",
+      "title": "选择分数加校正 bias",
+      "op": "add",
+      "inputs": {
+        "original_scores": [
+          "N_tok",
+          "E"
+        ],
+        "correction_bias": [
+          "E"
+        ]
+      },
+      "outputs": {
+        "choice_scores": [
+          "N_tok",
+          "E"
+        ]
+      },
+      "relation": "selection only: original_scores+correction_bias",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "demo correction bias 构造为 FP32；保留 original_scores 用于最终权重",
+      "proof_id": "gh-deepseek-v3-inference-model-py:Gate.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "group_view",
+      "title": "路由分组",
+      "op": "reshape",
+      "inputs": {
+        "choice_scores": [
+          "N_tok",
+          "E"
+        ]
+      },
+      "outputs": {
+        "grouped": [
+          "N_tok",
+          "G",
+          "E//G"
+        ]
+      },
+      "relation": "reshape to G groups",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:Gate.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "group_score",
+      "title": "每组 top-2 分数求和",
+      "op": "group_top2",
+      "inputs": {
+        "grouped": [
+          "N_tok",
+          "G",
+          "E//G"
+        ]
+      },
+      "outputs": {
+        "group_scores": [
+          "N_tok",
+          "G"
+        ]
+      },
+      "relation": "sum(topk(grouped,2),last_axis)",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:Gate.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "group_topk",
+      "title": "选择专家组",
+      "op": "topk",
+      "inputs": {
+        "group_scores": [
+          "N_tok",
+          "G"
+        ]
+      },
+      "outputs": {
+        "selected_groups": [
+          "N_tok",
+          "G_keep"
+        ]
+      },
+      "relation": "topk groups with G_keep=4",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "输出为整型 group indices；score 精度依输入路径",
+      "proof_id": "gh-deepseek-v3-inference-model-py:Gate.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": "",
+      "k": "G_keep"
+    },
+    {
+      "id": "group_mask",
+      "title": "屏蔽未选择专家组",
+      "op": "group_mask",
+      "inputs": {
+        "choice_scores": [
+          "N_tok",
+          "E"
+        ],
+        "selected_groups": [
+          "N_tok",
+          "G_keep"
+        ]
+      },
+      "outputs": {
+        "masked_choice": [
+          "N_tok",
+          "E"
+        ]
+      },
+      "relation": "unselected groups masked to -inf",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:Gate.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "expert_topk",
+      "title": "选择路由专家",
+      "op": "topk",
+      "inputs": {
+        "masked_choice": [
+          "N_tok",
+          "E"
+        ]
+      },
+      "outputs": {
+        "indices": [
+          "N_tok",
+          "K"
+        ]
+      },
+      "relation": "topk masked_choice with K=8",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "输出为整型 expert indices；score 精度依输入路径",
+      "proof_id": "gh-deepseek-v3-inference-model-py:Gate.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": "",
+      "k": "K"
+    },
+    {
+      "id": "route_weights",
+      "title": "取原分数、归一化与缩放",
+      "op": "gather",
+      "inputs": {
+        "original_scores": [
+          "N_tok",
+          "E"
+        ],
+        "indices": [
+          "N_tok",
+          "K"
+        ]
+      },
+      "outputs": {
+        "route_weights": [
+          "N_tok",
+          "K"
+        ]
+      },
+      "relation": "gather ORIGINAL scores; normalize sum; multiply 2.5; type_as(tokens)",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:Gate.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": "correction bias 不进入最终归一化权重；HF 分母额外加 1e-20"
+    },
+    {
+      "id": "routed_init",
+      "title": "初始化路由专家累加输出",
+      "op": "zeros_like",
+      "inputs": {
+        "tokens": [
+          "N_tok",
+          "H"
+        ]
+      },
+      "outputs": {
+        "routed_zero": [
+          "N_tok",
+          "H"
+        ]
+      },
+      "relation": "zeros_like(tokens)",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MoE.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "dispatch",
+      "title": "按专家 gather token",
+      "op": "dispatch",
+      "inputs": {
+        "tokens": [
+          "N_tok",
+          "H"
+        ],
+        "indices": [
+          "N_tok",
+          "K"
+        ]
+      },
+      "outputs": {
+        "expert_tokens": [
+          "N_e",
+          "H"
+        ],
+        "expert_token_indices": [
+          "N_e"
+        ],
+        "expert_slots": [
+          "N_e"
+        ]
+      },
+      "relation": "bincount IDs; idx,top=torch.where(indices==e); x[idx]",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "expert_tokens 保持激活 dtype；token/slot indices 为整型",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MoE.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": "demo 用逐专家 gather 与加权 scatter；HF moe_infer 则排序，EP>1 时另含 all-to-all，未审阅生产框架"
+    },
+    {
+      "id": "expert_gate",
+      "title": "代表路由专家 gate",
+      "op": "linear",
+      "inputs": {
+        "expert_tokens": [
+          "N_e",
+          "H"
+        ],
+        "W_eg": [
+          "I_expert",
+          "H"
+        ]
+      },
+      "outputs": {
+        "eg": [
+          "N_e",
+          "I_expert"
+        ]
+      },
+      "relation": "eg=expert_tokens @ W_eg^T",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:Expert.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": "模板覆盖 E 个专家；每专家 N_e 动态，N_e=0 时跳过"
+    },
+    {
+      "id": "expert_up",
+      "title": "代表路由专家 up",
+      "op": "linear",
+      "inputs": {
+        "expert_tokens": [
+          "N_e",
+          "H"
+        ],
+        "W_eu": [
+          "I_expert",
+          "H"
+        ]
+      },
+      "outputs": {
+        "eu": [
+          "N_e",
+          "I_expert"
+        ]
+      },
+      "relation": "eu=expert_tokens @ W_eu^T",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:Expert.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": "模板覆盖 E 个专家；每专家 N_e 动态，N_e=0 时跳过"
+    },
+    {
+      "id": "expert_activation",
+      "title": "路由专家 SwiGLU",
+      "op": "multiply",
+      "inputs": {
+        "eg": [
+          "N_e",
+          "I_expert"
+        ],
+        "eu": [
+          "N_e",
+          "I_expert"
+        ]
+      },
+      "outputs": {
+        "egu": [
+          "N_e",
+          "I_expert"
+        ]
+      },
+      "relation": "SiLU(eg)*eu",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:Expert.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "expert_down",
+      "title": "路由专家 down",
+      "op": "linear",
+      "inputs": {
+        "egu": [
+          "N_e",
+          "I_expert"
+        ],
+        "W_ed": [
+          "H",
+          "I_expert"
+        ]
+      },
+      "outputs": {
+        "expert_out": [
+          "N_e",
+          "H"
+        ]
+      },
+      "relation": "egu @ W_ed^T",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:Expert.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "expert_route_weight",
+      "title": "取代表专家路由权重",
+      "op": "expert_weight_gather",
+      "inputs": {
+        "route_weights": [
+          "N_tok",
+          "K"
+        ],
+        "expert_token_indices": [
+          "N_e"
+        ],
+        "expert_slots": [
+          "N_e"
+        ]
+      },
+      "outputs": {
+        "expert_weights": [
+          "N_e",
+          "1"
+        ]
+      },
+      "relation": "weights[idx,top,None]",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MoE.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "expert_weighted",
+      "title": "代表专家输出乘路由权重",
+      "op": "multiply",
+      "inputs": {
+        "expert_out": [
+          "N_e",
+          "H"
+        ],
+        "expert_weights": [
+          "N_e",
+          "1"
+        ]
+      },
+      "outputs": {
+        "weighted_expert": [
+          "N_e",
+          "H"
+        ]
+      },
+      "relation": "expert_out*expert_weights",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MoE.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "weighted_scatter",
+      "title": "路由专家加权 scatter 累加",
+      "op": "scatter",
+      "inputs": {
+        "weighted_expert": [
+          "N_e",
+          "H"
+        ],
+        "expert_token_indices": [
+          "N_e"
+        ],
+        "routed_zero": [
+          "N_tok",
+          "H"
+        ]
+      },
+      "outputs": {
+        "routed_out": [
+          "N_tok",
+          "H"
+        ]
+      },
+      "relation": "y[idx] += weighted_expert; repeat for all nonempty local experts",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MoE.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "shared_gate",
+      "title": "共享专家 gate",
+      "op": "linear",
+      "inputs": {
+        "tokens": [
+          "N_tok",
+          "H"
+        ],
+        "W_sg": [
+          "N_shared*I_expert",
+          "H"
+        ]
+      },
+      "outputs": {
+        "sg": [
+          "N_tok",
+          "N_shared*I_expert"
+        ]
+      },
+      "relation": "sg=tokens @ W_sg^T",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLP.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "shared_up",
+      "title": "共享专家 up",
+      "op": "linear",
+      "inputs": {
+        "tokens": [
+          "N_tok",
+          "H"
+        ],
+        "W_su": [
+          "N_shared*I_expert",
+          "H"
+        ]
+      },
+      "outputs": {
+        "su": [
+          "N_tok",
+          "N_shared*I_expert"
+        ]
+      },
+      "relation": "su=tokens @ W_su^T",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLP.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "shared_activation",
+      "title": "共享专家 SwiGLU",
+      "op": "multiply",
+      "inputs": {
+        "sg": [
+          "N_tok",
+          "N_shared*I_expert"
+        ],
+        "su": [
+          "N_tok",
+          "N_shared*I_expert"
+        ]
+      },
+      "outputs": {
+        "sgu": [
+          "N_tok",
+          "N_shared*I_expert"
+        ]
+      },
+      "relation": "SiLU(sg)*su",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLP.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "shared_down",
+      "title": "共享专家 down",
+      "op": "linear",
+      "inputs": {
+        "sgu": [
+          "N_tok",
+          "N_shared*I_expert"
+        ],
+        "W_sd": [
+          "H",
+          "N_shared*I_expert"
+        ]
+      },
+      "outputs": {
+        "shared_out": [
+          "N_tok",
+          "H"
+        ]
+      },
+      "relation": "sgu @ W_sd^T",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MLP.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "moe_combine",
+      "title": "合并路由与共享专家",
+      "op": "add",
+      "inputs": {
+        "routed_out": [
+          "N_tok",
+          "H"
+        ],
+        "shared_out": [
+          "N_tok",
+          "H"
+        ]
+      },
+      "outputs": {
+        "moe_flat": [
+          "N_tok",
+          "H"
+        ]
+      },
+      "relation": "routed_out+shared_out; world_size>1 routed_out all_reduce before addition",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MoE.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "moe_reshape",
+      "title": "恢复 MoE 层 shape",
+      "op": "reshape",
+      "inputs": {
+        "moe_flat": [
+          "N_tok",
+          "H"
+        ]
+      },
+      "outputs": {
+        "ffn_out": [
+          "B",
+          "L_q",
+          "H"
+        ]
+      },
+      "relation": "reshape to original [B,L_q,H]",
+      "branch": "both",
+      "layerKind": "MoE",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:MoE.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    },
+    {
+      "id": "ffn_residual",
+      "title": "FFN 残差相加",
+      "op": "add",
+      "inputs": {
+        "after_attn": [
+          "B",
+          "L_q",
+          "H"
+        ],
+        "ffn_out": [
+          "B",
+          "L_q",
+          "H"
+        ]
+      },
+      "outputs": {
+        "layer_out": [
+          "B",
+          "L_q",
+          "H"
+        ]
+      },
+      "relation": "after_attn+ffn_out",
+      "branch": "both",
+      "layerKind": "both",
+      "phases": [
+        "prefill",
+        "decode"
+      ],
+      "dtype": "激活/缓存由调用者 dtype 决定；本轮 shape 场景假设 BF16",
+      "proof_id": "gh-deepseek-v3-inference-model-py:Block.forward",
+      "evidence": "derived",
+      "source_ids": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "backend": null,
+      "backendEvidence": "unknown",
+      "duration": null,
+      "note": ""
+    }
+  ],
+  "proofs": {
+    "hf-v3-modeling_deepseek-py:DeepseekV3Attention.__init__": {
+      "source_id": "hf-v3-modeling_deepseek-py",
+      "symbol": "DeepseekV3Attention.__init__",
+      "line": 630,
+      "end": 695,
+      "bodySha256": "192c704950c3dce95c04d978dc26445bba314926966f0e8abebc8f16a6282ec0",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/modeling_deepseek.py#L630-L695",
+      "level": "reference_source"
+    },
+    "hf-v3-modeling_deepseek-py:DeepseekV3DecoderLayer.__init__": {
+      "source_id": "hf-v3-modeling_deepseek-py",
+      "symbol": "DeepseekV3DecoderLayer.__init__",
+      "line": 1143,
+      "end": 1165,
+      "bodySha256": "605dbdd26f15b7d49f69274e04d39b942217a3efa32ee0f5ec0fbedf7db9a7ac",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/modeling_deepseek.py#L1143-L1165",
+      "level": "reference_source"
+    },
+    "hf-v3-modeling_deepseek-py:DeepseekV3MLP.__init__": {
+      "source_id": "hf-v3-modeling_deepseek-py",
+      "symbol": "DeepseekV3MLP.__init__",
+      "line": 375,
+      "end": 386,
+      "bodySha256": "72296ea67bba0e50fe2a201a5332c26cb01729a97b7eab4e2fce07786848d6f5",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/modeling_deepseek.py#L375-L386",
+      "level": "reference_source"
+    },
+    "hf-v3-modeling_deepseek-py:MoEGate.__init__": {
+      "source_id": "hf-v3-modeling_deepseek-py",
+      "symbol": "MoEGate.__init__",
+      "line": 394,
+      "end": 415,
+      "bodySha256": "9252bcf954e6ad4aa3fbff3a7ffa9e10c34eba2b617a175085974b668fe2124b",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/modeling_deepseek.py#L394-L415",
+      "level": "reference_source"
+    },
+    "hf-v3-modeling_deepseek-py:DeepseekV3Model.__init__": {
+      "source_id": "hf-v3-modeling_deepseek-py",
+      "symbol": "DeepseekV3Model.__init__",
+      "line": 1354,
+      "end": 1373,
+      "bodySha256": "1493652a5d0cec885b8197db7cb3191b9f873d499379dceaff3b0b0c65ac56d0",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/modeling_deepseek.py#L1354-L1373",
+      "level": "reference_source"
+    },
+    "hf-v3-modeling_deepseek-py:DeepseekV3ForCausalLM.__init__": {
+      "source_id": "hf-v3-modeling_deepseek-py",
+      "symbol": "DeepseekV3ForCausalLM.__init__",
+      "line": 1517,
+      "end": 1524,
+      "bodySha256": "95a03e632d59bf560a3f571b31c07849c5e0ea50a986350d9e75ffee804bdd62",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/modeling_deepseek.py#L1517-L1524",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-model-py:Block.forward": {
+      "source_id": "gh-deepseek-v3-inference-model-py",
+      "symbol": "Block.forward",
+      "line": 720,
+      "end": 735,
+      "bodySha256": "646fededf5f87033b4b9cead00d7cbc79b84e126940c609b296ce171ce877d06",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/model.py#L720-L735",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-model-py:MLA.forward": {
+      "source_id": "gh-deepseek-v3-inference-model-py",
+      "symbol": "MLA.forward",
+      "line": 446,
+      "end": 497,
+      "bodySha256": "c263195821249119f209f9f1ce7952e54e374ee3a0460429a3e1bfafe82184d3",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/model.py#L446-L497",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-model-py:MLP.forward": {
+      "source_id": "gh-deepseek-v3-inference-model-py",
+      "symbol": "MLP.forward",
+      "line": 522,
+      "end": 532,
+      "bodySha256": "f1aa490f9b0325a32b62e62561cd9e308b058baf42905fedb8bdd40f8bbfaed4",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/model.py#L522-L532",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-model-py:MoE.forward": {
+      "source_id": "gh-deepseek-v3-inference-model-py",
+      "symbol": "MoE.forward",
+      "line": 669,
+      "end": 693,
+      "bodySha256": "9b714734f972aa78555e0dc4e2fcfc124ca7d03d29c84b95546b6249f5ee0d3d",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/model.py#L669-L693",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-model-py:Gate.forward": {
+      "source_id": "gh-deepseek-v3-inference-model-py",
+      "symbol": "Gate.forward",
+      "line": 566,
+      "end": 598,
+      "bodySha256": "e22ba8f9e82f9f782f9acb97a4f65adf711d012dbbaa843298ed58af6cbc14d3",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/model.py#L566-L598",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-model-py:Expert.forward": {
+      "source_id": "gh-deepseek-v3-inference-model-py",
+      "symbol": "Expert.forward",
+      "line": 623,
+      "end": 633,
+      "bodySha256": "91a98e26741ecab3d94c61d1a2730017bf264da54c3b2dab10af58f97b5293ab",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/model.py#L623-L633",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-model-py:linear": {
+      "source_id": "gh-deepseek-v3-inference-model-py",
+      "symbol": "linear",
+      "line": 131,
+      "end": 163,
+      "bodySha256": "39cfb3ca81f5f4e57d843ea55c9a653be50826e1a984be95e4916908f7434439",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/model.py#L131-L163",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-model-py:Linear.__init__": {
+      "source_id": "gh-deepseek-v3-inference-model-py",
+      "symbol": "Linear.__init__",
+      "line": 179,
+      "end": 193,
+      "bodySha256": "a7f776628ce28051b7aa557f03bf4b1fedf35ea7c90d1b184bfdfad803a47441",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/model.py#L179-L193",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-model-py:RMSNorm.forward": {
+      "source_id": "gh-deepseek-v3-inference-model-py",
+      "symbol": "RMSNorm.forward",
+      "line": 284,
+      "end": 294,
+      "bodySha256": "33fffee37df7e803d45ddff227ebe897ba8fd25892a646c362b7d3a81cb164fb",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/model.py#L284-L294",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-model-py:ColumnParallelLinear.__init__": {
+      "source_id": "gh-deepseek-v3-inference-model-py",
+      "symbol": "ColumnParallelLinear.__init__",
+      "line": 218,
+      "end": 221,
+      "bodySha256": "2a34b2040e5be4276a2e80328b9c462cafd3ba95c60bfd2370498b1609c0dc36",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/model.py#L218-L221",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-model-py:RowParallelLinear.forward": {
+      "source_id": "gh-deepseek-v3-inference-model-py",
+      "symbol": "RowParallelLinear.forward",
+      "line": 252,
+      "end": 267,
+      "bodySha256": "421598ec02cafac30be886e58e205ef060b8d1eceaf396fbad25a5bcf12f3ed5",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/model.py#L252-L267",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-model-py:ParallelEmbedding.forward": {
+      "source_id": "gh-deepseek-v3-inference-model-py",
+      "symbol": "ParallelEmbedding.forward",
+      "line": 107,
+      "end": 128,
+      "bodySha256": "8caef2f2b2e21d5d4ecb618a97d92c6cab09dd203d888659fc5793012a92de8e",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/model.py#L107-L128",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-model-py:Transformer.__init__": {
+      "source_id": "gh-deepseek-v3-inference-model-py",
+      "symbol": "Transformer.__init__",
+      "line": 750,
+      "end": 770,
+      "bodySha256": "98d1661d5ec6e8181b7bcc0a2dc146a46eb832d5199d692a9ef869fc5d39014d",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/model.py#L750-L770",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-model-py:Transformer.forward": {
+      "source_id": "gh-deepseek-v3-inference-model-py",
+      "symbol": "Transformer.forward",
+      "line": 773,
+      "end": 798,
+      "bodySha256": "a4c91ba964991742ab7e61add9fe3fd0ad1a01004481cf92129f43e36c6b757d",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/model.py#L773-L798",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-model-py:Gate.__init__": {
+      "source_id": "gh-deepseek-v3-inference-model-py",
+      "symbol": "Gate.__init__",
+      "line": 549,
+      "end": 564,
+      "bodySha256": "93f66a9206f87d35375c7b72cdc88be1a874199f7a5e5f187b86137caf44c7ca",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/model.py#L549-L564",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-model-py:MoE.__init__": {
+      "source_id": "gh-deepseek-v3-inference-model-py",
+      "symbol": "MoE.__init__",
+      "line": 649,
+      "end": 667,
+      "bodySha256": "99f94c5abfaf43de42c08a3d94305bc2e6f9333099383c837a82b293dc48ae14",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/model.py#L649-L667",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-model-py:apply_rotary_emb": {
+      "source_id": "gh-deepseek-v3-inference-model-py",
+      "symbol": "apply_rotary_emb",
+      "line": 378,
+      "end": 393,
+      "bodySha256": "7e8fbd271f0c557e27be602eadb2700a80841be68abf117f11be485b92ed4b59",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/model.py#L378-L393",
+      "level": "reference_source"
+    },
+    "hf-v3-modeling_deepseek-py:MoEGate.forward": {
+      "source_id": "hf-v3-modeling_deepseek-py",
+      "symbol": "MoEGate.forward",
+      "line": 422,
+      "end": 473,
+      "bodySha256": "1ce7c817bda21440a50a525d00925f4b4804940f13823c0effcd8a0295f2ace1",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/modeling_deepseek.py#L422-L473",
+      "level": "reference_source"
+    },
+    "hf-v3-modeling_deepseek-py:DeepseekV3MoE.moe_infer": {
+      "source_id": "hf-v3-modeling_deepseek-py",
+      "symbol": "DeepseekV3MoE.moe_infer",
+      "line": 535,
+      "end": 608,
+      "bodySha256": "0a3d7df256f1ead71010efcf90bf06032b904d44bb9a603464ca5976c6e05b1f",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/modeling_deepseek.py#L535-L608",
+      "level": "reference_source"
+    },
+    "hf-v3-modeling_deepseek-py:DeepseekV3Attention.forward": {
+      "source_id": "hf-v3-modeling_deepseek-py",
+      "symbol": "DeepseekV3Attention.forward",
+      "line": 750,
+      "end": 856,
+      "bodySha256": "0d830741ac25e203e842a3ae654c6724874695180c30fa63a3c2da7a8c739bea",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/modeling_deepseek.py#L750-L856",
+      "level": "reference_source"
+    },
+    "hf-v3-modeling_deepseek-py:DeepseekV3MLP.forward": {
+      "source_id": "hf-v3-modeling_deepseek-py",
+      "symbol": "DeepseekV3MLP.forward",
+      "line": 388,
+      "end": 390,
+      "bodySha256": "c175739048a2dbe3d01102f0229b1c5d9159a7cfb5a4a72bea816801658f8f78",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/modeling_deepseek.py#L388-L390",
+      "level": "reference_source"
+    },
+    "hf-v3-modeling_deepseek-py:DeepseekV3RMSNorm.forward": {
+      "source_id": "hf-v3-modeling_deepseek-py",
+      "symbol": "DeepseekV3RMSNorm.forward",
+      "line": 103,
+      "end": 108,
+      "bodySha256": "9a60087840825e1853db6aaf071c649ce5f0ea3cacb15e2367e89c7c35da4ab6",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/modeling_deepseek.py#L103-L108",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-convert-py:main": {
+      "source_id": "gh-deepseek-v3-inference-convert-py",
+      "symbol": "main",
+      "line": 33,
+      "end": 85,
+      "bodySha256": "db395831e577ef5442368985a3825fb170e182377a5d2e4a521f7c0a990803b6",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/convert.py#L33-L85",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-kernel-py:act_quant": {
+      "source_id": "gh-deepseek-v3-inference-kernel-py",
+      "symbol": "act_quant",
+      "line": 38,
+      "end": 57,
+      "bodySha256": "b6b6ad6d1df8687838cd6a673bcff5a57c8ef6dfdf46a6e58a32aa77c45cdc2f",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/kernel.py#L38-L57",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-kernel-py:weight_dequant": {
+      "source_id": "gh-deepseek-v3-inference-kernel-py",
+      "symbol": "weight_dequant",
+      "line": 89,
+      "end": 110,
+      "bodySha256": "f5d0a317f56d4569cfe87c47f8c6a21e9bd04bb2303cc7f235ec6935a8d1e25e",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/kernel.py#L89-L110",
+      "level": "reference_source"
+    },
+    "gh-deepseek-v3-inference-kernel-py:fp8_gemm": {
+      "source_id": "gh-deepseek-v3-inference-kernel-py",
+      "symbol": "fp8_gemm",
+      "line": 175,
+      "end": 196,
+      "bodySha256": "279d690e305dc49cd6d4d400169ee740f38eae706a85f7acef443544b322c971",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3/blob/9b4e9788e4a3a731f7567338ed15d3ec549ce03b/inference/kernel.py#L175-L196",
+      "level": "reference_source"
+    }
+  },
+  "weightIndexSummaryPath": "data/families/deepseek/research/v3-weight-index-summary.json",
+  "scenarios": [
+    {
+      "phase": "prefill",
+      "B": 2,
+      "L_q": 4,
+      "L_kv": 4,
+      "start_pos": 0,
+      "N_e": 1
+    },
+    {
+      "phase": "decode",
+      "B": 2,
+      "L_q": 1,
+      "L_kv": 8,
+      "start_pos": 7,
+      "N_e": 1
+    }
+  ],
+  "cache": {
+    "naivePerTokenPerLayerElements": "N_head*(D_nope+D_rope+D_v)",
+    "absorbPerTokenPerLayerElements": "R_kv+D_rope",
+    "naiveElements": 40960,
+    "absorbElements": 576,
+    "usageElementsFormula": "B*L_kv*layers*elements_per_token_per_layer",
+    "allocationFormula": "max_batch_size*max_seq_len*layers*elements_per_token_per_layer",
+    "byteFormula": "elements*itemsize (conditional on actual cache dtype)",
+    "limit": "MP=1；只含 K/V 或潜变量/位置 cache，排除 scores、RoPE 表、工作区、权重和框架管理开销；demo 按最大容量预分配"
+  },
+  "linearPrecision": {
+    "weight_non_fp8": "F.linear",
+    "fp8_and_gemm_impl_bf16": "weight_dequant → F.linear",
+    "fp8_and_gemm_impl_fp8": "act_quant → fp8_gemm",
+    "limit": "linear 的条件分支；参考 Triton wrapper 已读，未运行或映射到 Ascend kernel"
+  },
+  "mtp": {
+    "mainLayers": [
+      0,
+      60
+    ],
+    "mtpLayer": 61,
+    "declaredModules": 1,
+    "shared": [
+      "embedding",
+      "output head"
+    ],
+    "projectionLogicalShape": [
+      7168,
+      14336
+    ],
+    "projectionLogicalParameters": 102760448,
+    "projectionEvidence": "derived from paper Eq.21 + checkpoint H, not tensor header",
+    "source_ids": [
+      "hf-v3-config-json",
+      "gh-deepseek-v3-readme_weights-md",
+      "v3-paper-v2",
+      "gh-deepseek-v3-inference-convert-py"
+    ],
+    "officialUniqueApprox": 11500000000,
+    "exactUniqueParameters": null,
+    "demoExecuted": false,
+    "limit": "转换显式跳过 model.layers.61；Transformer 只创建 n_layers 个 Block；MTP 单列，训练目标与 speculative decoding 支持分开"
+  },
+  "conflicts": [
+    {
+      "id": "context",
+      "observation": "HF max_position_embeddings=163840；官方 V3 README 披露 128K；demo 配置未覆盖 ModelArgs.max_seq_len=16384",
+      "sources": [
+        "hf-v3-config-json",
+        "gh-deepseek-v3-readme-md",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "resolution": "分别保留配置、披露和 demo 默认值；不能用其中任一数值替代已验证的服务上下文"
+    },
+    {
+      "id": "mtp-count",
+      "observation": "README 披露主干 671B、含 MTP 的发布规模 685B/额外 14B；README_WEIGHTS 单列 MTP unique 11.5B（排除共享 embedding/head）",
+      "sources": [
+        "gh-deepseek-v3-readme-md",
+        "gh-deepseek-v3-readme_weights-md",
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "resolution": "主干推导总数单列；MTP exact unique 参数与共享 norm 的真实别名仍未知，不把披露的近似值强行配平"
+    },
+    {
+      "id": "router-dtype",
+      "observation": "HF MoEGate.forward 显式 FP32 linear；demo Gate.forward 无相同显式转换，correction bias 构造为 FP32",
+      "sources": [
+        "hf-v3-modeling_deepseek-py",
+        "gh-deepseek-v3-inference-model-py"
+      ],
+      "resolution": "按实现分别记录 dtype，不把 HF 的精度语义直接转写成 demo 的执行路径"
+    },
+    {
+      "id": "index-size",
+      "observation": "索引 metadata.total_size=1369062772000，索引只给张量名与分片",
+      "sources": [
+        "hf-v3-model-safetensors-index-json"
+      ],
+      "resolution": "保留原值；实际 storage dtype、shape、payloadBytes 均未知，不能据索引 total_size 推断 FP8 实际载荷"
+    }
+  ],
+  "gaps": [
+    {
+      "id": "weight-headers",
+      "stage": "可选权重审计",
+      "question": "实际逐张量 dtype、shape、scale 与 payload，以及 MTP 共享参数存储别名",
+      "status": "unknown"
+    },
+    {
+      "id": "mtp-runtime",
+      "stage": "P2",
+      "question": "目标框架的 MTP/speculative decoding 加载与执行路径；当前 demo 转换跳过 layer 61",
+      "status": "unknown"
+    },
+    {
+      "id": "ascend-stack",
+      "stage": "P2",
+      "question": "目标 Ascend 型号、卡数/拓扑、CANN、torch_npu、框架及权重转换格式",
+      "status": "unknown"
+    },
+    {
+      "id": "production-kernels",
+      "stage": "P2",
+      "question": "生产 attention、MoE、通信、量化 kernel 的条件映射与融合边界",
+      "status": "unknown"
+    },
+    {
+      "id": "chunk-prefill",
+      "stage": "P2",
+      "question": "带历史的 chunked prefill/verify mask 路径；demo 当前方形 mask 不能直接证明这些场景",
+      "status": "not_verified"
+    },
+    {
+      "id": "version-configs",
+      "stage": "P3/P4",
+      "question": "其他 checkpoint 的实际配置、精度与结构一致性；首轮只核对名称、revision、官方关系",
+      "status": "not_verified"
+    },
+    {
+      "id": "schema-integration",
+      "stage": "P5a",
+      "question": "DeepSeek 网站数据适配、独立验证分派；新 cache 结构扩展在 P3/P5b 处理",
+      "status": "not_started"
+    },
+    {
+      "id": "device-results",
+      "stage": "P6",
+      "question": "权重加载、设备数值正确性、profiling、性能与质量实验",
+      "status": "not_run"
+    }
+  ],
+  "verification": {
+    "weightHeaderAudit": false,
+    "checkpointLoaded": false,
+    "deviceTest": false,
+    "performanceExperiment": false
+  }
+}

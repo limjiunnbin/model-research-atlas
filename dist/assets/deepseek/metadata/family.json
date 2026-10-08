@@ -1,0 +1,4416 @@
+{
+  "id": "deepseek",
+  "name": "DeepSeek",
+  "publisher": "DeepSeek",
+  "updated": "2026-10-01",
+  "description": "V3 可复核基线、V3.2 DSA、V4 压缩注意力与 mHC、MTP/DSpark 推测解码，以及 R1/Distill 底座关系。",
+  "scope": "21 个选定 checkpoint 的主干、MTP 与 DSpark，全部有独立完整文件头审计；配置/参考构造、权重存储、服务协议与设备实测分列。设备实验已按用户要求移出本次范围。",
+  "models": [
+    {
+      "id": "v2",
+      "name": "DeepSeek-V2",
+      "branch": "主线",
+      "summary": "60 层；MLA 60 层；MLA/MoE；MTP 与主干分开计数",
+      "tags": [
+        "长文档",
+        "通用对话"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/tree/4461458f186c35188585855f28f77af5661ad489",
+      "revision": "4461458f186c35188585855f28f77af5661ad489",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 60,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "hidden": {
+          "value": 5120,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "heads": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "experts": {
+          "value": 160,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "topK": {
+          "value": 6,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "shared": {
+          "value": 2,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "expertInput": {
+          "value": 5120,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "expertWidth": {
+          "value": 1536,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "denseWidth": {
+          "value": 12288,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "context": {
+          "value": 163840,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "vocab": {
+          "value": 102400,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "attention": {
+          "value": "MLA 60 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "quantization": {
+          "value": "配置 torch_dtype=bfloat16",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "parameters": {
+          "value": 235741434880,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 471482869760,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V2.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": 1536,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "kvRank": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "streams": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "headDim": {
+          "value": 192,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "valueHeadDim": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "indexTopK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "mtpParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V2.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V2.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V2.json"
+        },
+        "draftBlock": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        },
+        "markovRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V2/blob/4461458f186c35188585855f28f77af5661ad489/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "v3"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-V2-config.json",
+      "architecturePath": "data/families/deepseek/v2-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-V2.json",
+      "baseModel": null,
+      "implementationLinks": [
+        {
+          "topic": "mla",
+          "title": "MLA 投影、cache 与 prefill/decode",
+          "path": "#/family/deepseek/implementation/mla/v2"
+        },
+        {
+          "topic": "moe",
+          "title": "路由、专家 GEMM 与通信",
+          "path": "#/family/deepseek/implementation/moe/v2"
+        },
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/v2"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/v2"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/v2"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/v2"
+    },
+    {
+      "id": "v3-base",
+      "name": "DeepSeek-V3-Base",
+      "branch": "基础",
+      "summary": "61 层；MLA 61 层；MLA/MoE；MTP 与主干分开计数",
+      "tags": [
+        "长文档",
+        "通用对话"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/tree/afb92e1fa402c2be2a9eb085312bb02e0384d6c7",
+      "revision": "afb92e1fa402c2be2a9eb085312bb02e0384d6c7",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 61,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "hidden": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "heads": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "experts": {
+          "value": 256,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "topK": {
+          "value": 8,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "expertInput": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "expertWidth": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "denseWidth": {
+          "value": 18432,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "context": {
+          "value": 163840,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "vocab": {
+          "value": 129280,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "attention": {
+          "value": "MLA 61 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "quantization": {
+          "value": "配置 FP8；scale=F32",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "parameters": {
+          "value": 671026419200,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 673150611808,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V3-Base.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": 1536,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "kvRank": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "streams": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "headDim": {
+          "value": 192,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "valueHeadDim": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "indexTopK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "mtpParameters": {
+          "value": 11610068224,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V3-Base.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V3-Base.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V3-Base.json"
+        },
+        "draftBlock": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        },
+        "markovRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3-Base/blob/afb92e1fa402c2be2a9eb085312bb02e0384d6c7/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "v3"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-V3-Base-config.json",
+      "architecturePath": "data/families/deepseek/v3-base-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-V3-Base.json",
+      "baseModel": null,
+      "implementationLinks": [
+        {
+          "topic": "mla",
+          "title": "MLA 投影、cache 与 prefill/decode",
+          "path": "#/family/deepseek/implementation/mla/v3-base"
+        },
+        {
+          "topic": "moe",
+          "title": "路由、专家 GEMM 与通信",
+          "path": "#/family/deepseek/implementation/moe/v3-base"
+        },
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/v3-base"
+        },
+        {
+          "topic": "mtp",
+          "title": "MTP 共享参数、加载与推测解码",
+          "path": "#/family/deepseek/implementation/mtp/v3-base"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/v3-base"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/v3-base"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/v3-base"
+    },
+    {
+      "id": "v3",
+      "name": "DeepSeek-V3",
+      "branch": "主线",
+      "summary": "61 层；MLA 61 层；MLA/MoE；MTP 与主干分开计数",
+      "tags": [
+        "长文档",
+        "通用对话"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/tree/e815299b0bcbac849fa540c768ef21845365c9eb",
+      "revision": "e815299b0bcbac849fa540c768ef21845365c9eb",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 61,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "hidden": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "heads": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "experts": {
+          "value": 256,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "topK": {
+          "value": 8,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "expertInput": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "expertWidth": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "denseWidth": {
+          "value": 18432,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "context": {
+          "value": 163840,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "vocab": {
+          "value": 129280,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "attention": {
+          "value": "MLA 61 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "quantization": {
+          "value": "配置 FP8；scale=F32",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "parameters": {
+          "value": 671026419200,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 673150611808,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V3.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": 1536,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "kvRank": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "streams": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "headDim": {
+          "value": 192,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "valueHeadDim": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "indexTopK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "mtpParameters": {
+          "value": 11610068224,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V3.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V3.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V3.json"
+        },
+        "draftBlock": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        },
+        "markovRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/e815299b0bcbac849fa540c768ef21845365c9eb/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "v3"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-V3-config.json",
+      "architecturePath": "data/families/deepseek/v3-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-V3.json",
+      "baseModel": "deepseek-ai/DeepSeek-V3-Base",
+      "implementationLinks": [
+        {
+          "topic": "mla",
+          "title": "MLA 投影、cache 与 prefill/decode",
+          "path": "#/family/deepseek/implementation/mla/v3"
+        },
+        {
+          "topic": "moe",
+          "title": "路由、专家 GEMM 与通信",
+          "path": "#/family/deepseek/implementation/moe/v3"
+        },
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/v3"
+        },
+        {
+          "topic": "mtp",
+          "title": "MTP 共享参数、加载与推测解码",
+          "path": "#/family/deepseek/implementation/mtp/v3"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/v3"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/v3"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/v3"
+    },
+    {
+      "id": "r1-zero",
+      "name": "DeepSeek-R1-Zero",
+      "branch": "后训练",
+      "summary": "61 层；MLA 61 层；MLA/MoE；MTP 与主干分开计数",
+      "tags": [
+        "长文档",
+        "通用对话",
+        "推理"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/tree/72234287cbc67dbf474d911359ae32b61a2fdc7e",
+      "revision": "72234287cbc67dbf474d911359ae32b61a2fdc7e",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 61,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "hidden": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "heads": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "experts": {
+          "value": 256,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "topK": {
+          "value": 8,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "expertInput": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "expertWidth": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "denseWidth": {
+          "value": 18432,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "context": {
+          "value": 163840,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "vocab": {
+          "value": 129280,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "attention": {
+          "value": "MLA 61 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "quantization": {
+          "value": "配置 FP8；scale=F32",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "parameters": {
+          "value": 671026419200,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 673150611808,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Zero.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": 1536,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "kvRank": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "streams": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "headDim": {
+          "value": 192,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "valueHeadDim": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "indexTopK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "mtpParameters": {
+          "value": 11610068224,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Zero.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Zero.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Zero.json"
+        },
+        "draftBlock": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        },
+        "markovRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Zero/blob/72234287cbc67dbf474d911359ae32b61a2fdc7e/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "r1"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-R1-Zero-config.json",
+      "architecturePath": "data/families/deepseek/r1-zero-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-R1-Zero.json",
+      "baseModel": "deepseek-ai/DeepSeek-V3-Base",
+      "implementationLinks": [
+        {
+          "topic": "mla",
+          "title": "MLA 投影、cache 与 prefill/decode",
+          "path": "#/family/deepseek/implementation/mla/r1-zero"
+        },
+        {
+          "topic": "moe",
+          "title": "路由、专家 GEMM 与通信",
+          "path": "#/family/deepseek/implementation/moe/r1-zero"
+        },
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/r1-zero"
+        },
+        {
+          "topic": "mtp",
+          "title": "MTP 共享参数、加载与推测解码",
+          "path": "#/family/deepseek/implementation/mtp/r1-zero"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/r1-zero"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/r1-zero"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/r1-zero"
+    },
+    {
+      "id": "r1",
+      "name": "DeepSeek-R1",
+      "branch": "后训练",
+      "summary": "61 层；MLA 61 层；MLA/MoE；MTP 与主干分开计数",
+      "tags": [
+        "长文档",
+        "通用对话",
+        "推理"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/tree/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad",
+      "revision": "56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 61,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "hidden": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "heads": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "experts": {
+          "value": 256,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "topK": {
+          "value": 8,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "expertInput": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "expertWidth": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "denseWidth": {
+          "value": 18432,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "context": {
+          "value": 163840,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "vocab": {
+          "value": 129280,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "attention": {
+          "value": "MLA 61 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "quantization": {
+          "value": "配置 FP8；scale=F32",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "parameters": {
+          "value": 671026419200,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 673150611808,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": 1536,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "kvRank": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "streams": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "headDim": {
+          "value": 192,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "valueHeadDim": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "indexTopK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "mtpParameters": {
+          "value": 11610068224,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1.json"
+        },
+        "draftBlock": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        },
+        "markovRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1/blob/56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "r1"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-R1-config.json",
+      "architecturePath": "data/families/deepseek/r1-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-R1.json",
+      "baseModel": "deepseek-ai/DeepSeek-V3-Base",
+      "implementationLinks": [
+        {
+          "topic": "mla",
+          "title": "MLA 投影、cache 与 prefill/decode",
+          "path": "#/family/deepseek/implementation/mla/r1"
+        },
+        {
+          "topic": "moe",
+          "title": "路由、专家 GEMM 与通信",
+          "path": "#/family/deepseek/implementation/moe/r1"
+        },
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/r1"
+        },
+        {
+          "topic": "mtp",
+          "title": "MTP 共享参数、加载与推测解码",
+          "path": "#/family/deepseek/implementation/mtp/r1"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/r1"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/r1"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/r1"
+    },
+    {
+      "id": "r1-distill-qwen-1.5b",
+      "name": "DeepSeek-R1-Distill-Qwen-1.5B",
+      "branch": "支线",
+      "summary": "28 层；GQA 28 层；Dense GQA 底座的 R1 蒸馏分支",
+      "tags": [
+        "长文档",
+        "通用对话",
+        "推理"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/tree/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562",
+      "revision": "ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 28,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "hidden": {
+          "value": 1536,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "heads": {
+          "value": 12,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "experts": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "topK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "shared": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "expertInput": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "expertWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "denseWidth": {
+          "value": 8960,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "context": {
+          "value": 131072,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "vocab": {
+          "value": 151936,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "attention": {
+          "value": "GQA 28 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "quantization": {
+          "value": "配置 torch_dtype=bfloat16",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "parameters": {
+          "value": 1777088000,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 3554176000,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-1.5B.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "kvRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "streams": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "headDim": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "valueHeadDim": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "indexTopK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "mtpParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-1.5B.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-1.5B.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-1.5B.json"
+        },
+        "draftBlock": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        },
+        "markovRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B/blob/ad9f0ae0864d7fbcd1cd905e3c6c5b069cc8b562/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "r1"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-R1-Distill-Qwen-1.5B-config.json",
+      "architecturePath": "data/families/deepseek/r1-distill-qwen-1.5b-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-1.5B.json",
+      "baseModel": "Qwen/Qwen2.5-Math-1.5B",
+      "implementationLinks": [
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/r1-distill-qwen-1.5b"
+        },
+        {
+          "topic": "gqa",
+          "title": "Distill 的 Qwen/Llama GQA",
+          "path": "#/family/deepseek/implementation/gqa/r1-distill-qwen-1.5b"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/r1-distill-qwen-1.5b"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/r1-distill-qwen-1.5b"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/r1-distill-qwen-1.5b"
+    },
+    {
+      "id": "r1-distill-qwen-7b",
+      "name": "DeepSeek-R1-Distill-Qwen-7B",
+      "branch": "支线",
+      "summary": "28 层；GQA 28 层；Dense GQA 底座的 R1 蒸馏分支",
+      "tags": [
+        "长文档",
+        "通用对话",
+        "推理"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/tree/916b56a44061fd5cd7d6a8fb632557ed4f724f60",
+      "revision": "916b56a44061fd5cd7d6a8fb632557ed4f724f60",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 28,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "hidden": {
+          "value": 3584,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "heads": {
+          "value": 28,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "experts": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "topK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "shared": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "expertInput": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "expertWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "denseWidth": {
+          "value": 18944,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "context": {
+          "value": 131072,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "vocab": {
+          "value": 152064,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "attention": {
+          "value": "GQA 28 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "quantization": {
+          "value": "配置 torch_dtype=bfloat16",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "parameters": {
+          "value": 7615616512,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 15231233024,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-7B.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "kvRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "streams": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "headDim": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "valueHeadDim": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "indexTopK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "mtpParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-7B.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-7B.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-7B.json"
+        },
+        "draftBlock": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        },
+        "markovRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B/blob/916b56a44061fd5cd7d6a8fb632557ed4f724f60/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "r1"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-R1-Distill-Qwen-7B-config.json",
+      "architecturePath": "data/families/deepseek/r1-distill-qwen-7b-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-7B.json",
+      "baseModel": "Qwen/Qwen2.5-Math-7B",
+      "implementationLinks": [
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/r1-distill-qwen-7b"
+        },
+        {
+          "topic": "gqa",
+          "title": "Distill 的 Qwen/Llama GQA",
+          "path": "#/family/deepseek/implementation/gqa/r1-distill-qwen-7b"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/r1-distill-qwen-7b"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/r1-distill-qwen-7b"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/r1-distill-qwen-7b"
+    },
+    {
+      "id": "r1-distill-qwen-14b",
+      "name": "DeepSeek-R1-Distill-Qwen-14B",
+      "branch": "支线",
+      "summary": "48 层；GQA 48 层；Dense GQA 底座的 R1 蒸馏分支",
+      "tags": [
+        "长文档",
+        "通用对话",
+        "推理"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/tree/1df8507178afcc1bef68cd8c393f61a886323761",
+      "revision": "1df8507178afcc1bef68cd8c393f61a886323761",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 48,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "hidden": {
+          "value": 5120,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "heads": {
+          "value": 40,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "experts": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "topK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "shared": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "expertInput": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "expertWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "denseWidth": {
+          "value": 13824,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "context": {
+          "value": 131072,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "vocab": {
+          "value": 152064,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "attention": {
+          "value": "GQA 48 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "quantization": {
+          "value": "配置 torch_dtype=bfloat16",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "parameters": {
+          "value": 14770033664,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 29540067328,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-14B.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "kvRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "streams": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "headDim": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "valueHeadDim": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "indexTopK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "mtpParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-14B.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-14B.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-14B.json"
+        },
+        "draftBlock": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        },
+        "markovRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B/blob/1df8507178afcc1bef68cd8c393f61a886323761/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "r1"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-R1-Distill-Qwen-14B-config.json",
+      "architecturePath": "data/families/deepseek/r1-distill-qwen-14b-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-14B.json",
+      "baseModel": "Qwen/Qwen2.5-14B",
+      "implementationLinks": [
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/r1-distill-qwen-14b"
+        },
+        {
+          "topic": "gqa",
+          "title": "Distill 的 Qwen/Llama GQA",
+          "path": "#/family/deepseek/implementation/gqa/r1-distill-qwen-14b"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/r1-distill-qwen-14b"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/r1-distill-qwen-14b"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/r1-distill-qwen-14b"
+    },
+    {
+      "id": "r1-distill-qwen-32b",
+      "name": "DeepSeek-R1-Distill-Qwen-32B",
+      "branch": "支线",
+      "summary": "64 层；GQA 64 层；Dense GQA 底座的 R1 蒸馏分支",
+      "tags": [
+        "长文档",
+        "通用对话",
+        "推理"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/tree/711ad2ea6aa40cfca18895e8aca02ab92df1a746",
+      "revision": "711ad2ea6aa40cfca18895e8aca02ab92df1a746",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 64,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "hidden": {
+          "value": 5120,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "heads": {
+          "value": 40,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "experts": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "topK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "shared": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "expertInput": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "expertWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "denseWidth": {
+          "value": 27648,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "context": {
+          "value": 131072,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "vocab": {
+          "value": 152064,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "attention": {
+          "value": "GQA 64 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "quantization": {
+          "value": "配置 torch_dtype=bfloat16",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "parameters": {
+          "value": 32763876352,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 65527752704,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-32B.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "kvRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "streams": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "headDim": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "valueHeadDim": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "indexTopK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "mtpParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-32B.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-32B.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-32B.json"
+        },
+        "draftBlock": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        },
+        "markovRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B/blob/711ad2ea6aa40cfca18895e8aca02ab92df1a746/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "r1"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-R1-Distill-Qwen-32B-config.json",
+      "architecturePath": "data/families/deepseek/r1-distill-qwen-32b-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Qwen-32B.json",
+      "baseModel": "Qwen/Qwen2.5-32B",
+      "implementationLinks": [
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/r1-distill-qwen-32b"
+        },
+        {
+          "topic": "gqa",
+          "title": "Distill 的 Qwen/Llama GQA",
+          "path": "#/family/deepseek/implementation/gqa/r1-distill-qwen-32b"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/r1-distill-qwen-32b"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/r1-distill-qwen-32b"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/r1-distill-qwen-32b"
+    },
+    {
+      "id": "r1-distill-llama-8b",
+      "name": "DeepSeek-R1-Distill-Llama-8B",
+      "branch": "支线",
+      "summary": "32 层；GQA 32 层；Dense GQA 底座的 R1 蒸馏分支",
+      "tags": [
+        "长文档",
+        "通用对话",
+        "推理"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/tree/6a6f4aa4197940add57724a7707d069478df56b1",
+      "revision": "6a6f4aa4197940add57724a7707d069478df56b1",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 32,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "hidden": {
+          "value": 4096,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "heads": {
+          "value": 32,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "experts": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "topK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "shared": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "expertInput": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "expertWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "denseWidth": {
+          "value": 14336,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "context": {
+          "value": 131072,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "vocab": {
+          "value": 128256,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "attention": {
+          "value": "GQA 32 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "quantization": {
+          "value": "配置 torch_dtype=bfloat16",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "parameters": {
+          "value": 8030261248,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 16060522496,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Llama-8B.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "kvRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "streams": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "headDim": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "valueHeadDim": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "indexTopK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "mtpParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Llama-8B.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Llama-8B.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Llama-8B.json"
+        },
+        "draftBlock": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        },
+        "markovRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B/blob/6a6f4aa4197940add57724a7707d069478df56b1/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "r1"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-R1-Distill-Llama-8B-config.json",
+      "architecturePath": "data/families/deepseek/r1-distill-llama-8b-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Llama-8B.json",
+      "baseModel": "meta-llama/Llama-3.1-8B",
+      "implementationLinks": [
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/r1-distill-llama-8b"
+        },
+        {
+          "topic": "gqa",
+          "title": "Distill 的 Qwen/Llama GQA",
+          "path": "#/family/deepseek/implementation/gqa/r1-distill-llama-8b"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/r1-distill-llama-8b"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/r1-distill-llama-8b"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/r1-distill-llama-8b"
+    },
+    {
+      "id": "r1-distill-llama-70b",
+      "name": "DeepSeek-R1-Distill-Llama-70B",
+      "branch": "支线",
+      "summary": "80 层；GQA 80 层；Dense GQA 底座的 R1 蒸馏分支",
+      "tags": [
+        "长文档",
+        "通用对话",
+        "推理"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/tree/b1c0b44b4369b597ad119a196caf79a9c40e141e",
+      "revision": "b1c0b44b4369b597ad119a196caf79a9c40e141e",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 80,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "hidden": {
+          "value": 8192,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "heads": {
+          "value": 64,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "experts": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "topK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "shared": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "expertInput": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "expertWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "denseWidth": {
+          "value": 28672,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "context": {
+          "value": 131072,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "vocab": {
+          "value": 128256,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "attention": {
+          "value": "GQA 80 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "quantization": {
+          "value": "配置 torch_dtype=bfloat16",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "parameters": {
+          "value": 70553706496,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 141107412992,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Llama-70B.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "kvRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "streams": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "headDim": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "valueHeadDim": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "indexTopK": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "mtpParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Llama-70B.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Llama-70B.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Llama-70B.json"
+        },
+        "draftBlock": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        },
+        "markovRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-70B/blob/b1c0b44b4369b597ad119a196caf79a9c40e141e/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "r1"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-R1-Distill-Llama-70B-config.json",
+      "architecturePath": "data/families/deepseek/r1-distill-llama-70b-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-R1-Distill-Llama-70B.json",
+      "baseModel": "meta-llama/Llama-3.3-70B-Instruct",
+      "implementationLinks": [
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/r1-distill-llama-70b"
+        },
+        {
+          "topic": "gqa",
+          "title": "Distill 的 Qwen/Llama GQA",
+          "path": "#/family/deepseek/implementation/gqa/r1-distill-llama-70b"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/r1-distill-llama-70b"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/r1-distill-llama-70b"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/r1-distill-llama-70b"
+    },
+    {
+      "id": "v3.2-exp",
+      "name": "DeepSeek-V3.2-Exp",
+      "branch": "主线",
+      "summary": "61 层；DSA 61 层；MLA/MoE；MTP 与主干分开计数",
+      "tags": [
+        "长文档",
+        "通用对话"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/tree/194c67e12b1b0d6df0ef373ddcf215bc84027409",
+      "revision": "194c67e12b1b0d6df0ef373ddcf215bc84027409",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 61,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "hidden": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "heads": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "experts": {
+          "value": 256,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "topK": {
+          "value": 8,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "expertInput": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "expertWidth": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "denseWidth": {
+          "value": 18432,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "context": {
+          "value": 163840,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "vocab": {
+          "value": 129280,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "attention": {
+          "value": "DSA 61 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "quantization": {
+          "value": "配置 FP8；scale=ue8m0",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "parameters": {
+          "value": 671877944064,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 674032381632,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V3.2-Exp.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": 1536,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "kvRank": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "streams": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "headDim": {
+          "value": 192,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "valueHeadDim": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "indexTopK": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "mtpParameters": {
+          "value": 11624027648,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V3.2-Exp.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V3.2-Exp.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V3.2-Exp.json"
+        },
+        "draftBlock": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        },
+        "markovRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Exp/blob/194c67e12b1b0d6df0ef373ddcf215bc84027409/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "increments"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-V3.2-Exp-config.json",
+      "architecturePath": "data/families/deepseek/v3.2-exp-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-V3.2-Exp.json",
+      "baseModel": "deepseek-ai/DeepSeek-V3.2-Exp-Base",
+      "implementationLinks": [
+        {
+          "topic": "dsa",
+          "title": "DSA 与 Lightning Indexer",
+          "path": "#/family/deepseek/implementation/dsa/v3.2-exp"
+        },
+        {
+          "topic": "moe",
+          "title": "路由、专家 GEMM 与通信",
+          "path": "#/family/deepseek/implementation/moe/v3.2-exp"
+        },
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/v3.2-exp"
+        },
+        {
+          "topic": "mtp",
+          "title": "MTP 共享参数、加载与推测解码",
+          "path": "#/family/deepseek/implementation/mtp/v3.2-exp"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/v3.2-exp"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/v3.2-exp"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/v3.2-exp"
+    },
+    {
+      "id": "v3.2",
+      "name": "DeepSeek-V3.2",
+      "branch": "主线",
+      "summary": "61 层；DSA 61 层；MLA/MoE；MTP 与主干分开计数",
+      "tags": [
+        "长文档",
+        "通用对话"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/tree/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6",
+      "revision": "a7e62ac04ecb2c0a54d736dc46601c5606cf10a6",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 61,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "hidden": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "heads": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "experts": {
+          "value": 256,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "topK": {
+          "value": 8,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "expertInput": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "expertWidth": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "denseWidth": {
+          "value": 18432,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "context": {
+          "value": 163840,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "vocab": {
+          "value": 129280,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "attention": {
+          "value": "DSA 61 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "quantization": {
+          "value": "配置 FP8；scale=ue8m0",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "parameters": {
+          "value": 671877944064,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 674032381632,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V3.2.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": 1536,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "kvRank": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "streams": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "headDim": {
+          "value": 192,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "valueHeadDim": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "indexTopK": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "mtpParameters": {
+          "value": 11624027648,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V3.2.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V3.2.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V3.2.json"
+        },
+        "draftBlock": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        },
+        "markovRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V3.2/blob/a7e62ac04ecb2c0a54d736dc46601c5606cf10a6/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "increments"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-V3.2-config.json",
+      "architecturePath": "data/families/deepseek/v3.2-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-V3.2.json",
+      "baseModel": "deepseek-ai/DeepSeek-V3.2-Exp-Base",
+      "implementationLinks": [
+        {
+          "topic": "dsa",
+          "title": "DSA 与 Lightning Indexer",
+          "path": "#/family/deepseek/implementation/dsa/v3.2"
+        },
+        {
+          "topic": "moe",
+          "title": "路由、专家 GEMM 与通信",
+          "path": "#/family/deepseek/implementation/moe/v3.2"
+        },
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/v3.2"
+        },
+        {
+          "topic": "mtp",
+          "title": "MTP 共享参数、加载与推测解码",
+          "path": "#/family/deepseek/implementation/mtp/v3.2"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/v3.2"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/v3.2"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/v3.2"
+    },
+    {
+      "id": "v4-flash-base",
+      "name": "DeepSeek-V4-Flash-Base",
+      "branch": "基础",
+      "summary": "43 层；SWA 2 层 / CSA 21 层 / HCA 20 层；mHC 4 流，hash/score MoE 分层",
+      "tags": [
+        "长文档",
+        "通用对话"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/tree/8855555deef230a27a21a8d6f294b7b7497759b6",
+      "revision": "8855555deef230a27a21a8d6f294b7b7497759b6",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 43,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "hidden": {
+          "value": 4096,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "heads": {
+          "value": 64,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "experts": {
+          "value": 256,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "topK": {
+          "value": 6,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "expertInput": {
+          "value": 4096,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "expertWidth": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "denseWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "context": {
+          "value": 1048576,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "vocab": {
+          "value": 129280,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "attention": {
+          "value": "SWA 2 层 / CSA 21 层 / HCA 20 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "quantization": {
+          "value": "配置 FP8；scale=ue8m0；routed expert=FP8；本版文件头已核对",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "parameters": {
+          "value": 284332240471,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 285940055644,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash-Base.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": 1024,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "kvRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "streams": {
+          "value": 4,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "headDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "valueHeadDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "indexTopK": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "mtpParameters": {
+          "value": 6610048891,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash-Base.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash-Base.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash-Base.json"
+        },
+        "draftBlock": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        },
+        "markovRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Base/blob/8855555deef230a27a21a8d6f294b7b7497759b6/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "increments"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-V4-Flash-Base-config.json",
+      "architecturePath": "data/families/deepseek/v4-flash-base-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash-Base.json",
+      "baseModel": null,
+      "implementationLinks": [
+        {
+          "topic": "compression",
+          "title": "V4 窗口、CSA/HCA 与 compressor",
+          "path": "#/family/deepseek/implementation/compression/v4-flash-base"
+        },
+        {
+          "topic": "mhc",
+          "title": "mHC 控制投影、Sinkhorn 与 pre/post",
+          "path": "#/family/deepseek/implementation/mhc/v4-flash-base"
+        },
+        {
+          "topic": "moe",
+          "title": "路由、专家 GEMM 与通信",
+          "path": "#/family/deepseek/implementation/moe/v4-flash-base"
+        },
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/v4-flash-base"
+        },
+        {
+          "topic": "mtp",
+          "title": "MTP 共享参数、加载与推测解码",
+          "path": "#/family/deepseek/implementation/mtp/v4-flash-base"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/v4-flash-base"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/v4-flash-base"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/v4-flash-base"
+    },
+    {
+      "id": "v4-flash",
+      "name": "DeepSeek-V4-Flash",
+      "branch": "主线",
+      "summary": "43 层；SWA 2 层 / CSA 21 层 / HCA 20 层；mHC 4 流，hash/score MoE 分层",
+      "tags": [
+        "长文档",
+        "通用对话"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/tree/60d8d70770c6776ff598c94bb586a859a38244f1",
+      "revision": "60d8d70770c6776ff598c94bb586a859a38244f1",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 43,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "hidden": {
+          "value": 4096,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "heads": {
+          "value": 64,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "experts": {
+          "value": 256,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "topK": {
+          "value": 6,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "expertInput": {
+          "value": 4096,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "expertWidth": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "denseWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "context": {
+          "value": 1048576,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "vocab": {
+          "value": 129280,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "attention": {
+          "value": "SWA 2 层 / CSA 21 层 / HCA 20 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "quantization": {
+          "value": "配置 FP8；scale=ue8m0；routed expert=FP4；本版文件头已核对",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "parameters": {
+          "value": 284332240471,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 156015698140,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": 1024,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "kvRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "streams": {
+          "value": 4,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "headDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "valueHeadDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "indexTopK": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "mtpParameters": {
+          "value": 6610048891,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash.json"
+        },
+        "draftBlock": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        },
+        "markovRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash/blob/60d8d70770c6776ff598c94bb586a859a38244f1/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "increments"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-V4-Flash-config.json",
+      "architecturePath": "data/families/deepseek/v4-flash-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash.json",
+      "baseModel": "deepseek-ai/DeepSeek-V4-Flash-Base",
+      "implementationLinks": [
+        {
+          "topic": "compression",
+          "title": "V4 窗口、CSA/HCA 与 compressor",
+          "path": "#/family/deepseek/implementation/compression/v4-flash"
+        },
+        {
+          "topic": "mhc",
+          "title": "mHC 控制投影、Sinkhorn 与 pre/post",
+          "path": "#/family/deepseek/implementation/mhc/v4-flash"
+        },
+        {
+          "topic": "moe",
+          "title": "路由、专家 GEMM 与通信",
+          "path": "#/family/deepseek/implementation/moe/v4-flash"
+        },
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/v4-flash"
+        },
+        {
+          "topic": "mtp",
+          "title": "MTP 共享参数、加载与推测解码",
+          "path": "#/family/deepseek/implementation/mtp/v4-flash"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/v4-flash"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/v4-flash"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/v4-flash"
+    },
+    {
+      "id": "v4-pro-base",
+      "name": "DeepSeek-V4-Pro-Base",
+      "branch": "基础",
+      "summary": "61 层；HCA 31 层 / CSA 30 层；mHC 4 流，hash/score MoE 分层",
+      "tags": [
+        "长文档",
+        "通用对话"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/tree/98730c030fbdbaca4950788280a35c4642b208a9",
+      "revision": "98730c030fbdbaca4950788280a35c4642b208a9",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 61,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "hidden": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "heads": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "experts": {
+          "value": 384,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "topK": {
+          "value": 6,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "expertInput": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "expertWidth": {
+          "value": 3072,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "denseWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "context": {
+          "value": 1048576,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "vocab": {
+          "value": 129280,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "attention": {
+          "value": "HCA 31 层 / CSA 30 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "quantization": {
+          "value": "配置 FP8；scale=ue8m0；routed expert=FP8；本版文件头已核对",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "parameters": {
+          "value": 1572997201763,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 1576472106124,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro-Base.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": 1536,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "kvRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "streams": {
+          "value": 4,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "headDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "valueHeadDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "indexTopK": {
+          "value": 1024,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "mtpParameters": {
+          "value": 25840145979,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro-Base.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro-Base.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro-Base.json"
+        },
+        "draftBlock": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        },
+        "markovRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/98730c030fbdbaca4950788280a35c4642b208a9/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "increments"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-V4-Pro-Base-config.json",
+      "architecturePath": "data/families/deepseek/v4-pro-base-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro-Base.json",
+      "baseModel": null,
+      "implementationLinks": [
+        {
+          "topic": "compression",
+          "title": "V4 窗口、CSA/HCA 与 compressor",
+          "path": "#/family/deepseek/implementation/compression/v4-pro-base"
+        },
+        {
+          "topic": "mhc",
+          "title": "mHC 控制投影、Sinkhorn 与 pre/post",
+          "path": "#/family/deepseek/implementation/mhc/v4-pro-base"
+        },
+        {
+          "topic": "moe",
+          "title": "路由、专家 GEMM 与通信",
+          "path": "#/family/deepseek/implementation/moe/v4-pro-base"
+        },
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/v4-pro-base"
+        },
+        {
+          "topic": "mtp",
+          "title": "MTP 共享参数、加载与推测解码",
+          "path": "#/family/deepseek/implementation/mtp/v4-pro-base"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/v4-pro-base"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/v4-pro-base"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/v4-pro-base"
+    },
+    {
+      "id": "v4-pro",
+      "name": "DeepSeek-V4-Pro",
+      "branch": "主线",
+      "summary": "61 层；HCA 31 层 / CSA 30 层；mHC 4 流，hash/score MoE 分层",
+      "tags": [
+        "长文档",
+        "通用对话"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/tree/b5968e9190ef611bbf34a7229255be88a0e937c1",
+      "revision": "b5968e9190ef611bbf34a7229255be88a0e937c1",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 61,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "hidden": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "heads": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "experts": {
+          "value": 384,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "topK": {
+          "value": 6,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "expertInput": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "expertWidth": {
+          "value": 3072,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "denseWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "context": {
+          "value": 1048576,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "vocab": {
+          "value": 129280,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "attention": {
+          "value": "HCA 31 层 / CSA 30 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "quantization": {
+          "value": "配置 FP8；scale=ue8m0；routed expert=FP4；本版文件头已核对",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "parameters": {
+          "value": 1572997201763,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 850748205004,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": 1536,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "kvRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "streams": {
+          "value": 4,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "headDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "valueHeadDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "indexTopK": {
+          "value": 1024,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "mtpParameters": {
+          "value": 25840145979,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro.json"
+        },
+        "draftBlock": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        },
+        "markovRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/b5968e9190ef611bbf34a7229255be88a0e937c1/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "increments"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-V4-Pro-config.json",
+      "architecturePath": "data/families/deepseek/v4-pro-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro.json",
+      "baseModel": "deepseek-ai/DeepSeek-V4-Pro-Base",
+      "implementationLinks": [
+        {
+          "topic": "compression",
+          "title": "V4 窗口、CSA/HCA 与 compressor",
+          "path": "#/family/deepseek/implementation/compression/v4-pro"
+        },
+        {
+          "topic": "mhc",
+          "title": "mHC 控制投影、Sinkhorn 与 pre/post",
+          "path": "#/family/deepseek/implementation/mhc/v4-pro"
+        },
+        {
+          "topic": "moe",
+          "title": "路由、专家 GEMM 与通信",
+          "path": "#/family/deepseek/implementation/moe/v4-pro"
+        },
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/v4-pro"
+        },
+        {
+          "topic": "mtp",
+          "title": "MTP 共享参数、加载与推测解码",
+          "path": "#/family/deepseek/implementation/mtp/v4-pro"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/v4-pro"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/v4-pro"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/v4-pro"
+    },
+    {
+      "id": "v4-flash-dspark",
+      "name": "DeepSeek-V4-Flash-DSpark",
+      "branch": "主线",
+      "summary": "43 层；SWA 2 层 / CSA 21 层 / HCA 20 层；DSpark 3-stage / Markov / confidence；主干与 draft 分开",
+      "tags": [
+        "长文档",
+        "通用对话",
+        "DSpark",
+        "推测解码"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/tree/62af8fffb2f7030cac4de2f0169f5b8d1101b646",
+      "revision": "62af8fffb2f7030cac4de2f0169f5b8d1101b646",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 43,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "hidden": {
+          "value": 4096,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "heads": {
+          "value": 64,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "experts": {
+          "value": 256,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "topK": {
+          "value": 6,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "expertInput": {
+          "value": 4096,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "expertWidth": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "denseWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "context": {
+          "value": 1048576,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "vocab": {
+          "value": 129280,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "attention": {
+          "value": "SWA 2 层 / CSA 21 层 / HCA 20 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "quantization": {
+          "value": "配置 FP8；scale=ue8m0；routed expert=FP4；本版文件头已核对",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "parameters": {
+          "value": 284332240471,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 156015698140,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash-DSpark.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": 1024,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "kvRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "streams": {
+          "value": 4,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "headDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "valueHeadDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "indexTopK": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "mtpParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash-DSpark.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 19845850983,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash-DSpark.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 3,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash-DSpark.json"
+        },
+        "draftBlock": {
+          "value": 5,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        },
+        "markovRank": {
+          "value": 256,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark/blob/62af8fffb2f7030cac4de2f0169f5b8d1101b646/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "increments"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-V4-Flash-DSpark-config.json",
+      "architecturePath": "data/families/deepseek/v4-flash-dspark-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash-DSpark.json",
+      "baseModel": "deepseek-ai/DeepSeek-V4-Flash",
+      "implementationLinks": [
+        {
+          "topic": "compression",
+          "title": "V4 窗口、CSA/HCA 与 compressor",
+          "path": "#/family/deepseek/implementation/compression/v4-flash-dspark"
+        },
+        {
+          "topic": "mhc",
+          "title": "mHC 控制投影、Sinkhorn 与 pre/post",
+          "path": "#/family/deepseek/implementation/mhc/v4-flash-dspark"
+        },
+        {
+          "topic": "moe",
+          "title": "路由、专家 GEMM 与通信",
+          "path": "#/family/deepseek/implementation/moe/v4-flash-dspark"
+        },
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/v4-flash-dspark"
+        },
+        {
+          "topic": "dspark",
+          "title": "DSpark 半自回归 draft 与验证调度",
+          "path": "#/family/deepseek/implementation/dspark/v4-flash-dspark"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/v4-flash-dspark"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/v4-flash-dspark"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/v4-flash-dspark"
+    },
+    {
+      "id": "v4-pro-dspark",
+      "name": "DeepSeek-V4-Pro-DSpark",
+      "branch": "主线",
+      "summary": "61 层；HCA 31 层 / CSA 30 层；DSpark 3-stage / Markov / confidence；主干与 draft 分开",
+      "tags": [
+        "长文档",
+        "通用对话",
+        "DSpark",
+        "推测解码"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/tree/7c09739fd136abfb70a49ec334157f65f45b52cd",
+      "revision": "7c09739fd136abfb70a49ec334157f65f45b52cd",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 61,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "hidden": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "heads": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "experts": {
+          "value": 384,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "topK": {
+          "value": 6,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "expertInput": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "expertWidth": {
+          "value": 3072,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "denseWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "context": {
+          "value": 1048576,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "vocab": {
+          "value": 129280,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "attention": {
+          "value": "HCA 31 层 / CSA 30 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "quantization": {
+          "value": "配置 FP8；scale=ue8m0；routed expert=FP4；本版文件头已核对",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "parameters": {
+          "value": 1572997201763,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 850748205004,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro-DSpark.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": 1536,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "kvRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "streams": {
+          "value": 4,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "headDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "valueHeadDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "indexTopK": {
+          "value": 1024,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "mtpParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro-DSpark.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 77498408103,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro-DSpark.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 3,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro-DSpark.json"
+        },
+        "draftBlock": {
+          "value": 5,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        },
+        "markovRank": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-DSpark/blob/7c09739fd136abfb70a49ec334157f65f45b52cd/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "increments"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-V4-Pro-DSpark-config.json",
+      "architecturePath": "data/families/deepseek/v4-pro-dspark-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro-DSpark.json",
+      "baseModel": "deepseek-ai/DeepSeek-V4-Pro",
+      "implementationLinks": [
+        {
+          "topic": "compression",
+          "title": "V4 窗口、CSA/HCA 与 compressor",
+          "path": "#/family/deepseek/implementation/compression/v4-pro-dspark"
+        },
+        {
+          "topic": "mhc",
+          "title": "mHC 控制投影、Sinkhorn 与 pre/post",
+          "path": "#/family/deepseek/implementation/mhc/v4-pro-dspark"
+        },
+        {
+          "topic": "moe",
+          "title": "路由、专家 GEMM 与通信",
+          "path": "#/family/deepseek/implementation/moe/v4-pro-dspark"
+        },
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/v4-pro-dspark"
+        },
+        {
+          "topic": "dspark",
+          "title": "DSpark 半自回归 draft 与验证调度",
+          "path": "#/family/deepseek/implementation/dspark/v4-pro-dspark"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/v4-pro-dspark"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/v4-pro-dspark"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/v4-pro-dspark"
+    },
+    {
+      "id": "v4-flash-0731",
+      "name": "DeepSeek-V4-Flash-0731",
+      "branch": "主线",
+      "summary": "43 层；SWA 2 层 / CSA 21 层 / HCA 20 层；DSpark 3-stage / Markov / confidence；主干与 draft 分开",
+      "tags": [
+        "长文档",
+        "通用对话",
+        "DSpark",
+        "推测解码"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/tree/7872f01b1d1fe23eabc4c98b48bffcef5a386062",
+      "revision": "7872f01b1d1fe23eabc4c98b48bffcef5a386062",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 43,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "hidden": {
+          "value": 4096,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "heads": {
+          "value": 64,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "experts": {
+          "value": 256,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "topK": {
+          "value": 6,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "expertInput": {
+          "value": 4096,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "expertWidth": {
+          "value": 2048,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "denseWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "context": {
+          "value": 1048576,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "vocab": {
+          "value": 129280,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "attention": {
+          "value": "SWA 2 层 / CSA 21 层 / HCA 20 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "quantization": {
+          "value": "配置 FP8；scale=ue8m0；routed expert=FP4；本版文件头已核对",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "parameters": {
+          "value": 284332240471,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 156015698140,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash-0731.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": 1024,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "kvRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "streams": {
+          "value": 4,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "headDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "valueHeadDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "indexTopK": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "mtpParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash-0731.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 19845850983,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash-0731.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 3,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash-0731.json"
+        },
+        "draftBlock": {
+          "value": 5,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        },
+        "markovRank": {
+          "value": 256,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731/blob/7872f01b1d1fe23eabc4c98b48bffcef5a386062/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "increments"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-V4-Flash-0731-config.json",
+      "architecturePath": "data/families/deepseek/v4-flash-0731-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-V4-Flash-0731.json",
+      "baseModel": null,
+      "implementationLinks": [
+        {
+          "topic": "compression",
+          "title": "V4 窗口、CSA/HCA 与 compressor",
+          "path": "#/family/deepseek/implementation/compression/v4-flash-0731"
+        },
+        {
+          "topic": "mhc",
+          "title": "mHC 控制投影、Sinkhorn 与 pre/post",
+          "path": "#/family/deepseek/implementation/mhc/v4-flash-0731"
+        },
+        {
+          "topic": "moe",
+          "title": "路由、专家 GEMM 与通信",
+          "path": "#/family/deepseek/implementation/moe/v4-flash-0731"
+        },
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/v4-flash-0731"
+        },
+        {
+          "topic": "dspark",
+          "title": "DSpark 半自回归 draft 与验证调度",
+          "path": "#/family/deepseek/implementation/dspark/v4-flash-0731"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/v4-flash-0731"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/v4-flash-0731"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/v4-flash-0731"
+    },
+    {
+      "id": "v4-pro-0813",
+      "name": "DeepSeek-V4-Pro-0813",
+      "branch": "主线",
+      "summary": "61 层；HCA 31 层 / CSA 30 层；DSpark 3-stage / Markov / confidence；主干与 draft 分开",
+      "tags": [
+        "长文档",
+        "通用对话",
+        "DSpark",
+        "推测解码"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/tree/72e1d3230f6c080a530b0a1d46f8eb4602340597",
+      "revision": "72e1d3230f6c080a530b0a1d46f8eb4602340597",
+      "releaseDate": null,
+      "facts": {
+        "layers": {
+          "value": 61,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "hidden": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "heads": {
+          "value": 128,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "experts": {
+          "value": 384,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "topK": {
+          "value": 6,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "expertInput": {
+          "value": 7168,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "expertWidth": {
+          "value": 3072,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "denseWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "context": {
+          "value": 1048576,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "vocab": {
+          "value": 129280,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "visionLayers": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "visionHidden": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "attention": {
+          "value": "HCA 31 层 / CSA 30 层",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "quantization": {
+          "value": "配置 FP8；scale=ue8m0；routed expert=FP4；本版文件头已核对",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "parameters": {
+          "value": 1572997201763,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json",
+          "note": "主干浮点逻辑参数，排除 MTP/DSpark、scale、非训练 hash 表；I8/FP4 存储元素按明确打包还原逻辑矩阵。"
+        },
+        "payload": {
+          "value": 850748205004,
+          "evidence": "official",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro-0813.json",
+          "note": "主干载荷；MTP/DSpark 独立，完整发布载荷见该 checkpoint 全分片 header"
+        },
+        "qRank": {
+          "value": 1536,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "kvRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "streams": {
+          "value": 4,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "headDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "valueHeadDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "indexTopK": {
+          "value": 1024,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "mtpParameters": {
+          "value": 0,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro-0813.json",
+          "note": "参考构造口径；共享副本排除，上游训练别名不由 header 证明"
+        },
+        "dsparkParameters": {
+          "value": 77498408103,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro-0813.json",
+          "note": "DSpark 挂接 draft 参数独立于主干；不存在对应模块时为 0"
+        },
+        "dsparkStages": {
+          "value": 3,
+          "evidence": "derived",
+          "source": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro-0813.json"
+        },
+        "draftBlock": {
+          "value": 5,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        },
+        "markovRank": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-0813/blob/72e1d3230f6c080a530b0a1d46f8eb4602340597/config.json"
+        }
+      },
+      "sections": [
+        "versions",
+        "architecture",
+        "evidence",
+        "speculation",
+        "cann",
+        "increments"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-V4-Pro-0813-config.json",
+      "architecturePath": "data/families/deepseek/v4-pro-0813-architecture.json",
+      "auditPath": "data/families/deepseek/research/header-audits/DeepSeek-V4-Pro-0813.json",
+      "baseModel": null,
+      "implementationLinks": [
+        {
+          "topic": "compression",
+          "title": "V4 窗口、CSA/HCA 与 compressor",
+          "path": "#/family/deepseek/implementation/compression/v4-pro-0813"
+        },
+        {
+          "topic": "mhc",
+          "title": "mHC 控制投影、Sinkhorn 与 pre/post",
+          "path": "#/family/deepseek/implementation/mhc/v4-pro-0813"
+        },
+        {
+          "topic": "moe",
+          "title": "路由、专家 GEMM 与通信",
+          "path": "#/family/deepseek/implementation/moe/v4-pro-0813"
+        },
+        {
+          "topic": "precision",
+          "title": "FP8/MXFP4、解量化、norm 与布局",
+          "path": "#/family/deepseek/implementation/precision/v4-pro-0813"
+        },
+        {
+          "topic": "dspark",
+          "title": "DSpark 半自回归 draft 与验证调度",
+          "path": "#/family/deepseek/implementation/dspark/v4-pro-0813"
+        },
+        {
+          "topic": "ffn",
+          "title": "Dense FFN 与 SwiGLU",
+          "path": "#/family/deepseek/implementation/ffn/v4-pro-0813"
+        },
+        {
+          "topic": "cann",
+          "title": "CANN 开源算子与本地 SDK",
+          "path": "#/family/deepseek/implementation/cann/v4-pro-0813"
+        }
+      ],
+      "computePath": "#/family/deepseek/compute/v4-pro-0813"
+    }
+  ],
+  "figures": [
+    {
+      "id": 0,
+      "path": "assets/deepseek/figures/lineage.svg",
+      "caption": "结构演进、R1 后训练与蒸馏底座",
+      "source": "固定版本关系、官方 R1 README 与 21 份配置；虚线只表示设计比较。"
+    },
+    {
+      "id": 1,
+      "path": "assets/deepseek/figures/v3-mla.svg",
+      "caption": "V3 MLA 两条参考数学路径与缓存口径",
+      "source": "V3 config + 固定官方 MLA.forward；两条数学路径由首轮 FP64 合成矩阵复算。"
+    },
+    {
+      "id": 2,
+      "path": "assets/deepseek/figures/v4-layers-mhc.svg",
+      "caption": "V4 实际主干层排布与 mHC 数据流",
+      "source": "Flash/Pro 固定配置与参考模型；压缩率、MTP 边界、四流轴按 canonical 数据生成。"
+    },
+    {
+      "id": 3,
+      "path": "assets/deepseek/figures/dspark-protocol.svg",
+      "caption": "DSpark 参数、context/draft 与验证协议",
+      "source": "按 Flash-DSpark 固定配置与公开参考绘制；服务配置、checkpoint 字段和实际 stage 不混用。"
+    }
+  ],
+  "downloads": [],
+  "reportPath": "data/families/deepseek/report.json",
+  "officialDirectory": "https://huggingface.co/deepseek-ai",
+  "documentCenterUrl": "#/family/deepseek/sources",
+  "overview": {
+    "title": "从 MLA、压缩注意力到 MTP/DSpark 推测解码",
+    "conclusion": "V3.2 增加 DSA indexer；V4 重建 KV 压缩、分组输出投影与 mHC，并区分 hash/score 路由。MTP 与 DSpark 的独立草稿、缓存、验证和调度分别研究；R1 后训练与蒸馏底座分开，设备兼容和性能保留具体条件。",
+    "highlights": [
+      {
+        "id": "v3",
+        "label": "V3 · 文件头与参考计算"
+      },
+      {
+        "id": "v3.2",
+        "label": "V3.2 · DSA"
+      },
+      {
+        "id": "v4-flash",
+        "label": "V4-Flash · 压缩与 mHC"
+      },
+      {
+        "id": "v4-flash-dspark",
+        "label": "DSpark · 并行草稿与验证"
+      },
+      {
+        "id": "r1",
+        "label": "R1 · 后训练与蒸馏"
+      }
+    ]
+  },
+  "historyNote": "这是架构与训练关系路线，不证明所有相邻 checkpoint 直接继承权重。Max 档位是推理模式；V4.1 等后续条目仍在既定首版范围之外。",
+  "auditNote": "当前 21 个 checkpoint 都审计全部分片的 header/data_offsets，各模型使用自己的实际存储；不读取权重数值，不由同形状推定同权重或共享别名。",
+  "limitations": "逻辑结构不等于任意框架上的执行图；原始权重、转换精度、kernel 分派与设备实测分开记录。设备实验不在本次范围，不提供实测速度排名。",
+  "technology": [
+    {
+      "id": "v3",
+      "title": "V3 基线",
+      "section": "v3",
+      "summary": "MLA、Dense/MoE、主干与 MTP 的口径和文件头审计。"
+    },
+    {
+      "id": "increments",
+      "title": "V3.2 / V4 增量",
+      "section": "increments",
+      "summary": "DSA、CSA/HCA、mHC、hash 路由与 FP4/FP8。"
+    },
+    {
+      "id": "speculation",
+      "title": "MTP / DSpark",
+      "section": "speculation",
+      "summary": "独立模块、Markov/confidence、draft/verify/update 与调度边界。"
+    },
+    {
+      "id": "r1",
+      "title": "R1 / Distill",
+      "section": "r1",
+      "summary": "相同底座、配置、完整 tokenizer/BPE 与后训练分开。"
+    },
+    {
+      "id": "evidence",
+      "title": "证据与缺口",
+      "section": "evidence",
+      "summary": "源码存在、转换支持、运行正确性与性能分开。"
+    },
+    {
+      "id": "cann",
+      "title": "CANN 开源与 SDK",
+      "section": "cann",
+      "summary": "匹配版本的开源算子、op-plugin bridge 与本地安装资料；源码、库、ABI 与设备验证分开。"
+    }
+  ],
+  "scenarios": [
+    {
+      "title": "理解长上下文计算",
+      "text": "对比 V3 MLA、V3.2 indexer 与 V4 的窗口/压缩路径。",
+      "models": [
+        "v3",
+        "v3.2",
+        "v4-flash",
+        "v4-pro"
+      ],
+      "boundary": "配置上限和缓存公式不是实测质量或服务容量。"
+    },
+    {
+      "title": "研究 R1 部署",
+      "text": "区分 V3-Base 后训练主干与 Qwen/Llama 蒸馏底座。",
+      "models": [
+        "r1",
+        "r1-zero",
+        "r1-distill-qwen-7b",
+        "r1-distill-llama-8b"
+      ],
+      "boundary": "同名系列不能统一套用 MLA/MoE，也不能以参数规模推断吞吐。"
+    }
+  ],
+  "acceptanceScope": {
+    "mode": "static_research_and_website",
+    "deviceExperimentsRequired": false,
+    "deviceExperiments": "excluded_from_current_scope_by_user",
+    "futureExperiments": "optional_separate_request",
+    "reason": "当前没有硬件；本次验收不要求设备运行、性能或数值实测"
+  },
+  "hardwarePath": "data/families/deepseek/hardware.json",
+  "computePath": "data/families/deepseek/compute.json",
+  "analysisPath": "data/families/deepseek/analysis.json"
+}

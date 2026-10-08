@@ -1,0 +1,36 @@
+[
+  {
+    "model": "DeepSeek-V3-Base",
+    "revision": "afb92e1fa402c2be2a9eb085312bb02e0384d6c7",
+    "configDifferences": {},
+    "configByteIdentical": true,
+    "referenceCodeByteIdentical": true,
+    "limit": "配置与参考代码相同不等于权重、后训练、能力或服务条件相同"
+  },
+  {
+    "model": "DeepSeek-R1-Zero",
+    "revision": "72234287cbc67dbf474d911359ae32b61a2fdc7e",
+    "configDifferences": {
+      "transformers_version": {
+        "v3": "4.33.1",
+        "candidate": "4.46.3"
+      }
+    },
+    "configByteIdentical": false,
+    "referenceCodeByteIdentical": true,
+    "limit": "配置与参考代码相同不等于权重、后训练、能力或服务条件相同"
+  },
+  {
+    "model": "DeepSeek-R1",
+    "revision": "56d4cbbb4d29f4355bab4b9a39ccb717a14ad5ad",
+    "configDifferences": {
+      "transformers_version": {
+        "v3": "4.33.1",
+        "candidate": "4.46.3"
+      }
+    },
+    "configByteIdentical": false,
+    "referenceCodeByteIdentical": true,
+    "limit": "配置与参考代码相同不等于权重、后训练、能力或服务条件相同"
+  }
+]

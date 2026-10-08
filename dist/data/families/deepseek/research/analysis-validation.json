@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "date": "2026-10-02",
+  "costModels": 21,
+  "costLayers": 1122,
+  "cannFamilies": 30,
+  "cannTableRowsAndConditions": 4207,
+  "codedNecessaryRules": 9,
+  "parallelSources": 21,
+  "sourceRanges": 4607,
+  "sourceBytesChecked": true,
+  "crossFamilyModels": 42,
+  "mechanisms": 5,
+  "exports": {
+    "status": "passed",
+    "date": "2026-10-02",
+    "xlsxSheets": 5,
+    "xlsxDataCells": 55129,
+    "csvDataRows": 4396,
+    "csvFiles": 4,
+    "unknownMeasurements": "blank",
+    "scope": "every analytical export value compared with canonical JSON"
+  },
+  "deviceExperiments": "excluded_from_current_scope_by_user",
+  "limits": [
+    "No runtime stack, model inference, timing or hardware validation; static formulas and synthetic teaching calculations only."
+  ]
+}

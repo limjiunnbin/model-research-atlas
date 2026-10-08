@@ -122,6 +122,9 @@
               }
             ]
           }
+        },
+        "comparisonPath": {
+          "type": "string"
         }
       }
     },
@@ -418,6 +421,9 @@
         },
         "computePath": {
           "type": "string"
+        },
+        "analysisPath": {
+          "type": "string"
         }
       }
     },
@@ -435,13 +441,44 @@
           "type": "string"
         },
         "stored_dtype": {
-          "type": "string"
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "stored_shape": {
-          "type": "string"
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "logical_shape": {
-          "type": "string"
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "logical_parameters_each": {
           "type": "number",
@@ -582,22 +619,10 @@
         },
         "cache": {
           "type": "object",
-          "required": [
-            "mla",
-            "kda",
-            "vision"
-          ],
-          "properties": {
-            "mla": {
-              "type": "string"
-            },
-            "kda": {
-              "type": "string"
-            },
-            "vision": {
-              "type": "string"
-            }
-          }
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "按适用架构明确命名缓存说明；不要求不适用的 MLA/KDA/vision 字段。"
         }
       }
     },
@@ -826,6 +851,357 @@
         },
         "counts": {
           "type": "object"
+        }
+      }
+    },
+    "analysisReference": {
+      "type": "object",
+      "required": [
+        "sourceId",
+        "revision",
+        "path",
+        "line",
+        "end",
+        "sourceSha256",
+        "rangeSha256",
+        "url"
+      ],
+      "properties": {
+        "sourceId": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "path": {
+          "type": "string"
+        },
+        "line": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sourceSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "rangeSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "analysis": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "familyId",
+        "snapshot",
+        "scope",
+        "costModels",
+        "cannContracts",
+        "parallel",
+        "mechanisms",
+        "costFormulas",
+        "limits",
+        "counts"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "familyId": {
+          "const": "deepseek"
+        },
+        "costModels": {
+          "type": "array",
+          "minItems": 21,
+          "maxItems": 21,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "name",
+              "revision",
+              "kind",
+              "context",
+              "config",
+              "groups",
+              "mainLogicalParameters",
+              "publishedWeightBytes",
+              "parallelElements"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "kind": {
+                "enum": [
+                  "mla",
+                  "dsa",
+                  "gqa",
+                  "v4"
+                ]
+              },
+              "context": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "config": {
+                "type": "object"
+              },
+              "groups": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "ratio",
+                    "ffn",
+                    "linears",
+                    "count",
+                    "nodes"
+                  ],
+                  "properties": {
+                    "count": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "nodes": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "linears": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "tensor",
+                          "shape",
+                          "callsPerToken",
+                          "proofId"
+                        ],
+                        "properties": {
+                          "shape": {
+                            "type": "array",
+                            "minItems": 2,
+                            "maxItems": 2,
+                            "items": {
+                              "type": "integer",
+                              "minimum": 1
+                            }
+                          },
+                          "callsPerToken": {
+                            "type": "integer",
+                            "minimum": 1
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "cannContracts": {
+          "type": "array",
+          "minItems": 30,
+          "maxItems": 30,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "revision",
+              "tag",
+              "claims",
+              "rules",
+              "limits"
+            ],
+            "properties": {
+              "claims": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "apiDocument",
+                    "parameter",
+                    "categories",
+                    "statement",
+                    "reference"
+                  ],
+                  "properties": {
+                    "statement": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "categories": {
+                      "type": "array",
+                      "items": {
+                        "enum": [
+                          "shape",
+                          "dtype",
+                          "layout",
+                          "quantization",
+                          "platform",
+                          "condition",
+                          "parameter"
+                        ]
+                      }
+                    },
+                    "reference": {
+                      "$ref": "#/$defs/analysisReference"
+                    }
+                  }
+                }
+              },
+              "rules": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "kind",
+                    "field",
+                    "label",
+                    "reference"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "enum",
+                        "rank",
+                        "nonempty",
+                        "suffix",
+                        "swiglu-axis",
+                        "matmul-k"
+                      ]
+                    },
+                    "reference": {
+                      "$ref": "#/$defs/analysisReference"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parallel": {
+          "type": "object",
+          "required": [
+            "topics",
+            "sources",
+            "formulas",
+            "limits"
+          ],
+          "properties": {
+            "topics": {
+              "type": "array",
+              "minItems": 6,
+              "maxItems": 6,
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "title",
+                  "summary",
+                  "refs"
+                ],
+                "properties": {
+                  "refs": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/analysisReference"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "mechanisms": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "title",
+              "references",
+              "limit",
+              "evidence"
+            ],
+            "properties": {
+              "id": {
+                "enum": [
+                  "mla",
+                  "dsa",
+                  "compression",
+                  "mhc",
+                  "dspark"
+                ]
+              },
+              "evidence": {
+                "const": "interpretation"
+              }
+            }
+          }
+        }
+      }
+    },
+    "comparison": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "snapshot",
+        "families",
+        "models",
+        "dimensions",
+        "limits"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "models": {
+          "type": "array",
+          "minItems": 42,
+          "maxItems": 42,
+          "items": {
+            "type": "object",
+            "required": [
+              "key",
+              "familyId",
+              "id",
+              "name",
+              "facts",
+              "inputModelSha256"
+            ],
+            "properties": {
+              "facts": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/$defs/fact"
+                }
+              },
+              "inputModelSha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          }
         }
       }
     }

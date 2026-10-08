@@ -1,0 +1,386 @@
+{
+  "schemaVersion": 1,
+  "snapshot": "2026-10-01",
+  "scope": "MTP/DSpark 的参数、draft/verify/update 数据协议与固定源码；不运行模型、训练或设备实验",
+  "models": [
+    {
+      "modelId": "v4-flash-dspark",
+      "name": "DeepSeek-V4-Flash-DSpark",
+      "revision": "62af8fffb2f7030cac4de2f0169f5b8d1101b646",
+      "mainLogicalParameters": 284332240471,
+      "draftLogicalParameters": 19845850983,
+      "config": {
+        "blockSize": 5,
+        "markovRank": 256,
+        "noiseTokenId": 128799,
+        "targetLayerIds": [
+          40,
+          41,
+          42
+        ],
+        "stages": 3,
+        "declaredNextNLayers": 1,
+        "namespace": "mtp.*",
+        "limit": "HF num_nextn_predict_layers=1 与实际 3 个 DSpark stage 分开；MTP namespace 不等于独立 MTP。模型卡 num_speculative_tokens=7 与配置 block_size=5 分别记录，不静默配平。"
+      },
+      "referenceProofs": [
+        "follow-deepseek-v4-flash-dspark-inference-model-py:Transformer.forward",
+        "follow-deepseek-v4-flash-dspark-inference-model-py:Transformer.forward_spec",
+        "follow-deepseek-v4-flash-dspark-inference-model-py:DSparkBlock.forward_embed",
+        "follow-deepseek-v4-flash-dspark-inference-model-py:DSparkAttention.forward",
+        "follow-deepseek-v4-flash-dspark-inference-model-py:DSparkBlock.forward_head",
+        "follow-deepseek-v4-flash-dspark-inference-model-py:DSparkMarkovHead.forward",
+        "follow-deepseek-v4-flash-dspark-inference-model-py:DSparkConfidenceHead.forward"
+      ],
+      "conditions": [
+        "native prefill 只融合目标特征和写上下文 KV，不执行完整 draft Block",
+        "draft backbone 一次处理 noisy block，Markov head 依次条件于前一 token；3 个 stage 各自有 SWA context cache",
+        "confidence 原生返回 logits；服务路径 sigmoid 后使用阈值或可选负载/吞吐剖面调度",
+        "target verify/rejection/bonus token 与 KV commit/update 是服务协议，不能从 draft.forward 单函数推定"
+      ],
+      "conflicts": [
+        {
+          "field": "num_nextn_predict_layers",
+          "hfConfig": 1,
+          "inferenceConfigStages": 3,
+          "headerStages": [
+            0,
+            1,
+            2
+          ],
+          "resolution": "mtp.* 是 DSpark 存储 namespace，不能当作 1 个传统 MTP 层"
+        },
+        {
+          "field": "proposal_length",
+          "checkpointBlockSize": 5,
+          "modelCardVllmExample": 7,
+          "resolution": "native demo 按 checkpoint block=5；vLLM 服务 num_speculative_tokens=7 是另一项显式设置，须按该框架处理；不改写配置"
+        }
+      ]
+    },
+    {
+      "modelId": "v4-pro-dspark",
+      "name": "DeepSeek-V4-Pro-DSpark",
+      "revision": "7c09739fd136abfb70a49ec334157f65f45b52cd",
+      "mainLogicalParameters": 1572997201763,
+      "draftLogicalParameters": 77498408103,
+      "config": {
+        "blockSize": 5,
+        "markovRank": 512,
+        "noiseTokenId": 128799,
+        "targetLayerIds": [
+          58,
+          59,
+          60
+        ],
+        "stages": 3,
+        "declaredNextNLayers": 1,
+        "namespace": "mtp.*",
+        "limit": "HF num_nextn_predict_layers=1 与实际 3 个 DSpark stage 分开；MTP namespace 不等于独立 MTP。模型卡 num_speculative_tokens=7 与配置 block_size=5 分别记录，不静默配平。"
+      },
+      "referenceProofs": [
+        "follow-deepseek-v4-pro-dspark-inference-model-py:Transformer.forward",
+        "follow-deepseek-v4-pro-dspark-inference-model-py:Transformer.forward_spec",
+        "follow-deepseek-v4-pro-dspark-inference-model-py:DSparkBlock.forward_embed",
+        "follow-deepseek-v4-pro-dspark-inference-model-py:DSparkAttention.forward",
+        "follow-deepseek-v4-pro-dspark-inference-model-py:DSparkBlock.forward_head",
+        "follow-deepseek-v4-pro-dspark-inference-model-py:DSparkMarkovHead.forward",
+        "follow-deepseek-v4-pro-dspark-inference-model-py:DSparkConfidenceHead.forward"
+      ],
+      "conditions": [
+        "native prefill 只融合目标特征和写上下文 KV，不执行完整 draft Block",
+        "draft backbone 一次处理 noisy block，Markov head 依次条件于前一 token；3 个 stage 各自有 SWA context cache",
+        "confidence 原生返回 logits；服务路径 sigmoid 后使用阈值或可选负载/吞吐剖面调度",
+        "target verify/rejection/bonus token 与 KV commit/update 是服务协议，不能从 draft.forward 单函数推定"
+      ],
+      "conflicts": [
+        {
+          "field": "num_nextn_predict_layers",
+          "hfConfig": 1,
+          "inferenceConfigStages": 3,
+          "headerStages": [
+            0,
+            1,
+            2
+          ],
+          "resolution": "mtp.* 是 DSpark 存储 namespace，不能当作 1 个传统 MTP 层"
+        },
+        {
+          "field": "proposal_length",
+          "checkpointBlockSize": 5,
+          "modelCardVllmExample": 7,
+          "resolution": "native demo 按 checkpoint block=5；vLLM 服务 num_speculative_tokens=7 是另一项显式设置，须按该框架处理；不改写配置"
+        }
+      ]
+    },
+    {
+      "modelId": "v4-flash-0731",
+      "name": "DeepSeek-V4-Flash-0731",
+      "revision": "7872f01b1d1fe23eabc4c98b48bffcef5a386062",
+      "mainLogicalParameters": 284332240471,
+      "draftLogicalParameters": 19845850983,
+      "config": {
+        "blockSize": 5,
+        "markovRank": 256,
+        "noiseTokenId": 128799,
+        "targetLayerIds": [
+          40,
+          41,
+          42
+        ],
+        "stages": 3,
+        "declaredNextNLayers": 1,
+        "namespace": "mtp.*",
+        "limit": "HF num_nextn_predict_layers=1 与实际 3 个 DSpark stage 分开；MTP namespace 不等于独立 MTP。模型卡 num_speculative_tokens=7 与配置 block_size=5 分别记录，不静默配平。"
+      },
+      "referenceProofs": [
+        "follow-deepseek-v4-flash-0731-inference-model-py:Transformer.forward",
+        "follow-deepseek-v4-flash-0731-inference-model-py:Transformer.forward_spec",
+        "follow-deepseek-v4-flash-0731-inference-model-py:DSparkBlock.forward_embed",
+        "follow-deepseek-v4-flash-0731-inference-model-py:DSparkAttention.forward",
+        "follow-deepseek-v4-flash-0731-inference-model-py:DSparkBlock.forward_head",
+        "follow-deepseek-v4-flash-0731-inference-model-py:DSparkMarkovHead.forward",
+        "follow-deepseek-v4-flash-0731-inference-model-py:DSparkConfidenceHead.forward"
+      ],
+      "conditions": [
+        "native prefill 只融合目标特征和写上下文 KV，不执行完整 draft Block",
+        "draft backbone 一次处理 noisy block，Markov head 依次条件于前一 token；3 个 stage 各自有 SWA context cache",
+        "confidence 原生返回 logits；服务路径 sigmoid 后使用阈值或可选负载/吞吐剖面调度",
+        "target verify/rejection/bonus token 与 KV commit/update 是服务协议，不能从 draft.forward 单函数推定"
+      ],
+      "conflicts": [
+        {
+          "field": "num_nextn_predict_layers",
+          "hfConfig": 1,
+          "inferenceConfigStages": 3,
+          "headerStages": [
+            0,
+            1,
+            2
+          ],
+          "resolution": "mtp.* 是 DSpark 存储 namespace，不能当作 1 个传统 MTP 层"
+        },
+        {
+          "field": "proposal_length",
+          "checkpointBlockSize": 5,
+          "modelCardVllmExample": 7,
+          "resolution": "native demo 按 checkpoint block=5；vLLM 服务 num_speculative_tokens=7 是另一项显式设置，须按该框架处理；不改写配置"
+        }
+      ]
+    },
+    {
+      "modelId": "v4-pro-0813",
+      "name": "DeepSeek-V4-Pro-0813",
+      "revision": "72e1d3230f6c080a530b0a1d46f8eb4602340597",
+      "mainLogicalParameters": 1572997201763,
+      "draftLogicalParameters": 77498408103,
+      "config": {
+        "blockSize": 5,
+        "markovRank": 512,
+        "noiseTokenId": 128799,
+        "targetLayerIds": [
+          58,
+          59,
+          60
+        ],
+        "stages": 3,
+        "declaredNextNLayers": 1,
+        "namespace": "mtp.*",
+        "limit": "HF num_nextn_predict_layers=1 与实际 3 个 DSpark stage 分开；MTP namespace 不等于独立 MTP。模型卡 num_speculative_tokens=7 与配置 block_size=5 分别记录，不静默配平。"
+      },
+      "referenceProofs": [
+        "follow-deepseek-v4-pro-0813-inference-model-py:Transformer.forward",
+        "follow-deepseek-v4-pro-0813-inference-model-py:Transformer.forward_spec",
+        "follow-deepseek-v4-pro-0813-inference-model-py:DSparkBlock.forward_embed",
+        "follow-deepseek-v4-pro-0813-inference-model-py:DSparkAttention.forward",
+        "follow-deepseek-v4-pro-0813-inference-model-py:DSparkBlock.forward_head",
+        "follow-deepseek-v4-pro-0813-inference-model-py:DSparkMarkovHead.forward",
+        "follow-deepseek-v4-pro-0813-inference-model-py:DSparkConfidenceHead.forward"
+      ],
+      "conditions": [
+        "native prefill 只融合目标特征和写上下文 KV，不执行完整 draft Block",
+        "draft backbone 一次处理 noisy block，Markov head 依次条件于前一 token；3 个 stage 各自有 SWA context cache",
+        "confidence 原生返回 logits；服务路径 sigmoid 后使用阈值或可选负载/吞吐剖面调度",
+        "target verify/rejection/bonus token 与 KV commit/update 是服务协议，不能从 draft.forward 单函数推定"
+      ],
+      "conflicts": [
+        {
+          "field": "num_nextn_predict_layers",
+          "hfConfig": 1,
+          "inferenceConfigStages": 3,
+          "headerStages": [
+            0,
+            1,
+            2
+          ],
+          "resolution": "mtp.* 是 DSpark 存储 namespace，不能当作 1 个传统 MTP 层"
+        },
+        {
+          "field": "proposal_length",
+          "checkpointBlockSize": 5,
+          "modelCardVllmExample": 7,
+          "resolution": "native demo 按 checkpoint block=5；vLLM 服务 num_speculative_tokens=7 是另一项显式设置，须按该框架处理；不改写配置"
+        }
+      ]
+    }
+  ],
+  "protocol": [
+    {
+      "phase": "context-prefill",
+      "operation": "目标主干正常 prefill/验证并取指定层特征；融合后初始化独立 context KV",
+      "proofs": [
+        "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py:DeepseekV4DSparkModel.precompute_and_store_context_kv"
+      ]
+    },
+    {
+      "phase": "draft",
+      "operation": "noisy block → 多 stage 并行 backbone → 顺序 Markov logits 修正/sample → confidence",
+      "proofs": [
+        "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py:DeepseekV4DSparkModel.forward",
+        "aux-vllm-project-vllm-ascend-vllm_ascend-worker-v2-spec_decode-dspark-speculator-py:AscendDSparkSpeculator.propose"
+      ]
+    },
+    {
+      "phase": "select-prefix",
+      "operation": "conditional confidence → prefix survival；阈值或 engine-specific throughput profile 分配验证长度，不能任意 peek 后续位置再回退",
+      "proofs": [
+        "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py:DSparkDeepseekV4ForCausalLM.compute_confidence"
+      ]
+    },
+    {
+      "phase": "verify",
+      "operation": "target 对选中 prefix 做因果 forward；按所选 sampler 接受/拒绝，含首个拒绝位置或全部接受后的 bonus token",
+      "proofs": [],
+      "limit": "采样方式、EOS/grammar、prefix 选择与 resampling 条件各自固定；没有单函数完整运行证明"
+    },
+    {
+      "phase": "update",
+      "operation": "只提交已接受/修正 token 的状态；丢弃或覆盖未接受 draft cache，下一轮输入由 target hidden 驱动",
+      "proofs": [
+        "aux-vllm-project-vllm-ascend-vllm_ascend-worker-v2-spec_decode-dspark-speculator-py:AscendDSparkSpeculator.propose"
+      ]
+    }
+  ],
+  "comparisons": [
+    {
+      "method": "AR",
+      "draft": "无附加 draft",
+      "target": "每步一个 target token",
+      "parameters": "只有主干",
+      "cache": "主干 cache"
+    },
+    {
+      "method": "MTP",
+      "draft": "独立 next-token predictor 可循环重用；训练深度与服务 draft 次数不同",
+      "target": "验证候选 causal prefix",
+      "parameters": "共享 embedding/head，独立投影、block、norm",
+      "cache": "MTP 和主干各自按后端管理"
+    },
+    {
+      "method": "DSpark",
+      "draft": "并行 backbone + 轻量顺序 Markov/RNN；本 V4 checkpoint 是 vanilla Markov",
+      "target": "可变验证 prefix，confidence/负载配置独立",
+      "parameters": "3 stage，首层 main_proj，末层 Markov/confidence，共享 embed/head",
+      "cache": "独立 SWA context + block 内非因果 draft；不沿用主干 CSA/HCA"
+    }
+  ],
+  "referenceProofs": [
+    "follow-deepseek-v4-flash-dspark-inference-model-py:Transformer.forward",
+    "follow-deepseek-v4-flash-dspark-inference-model-py:Transformer.forward_spec",
+    "follow-deepseek-v4-flash-dspark-inference-model-py:DSparkBlock.forward_embed",
+    "follow-deepseek-v4-flash-dspark-inference-model-py:DSparkAttention.forward",
+    "follow-deepseek-v4-flash-dspark-inference-model-py:DSparkBlock.forward_head",
+    "follow-deepseek-v4-flash-dspark-inference-model-py:DSparkMarkovHead.forward",
+    "follow-deepseek-v4-flash-dspark-inference-model-py:DSparkConfidenceHead.forward",
+    "follow-deepseek-v4-pro-dspark-inference-model-py:Transformer.forward",
+    "follow-deepseek-v4-pro-dspark-inference-model-py:Transformer.forward_spec",
+    "follow-deepseek-v4-pro-dspark-inference-model-py:DSparkBlock.forward_embed",
+    "follow-deepseek-v4-pro-dspark-inference-model-py:DSparkAttention.forward",
+    "follow-deepseek-v4-pro-dspark-inference-model-py:DSparkBlock.forward_head",
+    "follow-deepseek-v4-pro-dspark-inference-model-py:DSparkMarkovHead.forward",
+    "follow-deepseek-v4-pro-dspark-inference-model-py:DSparkConfidenceHead.forward",
+    "follow-deepseek-v4-flash-0731-inference-model-py:Transformer.forward",
+    "follow-deepseek-v4-flash-0731-inference-model-py:Transformer.forward_spec",
+    "follow-deepseek-v4-flash-0731-inference-model-py:DSparkBlock.forward_embed",
+    "follow-deepseek-v4-flash-0731-inference-model-py:DSparkAttention.forward",
+    "follow-deepseek-v4-flash-0731-inference-model-py:DSparkBlock.forward_head",
+    "follow-deepseek-v4-flash-0731-inference-model-py:DSparkMarkovHead.forward",
+    "follow-deepseek-v4-flash-0731-inference-model-py:DSparkConfidenceHead.forward",
+    "follow-deepseek-v4-pro-0813-inference-model-py:Transformer.forward",
+    "follow-deepseek-v4-pro-0813-inference-model-py:Transformer.forward_spec",
+    "follow-deepseek-v4-pro-0813-inference-model-py:DSparkBlock.forward_embed",
+    "follow-deepseek-v4-pro-0813-inference-model-py:DSparkAttention.forward",
+    "follow-deepseek-v4-pro-0813-inference-model-py:DSparkBlock.forward_head",
+    "follow-deepseek-v4-pro-0813-inference-model-py:DSparkMarkovHead.forward",
+    "follow-deepseek-v4-pro-0813-inference-model-py:DSparkConfidenceHead.forward",
+    "vllm-project-vllm-vllm-model_executor-models-deepseek_mtp-py:DeepSeekMultiTokenPredictorLayer.forward",
+    "vllm-project-vllm-vllm-model_executor-models-deepseek_mtp-py:DeepSeekMultiTokenPredictor.forward",
+    "vllm-project-vllm-vllm-model_executor-models-deepseek_mtp-py:SharedHead.__init__",
+    "vllm-project-vllm-vllm-model_executor-models-deepseek_mtp-py:DeepSeekMTP._rewrite_spec_layer_name",
+    "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py:DeepseekV4DSparkModel.forward",
+    "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py:DeepseekV4DSparkModel.precompute_and_store_context_kv",
+    "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py:DSparkDeepseekV4ForCausalLM.compute_confidence",
+    "aux-vllm-project-vllm-ascend-vllm_ascend-models-deepseek_v4-dspark-py:DSparkDeepseekV4ForCausalLM._remap_dspark_name",
+    "aux-vllm-project-vllm-ascend-vllm_ascend-worker-v2-spec_decode-dspark-speculator-py:AscendDSparkSpeculator.propose",
+    "aux-vllm-project-vllm-vllm-v1-worker-gpu-spec_decode-adaptive_verification-py:resolve_adaptive_cudagraph_mode",
+    "aux-vllm-project-vllm-vllm-v1-worker-gpu-spec_decode-adaptive_verification-py:_assign_draft_token_budget",
+    "aux-vllm-project-vllm-vllm-v1-worker-gpu-spec_decode-adaptive_verification-py:build_cost_tables_from_curves",
+    "aux-vllm-project-vllm-vllm-v1-worker-gpu-spec_decode-adaptive_verification-py:AdaptiveVerificationManager.__init__",
+    "aux-vllm-project-vllm-vllm-v1-worker-gpu-spec_decode-adaptive_verification-py:maybe_create_adaptive_verification_manager",
+    "aux-vllm-project-vllm-vllm-v1-worker-gpu-spec_decode-acceptance_estimator-py:_accumulate_kernel",
+    "aux-vllm-project-vllm-vllm-v1-worker-gpu-spec_decode-acceptance_estimator-py:_refit_kernel",
+    "aux-vllm-project-vllm-vllm-v1-worker-gpu-spec_decode-acceptance_estimator-py:_local_max_sumexp_kernel",
+    "aux-vllm-project-vllm-vllm-v1-worker-gpu-spec_decode-acceptance_estimator-py:_predict_kernel",
+    "aux-vllm-project-vllm-vllm-v1-worker-gpu-spec_decode-acceptance_estimator-py:OnlineAcceptanceEstimator.__init__",
+    "aux-vllm-project-vllm-vllm-v1-worker-gpu-spec_decode-dspark-speculator-py:DSparkSpeculator.__init__",
+    "aux-deepseek-ai-DeepSpec-deepspec-modeling-dspark-markov_head-py:VanillaMarkov.__init__",
+    "aux-deepseek-ai-DeepSpec-deepspec-modeling-dspark-markov_head-py:GatedMarkovHead.__init__",
+    "aux-deepseek-ai-DeepSpec-deepspec-modeling-dspark-markov_head-py:RNNHead.__init__",
+    "aux-deepseek-ai-DeepSpec-deepspec-modeling-dspark-markov_head-py:build_markov_head",
+    "aux-deepseek-ai-DeepSpec-deepspec-modeling-dspark-common-py:AcceptRatePredictor.__init__",
+    "aux-deepseek-ai-DeepSpec-deepspec-modeling-dspark-common-py:AcceptRatePredictor.forward",
+    "aux-deepseek-ai-DeepSpec-deepspec-modeling-dspark-common-py:extract_context_feature",
+    "aux-deepseek-ai-DeepSpec-deepspec-modeling-dspark-common-py:validate_target_layer_ids",
+    "aux-deepseek-ai-DeepSpec-deepspec-modeling-dspark-common-py:create_dspark_attention_mask",
+    "aux-deepseek-ai-DeepSpec-deepspec-modeling-dspark-common-py:build_anchor_candidate_mask",
+    "aux-deepseek-ai-DeepSpec-deepspec-modeling-dspark-common-py:sample_anchor_positions",
+    "aux-deepseek-ai-DeepSpec-deepspec-modeling-dspark-common-py:build_eval_mask",
+    "aux-deepseek-ai-DeepSpec-deepspec-modeling-dspark-common-py:log_sampler_stats",
+    "aux-deepseek-ai-DeepSpec-deepspec-modeling-dspark-common-py:create_position_ids",
+    "aux-deepseek-ai-DeepSpec-deepspec-modeling-dspark-common-py:create_noise_embed",
+    "aux-deepseek-ai-DeepSpec-deepspec-eval-dspark-draft_ops-py:forward_dspark_draft_block",
+    "aux-deepseek-ai-DeepSpec-deepspec-eval-dspark-draft_ops-py:_empty_dspark_proposal",
+    "aux-deepseek-ai-DeepSpec-deepspec-eval-dspark-draft_ops-py:_predict_confidence_logits",
+    "aux-deepseek-ai-DeepSpec-deepspec-eval-dspark-draft_ops-py:_confident_prefix_length",
+    "aux-deepseek-ai-DeepSpec-deepspec-eval-dspark-draft_ops-py:build_dspark_proposal"
+  ],
+  "paperSource": "dspark-paper-v1",
+  "reportedPerformance": {
+    "source": "DSpark paper §5.4",
+    "evidence": "作者生产服务自述，非本站或 Ascend 实测",
+    "flashGenerationSpeedAtMatchedThroughput": "60%–85%",
+    "proGenerationSpeedAtMatchedThroughput": "57%–78%",
+    "limit": "V4 在线用户流量与对应服务条件，不等于任意设备、batch 或 checkpoint 的收益"
+  },
+  "syntheticValidation": {
+    "status": "passed",
+    "rejectionDistributionCases": 3,
+    "maxProbabilityAbsError": 0.0,
+    "conditionalConfidence": [
+      0.8,
+      0.6,
+      0.25,
+      0.1,
+      0.05
+    ],
+    "prefixSurvival": [
+      0.8,
+      0.48,
+      0.12,
+      0.012,
+      0.0006000000000000001
+    ],
+    "expectedAcceptedDraftLength": 1.4125999999999999,
+    "limits": "只复算分布恒等式与条件概率乘积；不证明学习到的 confidence 正确、调度校准或 kernel 数值"
+  }
+}

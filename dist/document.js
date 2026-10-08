@@ -25,7 +25,9 @@ try{
  const response=await fetch(source);if(!response.ok)throw Error(`文档读取失败（${response.status}）`);
  article.replaceChildren(renderMarkdown(await response.text(),source));status.hidden=true;
  const raw=document.querySelector('#raw');raw.href=source.href;raw.hidden=false;
- const collection=document.querySelector('#collection');collection.href=new URL(file.startsWith('reports/openbmb/')?'reports/openbmb/':'index.html#/family/kimi/sources',root).href;collection.textContent=file.startsWith('reports/openbmb/')?'OpenBMB 报告与下载':'Kimi 来源与下载';
+ const collection=document.querySelector('#collection');
+ if(file.startsWith('reports/openbmb/')){collection.href=new URL('reports/openbmb/',root).href;collection.textContent='OpenBMB 报告与下载'}
+ else{const id=file.match(/^assets\/([^/]+)\//)?.[1];const catalog=await fetch(new URL('data/catalog.json',root)).then(r=>r.json());const family=catalog.families.find(f=>f.id===id);collection.href=new URL(family?'index.html#/family/'+family.id+'/sources':'index.html#/',root).href;collection.textContent=family?family.name+' 来源与下载':'研究入口'}
  document.title=(article.querySelector('h1')?.textContent||file.split('/').pop())+' · 文档阅读';
  const target=decodeURIComponent(location.hash.slice(1));if(target)requestAnimationFrame(()=>document.getElementById(target)?.scrollIntoView());
 }catch(error){status.textContent=error.message}

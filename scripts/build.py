@@ -56,11 +56,19 @@ for ref in catalog['families']:
   for path in h['downloads'].values():assert (ROOT/'dist'/path).is_file()
  for fig in f['figures']:assert (ROOT/'dist'/fig['path']).is_file()
  if f.get('computePath'):
-  from validate_compute import validate
-  validate()
+  if f['id']=='kimi':
+   from validate_compute import validate
+   validate()
+  elif f['id']=='deepseek':
+   from validate_deepseek_atlas import validate
+   validate()
+   if f.get('analysisPath'):
+    from validate_deepseek_analysis import validate as validate_analysis
+    validate_analysis(exports=True,write_record=False)
+  else:raise ValueError('No compute validator registered for family '+f['id'])
  for download in f['downloads']:assert (ROOT/'dist'/download['path']).stat().st_size==download['bytes']
 shutil.copytree(ROOT/'data',ROOT/'dist/data',dirs_exist_ok=True)
-for name in ['index.html','app.js','styles.css','structure.js','hardware.js','compute.js']:assert (ROOT/'dist'/name).stat().st_size>0
+for name in ['index.html','app.js','styles.css','structure.js','hardware.js','compute.js','analysis.js','analysis-math.mjs']:assert (ROOT/'dist'/name).stat().st_size>0
 print(f'Build OK: {len(catalog["families"])} families, {checks} structure components, all asset references valid.')
 
 # Every shipped Markdown file is an allowed reader source.

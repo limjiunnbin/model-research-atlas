@@ -32,15 +32,17 @@
 
 - `group`: `decoder` / `vision` / 其他组件名称。
 - `number`: 层从 1 开始；全局组件为 0。`id` 必须唯一。
-- `type`: 显示真实注意力类型；已知 KDA/MLA/GQA/Vision 使用对应颜色，其他类型采用中性色。
+- `type`: 显示真实注意力类型；KDA/MLA/DSA/CSA/HCA/SWA/GQA/Vision 使用对应颜色，其他类型采用中性色。
 - `parameters`: 本层总逻辑参数；`activeLinearParameters`: 同口径激活线性权重代理；`payloadBytes`: 实际权重载荷。未知仍为 `null`。
 - `modules[]`: 含 `id/title/parameters/count/selectedCount/representative/matrices`。专家多时提供一个模板并写明实际数量；不要复制数万模型对象。
 - `matrices[]`: `tensor_template/stored_dtype/stored_shape/logical_shape/logical_parameters_each/count`。量化元数据的逻辑参数计数为 0，但不能丢掉存储记录。
-- `cache`: 对该模型适用的 MLA/KDA/视觉缓存假设；不要把 Kimi 的 576 元素缓存直接复制给其他架构。
+- `cache`: 字符串键到说明的映射，仅提供该模型适用的缓存；节点用 `cacheKey` 或 type 的小写键选择。MLA/DSA、CSA/HCA/SWA、GQA、视觉状态分列，不复制相邻架构假设。
 - `config`: 已核对的隐藏宽、专家数、top-k、共享数、上下文、精度。
 - `scope/source`: 核验深度与来源。只有配置时可提供层型，但不填未经审计的矩阵、载荷与参数。
 
 同一个节点会同时驱动 3D 选层、前后导航、检查面板及二维回退。未提供架构数据时自动显示不可用说明。
+
+存储未审计时 `stored_dtype/stored_shape/payloadBytes` 为 `null`，逻辑矩阵可在固定配置加参考参数声明的推导证据下提供。`parameterScope` 可说明 MTP、共享别名与非训练表的特殊口径；`implementationTopic` 可在节点或模块上声明，优先于默认专题映射。模型的 `auditPath` 可以引用既有 groups 审计格式或 DeepSeek 全分片 header 摘要，详情消费者分别显示两者，不伪造共同字段。`documentCenterUrl` 可将家族侧栏下载入口指向该家族的独立研究包。
 
 ## 核验
 
@@ -65,3 +67,7 @@ node --check dist/structure.js
 每一步记录输入/输出/中间及缓存形状、阶段、精度、权重、参考实现和四后端证据。设备接口必须附固定 revision、函数、行号和分支条件；未知接口显式标记。不得将 AST 调用集合当作执行顺序，或将模块调用误标为单步设备内核。
 
 当前 `scripts/validate_compute.py` 是 Kimi 专用审计验证器；新增家族应提供对应验证器，并调整 `build.py` 的计算验证分派。
+
+DeepSeek 使用 `scripts/validate_deepseek_atlas.py` 与 `validate_deepseek_exports.py`；build 根据 family ID 分派，未注册验证器的 compute 家族直接报错。其可选 `phaseOptions/pathOptions` 驱动阶段与参考分支筛选，`weightEvidence` 说明每版真实核验深度。组件的 `sourceIndex` 是模板替换用的源码索引，不总是 display layer−1；MTP 或全局组件必须显式给出。参考 API 的 `level/condition/proofs` 表达模块与分派上下文，不把调用集合标为 kernel 顺序。hardware.versionNotes 提供适用 `models` 与说明，模块必须有可读 evidence 与 refs；新实现专题应在浏览器验证当前版本过滤与 3D 跳转。
+
+DSpark 使用独立 `group=dspark`，三个组件的 `sourceIndex=0/1/2` 对应实际 `mtp.*` 存储；不能由 `num_nextn_predict_layers=1` 推导只有一个组件，也不能套用普通 MTP 的 eh_proj/enorm/hnorm。每个版本的 stored shape/dtype/payload 必须绑定自己的完整 header，并保留 FP4 逻辑维度与 I8 容器、scale、非训练表和共享存储副本的区别。参数声明、prefill 的 context cache 写入、decode 的 draft backbone/Markov/confidence 与服务 verification 是不同范围，模板步骤不等于每阶段都执行全部矩阵。
