@@ -159844,5 +159844,47 @@
     "parallelSources": 21,
     "parallelTopics": 6,
     "mechanisms": 5
-  }
+  },
+  "excludedModels": [
+    {
+      "id": "v4.1-flash",
+      "reason": "本版部署缓存按真实 NVFP4 变体 / MXFP4 / MXFP8 打包格式独立计算；FLOPs 与通信不套用旧 21-model 的 V4 路径。",
+      "researchUrl": "document.html?file=assets/deepseek/DeepSeek-V4.1-Flash-研究.md"
+    }
+  ],
+  "deploymentModels": [
+    {
+      "id": "v4.1-flash",
+      "name": "DeepSeek-V4.1-Flash",
+      "context": 1048576,
+      "storage": {
+        "mainRecordBytes": 288,
+        "indexRecordBytes": 68,
+        "swaRecordBytes": 528,
+        "fullOwners": [
+          {
+            "layer": 2,
+            "ratio": 2
+          },
+          {
+            "layer": 8,
+            "ratio": 2
+          },
+          {
+            "layer": 14,
+            "ratio": 2
+          },
+          {
+            "layer": 20,
+            "ratio": 1
+          }
+        ],
+        "languageLayers": 40,
+        "draftStages": 3,
+        "window": 128,
+        "compressionStateBytesPerRequest": 24576
+      },
+      "researchUrl": "document.html?file=assets/deepseek/DeepSeek-V4.1-Flash-研究.md"
+    }
+  ]
 }

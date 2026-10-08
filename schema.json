@@ -370,6 +370,15 @@
               "sha256"
             ],
             "properties": {
+              "title": {
+                "type": "string"
+              },
+              "category": {
+                "type": "string"
+              },
+              "scope": {
+                "type": "string"
+              },
               "name": {
                 "type": "string"
               },
@@ -1177,8 +1186,7 @@
         },
         "models": {
           "type": "array",
-          "minItems": 42,
-          "maxItems": 42,
+          "minItems": 1,
           "items": {
             "type": "object",
             "required": [

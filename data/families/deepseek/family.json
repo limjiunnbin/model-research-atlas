@@ -2,9 +2,9 @@
   "id": "deepseek",
   "name": "DeepSeek",
   "publisher": "DeepSeek",
-  "updated": "2026-10-01",
-  "description": "V3 可复核基线、V3.2 DSA、V4 压缩注意力与 mHC、MTP/DSpark 推测解码，以及 R1/Distill 底座关系。",
-  "scope": "21 个选定 checkpoint 的主干、MTP 与 DSpark，全部有独立完整文件头审计；配置/参考构造、权重存储、服务协议与设备实测分列。设备实验已按用户要求移出本次范围。",
+  "updated": "2026-10-08",
+  "description": "MLA/DSA、V4 压缩注意力，以及 V4.1 Flash 的 CED、CSA2、Engram、原生视觉与 DSpark。",
+  "scope": "22 个代表 checkpoint：21 版完整文件头/计算研究，V4.1 Flash 为独立配置、固定源码与论文研究；设备实验不在本次范围。",
   "models": [
     {
       "id": "v2",
@@ -4280,6 +4280,236 @@
         }
       ],
       "computePath": "#/family/deepseek/compute/v4-pro-0813"
+    },
+    {
+      "id": "v4.1-flash",
+      "name": "DeepSeek-V4.1-Flash",
+      "branch": "主线",
+      "summary": "约 552B 主干 + 196B Engram；原生视觉；CED 20+20 层，CSA2 跨层共享、Single-Pass mHC 与 3-stage DSpark。",
+      "tags": [
+        "长文档",
+        "通用对话",
+        "视觉理解",
+        "代码与代理"
+      ],
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/tree/2cba9e42aa026125f3ed06c6d98c1db82f7ca027",
+      "revision": "2cba9e42aa026125f3ed06c6d98c1db82f7ca027",
+      "releaseDate": "2026-09-10",
+      "releaseDateSource": "https://api-docs.deepseek.com/zh-cn/updates/",
+      "facts": {
+        "layers": {
+          "value": 40,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "hidden": {
+          "value": 5120,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "heads": {
+          "value": 64,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "experts": {
+          "value": 384,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "topK": {
+          "value": 6,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "expertInput": {
+          "value": 5120,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "expertWidth": {
+          "value": 2304,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "denseWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "context": {
+          "value": 1048576,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "vocab": {
+          "value": 129280,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "visionLayers": {
+          "value": 32,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "visionHidden": {
+          "value": 1024,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "attention": {
+          "value": "CED 20+20；SWA 2 / CSA2 Full 4 / Reindex 4 / Reuse 30",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "quantization": {
+          "value": "配置 FP8 / UE8M0 32×32 scales；routed experts FP4；global KV 为省略 global scale 的 NVFP4 变体（E2M1+E4M3/16）；index K MXFP4/32；SWA MXFP8（E4M3+E8M0/32）；实际存储未审计",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "parameters": {
+          "value": 552000000000,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf",
+          "note": "官方约数：主干 552B，另有约 196B Engram；不等于全部发布张量/辅助模块之和。精确参考构造计数见结构 JSON。"
+        },
+        "payload": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "qRank": {
+          "value": 1280,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "kvRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "streams": {
+          "value": 4,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "headDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "valueHeadDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "indexTopK": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "mtpParameters": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "dsparkParameters": {
+          "value": 14225362530,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/model.py",
+          "note": "参考构造；排除共享目标 embedding/head，未核对发布存储副本。"
+        },
+        "dsparkStages": {
+          "value": 3,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "draftBlock": {
+          "value": 5,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "markovRank": {
+          "value": 256,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "engramParameters": {
+          "value": 196000000000,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf",
+          "note": "官方约数；两处条件内存，查表不是 dense GEMM。"
+        },
+        "activePrefillParameters": {
+          "value": 8000000000,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf",
+          "note": "论文 CED + bounded replay 部署口径；窗口回放另有固定成本。"
+        },
+        "activeDecodeParameters": {
+          "value": 16000000000,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf"
+        },
+        "encoderLayers": {
+          "value": 20,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf"
+        },
+        "decoderLayers": {
+          "value": 20,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf"
+        },
+        "globalCacheBytesPerToken": {
+          "value": 890,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf",
+          "note": "全局打包缓存，排除 SWA、临时状态、分页对齐与 DSpark；有限长度用 floor(N/2) 公式。"
+        }
+      },
+      "sections": [
+        "v41"
+      ],
+      "configPath": "data/families/deepseek/configs/DeepSeek-V4.1-Flash-config.json",
+      "architecturePath": "data/families/deepseek/v4.1-flash-architecture.json",
+      "auditPath": null,
+      "baseModel": null,
+      "computeScope": "本版部署缓存按真实 NVFP4 变体 / MXFP4 / MXFP8 打包格式独立计算；FLOPs 与通信不套用旧 21-model 的 V4 路径。",
+      "deploymentAnalysisPath": "#/family/deepseek/cost/v4.1-flash",
+      "researchUrl": "document.html?file=assets/deepseek/DeepSeek-V4.1-Flash-研究.md",
+      "implementationLinks": [
+        {
+          "topic": "v41-csa2",
+          "title": "CED / CSA2 与 bounded replay",
+          "path": "#/family/deepseek/implementation/v41-csa2/v4.1-flash"
+        },
+        {
+          "topic": "v41-engram",
+          "title": "Engram 条件内存",
+          "path": "#/family/deepseek/implementation/v41-engram/v4.1-flash"
+        },
+        {
+          "topic": "v41-mhc",
+          "title": "Single-Pass mHC",
+          "path": "#/family/deepseek/implementation/v41-mhc/v4.1-flash"
+        },
+        {
+          "topic": "v41-dspark",
+          "title": "V4.1 DSpark 与调度边界",
+          "path": "#/family/deepseek/implementation/v41-dspark/v4.1-flash"
+        },
+        {
+          "topic": "v41-vision",
+          "title": "原生视觉、ViT 与 projector",
+          "path": "#/family/deepseek/implementation/v41-vision/v4.1-flash"
+        }
+      ]
     }
   ],
   "figures": [
@@ -4312,178 +4542,280 @@
     {
       "name": "DeepSeek-研究报告.md",
       "path": "assets/deepseek/DeepSeek-研究报告.md",
-      "bytes": 70607,
-      "sha256": "e97e4dc11c30b31850be11ff86aef1d4607c18514f3fe9631d2266269e5d798d"
+      "bytes": 88839,
+      "sha256": "e5d1bfb9054da7d2afab49b42f45d0fc5a507858f8db804e81cabbd18d2a7fd6",
+      "title": "完整研究报告",
+      "category": "当前研究",
+      "scope": "22 个版本；前 11 章为 21 版基础研究，第 12 章为 V4.1 专题。"
+    },
+    {
+      "name": "DeepSeek-V4.1-Flash-研究.md",
+      "path": "assets/deepseek/DeepSeek-V4.1-Flash-研究.md",
+      "bytes": 18227,
+      "sha256": "6332b064a354fc6aedc226837ea4a298e2fbad34c71fb4d1f5e138a3e7168352",
+      "title": "V4.1 Flash 专题研究",
+      "category": "当前研究",
+      "scope": "固定配置、参考源码、论文、真实 FP4/FP8 部署缓存；未做本版权重头审计。"
     },
     {
       "name": "README.md",
       "path": "assets/deepseek/README.md",
-      "bytes": 17971,
-      "sha256": "9aaee428a0f566acfae6251ead1dfc8a9e7dd249332a61104953077b4a557b89"
+      "bytes": 9968,
+      "sha256": "c2bb7adccd120e32a76bfe1d2956ad0007c034716bdfa455ef2e39ad30869a3f",
+      "title": "阅读与复现说明",
+      "category": "当前研究",
+      "scope": "当前研究范围、附件口径与生成/校验命令。"
     },
     {
       "name": "DeepSeek-roadmap.md",
       "path": "assets/deepseek/DeepSeek-roadmap.md",
-      "bytes": 63471,
-      "sha256": "e35d3f97cadc05c6c93a58914959f170f6f1e6e19937563058556ecc22de44a9"
+      "bytes": 63698,
+      "sha256": "ea4304cd34633398e51a16c189748e3eb09bf6094d8c2c7e117e8398a5610f55",
+      "title": "调研路线",
+      "category": "当前研究",
+      "scope": "以开头的当前范围为准；旧阶段说明保留原始读取层级。"
+    },
+    {
+      "name": "DeepSeek-研究报告包.zip",
+      "path": "assets/deepseek/DeepSeek-研究报告包.zip",
+      "bytes": 8588247,
+      "sha256": "7f881db92785bb90aa677be2accc9cc7e136798abb24f93103cc3e491ce95376",
+      "title": "完整研究包",
+      "category": "当前研究",
+      "scope": "当前研究、表格、配置及固定来源；包含注明范围的既有基础数据，无权重或完整第三方源码。"
+    },
+    {
+      "name": "DeepSeek-V4.1-Flash-逻辑矩阵.csv",
+      "path": "assets/deepseek/DeepSeek-V4.1-Flash-逻辑矩阵.csv",
+      "bytes": 425003,
+      "sha256": "8be847ab28687b47831491f0ecb8f16559d6029aaac92cf24c1be13e8cd2ca02",
+      "title": "V4.1 Flash 逻辑矩阵",
+      "category": "模型结构与存储",
+      "scope": "79 个组件、1,393 行参考逻辑矩阵；存储形状、dtype 和权重载荷未审计。"
     },
     {
       "name": "DeepSeek-all-layer-shapes.csv",
       "path": "assets/deepseek/DeepSeek-all-layer-shapes.csv",
       "bytes": 52676497,
-      "sha256": "14f121bfabaa9eda0e722b5486b7331a2f8524fa23b60c9453cceaeea090444a"
+      "sha256": "14f121bfabaa9eda0e722b5486b7331a2f8524fa23b60c9453cceaeea090444a",
+      "title": "21 版全层计算表",
+      "category": "模型结构与存储",
+      "scope": "21 个已审计 checkpoint，76,502 个声明步骤；不含 V4.1，重复阶段不可累加参数。"
     },
     {
       "name": "DeepSeek-模型与算子.xlsx",
       "path": "assets/deepseek/DeepSeek-模型与算子.xlsx",
       "bytes": 833010,
-      "sha256": "f9bae8d75575df2563704dcea728612f4f19ab93ad43a9e1ef21364e0c50f745"
+      "sha256": "f9bae8d75575df2563704dcea728612f4f19ab93ad43a9e1ef21364e0c50f745",
+      "title": "21 版模型与算子工作簿",
+      "category": "模型结构与存储",
+      "scope": "7 个 sheet，21 版结构/矩阵/接口与推测解码；V4.1 另见独立矩阵 CSV。"
     },
     {
       "name": "DeepSeek-compute.json",
       "path": "assets/deepseek/DeepSeek-compute.json",
       "bytes": 22238755,
-      "sha256": "8542d9699ad86a37d76942e15692f0e1b8c497eab45a7c926b7913a15731e346"
-    },
-    {
-      "name": "DeepSeek-source-proofs.json",
-      "path": "assets/deepseek/DeepSeek-source-proofs.json",
-      "bytes": 1010139,
-      "sha256": "9577e7909b3d2b7a186b81dac468760ea938af6520f2d402891bd86ebffdedba"
-    },
-    {
-      "name": "DeepSeek-validation.json",
-      "path": "assets/deepseek/DeepSeek-validation.json",
-      "bytes": 1118,
-      "sha256": "f7eb05c3540538a3deaee969b97f601c2ce0cc5d81fa18258f134bd310b3465f"
-    },
-    {
-      "name": "R1-config-tokenizer-comparison.json",
-      "path": "assets/deepseek/R1-config-tokenizer-comparison.json",
-      "bytes": 15780,
-      "sha256": "6367cafa0ab3fd2fe9d41a4848e947c76035caf4d263b32708198ed076afa11d"
-    },
-    {
-      "name": "R1-full-tokenizer-audit.json",
-      "path": "assets/deepseek/R1-full-tokenizer-audit.json",
-      "bytes": 8893,
-      "sha256": "b326d2927e101229c0df837574c025be089ca95da5dcb56b79ef5d2a322d16bf"
-    },
-    {
-      "name": "DeepSeek-MTP-DSpark.json",
-      "path": "assets/deepseek/DeepSeek-MTP-DSpark.json",
-      "bytes": 20198,
-      "sha256": "4c7ed423799b874cae459dfc08374e7fa82a0208d2c5702c3a795565b1e3f6a2"
-    },
-    {
-      "name": "DeepSeek-backend-trace.json",
-      "path": "assets/deepseek/DeepSeek-backend-trace.json",
-      "bytes": 10509,
-      "sha256": "469ac966ba02a44be2a0d0e868b6861fb58e94a870c31a3a7116da6bc4fe7d29"
-    },
-    {
-      "name": "DeepSeek-CANN-operators.json",
-      "path": "assets/deepseek/DeepSeek-CANN-operators.json",
-      "bytes": 702011,
-      "sha256": "d29ab863d21083aea344be0861888aff544d73fb92347dc99c7fc2213aff4017"
-    },
-    {
-      "name": "DeepSeek-header-audits.zip",
-      "path": "assets/deepseek/DeepSeek-header-audits.zip",
-      "bytes": 256924,
-      "sha256": "565cc2c7be21410643d60e577d123f8b2125874720b1c8dd2136adaa637af9cd"
-    },
-    {
-      "name": "v3-header-audit.json",
-      "path": "assets/deepseek/v3-header-audit.json",
-      "bytes": 124408,
-      "sha256": "be1d27bdd2d3bb6796e02ca02a503ce0a082411bedf657e8ff6e1c7a21bf1ac1"
-    },
-    {
-      "name": "字段与符号说明.md",
-      "path": "assets/deepseek/字段与符号说明.md",
-      "bytes": 2014,
-      "sha256": "8f0d68c7dedaf20ede3eb4718e9784d7f81465d3c6eb8f95e6831c3ed7043aa7"
-    },
-    {
-      "name": "DeepSeek-implementation-hardware-ascend.md",
-      "path": "assets/deepseek/DeepSeek-implementation-hardware-ascend.md",
-      "bytes": 64169,
-      "sha256": "5e0de3decdbec88c43124fc1ef29ed44d2706e5d35a6b01d529c8cf65ebd4feb"
-    },
-    {
-      "name": "DeepSeek-sources.csv",
-      "path": "assets/deepseek/DeepSeek-sources.csv",
-      "bytes": 27993,
-      "sha256": "8acbb5b5aeb6d9403402e95129f7e5d1756b5311b41a1fdb2ca103a9af552b0b"
+      "sha256": "8542d9699ad86a37d76942e15692f0e1b8c497eab45a7c926b7913a15731e346",
+      "title": "21 版计算流 JSON",
+      "category": "模型结构与存储",
+      "scope": "21 版主干、MTP/DSpark 的逐层声明；不含 V4.1 FLOPs。"
     },
     {
       "name": "DeepSeek-per-model-tables.zip",
       "path": "assets/deepseek/DeepSeek-per-model-tables.zip",
       "bytes": 1565834,
-      "sha256": "1eac5a8692f0fc8be70e434178a163bf39b79337cf9e62e9904033e50d347f35"
+      "sha256": "1eac5a8692f0fc8be70e434178a163bf39b79337cf9e62e9904033e50d347f35",
+      "title": "21 版分模型表",
+      "category": "模型结构与存储",
+      "scope": "21 份 CSV/XLSX 及字段说明；不含 V4.1。"
+    },
+    {
+      "name": "DeepSeek-header-audits.zip",
+      "path": "assets/deepseek/DeepSeek-header-audits.zip",
+      "bytes": 256924,
+      "sha256": "565cc2c7be21410643d60e577d123f8b2125874720b1c8dd2136adaa637af9cd",
+      "title": "21 版完整文件头摘要",
+      "category": "模型结构与存储",
+      "scope": "各版独立分片文件头，不读取权重值；不含 V4.1。"
+    },
+    {
+      "name": "v3-header-audit.json",
+      "path": "assets/deepseek/v3-header-audit.json",
+      "bytes": 124408,
+      "sha256": "be1d27bdd2d3bb6796e02ca02a503ce0a082411bedf657e8ff6e1c7a21bf1ac1",
+      "title": "V3 文件头摘要",
+      "category": "模型结构与存储",
+      "scope": "仅原始 V3 的 163 个分片；其他版本见完整文件头包。"
+    },
+    {
+      "name": "字段与符号说明.md",
+      "path": "assets/deepseek/字段与符号说明.md",
+      "bytes": 2014,
+      "sha256": "8f0d68c7dedaf20ede3eb4718e9784d7f81465d3c6eb8f95e6831c3ed7043aa7",
+      "title": "21 版计算字段说明",
+      "category": "模型结构与存储",
+      "scope": "全层 CSV 与 7-sheet 工作簿的字段、别名、阶段及存储口径。"
     },
     {
       "name": "DeepSeek-静态分析.md",
       "path": "assets/deepseek/DeepSeek-静态分析.md",
-      "bytes": 1049009,
-      "sha256": "e3183f0c024f4881cd4f4e62e79c703a03d005c51c34206ed0f82005d46f6fb3"
+      "bytes": 26518,
+      "sha256": "45c49d5e25c9c132d41e757691218970606dfc13a09d5c7e17fb05ff04a8ef9f",
+      "title": "静态分析说明",
+      "category": "分析与比较",
+      "scope": "21 版成本/并行模型、V4.1 部署缓存、CANN 条件索引及机制说明。"
     },
     {
       "name": "DeepSeek-静态分析.json",
       "path": "assets/deepseek/DeepSeek-静态分析.json",
-      "bytes": 8033419,
-      "sha256": "c689ee33f663e0d5d0fbfc9a3c7a207d109d8e7afc4ccc6919c8f947e26c9452"
+      "bytes": 8034522,
+      "sha256": "2c111fb755604a3eab95cd5f4ac39f2b3fd009a6d9f550d11ec00abaa2904794",
+      "title": "完整分析 JSON",
+      "category": "分析与比较",
+      "scope": "21 版计算和并行、V4.1 部署缓存参数、30 个 CANN 算子家族与机制。"
     },
     {
       "name": "DeepSeek-静态分析.xlsx",
       "path": "assets/deepseek/DeepSeek-静态分析.xlsx",
-      "bytes": 661499,
-      "sha256": "e387e6b462af7e86f9d378f5afc151f1564178689ff0a84a9c3b0305cb4a1341"
+      "bytes": 662568,
+      "sha256": "74cbdbf4847f7e2af02b8465c34c1c7d43f0e7b4dfda32bfbcf15178eb47f94f",
+      "title": "静态分析工作簿",
+      "category": "分析与比较",
+      "scope": "5 个 sheet；21 版成本/并行示例、43 个跨家族条目、机制与算子条件。V4.1 缓存交互计算见网站。"
     },
     {
       "name": "DeepSeek-cost-scenarios.csv",
       "path": "assets/deepseek/DeepSeek-cost-scenarios.csv",
       "bytes": 28125,
-      "sha256": "ee988e1bd77a2f65aa371d171140cab44566563f946bd32666f3514920a0b27f"
+      "sha256": "ee988e1bd77a2f65aa371d171140cab44566563f946bd32666f3514920a0b27f",
+      "title": "21 版成本示例",
+      "category": "分析与比较",
+      "scope": "84 个固定成本场景；不含 V4.1，不含实测延迟或吞吐。"
     },
     {
       "name": "DeepSeek-parallel-scenarios.csv",
       "path": "assets/deepseek/DeepSeek-parallel-scenarios.csv",
       "bytes": 14946,
-      "sha256": "6e110dd0d6afb9df75178a6127635f0fdf2a6c4b3fc01269ba1b52f3537c9916"
+      "sha256": "6e110dd0d6afb9df75178a6127635f0fdf2a6c4b3fc01269ba1b52f3537c9916",
+      "title": "21 版并行示例",
+      "category": "分析与比较",
+      "scope": "63 个固定 TP/DP 与路由假设场景；不含 V4.1。"
+    },
+    {
+      "name": "跨家族比较.json",
+      "path": "assets/deepseek/跨家族比较.json",
+      "bytes": 278618,
+      "sha256": "a8658b0809f561c90d2fd53fa47ea2b48b1d3b9de9352247305c8576465f51b3",
+      "title": "跨家族比较 JSON",
+      "category": "分析与比较",
+      "scope": "DeepSeek、Kimi、GLM 共 43 个条目；逐事实保留来源与核验深度。"
+    },
+    {
+      "name": "跨家族比较.csv",
+      "path": "assets/deepseek/跨家族比较.csv",
+      "bytes": 29882,
+      "sha256": "09986fa6e314f0347ebba966e1f6ff46cca791768f42d4c8db86cc1b386d8255",
+      "title": "跨家族比较 CSV",
+      "category": "分析与比较",
+      "scope": "43 个条目，包含 V4.1；未核验的历史项保留未知。"
     },
     {
       "name": "DeepSeek-CANN-contracts.csv",
       "path": "assets/deepseek/DeepSeek-CANN-contracts.csv",
       "bytes": 2770923,
-      "sha256": "a4364fbb1d40ea520a5031d2d6329a646a1b53b878d1c955305ada1d3e70782f"
+      "sha256": "a4364fbb1d40ea520a5031d2d6329a646a1b53b878d1c955305ada1d3e70782f",
+      "title": "完整 CANN 条件表",
+      "category": "算子与源码证据",
+      "scope": "固定 v9.2.0-beta.2 的 30 个家族、4,207 条 API 条件；不等于设备运行支持证明。"
     },
     {
-      "name": "跨家族比较.json",
-      "path": "assets/deepseek/跨家族比较.json",
-      "bytes": 267693,
-      "sha256": "cb04d6bbd902d4fcf04f51ff2a006984012a378552ea5119dc4ef7513534f450"
+      "name": "DeepSeek-implementation-hardware-ascend.md",
+      "path": "assets/deepseek/DeepSeek-implementation-hardware-ascend.md",
+      "bytes": 71039,
+      "sha256": "94c98769ef13e5edfed90a6a514eb926fbb46b689c631db9a363c2d3b2e4cff9",
+      "title": "实现与 Ascend 静态研究",
+      "category": "算子与源码证据",
+      "scope": "16 个实现专题，含 5 个 V4.1 专题；实际 ABI、数值和性能未测。"
     },
     {
-      "name": "跨家族比较.csv",
-      "path": "assets/deepseek/跨家族比较.csv",
-      "bytes": 28038,
-      "sha256": "148b8a50cd4ae06cd8a9a2a7069e3be412fd45ce96f83609677ccf0ba69c7be5"
+      "name": "DeepSeek-sources.csv",
+      "path": "assets/deepseek/DeepSeek-sources.csv",
+      "bytes": 29237,
+      "sha256": "4af478f34b21268bab3a4318a05940b8664027c6de7295e7a22e3e5e9f718f96",
+      "title": "实现专题来源索引",
+      "category": "算子与源码证据",
+      "scope": "硬件/实现专题使用的固定来源，包含 V4.1；完整证明另见源码 JSON。"
     },
     {
-      "name": "DeepSeek-研究报告包.zip",
-      "path": "assets/deepseek/DeepSeek-研究报告包.zip",
-      "bytes": 8346557,
-      "sha256": "e61cbbdddd551600171fa364e7969b0ba75661b235126b0637ac0c5cac9d1e5e"
+      "name": "DeepSeek-source-proofs.json",
+      "path": "assets/deepseek/DeepSeek-source-proofs.json",
+      "bytes": 1010139,
+      "sha256": "9577e7909b3d2b7a186b81dac468760ea938af6520f2d402891bd86ebffdedba",
+      "title": "21 版参考函数证明",
+      "category": "算子与源码证据",
+      "scope": "基础研究的固定 AST 函数与来源；V4.1 的 19 个函数证明在本版 architecture JSON 中。"
+    },
+    {
+      "name": "DeepSeek-validation.json",
+      "path": "assets/deepseek/DeepSeek-validation.json",
+      "bytes": 1118,
+      "sha256": "f7eb05c3540538a3deaee969b97f601c2ce0cc5d81fa18258f134bd310b3465f",
+      "title": "21 版基础校验摘要",
+      "category": "算子与源码证据",
+      "scope": "既有 21 版校验快照；当前完整范围通过默认终端校验，不自动生成新记录。"
+    },
+    {
+      "name": "DeepSeek-MTP-DSpark.json",
+      "path": "assets/deepseek/DeepSeek-MTP-DSpark.json",
+      "bytes": 20198,
+      "sha256": "4c7ed423799b874cae459dfc08374e7fa82a0208d2c5702c3a795565b1e3f6a2",
+      "title": "MTP / DSpark 基础协议",
+      "category": "算子与源码证据",
+      "scope": "21 版参考构造、共享口径与服务边界；V4.1 的独立专家配置见本版专题。"
+    },
+    {
+      "name": "DeepSeek-backend-trace.json",
+      "path": "assets/deepseek/DeepSeek-backend-trace.json",
+      "bytes": 10509,
+      "sha256": "469ac966ba02a44be2a0d0e868b6861fb58e94a870c31a3a7116da6bc4fe7d29",
+      "title": "基础后端追踪",
+      "category": "算子与源码证据",
+      "scope": "固定版本的 dispatcher、wrapper、host/tiling 证据；未证明 V4.1 专用后端已接入。"
+    },
+    {
+      "name": "DeepSeek-CANN-operators.json",
+      "path": "assets/deepseek/DeepSeek-CANN-operators.json",
+      "bytes": 702011,
+      "sha256": "d29ab863d21083aea344be0861888aff544d73fb92347dc99c7fc2213aff4017",
+      "title": "CANN 源码与本地包核查",
+      "category": "算子与源码证据",
+      "scope": "30 个家族、固定 tag、桥接范围及本地 SDK 只读证据；不含设备实验。"
+    },
+    {
+      "name": "R1-config-tokenizer-comparison.json",
+      "path": "assets/deepseek/R1-config-tokenizer-comparison.json",
+      "bytes": 15780,
+      "sha256": "6367cafa0ab3fd2fe9d41a4848e947c76035caf4d263b32708198ed076afa11d",
+      "title": "R1 Distill 配置与 tokenizer 对比",
+      "category": "算子与源码证据",
+      "scope": "六版原始 Distill 的配置/tokenizer 元数据比较；完整 BPE 见独立文件。"
+    },
+    {
+      "name": "R1-full-tokenizer-audit.json",
+      "path": "assets/deepseek/R1-full-tokenizer-audit.json",
+      "bytes": 8893,
+      "sha256": "b326d2927e101229c0df837574c025be089ca95da5dcb56b79ef5d2a322d16bf",
+      "title": "R1 Distill 完整 tokenizer / BPE",
+      "category": "算子与源码证据",
+      "scope": "六版完整公开 tokenizer 与四个 Qwen 底座；两个 Llama 底座 gated，差异未知。"
     }
   ],
   "reportPath": "data/families/deepseek/report.json",
   "officialDirectory": "https://huggingface.co/deepseek-ai",
   "documentCenterUrl": "#/family/deepseek/sources",
   "overview": {
-    "title": "从 MLA、压缩注意力到 MTP/DSpark 推测解码",
-    "conclusion": "V3.2 增加 DSA indexer；V4 重建 KV 压缩、分组输出投影与 mHC，并区分 hash/score 路由。MTP 与 DSpark 的独立草稿、缓存、验证和调度分别研究；R1 后训练与蒸馏底座分开，设备兼容和性能保留具体条件。",
+    "title": "从 MLA 到跨层缓存共享、条件内存与原生视觉",
+    "conclusion": "V3.2 增加 DSA，V4 重建压缩与 mHC；V4.1 Flash 改为 CED、CSA2 缓存/索引共享和 Single-Pass mHC，加入 Engram 与原生视觉。主干、条件内存、草稿模块、论文部署与可读实现分列。",
     "highlights": [
       {
         "id": "v3",
@@ -4504,11 +4836,15 @@
       {
         "id": "r1",
         "label": "R1 · 后训练与蒸馏"
+      },
+      {
+        "id": "v4.1-flash",
+        "label": "V4.1 Flash · CED / CSA2 / Engram / 视觉"
       }
     ]
   },
-  "historyNote": "这是架构与训练关系路线，不证明所有相邻 checkpoint 直接继承权重。Max 档位是推理模式；V4.1 等后续条目仍在既定首版范围之外。",
-  "auditNote": "当前 21 个 checkpoint 都审计全部分片的 header/data_offsets，各模型使用自己的实际存储；不读取权重数值，不由同形状推定同权重或共享别名。",
+  "historyNote": "架构与训练关系不证明相邻 checkpoint 直接继承权重。V4.1 Flash 已作为独立 CED/CSA2/Engram/视觉条目纳入；Max/1–100 reasoning effort 是推理设置。",
+  "auditNote": "21 个既有 checkpoint 完整审计 header/data_offsets；新增 V4.1 Flash 未做权重文件头审计，stored shape/dtype/payload 均为空。",
   "limitations": "逻辑结构不等于任意框架上的执行图；原始权重、转换精度、kernel 分派与设备实测分开记录。设备实验不在本次范围，不提供实测速度排名。",
   "technology": [
     {
@@ -4546,6 +4882,12 @@
       "title": "CANN 开源与 SDK",
       "section": "cann",
       "summary": "匹配版本的开源算子、op-plugin bridge 与本地安装资料；源码、库、ABI 与设备验证分开。"
+    },
+    {
+      "id": "v41",
+      "title": "V4.1 Flash",
+      "section": "v41",
+      "summary": "因果 Encoder–Decoder、跨层 KV/Top-K 共享、Engram、视觉与 Single-Pass mHC。"
     }
   ],
   "scenarios": [

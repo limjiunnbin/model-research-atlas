@@ -34,10 +34,10 @@
       "id": "deepseek",
       "name": "DeepSeek",
       "publisher": "DeepSeek",
-      "description": "V3 可复核基线、V3.2 DSA、V4 压缩注意力与 mHC、MTP/DSpark 推测解码，以及 R1/Distill 底座关系。",
+      "description": "MLA/DSA、V4 压缩注意力，以及 V4.1 Flash 的 CED、CSA2、Engram、原生视觉与 DSpark。",
       "path": "data/families/deepseek/family.json",
-      "updated": "2026-10-01",
-      "modelCount": 21,
+      "updated": "2026-10-08",
+      "modelCount": 22,
       "figureCount": 4,
       "topics": [
         "MLA / DSA / CSA / HCA",
@@ -45,9 +45,9 @@
         "Ascend 源码研究"
       ],
       "counts": [
-        "21 个代表 checkpoint",
-        "全部 checkpoint 文件头审计",
-        "MTP / DSpark 与服务协议"
+        "22 个代表 checkpoint",
+        "21 版文件头审计；V4.1 配置/源码",
+        "CED / CSA2 / Engram / 视觉 / DSpark"
       ]
     }
   ],

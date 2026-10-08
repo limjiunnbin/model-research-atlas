@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "familyId": "deepseek",
-  "snapshot": "2026-10-01",
+  "snapshot": "2026-10-08",
   "models": [
     {
       "name": "DeepSeek-V2",
@@ -513,6 +513,30 @@
       "evidence": "official",
       "verifiedTo": "official_directory+model_card_or_README",
       "configVerified": false
+    },
+    {
+      "name": "DeepSeek-V4.1-Flash",
+      "modelId": "deepseek-ai/DeepSeek-V4.1-Flash",
+      "revision": "2cba9e42aa026125f3ed06c6d98c1db82f7ca027",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/tree/2cba9e42aa026125f3ed06c6d98c1db82f7ca027",
+      "summary": "约 552B 主干 + 196B Engram；原生视觉；CED 20+20 层，CSA2 跨层共享、Single-Pass mHC 与 3-stage DSpark。",
+      "kind": "multimodal_causal_encoder_decoder",
+      "baseModel": null,
+      "evidence": "official",
+      "verifiedTo": "fixed_config+native_reference+technical_report",
+      "configVerified": true,
+      "materials": {
+        "modelCard": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/README.md",
+        "config": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json",
+        "referenceCode": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/model.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/vision.py",
+          "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/engram.py"
+        ],
+        "papers": [
+          "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf"
+        ]
+      }
     }
   ],
   "modes": [
@@ -530,7 +554,6 @@
     }
   ],
   "deferred": [
-    "deepseek-ai/DeepSeek-V4.1-Flash",
     "deepseek-ai/DeepSeek-V4-Flash-0731",
     "deepseek-ai/DeepSeek-V4-Pro-0813",
     "deepseek-ai/DeepSeek-V4-Flash-Vision-Exp",
@@ -551,5 +574,5 @@
     "deepseek-ai/DeepSeek-V3.2-Exp-Base",
     "deepseek-ai/DeepSeek-V3.2-Speciale"
   ],
-  "limit": "17 个选定代表 checkpoint；目录有 V4.1、V3.1、R1-0528 等条目，后续再评估，非完整版本清单"
+  "limit": "22 个选定代表 checkpoint；V4.1 为配置/源码/论文研究，另 21 版有完整文件头；非全量官方产品目录。"
 }

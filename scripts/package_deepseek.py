@@ -36,9 +36,9 @@ def package():
  for source,target in [('speculation.json','DeepSeek-MTP-DSpark.json'),('r1-full-tokenizer-audit.json','R1-full-tokenizer-audit.json'),('backend-trace.json','DeepSeek-backend-trace.json')]:shutil.copyfile(DATA/'research'/source,OUT/target)
  shutil.copyfile(DATA/'research/cann-operator-audit.json',OUT/'DeepSeek-CANN-operators.json')
  archive(OUT/'DeepSeek-header-audits.zip',[(p.name,p) for p in (DATA/'research/header-audits').glob('*.json')])
- readme=(ROOT/'research/deepseek/README.md').read_text().replace('../../dist/assets/deepseek/','').replace('../../roadmap_deepseek.md','DeepSeek-roadmap.md')
+ readme=(ROOT/'research/deepseek/README.md').read_text().replace('../../dist/assets/deepseek/','').replace('../../roadmap_deepseek.md','DeepSeek-roadmap.md').replace('(v4.1-flash.md)','(DeepSeek-V4.1-Flash-研究.md)')
  (OUT/'README.md').write_text(readme)
- roadmap=packaged_markdown((ROOT/'roadmap_deepseek.md').read_text(),{'research/deepseek/README.md':'README.md','research/deepseek/validation/browser-validation.json':'metadata/browser-validation.json','data/families/deepseek/research/v3-round1.json':'round1/v3-round1.json'},[('dist/assets/deepseek/',''),('research/deepseek/round1/','round1/')])
+ roadmap=packaged_markdown((ROOT/'roadmap_deepseek.md').read_text(),{'research/deepseek/README.md':'README.md','research/deepseek/v4.1-flash.md':'DeepSeek-V4.1-Flash-研究.md','research/deepseek/validation/browser-validation.json':'metadata/browser-validation.json','data/families/deepseek/research/v3-round1.json':'round1/v3-round1.json'},[('dist/assets/deepseek/',''),('research/deepseek/round1/','round1/')])
  (OUT/'DeepSeek-roadmap.md').write_text(roadmap)
  metadata=OUT/'metadata';metadata.mkdir(exist_ok=True)
  shutil.copytree(DATA/'research/r1-tokenizers',metadata/'r1-tokenizers',dirs_exist_ok=True)
@@ -46,7 +46,8 @@ def package():
  write(metadata/'family.json',public_family)
  for name in ['report.json','hardware.json','sources.json','extended-sources.json','backend-sources.json','followup-sources.json','cann-sources.json','analysis.json','analysis-sources.json']:
   shutil.copyfile(DATA/name,metadata/name)
- for path in DATA.glob('*-architecture.json'):shutil.copyfile(path,metadata/path.name)
+ for path in DATA.glob('*-architecture.json'):
+  if path.name!='v4.1-flash-architecture.json':shutil.copyfile(path,metadata/path.name)
  for name in ['export-manifest.json','source-validation.json','schema-validation.json','privacy-validation.json','cann-package-audit.json','cann-source-selection.json','analysis-proofs.json','analysis-validation.json','analysis-math-validation.json','analysis-export-manifest.json','analysis-export-validation.json','analysis-scenarios.json']:
   source=DATA/'research'/name
   if source.is_file():shutil.copyfile(source,metadata/name)
@@ -95,5 +96,9 @@ CSV 为 UTF-8 BOM、CRLF；XLSX 中主干参数等数字保持数值类型。原
  # Rebuild the deterministic report archive after updating the downloadable compute file.
  archive(OUT/'DeepSeek-研究报告包.zip',[(p,OUT/p) for p in paths if p!='DeepSeek-研究报告包.zip']+extras)
  raw=(OUT/'DeepSeek-研究报告包.zip').read_bytes();entry=next(d for d in family['downloads'] if d['name']=='DeepSeek-研究报告包.zip');entry.update(bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest());write(DATA/'family.json',family)
+ if (DATA/'v4.1-flash-architecture.json').is_file():
+  from build_deepseek_v41 import package_current
+  package_current()
+  family=read(DATA/'family.json')
  print('DeepSeek package:',len(family['downloads']),'downloads;',manifest['expandedRows'],'expanded CSV rows')
 if __name__=='__main__':package()

@@ -53,5 +53,10 @@
     "id": "analysis",
     "title": "11. 静态成本、算子契约与系统分析",
     "html": "<h2>11. 静态成本、算子契约与系统分析</h2><p>静态分析扩展覆盖 21 个 checkpoint 的主干成本、30 个 CANN 契约家族、固定版本的并行/通信与五个机制教学演示。成本只统计声明矩阵收缩和逻辑容量，支持与数值边界保持。</p><p>网站新增成本计算器、CANN 约束手册、并行/通信计算和机制步进页；主页另有跨家族比较，保留 DeepSeek、Kimi、GLM 的不同读取深度与统计口径。</p><p>完整公式、条件、示例与来源见 <a href=\"assets/deepseek/DeepSeek-静态分析.md\">静态分析说明</a>、<a href=\"assets/deepseek/DeepSeek-静态分析.xlsx\">分析工作簿</a> 和 <a href=\"assets/deepseek/DeepSeek-静态分析.json\">分析 JSON</a>。设备实验仍不在本次范围。</p>"
+  },
+  {
+    "id": "v41",
+    "title": "12. V4.1 Flash：CED、CSA2、Engram 与原生视觉",
+    "html": "<h2>V4.1 Flash 采用独立的多模态架构</h2><p>40 层语言主干分成 20 层因果 encoder 和 20 层 decoder，另有 32 层 ViT。官方披露约 552B 主干与 196B Engram；prefill/decode 激活约 8B/16B。配置为 384 选 6 MoE，一个共享专家，三层 DSpark 则为 128 选 3。</p><p>CSA2 在 0-based 2/8/14/20 四个 Full 层持有全局 KV；24/28/32/36 为 Reindex，其余 30 个 CSA2 层 Reuse；最前两层仅 SWA。前三份缓存 ratio=2，decoder 缓存 ratio=1。FP4 main KV 每条 288 B、index K 每条 68 B，打包全局缓存为 (3×floor(N/2)+N)×356 B，偶数长度时为 890N B；窗口、压缩状态与临时张量另计。</p><p>Single-Pass mHC 使用上一子层的 input-mixing 系数；Engram 位于 0-based 1/14，以 2/3/4-gram 哈希查表加入条件内存；ViT 用 2D RoPE 和 3×3 pixel-unshuffle。DSpark 五位置并行 logits、顺序 Markov 与 confidence 继续分开。</p><p>论文的 bounded replay 是近似状态恢复。可读参考仍对 prefill 遍历全部 40 层，先完整打分再掩 candidate，并用默认 dtype cache 模拟 FP4；不等于优化的生产 CED、稀疏候选打分或 Mega-mHC。本版提供按真实打包 FP4/FP8 格式计算的部署缓存页面；FLOPs 和通信不套用旧 21-model 的公式。本站未做本版权重头审计或设备运行。</p><p><a href=\"document.html?file=assets/deepseek/DeepSeek-V4.1-Flash-研究.md\">阅读全文、训练与评测条件、版本比较和 Ascend 静态分析 →</a></p>"
   }
 ]

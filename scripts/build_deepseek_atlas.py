@@ -311,6 +311,7 @@ def build():
  e=Evidence();versions=read(DATA/'versions.json');versions['models']=versions['models']+read(DATA/'research/followup-checkpoints.json')['models'];audit=read(DATA/'research/v3-header-audit.json');models=[];architectures={};config_diffs=[]
  reference=read(DATA/'configs/DeepSeek-V3-config.json')
  for v in versions['models']:
+  if v['name']=='DeepSeek-V4.1-Flash':continue  # Added with its independent CED/config reference builder below.
   name=v['name'];mid=slug(name);c=read(DATA/'configs'/f'{name}-config.json');csid=e.select(name,'config.json')
   if c['model_type']=='deepseek_v4':nodes,cache,sid=v4_arch(e,name,c)
   elif c['model_type'] in ('qwen2','llama'):nodes,cache,sid=gqa_arch(e,name,c)
@@ -403,3 +404,7 @@ if __name__=='__main__':
  if args.research_root:
   CACHES.update({name:args.research_root/group for name,group in {'sources.json':'round1','extended-sources.json':'extended','backend-sources.json':'backends','followup-sources.json':'followup','cann-sources.json':'cann'}.items()})
  build()
+ if (DATA/'configs/DeepSeek-V4.1-Flash-config.json').is_file():
+  from build_deepseek_v41 import inputs, architecture, install
+  inputs(fetch=True)
+  config,arch=architecture();install(config,arch)

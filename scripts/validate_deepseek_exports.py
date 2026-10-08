@@ -110,6 +110,11 @@ def cell_address(row, column):
 
 def validate():
     family, compute = read(DATA / 'family.json'), read(DATA / 'compute.json')
+    # This existing workbook is the 21-checkpoint full-header/compute export.
+    # Config/reference additions have separate exports and no borrowed audit values.
+    family = dict(family)
+    compute_ids = {m['id'] for m in compute['models']}
+    family['models'] = [m for m in family['models'] if m['id'] in compute_ids]
     evidence, hardware = read(DATA / 'research/site-proofs.json'), read(DATA / 'hardware.json')
     manifest = read(DATA / 'research/export-manifest.json')
     downloadable = dict(compute)
@@ -168,6 +173,8 @@ def validate():
         assert archive.testzip() is None and len(archive.namelist()) == len(set(archive.namelist()))
         for name in archive.namelist():
             path = DATA / name if name.startswith('configs/') else OUT / name
+            if name.startswith('metadata/') and name.endswith('-architecture.json'):
+                path = DATA / Path(name).name
             assert archive.read(name) == path.read_bytes(), name
         from html.parser import HTMLParser
         from urllib.parse import unquote, urlsplit

@@ -46,7 +46,7 @@ python3 scripts/serve.py
 ## 已实现
 
 - 模型家族 → 家族研究主页 → 版本详情、历史与技术演进、研究资料。
-- Kimi 18 个历史/公开版本条目，GLM 3 个配方研究条目，DeepSeek 21 个代表 checkpoint；支持搜索、分支/应用筛选与版本并列比较。
+- Kimi 18 个历史/公开版本条目，GLM 3 个配方研究条目，DeepSeek 22 个代表 checkpoint（21 版文件头基线 + V4.1 配置/源码研究）；支持搜索、分支/应用筛选与版本并列比较。
 - 完整报告逐章/全文阅读，11 张图、30 份原始资料附件及 SHA-256，另有实现研究报告与来源 CSV，按需下载。
 - 原生 WebGL 三维结构：旋转、缩放、选层、前后层、跳层、聚焦、整体/拆解、模块/矩阵逐级进入。
 - 八个主线版本均支持配置结构；其中七个有完整权重头审计。K2-Base 使用同尺寸 Instruct 模板推导，明确注明不是 Base 文件头审计。
@@ -78,7 +78,7 @@ python3 scripts/serve.py
 
 ## 来源与维护
 
-各专题保留自己的快照日期：Kimi 2026-09-19 起，GLM 2026-09-30，DeepSeek 2026-10-01。已有资料从原任务复制，未移动或修改原文件。所有原始下载文件含哈希，模型卡与固定 revision 在网站来源页及报告内保留。
+各专题保留自己的快照日期：Kimi 2026-09-19 起，GLM 2026-09-30，DeepSeek 基线 2026-10-01、V4.1 Flash 2026-10-08。已有资料从原任务复制，未移动或修改原文件。所有原始下载文件含哈希，模型卡与固定 revision 在网站来源页及报告内保留。
 
 证据枚举：`official` 官方披露；`derived` 计算推导；`interpretation` 解释判断；`unknown` 未知。未知值为 JSON `null`，不填零或估计日期。产品模式、思考档位不自动视为新检查点。能力定位不是统一评测排名。
 
@@ -114,7 +114,9 @@ GitHub Actions 验证数据后将 `dist/` 发布到 GitHub Pages；所有资源�
 
 ## DeepSeek 静态研究与网站
 
-研究日期：2026-10-01。已完成选定范围的 P0–P5 及本轮静态缺口补齐，入口为 `#/family/deepseek`、[完整报告](dist/assets/deepseek/DeepSeek-研究报告.md)、[复现说明](research/deepseek/README.md) 与 [roadmap](roadmap_deepseek.md)。覆盖 V2、V3/Base、原始 R1/Zero、六版 Distill、V3.2/Exp、V4 Flash/Pro 的 Base 与后训练版，以及 Flash/Pro-DSpark、Flash-0731/Pro-0813，共 21 个 checkpoint。
+当前覆盖 22 个代表 checkpoint：[V4.1 Flash 独立研究](research/deepseek/v4.1-flash.md) 已接入版本、40 个语言层/32 个视觉层/3 个 DSpark stage 的结构、五个实现专题、报告、下载和跨家族比较。新增部分为固定配置/源码/论文研究，未审计权重存储；CED、CSA2、Engram、原生视觉、Single-Pass mHC、DSpark、缓存与阶段口径分开，旧 21-model 的 FLOPs/通信公式不套用到本版；新增独立缓存页按真实 NVFP4 变体、MXFP4 和 MXFP8 打包容量计算。
+
+21-model 基线研究日期：2026-10-01。已完成选定范围的 P0–P5 及静态缺口补齐，入口为 `#/family/deepseek`、[完整报告](dist/assets/deepseek/DeepSeek-研究报告.md)、[复现说明](research/deepseek/README.md) 与 [roadmap](roadmap_deepseek.md)。覆盖 V2、V3/Base、原始 R1/Zero、六版 Distill、V3.2/Exp、V4 Flash/Pro 的 Base 与后训练版，以及 Flash/Pro-DSpark、Flash-0731/Pro-0813，共 21 个 checkpoint。
 
 21 份架构包含 1,122 个主干层和 93 个全局/独立组件，compute 用 145 模板展开 76,502 个步骤；prefill/decode、参考分支、逻辑矩阵、cache、mHC、MTP、DSpark 与来源分开记录。实现研究提供 11 专题、2 条件平台和 7 候选实验，附四张 SVG、[七 sheet XLSX](dist/assets/deepseek/DeepSeek-模型与算子.xlsx)、[全层 CSV](dist/assets/deepseek/DeepSeek-all-layer-shapes.csv)、[21 份分模型表](dist/assets/deepseek/DeepSeek-per-model-tables.zip) 与 [完整研究包](dist/assets/deepseek/DeepSeek-研究报告包.zip)。
 

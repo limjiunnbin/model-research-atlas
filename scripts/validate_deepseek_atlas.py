@@ -55,7 +55,7 @@ def dimension(text,env):
   raise ValueError(text)
  result=visit(ast.parse(str(text),mode='eval').body);assert isinstance(result,int) and result>=0;return result
 
-def validate(check_downloads=True):
+def validate(check_downloads=True, write_record=False):
  family=read(DATA/'family.json');compute=read(DATA/'compute.json');hardware=read(DATA/'hardware.json');evidence=read(DATA/'research/site-proofs.json');audit=read(DATA/'research/v3-header-audit.json');checks=collections.Counter()
  assert family['id']==compute['familyId']==hardware['familyId']=='deepseek'
  assert family['acceptanceScope']['deviceExperimentsRequired'] is False
@@ -68,9 +68,15 @@ def validate(check_downloads=True):
   assert proof['sourceSha256']==source['sha256'] and proof['revision']==source['revision'] and proof['path']==source['path']
   assert 0<proof['line']<=proof['end'] and len(proof['functionSha256'])==64
  checks['sourceFiles']=len(evidence['sources']);checks['functionProofs']=len(evidence['proofs'])
- ids={m['id'] for m in family['models']};assert len(ids)==21
+ ids={m['id'] for m in family['models'] if m.get('auditPath')};assert len(ids)==21
+ from validate_deepseek_v41 import validate as validate_v41
+ for model in family['models']:
+  if model['id'] not in ids:
+   assert model['id']=='v4.1-flash',model['id']
+   validate_v41()
  sections={s['id'] for s in read(DATA/'report.json')};assert all(set(m['sections'])<=sections for m in family['models'])
  for m in family['models']:
+  if m['id'] not in ids:continue
   c=read(ROOT/m['configPath']);a=read(ROOT/m['architecturePath']);expected,mtp=parameters(c)
   assert a['modelId']==m['id'] and a['mainLogicalParameters']==expected==m['facts']['parameters']['value'],m['id']
   language=[n for n in a['nodes'] if n['group']=='decoder'];assert [n['number'] for n in language]==list(range(1,c['num_hidden_layers']+1))
@@ -167,7 +173,8 @@ def validate(check_downloads=True):
  checks['cannOperatorFamilies']=30;checks['cannSourceRanges']=len(cann['codeRanges'])
  result={'status':'passed','date':'2026-10-01','scope':'21 checkpoint 全文件头/矩阵、独立 MTP/DSpark、CANN 固定来源/范围、shape、引用与导出','checks':dict(checks),'exports':exports,'downloadsChecked':check_downloads,'computeSteps':total,'computeTemplates':len(compute['templates']),'deviceExperiments':'excluded_from_current_scope_by_user','limits':['没有执行权重值加载或设备实验','Llama 原底座 gated，差异保留未知','header 不证明上游训练共享别名或权重值相同','CANN 相关源码/包内资料可查；实际库/分派、ABI、编译与设备数值仍未由静态研究证明']}
  write_json=__import__('collect_deepseek_round1').write_json
- write_json(DATA/'research/atlas-validation.json',result);print(json.dumps(result,ensure_ascii=False));return result
+ if write_record:write_json(DATA/'research/atlas-validation.json',result)
+ print(json.dumps(result,ensure_ascii=False));return result
 
 if __name__=='__main__':
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--skip-downloads',action='store_true');validate(not p.parse_args().skip_downloads)

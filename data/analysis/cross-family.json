@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "snapshot": "2026-10-02",
+  "snapshot": "2026-10-08",
   "families": [
     {
       "id": "kimi",
@@ -5869,6 +5869,208 @@
       "evidenceDepth": "结构表可读；各事实仍按各自证据类别核对",
       "inputFamilyPath": "data/families/deepseek/family.json",
       "inputModelSha256": "9c48dc5a3761ba0e6f62de5651ea1c06b9f86b40480456429dcedc75a500465d"
+    },
+    {
+      "key": "deepseek:v4.1-flash",
+      "familyId": "deepseek",
+      "family": "DeepSeek",
+      "id": "v4.1-flash",
+      "name": "DeepSeek-V4.1-Flash",
+      "revision": "2cba9e42aa026125f3ed06c6d98c1db82f7ca027",
+      "branch": "主线",
+      "summary": "约 552B 主干 + 196B Engram；原生视觉；CED 20+20 层，CSA2 跨层共享、Single-Pass mHC 与 3-stage DSpark。",
+      "facts": {
+        "layers": {
+          "value": 40,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "hidden": {
+          "value": 5120,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "heads": {
+          "value": 64,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "experts": {
+          "value": 384,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "topK": {
+          "value": 6,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "shared": {
+          "value": 1,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "expertInput": {
+          "value": 5120,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "expertWidth": {
+          "value": 2304,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "denseWidth": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "context": {
+          "value": 1048576,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "vocab": {
+          "value": 129280,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "visionLayers": {
+          "value": 32,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "visionHidden": {
+          "value": 1024,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "attention": {
+          "value": "CED 20+20；SWA 2 / CSA2 Full 4 / Reindex 4 / Reuse 30",
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "quantization": {
+          "value": "配置 FP8 / UE8M0 32×32 scales；routed experts FP4；global KV 为省略 global scale 的 NVFP4 变体（E2M1+E4M3/16）；index K MXFP4/32；SWA MXFP8（E4M3+E8M0/32）；实际存储未审计",
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "parameters": {
+          "value": 552000000000,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf",
+          "note": "官方约数：主干 552B，另有约 196B Engram；不等于全部发布张量/辅助模块之和。精确参考构造计数见结构 JSON。"
+        },
+        "payload": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "qRank": {
+          "value": 1280,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "kvRank": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "streams": {
+          "value": 4,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "headDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "valueHeadDim": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "indexTopK": {
+          "value": 512,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "mtpParameters": {
+          "value": null,
+          "evidence": "unknown",
+          "source": null
+        },
+        "dsparkParameters": {
+          "value": 14225362530,
+          "evidence": "derived",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/model.py",
+          "note": "参考构造；排除共享目标 embedding/head，未核对发布存储副本。"
+        },
+        "dsparkStages": {
+          "value": 3,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "draftBlock": {
+          "value": 5,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "markovRank": {
+          "value": 256,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json"
+        },
+        "engramParameters": {
+          "value": 196000000000,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf",
+          "note": "官方约数；两处条件内存，查表不是 dense GEMM。"
+        },
+        "activePrefillParameters": {
+          "value": 8000000000,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf",
+          "note": "论文 CED + bounded replay 部署口径；窗口回放另有固定成本。"
+        },
+        "activeDecodeParameters": {
+          "value": 16000000000,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf"
+        },
+        "encoderLayers": {
+          "value": 20,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf"
+        },
+        "decoderLayers": {
+          "value": 20,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf"
+        },
+        "globalCacheBytesPerToken": {
+          "value": 890,
+          "evidence": "official",
+          "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf",
+          "note": "全局打包缓存，排除 SWA、临时状态、分页对齐与 DSpark；有限长度用 floor(N/2) 公式。"
+        }
+      },
+      "source": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/tree/2cba9e42aa026125f3ed06c6d98c1db82f7ca027",
+      "detailPath": "#/family/deepseek/model/v4.1-flash",
+      "architecturePath": "data/families/deepseek/v4.1-flash-architecture.json",
+      "configPath": "data/families/deepseek/configs/DeepSeek-V4.1-Flash-config.json",
+      "auditPath": null,
+      "parameterScope": "主干为参考构造的语言权重（不含 Engram、ViT/projector、DSpark、scale、非训练哈希/词表映射）；官方约 552B 主干与约 196B Engram 分列。DSpark embed/head 引用共享对象，未重复计数；逻辑构造不证明发布文件的别名或实际载荷。",
+      "cache": {
+        "swa": "40 个主干层各有 [B,128,512] 局部 KV；真实部署按 MXFP8：E4M3 数据 + 每 32 通道一个 E8M0 scale，每记录 528 B；完整窗口合计 2703360×B B。活跃窗口不长期落 SSD，bounded replay 为近似恢复。",
+        "csa2": "只统计 Full 层 0-based 2/8/14/20：前三个各 floor(N/2) 条、最后一个 N 条。每条 main KV=288 B，index K=68 B；打包全局缓存=(3×floor(N/2)+N)×356 B，N 为偶数时=890N B。不含窗口、FP32 compressor 状态、分页/对齐和 DSpark。Reindex/Reuse 不另存同一全局 cache。真实部署按上述数据与 scale 打包容量；参考模拟不用于容量计算。",
+        "dspark": "三个 draft stage，各有独立 [B,128,512] 目标 context 窗口；prefill 写入 context，draft forward 五位置并行，Markov 顺序修正；不能并入目标主干缓存。",
+        "vision": "单图双向 ViT；32 层，L_img patches 的 Q/K/V 与 attention 中间量；3×3 pixel-unshuffle 后约 ceil(h/3)×ceil(w/3) 个视觉 token；不分配自回归语言 KV。"
+      },
+      "evidenceDepth": "结构表可读；各事实仍按各自证据类别核对",
+      "inputFamilyPath": "data/families/deepseek/family.json",
+      "inputModelSha256": "34bbb3f922dfc7c31508508f012497f3777bdcad41e4f28fbf06d8ffe7d704cc"
     }
   ],
   "dimensions": [
@@ -5887,7 +6089,13 @@
     "payload",
     "quantization",
     "mtpParameters",
-    "dsparkStages"
+    "dsparkStages",
+    "engramParameters",
+    "activePrefillParameters",
+    "activeDecodeParameters",
+    "encoderLayers",
+    "decoderLayers",
+    "globalCacheBytesPerToken"
   ],
   "limits": [
     "家族统计口径和读取深度不同；参数、发布载荷和辅助模块范围保留各自说明。",

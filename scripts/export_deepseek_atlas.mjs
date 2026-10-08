@@ -10,6 +10,8 @@ const root=fileURLToPath(new URL('../',import.meta.url));
 const data=path.join(root,'data/families/deepseek');const out=path.join(root,'dist/assets/deepseek');
 const load=async p=>JSON.parse(await fs.readFile(p,'utf8'));
 const family=await load(path.join(data,'family.json'));const compute=await load(path.join(data,'compute.json'));
+const computeIds=new Set(compute.models.map(m=>m.id));
+family.models=family.models.filter(m=>computeIds.has(m.id));
 const hardware=await load(path.join(data,'hardware.json'));const evidence=await load(path.join(data,'research/site-proofs.json'));
 const speculation=await load(path.join(data,'research/speculation.json'));const tokenizer=await load(path.join(data,'research/r1-full-tokenizer-audit.json'));
 const wb=Workbook.create();

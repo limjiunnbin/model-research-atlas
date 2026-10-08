@@ -116,8 +116,8 @@ assert.equal(checkContract(swiglu,{x:[2,128],dim:2,dtype:'BFLOAT16',layout:'ND'}
 assert.equal(checkContract(mm,{x:[2,128],w:[64,256]}).status,'contradiction');
 assert.equal(checkContract(mm,{x:[2,4,128],w:[2,128,256]}).results[0].status,'unknown');
 checks+=8;
-await fs.writeFile(path.join(root,'data/families/deepseek/research/analysis-scenarios.json'),JSON.stringify({snapshot:data.snapshot,costScenarios:scenarios,parallelScenarios,scope:'Explicit static assumptions; no runtime measurements'},null,2)+'\n');
+if(process.argv.includes('--export-scenarios'))await fs.writeFile(path.join(root,'data/families/deepseek/research/analysis-scenarios.json'),JSON.stringify({snapshot:data.snapshot,costScenarios:scenarios,parallelScenarios,scope:'Explicit static assumptions; no runtime measurements'},null,2)+'\n');
 const record={status:'passed',date:data.snapshot,costCases,independentChecks:checks,costExportScenarios:scenarios.length,parallelExportScenarios:parallelScenarios.length,
  scope:'Canonical matrix enumeration, explicit causal/slot position sums, analytical collectives and synthetic algebra/probabilities; no hardware experiment'};
-await fs.writeFile(path.join(root,'data/families/deepseek/research/analysis-math-validation.json'),JSON.stringify(record,null,2)+'\n');
+if(process.argv.includes('--write-record'))await fs.writeFile(path.join(root,'data/families/deepseek/research/analysis-math-validation.json'),JSON.stringify(record,null,2)+'\n');
 console.log(JSON.stringify(record));

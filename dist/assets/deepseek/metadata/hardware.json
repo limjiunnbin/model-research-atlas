@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "familyId": "deepseek",
-  "updated": "2026-10-01",
+  "updated": "2026-10-08",
   "title": "DeepSeek 实现、硬件条件与可选后续研究",
   "scope": "本次交付为固定来源的静态研究与网站；设备运行/性能验证已按用户要求移出本次范围。",
   "experimentScope": {
@@ -1133,6 +1133,144 @@
         }
       ],
       "bindings": []
+    },
+    {
+      "id": "v41-csa2",
+      "title": "CED、CSA2 与 bounded replay",
+      "models": [
+        "v4.1-flash"
+      ],
+      "flow": [
+        "Encoder 20 层",
+        "四份 Full cache",
+        "Reindex / Reuse",
+        "Decoder query + 局部 SWA"
+      ],
+      "meaning": "Full 4、Reindex 4、Reuse 30；全局缓存与本层 SWA 分开，候选池上限 16384、最终 top-k 512。",
+      "code": "Attention.__init__/_compress_kv 与 SharedAttentionRuntime 保留共享关系；可读 Indexer.forward 先全量 einsum 再 mask，Transformer.forward prefill 遍历全部 40 层。",
+      "hardware": "移植时需要真正按候选位置 gather/score、共享 cache 生命周期与近似 replay；旧 MLA/CSA 的接口或 kernel 名称不证明 CSA2 整体支持。",
+      "limit": "固定源码与论文静态研究；未核验 V4.1 专用 Ascend 后端、实际存储、ABI 或设备数值/性能。设备实验不在本次范围。",
+      "evidence": "配置/参考源码/论文；非设备实测",
+      "refs": [
+        {
+          "id": "v41-model"
+        },
+        {
+          "id": "v41-paper"
+        }
+      ]
+    },
+    {
+      "id": "v41-engram",
+      "title": "Engram 条件内存",
+      "models": [
+        "v4.1-flash"
+      ],
+      "flow": [
+        "Token 压缩与 2/3/4-gram",
+        "24 个哈希地址",
+        "FP8 查表与解量化",
+        "上下文门控加到四流 residual"
+      ],
+      "meaning": "0-based 1/14 两个模块；约 196B 条件内存，查表容量、访存与投影计算分列。",
+      "code": "ParallelEngramEmbedding.forward 本地查表、解量化并 all_reduce；视觉位置排除 n-gram；可读参考没有论文的 host RDMA 后台预取。",
+      "hardware": "NPU 研究涉及 Gather/Embedding、块缩放、投影、哈希状态和跨节点搬运；普通 Gather 可用不代表 Engram 的地址/预取/容量方案成立。",
+      "limit": "固定源码与论文静态研究；未核验 V4.1 专用 Ascend 后端、实际存储、ABI 或设备数值/性能。设备实验不在本次范围。",
+      "evidence": "配置/参考源码/论文；非设备实测",
+      "refs": [
+        {
+          "id": "v41-model"
+        },
+        {
+          "id": "v41-paper"
+        },
+        {
+          "id": "v41-engram"
+        }
+      ]
+    },
+    {
+      "id": "v41-mhc",
+      "title": "Single-Pass mHC",
+      "models": [
+        "v4.1-flash"
+      ],
+      "flow": [
+        "四流 residual",
+        "使用上一子层 pre_mix",
+        "Attention/FFN",
+        "产生下一子层 mixing 系数"
+      ],
+      "meaning": "input-mixing 系数前移一子层，消除当前 reduction 的依赖；n=4 时论文融合路径流量从 20d 到 10d。",
+      "code": "Block.forward 返回 ffn_pre，下一层接收 pre_mix；可读实现仍拆成多次 PyTorch/Kernel 调用。",
+      "hardware": "Mega-mHC 是论文的融合部署路径；现有 CANN Sinkhorn/norm/matmul 的静态来源不证明该融合 kernel 或相同流量。",
+      "limit": "固定源码与论文静态研究；未核验 V4.1 专用 Ascend 后端、实际存储、ABI 或设备数值/性能。设备实验不在本次范围。",
+      "evidence": "配置/参考源码/论文；非设备实测",
+      "refs": [
+        {
+          "id": "v41-model"
+        },
+        {
+          "id": "v41-paper"
+        }
+      ]
+    },
+    {
+      "id": "v41-dspark",
+      "title": "V4.1 DSpark 与服务边界",
+      "models": [
+        "v4.1-flash"
+      ],
+      "flow": [
+        "目标层 37/38/39 attention 输入",
+        "三个 128选3 draft stage",
+        "五位置 logits",
+        "顺序 Markov / confidence",
+        "服务 target verification"
+      ],
+      "meaning": "draft rank=256、block=5、窗口128；主干不包含预训练 MTP，DSpark 独立训练再随策略对齐。",
+      "code": "DSparkBlock prefill 只写 context；forward_spec 提供草稿接口；generate.py 普通自回归，不包含 acceptance/rejection 或 confidence scheduler。",
+      "hardware": "静态前向存在不代表服务栈已支持；verification 长度策略需要真实引擎曲线，本站保持未知。",
+      "limit": "固定源码与论文静态研究；未核验 V4.1 专用 Ascend 后端、实际存储、ABI 或设备数值/性能。设备实验不在本次范围。",
+      "evidence": "配置/参考源码/论文；非设备实测",
+      "refs": [
+        {
+          "id": "v41-model"
+        },
+        {
+          "id": "v41-paper"
+        }
+      ]
+    },
+    {
+      "id": "v41-vision",
+      "title": "原生视觉与 EPD 部署",
+      "models": [
+        "v4.1-flash"
+      ],
+      "flow": [
+        "14×14 patch 线性投影",
+        "32 层双向 ViT / 2D RoPE",
+        "3×3 pixel-unshuffle",
+        "两层 MLP projector",
+        "语言 token 混合"
+      ],
+      "meaning": "ViT hidden=1024、heads=16；projector 9216→5120→5120；视觉 token 与文本联合预训练。",
+      "code": "vision.py 的 ViT/Aligner 与 Transformer.merge_image_embeddings；patch 个数和视觉 L_img 不用语言 L_KV 代替。",
+      "hardware": "论文 EPD 指视觉 Encoder / Prefill / Decode 三类服务，和 CED 的语言 Encoder 不同；NPU 端 SDPA/RoPE/重排/投影的候选映射不是整栈兼容证明。",
+      "limit": "固定源码与论文静态研究；未核验 V4.1 专用 Ascend 后端、实际存储、ABI 或设备数值/性能。设备实验不在本次范围。",
+      "evidence": "配置/参考源码/论文；非设备实测",
+      "refs": [
+        {
+          "id": "v41-model"
+        },
+        {
+          "id": "v41-paper"
+        },
+        {
+          "id": "v41-vision"
+        }
+      ]
     }
   ],
   "platforms": [
@@ -1889,6 +2027,42 @@
       "sha256": "aae80e30b2dbfd1df41b83f51aaba4722e9f2dc3b4479d2a38ce1e32926fac11",
       "accessed": "2026-10-01",
       "kind": "backend_code"
+    },
+    {
+      "id": "v41-model",
+      "title": "DeepSeek-V4.1-Flash / inference/model.py",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/model.py",
+      "revision": "2cba9e42aa026125f3ed06c6d98c1db82f7ca027",
+      "sha256": "4e9ae23620edc8028ccc5d5fef552ab7fdc7dcd6f79608754fe9f67644056f65",
+      "accessed": "2026-10-08",
+      "kind": "reference_code"
+    },
+    {
+      "id": "v41-vision",
+      "title": "DeepSeek-V4.1-Flash / inference/vision.py",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/vision.py",
+      "revision": "2cba9e42aa026125f3ed06c6d98c1db82f7ca027",
+      "sha256": "5d49edc196a4ef22384abe76d35a40098cbe1e74b586c8f66a2edff4f076b26c",
+      "accessed": "2026-10-08",
+      "kind": "reference_code"
+    },
+    {
+      "id": "v41-engram",
+      "title": "DeepSeek-V4.1-Flash / inference/engram.py",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/engram.py",
+      "revision": "2cba9e42aa026125f3ed06c6d98c1db82f7ca027",
+      "sha256": "11f35ecbead8150c35aa002b3d180ef290b05a25afe883a11884f94d476d3897",
+      "accessed": "2026-10-08",
+      "kind": "reference_code"
+    },
+    {
+      "id": "v41-paper",
+      "title": "DeepSeek-V4.1-Flash / DeepSeek_V41_Tech_Report.pdf",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf",
+      "revision": "2cba9e42aa026125f3ed06c6d98c1db82f7ca027",
+      "sha256": "ba68e2e40408125ae6d2f63a9a241b61c73910691c74ec1a2a7023c851eac08d",
+      "accessed": "2026-10-08",
+      "kind": "technical_report"
     }
   ],
   "protocol": [
@@ -1977,6 +2151,12 @@
         "v4-pro-0813"
       ],
       "text": "设备验证不纳入本次验收，所有性能字段保持未知。"
+    },
+    {
+      "models": [
+        "v4.1-flash"
+      ],
+      "text": "V4.1 Flash 为独立 CED/CSA2/Engram/视觉/Single-Pass mHC 架构；已有 V4/MLA/Ascend 后端研究不自动覆盖本版。固定参考代码是可读实现，未实现论文全部生产优化。"
     }
   ],
   "downloads": {

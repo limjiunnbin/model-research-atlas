@@ -14,6 +14,19 @@ export function sumWindow(n, window) {
 }
 const integer = (x, lo, hi) => Number.isSafeInteger(x) && x >= lo && x <= hi;
 
+export function deployedCacheEstimate(model, {batch, length, dspark=true}) {
+  if(!integer(batch,1,1024)||!integer(length,1,model.context))return {valid:false,errors:['Batch 或缓存长度超出有效整数范围']};
+  const s=model.storage;
+  const records=s.fullOwners.reduce((n,owner)=>n+Math.floor(length/owner.ratio),0);
+  const globalMainBytes=batch*records*s.mainRecordBytes;
+  const indexBytes=batch*records*s.indexRecordBytes;
+  const swaBytes=batch*s.languageLayers*s.window*s.swaRecordBytes;
+  const draftBytes=dspark?batch*s.draftStages*s.window*s.swaRecordBytes:0;
+  const stateBytes=batch*s.compressionStateBytesPerRequest;
+  return {valid:true,batch,length,dspark,globalMainBytes,indexBytes,swaBytes,draftBytes,stateBytes,
+    globalBytes:globalMainBytes+indexBytes,totalBytes:globalMainBytes+indexBytes+swaBytes+draftBytes+stateBytes};
+}
+
 export function costEstimate(model, input) {
   const {batch: B, query: Q, history: P, phase, cacheBytes: DTYPE, activationBytes: ACT, weightBytes: WEIGHT} = input;
   const c = model.config, T = P + Q, errors = [];

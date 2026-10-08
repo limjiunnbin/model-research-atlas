@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "snapshot": "2026-10-02",
+  "snapshot": "2026-10-08",
   "path": "assets/deepseek/DeepSeek-静态分析.xlsx",
-  "analysisSha256": "c689ee33f663e0d5d0fbfc9a3c7a207d109d8e7afc4ccc6919c8f947e26c9452",
+  "analysisSha256": "2c111fb755604a3eab95cd5f4ac39f2b3fd009a6d9f550d11ec00abaa2904794",
   "sheets": [
     {
       "name": "成本场景",
@@ -20,9 +20,9 @@
     },
     {
       "name": "跨家族比较",
-      "rows": 42,
+      "rows": 43,
       "columns": 13,
-      "cells": 546,
+      "cells": 559,
       "csv": "跨家族比较.csv"
     },
     {
@@ -40,6 +40,6 @@
       "csv": "DeepSeek-CANN-contracts.csv"
     }
   ],
-  "dataCells": 55129,
+  "dataCells": 55142,
   "scope": "Fixed analytical scenarios and source rows; numbers typed; unknown measurements blank; no hardware validation"
 }

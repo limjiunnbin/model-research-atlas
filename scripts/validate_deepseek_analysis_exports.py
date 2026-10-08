@@ -37,7 +37,7 @@ def expected_tables():
     return {'成本场景':costs,'并行场景':parallel,'跨家族比较':comparison,'机制要点':mechanisms,'算子条件':contracts}
 
 
-def validate():
+def validate(write_record=False):
     manifest=read(DATA/'research/analysis-export-manifest.json');expected=expected_tables();cells_checked=0;csv_rows=0
     assert hashlib.sha256((DATA/'analysis.json').read_bytes()).hexdigest()==manifest['analysisSha256']
     with zipfile.ZipFile(ROOT/'dist'/manifest['path']) as z:
@@ -63,9 +63,11 @@ def validate():
                     for a,v in zip(actual,row):
                         if isinstance(v,(int,float)): assert math.isclose(float(a),v,rel_tol=1e-13,abs_tol=1e-12)
                         else: assert a==('' if v is None else v)
-    assert names==list(expected) and cells_checked==manifest['dataCells']==55129
+    expected_cells = sum(len(expected[s['name']])*s['columns'] for s in manifest['sheets'])
+    assert names==list(expected) and cells_checked==manifest['dataCells']==expected_cells
     result={'status':'passed','date':read(DATA/'analysis.json')['snapshot'],'xlsxSheets':len(names),'xlsxDataCells':cells_checked,'csvDataRows':csv_rows,'csvFiles':4,'unknownMeasurements':'blank','scope':'every analytical export value compared with canonical JSON'}
-    (DATA/'research/analysis-export-validation.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
+    if write_record:
+        (DATA/'research/analysis-export-validation.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     return result
 
 

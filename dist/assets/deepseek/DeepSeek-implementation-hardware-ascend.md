@@ -1,6 +1,6 @@
 # DeepSeek 实现、硬件与 Ascend 优化研究
 
-研究快照：2026-10-01
+研究快照：2026-10-08
 
 本次交付为固定来源的静态研究与网站；设备运行/性能验证已按用户要求移出本次范围。
 
@@ -158,6 +158,76 @@ CANN 相关算子公开源码可读，应按版本继续核查，不能将未完
 
 来源：[cann/ops-transformer / README.md](https://atomgit.com/cann/ops-transformer/blob/5f33f1e23d41fe0a047d01b7c7ae278777cac1f5/README.md)；[cann/ops-nn / README.md](https://atomgit.com/cann/ops-nn/blob/30ef7dd563c8a4b74c3161835c8e47d1d96f87b6/README.md)；[cann/ops-math / README.md](https://atomgit.com/cann/ops-math/blob/0a2ce5b57caec6068d9e5658b740c2d41482aa15/README.md)
 
+## CED、CSA2 与 bounded replay
+
+Encoder 20 层 → 四份 Full cache → Reindex / Reuse → Decoder query + 局部 SWA
+
+Full 4、Reindex 4、Reuse 30；全局缓存与本层 SWA 分开，候选池上限 16384、最终 top-k 512。
+
+Attention.__init__/_compress_kv 与 SharedAttentionRuntime 保留共享关系；可读 Indexer.forward 先全量 einsum 再 mask，Transformer.forward prefill 遍历全部 40 层。
+
+移植时需要真正按候选位置 gather/score、共享 cache 生命周期与近似 replay；旧 MLA/CSA 的接口或 kernel 名称不证明 CSA2 整体支持。
+
+固定源码与论文静态研究；未核验 V4.1 专用 Ascend 后端、实际存储、ABI 或设备数值/性能。设备实验不在本次范围。
+
+来源：[DeepSeek-V4.1-Flash / inference/model.py](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/model.py)；[DeepSeek-V4.1-Flash / DeepSeek_V41_Tech_Report.pdf](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf)
+
+## Engram 条件内存
+
+Token 压缩与 2/3/4-gram → 24 个哈希地址 → FP8 查表与解量化 → 上下文门控加到四流 residual
+
+0-based 1/14 两个模块；约 196B 条件内存，查表容量、访存与投影计算分列。
+
+ParallelEngramEmbedding.forward 本地查表、解量化并 all_reduce；视觉位置排除 n-gram；可读参考没有论文的 host RDMA 后台预取。
+
+NPU 研究涉及 Gather/Embedding、块缩放、投影、哈希状态和跨节点搬运；普通 Gather 可用不代表 Engram 的地址/预取/容量方案成立。
+
+固定源码与论文静态研究；未核验 V4.1 专用 Ascend 后端、实际存储、ABI 或设备数值/性能。设备实验不在本次范围。
+
+来源：[DeepSeek-V4.1-Flash / inference/model.py](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/model.py)；[DeepSeek-V4.1-Flash / DeepSeek_V41_Tech_Report.pdf](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf)；[DeepSeek-V4.1-Flash / inference/engram.py](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/engram.py)
+
+## Single-Pass mHC
+
+四流 residual → 使用上一子层 pre_mix → Attention/FFN → 产生下一子层 mixing 系数
+
+input-mixing 系数前移一子层，消除当前 reduction 的依赖；n=4 时论文融合路径流量从 20d 到 10d。
+
+Block.forward 返回 ffn_pre，下一层接收 pre_mix；可读实现仍拆成多次 PyTorch/Kernel 调用。
+
+Mega-mHC 是论文的融合部署路径；现有 CANN Sinkhorn/norm/matmul 的静态来源不证明该融合 kernel 或相同流量。
+
+固定源码与论文静态研究；未核验 V4.1 专用 Ascend 后端、实际存储、ABI 或设备数值/性能。设备实验不在本次范围。
+
+来源：[DeepSeek-V4.1-Flash / inference/model.py](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/model.py)；[DeepSeek-V4.1-Flash / DeepSeek_V41_Tech_Report.pdf](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf)
+
+## V4.1 DSpark 与服务边界
+
+目标层 37/38/39 attention 输入 → 三个 128选3 draft stage → 五位置 logits → 顺序 Markov / confidence → 服务 target verification
+
+draft rank=256、block=5、窗口128；主干不包含预训练 MTP，DSpark 独立训练再随策略对齐。
+
+DSparkBlock prefill 只写 context；forward_spec 提供草稿接口；generate.py 普通自回归，不包含 acceptance/rejection 或 confidence scheduler。
+
+静态前向存在不代表服务栈已支持；verification 长度策略需要真实引擎曲线，本站保持未知。
+
+固定源码与论文静态研究；未核验 V4.1 专用 Ascend 后端、实际存储、ABI 或设备数值/性能。设备实验不在本次范围。
+
+来源：[DeepSeek-V4.1-Flash / inference/model.py](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/model.py)；[DeepSeek-V4.1-Flash / DeepSeek_V41_Tech_Report.pdf](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf)
+
+## 原生视觉与 EPD 部署
+
+14×14 patch 线性投影 → 32 层双向 ViT / 2D RoPE → 3×3 pixel-unshuffle → 两层 MLP projector → 语言 token 混合
+
+ViT hidden=1024、heads=16；projector 9216→5120→5120；视觉 token 与文本联合预训练。
+
+vision.py 的 ViT/Aligner 与 Transformer.merge_image_embeddings；patch 个数和视觉 L_img 不用语言 L_KV 代替。
+
+论文 EPD 指视觉 Encoder / Prefill / Decode 三类服务，和 CED 的语言 Encoder 不同；NPU 端 SDPA/RoPE/重排/投影的候选映射不是整栈兼容证明。
+
+固定源码与论文静态研究；未核验 V4.1 专用 Ascend 后端、实际存储、ABI 或设备数值/性能。设备实验不在本次范围。
+
+来源：[DeepSeek-V4.1-Flash / inference/model.py](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/model.py)；[DeepSeek-V4.1-Flash / DeepSeek_V41_Tech_Report.pdf](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf)；[DeepSeek-V4.1-Flash / inference/vision.py](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/vision.py)
+
 ## 硬件与支持边界
 
 ### Ascend A2/A3：设备条件独立确认
@@ -306,6 +376,8 @@ CANN 9.2.0-beta.2 的匹配开源仓和本地 SDK 已核查；源码可查、独
 
 设备验证不纳入本次验收，所有性能字段保持未知。
 
+V4.1 Flash 为独立 CED/CSA2/Engram/视觉/Single-Pass mHC 架构；已有 V4/MLA/Ascend 后端研究不自动覆盖本版。固定参考代码是可读实现，未实现论文全部生产优化。
+
 ## 来源索引
 
 - aux-vllm-project-vllm-ascend-activation-py [vllm-project/vllm-ascend / vllm_ascend/ops/activation.py](https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/ops/activation.py)；a8fcedb03d93e60efceddbfc912406f7fa491d57；访问 2026-10-01
@@ -443,3 +515,11 @@ CANN 9.2.0-beta.2 的匹配开源仓和本地 SDK 已核查；源码可查、独
 - vllm-project-vllm-ascend-vllm_ascend-quantization-methods-w8a8-fp8_block-py [vllm-project/vllm-ascend / vllm_ascend/quantization/methods/w8a8/fp8_block.py](https://github.com/vllm-project/vllm-ascend/blob/a8fcedb03d93e60efceddbfc912406f7fa491d57/vllm_ascend/quantization/methods/w8a8/fp8_block.py)；a8fcedb03d93e60efceddbfc912406f7fa491d57；访问 2026-10-01
 
 - vllm-project-vllm-vllm-model_executor-models-deepseek_mtp-py [vllm-project/vllm / vllm/model_executor/models/deepseek_mtp.py](https://github.com/vllm-project/vllm/blob/bcee730b1a9d25f0fd283a0ef6c19133ebeebf4f/vllm/model_executor/models/deepseek_mtp.py)；bcee730b1a9d25f0fd283a0ef6c19133ebeebf4f；访问 2026-10-01
+
+- v41-model [DeepSeek-V4.1-Flash / inference/model.py](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/model.py)；2cba9e42aa026125f3ed06c6d98c1db82f7ca027；访问 2026-10-08
+
+- v41-vision [DeepSeek-V4.1-Flash / inference/vision.py](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/vision.py)；2cba9e42aa026125f3ed06c6d98c1db82f7ca027；访问 2026-10-08
+
+- v41-engram [DeepSeek-V4.1-Flash / inference/engram.py](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/engram.py)；2cba9e42aa026125f3ed06c6d98c1db82f7ca027；访问 2026-10-08
+
+- v41-paper [DeepSeek-V4.1-Flash / DeepSeek_V41_Tech_Report.pdf](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf)；2cba9e42aa026125f3ed06c6d98c1db82f7ca027；访问 2026-10-08

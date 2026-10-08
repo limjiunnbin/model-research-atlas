@@ -14,11 +14,17 @@ def read(path):
     return json.loads(path.read_text())
 
 
-def validate(sources=False, exports=False, write_record=True):
+def validate(sources=False, exports=False, write_record=False):
     d = read(DATA/'analysis.json'); family = read(DATA/'family.json'); core = read(DATA/'research/site-proofs.json')
     assert d['schemaVersion'] == 1 and d['familyId'] == family['id'] == 'deepseek'
     assert family['acceptanceScope']['deviceExperimentsRequired'] is False
-    assert {m['id'] for m in d['costModels']} == {m['id'] for m in family['models']}
+    excluded = {m['id'] for m in d.get('excludedModels', [])}
+    cost_ids = {m['id'] for m in d['costModels']}
+    assert not (excluded & cost_ids)
+    assert cost_ids | excluded == {m['id'] for m in family['models']}
+    for item in d.get('excludedModels', []):
+        model = next(m for m in family['models'] if m['id'] == item['id'])
+        assert item['reason'] == model['computeScope'] and not model.get('computePath')
     layer_count = 0
     for model in d['costModels']:
         raw_model = next(m for m in family['models'] if m['id'] == model['id'])
@@ -88,7 +94,9 @@ def validate(sources=False, exports=False, write_record=True):
         for ref in mechanism['references']:
             assert ref in core['proofs'].values()
     compare = read(ROOT/'data/analysis/cross-family.json')
-    assert len(compare['models']) == 42 and len({m['key'] for m in compare['models']}) == 42
+    catalog = read(ROOT/'data/catalog.json')
+    expected_keys = {f['id']+':'+m['id'] for f in catalog['families'] for m in read(ROOT/f['path'])['models']}
+    assert len(compare['models']) == len(expected_keys) and {m['key'] for m in compare['models']} == expected_keys
     for m in compare['models']:
         input_family = read(ROOT/m['inputFamilyPath']); raw_model = next(x for x in input_family['models'] if x['id'] == m['id'])
         assert raw_model['facts'] == m['facts']

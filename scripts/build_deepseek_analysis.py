@@ -167,6 +167,9 @@ def contracts():
 def cost_models(family):
     result = []
     for model in family['models']:
+        if not model.get('computePath'):
+            assert model.get('computeScope'), model['id']
+            continue
         arch = read(ROOT / model['architecturePath']); c = read(ROOT / model['configPath'])
         kind = 'v4' if c['model_type'] == 'deepseek_v4' else 'dsa' if c['model_type'] == 'deepseek_v32' else 'gqa' if c['model_type'] in ('qwen2', 'llama') else 'mla'
         groups = {}; routed = 0; non_expert_linears = 0; head_control = 0; excluded = []
@@ -258,8 +261,8 @@ def cross_family():
                 'cache': arch.get('cache') if arch else None,
                 'evidenceDepth': '结构表可读；各事实仍按各自证据类别核对' if arch else '资料/历史条目；未补推结构',
                 'inputFamilyPath': ref['path'], 'inputModelSha256': hashlib.sha256(json.dumps(model, sort_keys=True, ensure_ascii=False, separators=(',', ':')).encode()).hexdigest()})
-    return {'schemaVersion': 1, 'snapshot': DATE, 'families': [{'id': f['id'], 'name': f['name']} for f in catalog['families']],
-        'models': records, 'dimensions': ['layers', 'hidden', 'attention', 'heads', 'experts', 'topK', 'shared', 'expertWidth', 'denseWidth', 'context', 'vocab', 'parameters', 'payload', 'quantization', 'mtpParameters', 'dsparkStages'],
+    return {'schemaVersion': 1, 'snapshot': max([DATE]+[f['updated'] for f in catalog['families']]), 'families': [{'id': f['id'], 'name': f['name']} for f in catalog['families']],
+        'models': records, 'dimensions': ['layers', 'hidden', 'attention', 'heads', 'experts', 'topK', 'shared', 'expertWidth', 'denseWidth', 'context', 'vocab', 'parameters', 'payload', 'quantization', 'mtpParameters', 'dsparkStages', 'engramParameters', 'activePrefillParameters', 'activeDecodeParameters', 'encoderLayers', 'decoderLayers', 'globalCacheBytesPerToken'],
         'limits': ['家族统计口径和读取深度不同；参数、发布载荷和辅助模块范围保留各自说明。', 'null 表示未知或未收录，不代表 0 或无该机制。', '配置相同、参数相近和模型名称相近不证明权重、能力或速度相同。', '不提供缺少统一实测条件的速度、价格或能力排名。']}
 
 
@@ -281,7 +284,10 @@ def build():
             refs.append(candidates[0])
         mechanisms.append({'id': mid, 'title': title, 'references': refs, 'limit': limit, 'evidence': 'interpretation'})
     data = {'schemaVersion': 1, 'familyId': 'deepseek', 'snapshot': DATE, 'scope': 'A1–A5 static analysis and teaching tools; no runtime validation',
-        'costModels': models, 'cannContracts': cann, 'parallel': parallel, 'mechanisms': mechanisms,
+        'costModels': models, 'excludedModels': [{'id':m['id'],'reason':m['computeScope'],'researchUrl':m.get('researchUrl')} for m in family['models'] if not m.get('computePath')],
+        'deploymentModels': [{'id':m['id'],'name':m['name'],'context':m['facts']['context']['value'],
+                              'storage':read(ROOT/m['architecturePath'])['deploymentStorage'],'researchUrl':m['researchUrl']} for m in family['models'] if m.get('deploymentAnalysisPath')],
+        'cannContracts': cann, 'parallel': parallel, 'mechanisms': mechanisms,
         'costFormulas': [
             {'name': '投影收缩', 'formula': '2×B×Q×Σ(in×out×调用份数)；routed 专家按 top-k，APE 位置表与 embedding lookup 不算矩阵乘法'},
             {'name': 'Dense/GQA attention', 'formula': '2×B×N_head×Q×L_kv×(D_key+D_value)；有效因果位置为 Q×history + Q×(Q+1)/2'},
@@ -316,27 +322,41 @@ def write_report(data, compare):
     def table(headers, rows):
         clean = lambda x: str(x).replace('|', '\\|').replace('\n', ' ')
         return '\n'.join(['| '+' | '.join(headers)+' |', '| '+' | '.join(['---']*len(headers))+' |'] + ['| '+' | '.join(clean(x) for x in r)+' |' for r in rows])
-    report = ['# DeepSeek 静态成本、算子契约与系统分析', '研究快照：'+DATE+'。本报告对应 A1–A5；仅做静态研究与教学演示，不加载权重、执行设备算子或推定实测性能。',
+    report = ['# DeepSeek 静态成本、算子契约与系统分析', '资料更新：'+max(data['snapshot'],compare['snapshot'])+'。21 个 checkpoint 的计算与并行模型、V4.1 部署缓存模型分别说明；设备实验不属于当前范围。',
         '## 1 成本模型', '覆盖 21 个 checkpoint 的全部 1,122 个主干层。参数来自 canonical 架构和各自完整文件头；计算器按声明矩阵收缩计数，主干、共享副本和 MTP/DSpark 独立。',
         table(['项目', '公式'], [(x['name'], x['formula']) for x in data['costFormulas']]),
         '\n'.join('- '+s for s in data['limits']),
-        '成本表在 [静态分析工作簿](DeepSeek-静态分析.xlsx) 与 [示例 CSV](DeepSeek-cost-scenarios.csv) 中。网页可修改 batch、query/history、logits 和精度假设；每个结果保留输入，不写入未测时间或吞吐。',
-        '## 2 CANN 算子契约', f'覆盖 {data["counts"]["cannFamilies"]} 个已固定源码家族、{data["counts"]["cannClaims"]} 条 API 参数表/补充条件/API guard 记录。参数表逐项保存所在文档和源码范围，不把同文档中不同平台/模式的条件合成无条件支持。',
-        '网页有按 API 文档、参数和类别筛选的手册，以及已编码必要条件的检查器。检查器发现矛盾时指出条件；未发现矛盾只表示该子集没有冲突，其他条件保持未核对。完整规则与引用见 [静态分析 JSON](DeepSeek-静态分析.json)。']
-    for contract in data['cannContracts']:
-        report += ['### '+contract['id'], contract['frameworkContext'],
-            table(['文档', '参数/条件', '类别', '固定来源'], [(r['apiDocument'], r['parameter'], ', '.join(r['categories']), '['+str(r['reference']['line'])+'–'+str(r['reference']['end'])+']('+r['reference']['url']+')') for r in contract['claims']])]
-    report += ['## 3 并行、通信与 P/D', table(['项目', '公式与条件'], [(f['name'], f['formula']) for f in data['parallel']['formulas']])]
+        '成本表在 [静态分析工作簿](DeepSeek-静态分析.xlsx) 与 [示例 CSV](DeepSeek-cost-scenarios.csv) 中。网页可修改 batch、query/history、logits 和精度假设；每个结果保留输入，不写入未测时间或吞吐。']
+    for model in data.get('deploymentModels',[]):
+        s=model['storage']
+        window=s['languageLayers']*s['window']*s['swaRecordBytes']
+        draft=s['draftStages']*s['window']*s['swaRecordBytes']
+        report += ['## 2 '+model['name']+' 部署缓存',
+            '按真实 FP4/FP8 数据与块 scale 的打包容量统计。主 KV 为 NVFP4-like 变体，E2M1 数据加每 16 元素 E4M3 scale，省略第二级全局 scale；窗口为 MXFP8，E4M3 数据加每 32 元素 E8M0 scale；index 为 MXFP4，E2M1 数据加每 32 元素 E8M0 scale。',
+            table(['项目','每请求容量 / 字节'],[
+                ('全局 KV 与 index','(3 × floor(N/2) + N) × '+str(s['mainRecordBytes']+s['indexRecordBytes'])+'；偶数 N 为 890N'),
+                ('Main KV 记录',s['mainRecordBytes']),('Index K 记录',s['indexRecordBytes']),('窗口 KV 记录',s['swaRecordBytes']),
+                ('40 层 × 128 token 窗口',window),('3-stage DSpark context（可选）',draft),('FP32 压缩状态',s['compressionStateBytesPerRequest'])]),
+            'N 为已缓存序列长度，batch B 按请求数相乘。B=1、N=1,048,576 时，全局缓存为 890 MiB；加语言窗口、DSpark context 和压缩状态约为 892.795 MiB。权重、分页对齐、临时工作区、候选池/分数张量和通信缓冲另计。',
+            '参考代码的量化/反量化模拟与实际打包容量分开说明。V4.1 的 FLOPs 和并行通信未沿用旧 21 版公式；完整结构与边界见 [V4.1 Flash 研究](DeepSeek-V4.1-Flash-研究.md)，网页入口为 `#/family/deepseek/cost/v4.1-flash`。']
+    report += ['## 3 CANN 算子契约', f'覆盖 {data["counts"]["cannFamilies"]} 个已固定源码家族、{data["counts"]["cannClaims"]} 条 API 参数表/补充条件/API guard 记录。参数表逐项保存所在文档和源码范围，不把同文档中不同平台/模式的条件合成无条件支持。',
+        '网页有按 API 文档、参数和类别筛选的手册，以及已编码必要条件的检查器。检查器发现矛盾时指出条件；未发现矛盾只表示该子集没有冲突，其他条件保持未核对。',
+        '下表用于定位算子家族。全部条件、章节上下文与固定行号见 [完整条件 CSV](DeepSeek-CANN-contracts.csv)、[静态分析 JSON](DeepSeek-静态分析.json) 和工作簿“算子条件”页。',
+        table(['算子家族','API 文档数','条件数','框架上下文','固定来源'],[
+            (c['id'],len(c['documents']),len(c['claims']),c['frameworkContext'],
+             '；'.join('['+d['name']+']('+d['url']+')' for d in c['documents']) or '['+c['claims'][0]['apiDocument']+']('+c['claims'][0]['reference']['url']+')')
+            for c in data['cannContracts']])]
+    report += ['## 4 并行、通信与 P/D', table(['项目', '公式与条件'], [(f['name'], f['formula']) for f in data['parallel']['formulas']])]
     for topic in data['parallel']['topics']:
         report += ['### '+topic['title'], topic['summary'], '来源：'+ '；'.join('['+r['path']+']('+r['url']+')' for r in topic['refs'])]
-    report += ['## 4 跨家族统一比较', f'沿用现有三个家族的 {len(compare["models"])} 个条目，包含历史/未核对条目；网页可按家族筛选、添加版本，并保留每个事实的证据类别和来源。',
+    report += ['## 5 跨家族统一比较', f'沿用现有三个家族的 {len(compare["models"])} 个条目，包含历史/未核对条目；网页可按家族筛选、添加版本，并保留每个事实的证据类别和来源。',
         '\n'.join('- '+s for s in compare['limits']),
-        '## 5 机制演示']
+        '## 6 机制演示']
     for m in data['mechanisms']:
         report += ['### '+m['title'], m['limit'], '来源：'+ '；'.join('['+r['symbol']+']('+r['url']+')' for r in m['references'])]
     report += ['演示包含前后步进和可调输入。MLA 比较两条路径的分数和输出；DSA 分开 indexer 分数与 attention 分数；压缩保留未满窗口状态；mHC 展示 comb 的行列和；DSpark 提交接受前缀及校正/bonus，丢弃未验证草稿。',
-        '## 6 复现与验证', '运行 collect_deepseek_analysis.py 获取固定公开输入，--verify-only 仅核对缓存；运行 build_deepseek_analysis.py 从既有 canonical 数据生成分析 JSON、手册和跨家族表。validate_deepseek_analysis.py 与 check_deepseek_analysis.mjs 分别验证来源/字段和独立数学基准，check_deepseek_site.mjs 验证网页交互与下载。',
-        '原 P0–P5 结构、文件头和来源保持；新增并行来源是独立 manifest，不改写早期读取深度。没有设备环境要求，设备实验继续不属于本次验收。']
+        '## 7 复现与验证', '运行 collect_deepseek_analysis.py 获取固定公开输入，--verify-only 仅核对缓存；运行 build_deepseek_analysis.py 从既有 canonical 数据生成分析 JSON、手册和跨家族表。V4.1 输入由 build_deepseek_v41.py 固定并恢复。validate_deepseek_analysis.py 与 check_deepseek_analysis.mjs 分别验证来源/字段和独立数学基准，validate_deepseek_v41.py 核对本版结构和打包公式，check_deepseek_site.mjs 验证网页交互与下载。',
+        '普通校验仅输出终端结果，浏览器截图使用临时目录；只有明确传入 --write-record 才保存校验记录。重建分析工作簿前用 check_deepseek_analysis.mjs --export-scenarios 生成当前导出输入。完整命令和当前附件覆盖范围见 [复现说明](README.md)。设备实验不属于本次验收。']
     (OUT/'DeepSeek-静态分析.md').write_text('\n\n'.join(report)+'\n')
 
 
