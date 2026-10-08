@@ -23,7 +23,7 @@ GLM-5.3-Flash 是 45 层混合注意力模型：34 层 KDA 线性注意力 + 11 
 
 ## 未来模型分析
 
-研究日期：2026-10-08。新增 [未来模型分析专题](https://limjiunnbin.github.io/model-research-atlas/reports/future-models/) 与 [完整报告](dist/reports/future-models/report.md)，共 24 章，覆盖混合注意力、压缩/稀疏检索、MoE、LatentMoE、跨层连接、原生多模态、低精度训练与状态量化、投机解码、条件记忆、TTT、潜在空间推理、Muon 和定制 Runtime。每个方向说明机制、算子与调度影响、边界和验收方法；公开事实、论文实验和未来判断分开标注。未做硬件性能或训练收敛复现。
+研究日期：2026-10-08。新增 [未来模型分析专题](https://limjiunnbin.github.io/model-research-atlas/reports/future-models/) 与 [完整报告](dist/reports/future-models/report.md)，共 42 章，覆盖混合注意力、压缩/稀疏检索、MoE、LatentMoE、跨层连接、原生多模态、低精度训练与状态量化、投机解码、条件记忆、TTT、潜在空间推理、Muon 和定制 Runtime。新增 PGDN/PKDA、GDN-2、DeltaProduct、选择性状态模型、无 Softmax 的不同路线、FA4、OCP/MX 演进与 DeepSeek 4.1 Flash 的六章专项分析。每个方向说明机制、算子与调度影响、边界和验收方法；公开事实、论文实验和未来判断分开标注。未做硬件性能或训练收敛复现。
 
 ## OpenBMB 主模型与技术演进
 

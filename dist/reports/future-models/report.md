@@ -6,7 +6,7 @@
 
 **核心判断：** 近中期更值得投入的是“混合记忆 + 稀疏计算 + 模块化低精度 + 状态感知调度”。单个模型可能同时拥有 KV、递归状态、专家权重、视觉特征和投机分支。模型变得更省计算，不等于服务系统自然变得更简单。未来的竞争点会落在有效质量、状态生命周期、通信尾延迟与端到端成本上。
 
-**阅读顺序：** 先读第 1—3 章建立边界，再按兴趣阅读独立技术章节，最后用第 22—24 章制定 K3 的框架和算子路线。文中的形状、内存和通信算例都是明确假设下的推导，不能作为实测数字。
+**阅读顺序：** 先读第 1—3 章建立边界，再按兴趣阅读独立技术章节，第 22—24 章给出 K3 基线方案；第 25—41 章分析新兴算子、无 Softmax、OCP/MX 与 DeepSeek 4.1 Flash，第 42 章汇总新增研发优先级和反证实验。文中的形状、内存和通信算例都是明确假设下的推导，不能作为实测数字。
 
 [已有 K3 框架专题：SGLang、vLLM、TorchTitan 与定制 Runtime 方案](../../assets/kimi/K3-SGLang-vLLM-TorchTitan与定制runtime方案.md)提供源码扩展点与实现快照；本文补充未来技术判断和验证方法。
 
@@ -37,6 +37,25 @@
 23. [GPU/NPU 算子优先级与硬件需求](#s23)
 24. [未来路线、反证条件与实验验收](#s24)
 
+25. [PGDN 与 PKDA：预条件如何改变递归记忆的写入](#s25)
+26. [Gated DeltaNet-2：把擦除与写入的控制分开](#s26)
+27. [DeltaProduct：每个 token 进行多次记忆编辑](#s27)
+28. [Mamba-2、Mamba-3 与 RWKV-7：固定状态不代表同一种算子](#s28)
+29. [无 Softmax Attention：先区分模型函数、执行优化与复杂度](#s29)
+30. [Sigmoid、ReLU、Softplus：省掉归一化竞争的收益与新问题](#s30)
+31. [Kernel-feature 线性 Attention：减少 token 两两比较，代价转到状态](#s31)
+32. [新兴注意力的下一步：多尺度状态与同层函数分工](#s32)
+33. [OCP 2.0 研究范围与已发布规范](#s33)
+34. [Microscaling 的新研究：缩放、异常值、元数据与可变精度](#s34)
+35. [MX 在 MoE、通信和 GPU/NPU 适配中的实际要求](#s35)
+36. [DeepSeek 4.1 Flash 的 CED 与阶段成本](#s36)
+37. [CSA2 的共享缓存和分层索引算子](#s37)
+38. [Bounded replay 与分层会话状态](#s38)
+39. [DeepSeek 4.1 的 FP4 缓存和容量推导](#s39)
+40. [Single-Pass mHC 和 Engram 的新算子需求](#s40)
+41. [DSpark 原生视觉和训练服务接口](#s41)
+42. [新算子组合的研发优先级和反证实验](#s42)
+
 [参考资料](#references) · [术语表](#glossary)
 
 <a id="s01"></a>
@@ -52,7 +71,7 @@
 
 同一技术对不同负载可能产生相反效果。更强的稀疏性可以降低理论 FLOPs，却增加索引和不规则访问；更多专家扩大容量，却让小批量时的 GEMM 变碎；4 bit 降低载荷，却增加缩放计算、转换和误差。评价对象应该是“在指定质量和延迟要求下完成一个任务的总成本”。
 
-报告以文本、长上下文、工具调用、视觉和训练负载为主。关于音频、视频和其他架构的建议属于扩展推断，不代表三个模型都已经实现相同功能。研究覆盖代表性原始论文、官方模型卡和框架资料，未进行穷尽文献检索。
+报告以文本、长上下文、工具调用、视觉和训练负载为主。关于音频、视频和其他架构的建议属于扩展推断，不代表三个模型都已经实现相同功能。研究覆盖代表性原始论文、官方模型卡、格式规范与框架实现。各技术按机制差异选取；这里的技术覆盖不意味着穷尽全部新论文。
 
 ### 1.3 对照实验的基本约束
 
@@ -68,12 +87,13 @@
 | Kimi K3 | KDA、Attention Residuals、Stable LatentMoE；896 个路由专家中激活 16 个；原生视觉 | 序列、深度、专家通信分别优化 |
 | GLM-5.3-Flash | 稀疏与线性注意力混合、mHC、原生多模态；320B 总参数、18B 激活参数 | 中等激活量也能组合多种结构优化 |
 | DeepSeek-V4 | CSA/HCA 混合压缩注意力、mHC、Muon；Pro 为 1.6T/49B，Flash 为 284B/13B | 长上下文效率可以走压缩检索路线 |
+| DeepSeek-V4.1-Flash | CED、CSA2 跨层共享、Single-Pass mHC、Engram 与原生视觉；主干约 552B，条件内存另计 | 输入/生成阶段成本分开，状态共享与存储层级成为结构设计 |
 
-表中数字来自各自资料，口径未统一，不能用激活参数给能力排序。[K3 技术报告](https://arxiv.org/abs/2607.24653)、[GLM 官方模型卡](https://huggingface.co/zai-org/GLM-5.3-Flash)、[DeepSeek-V4 技术报告](https://arxiv.org/abs/2606.19348)。
+表中数字来自各自资料，口径未统一，不能用激活参数给能力排序。V4.1 采用固定[配置与源码版本](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/tree/2cba9e42aa026125f3ed06c6d98c1db82f7ca027)。[K3 技术报告](https://arxiv.org/abs/2607.24653)、[GLM 官方模型卡](https://huggingface.co/zai-org/GLM-5.3-Flash)、[DeepSeek-V4 技术报告](https://arxiv.org/abs/2606.19348)。
 
 本站 GLM 架构页另有 CANN 固定快照 96e5813 的 45 层实现推导，以及约 306B/313B 的配置口径差异。它和官方 320B 模型卡属于不同证据对象。本文沿用机制判断，不把两套数字拼成一个“已核验完整结构”。[GLM 实现研究入口](../../index.html#/family/glm)。
 
-本站 [DeepSeek 专题](../../index.html#/family/deepseek) 已纳入 V4.1 Flash 的独立研究。本文的 DeepSeek 架构对照以 V4 原始论文为基础；V4.1 的配置、源码与缓存差异请结合专版资料阅读，不能假设新旧版本的状态布局相同。
+DeepSeek-V4 保留为历史对照；[V4.1 Flash 的独立研究](../../assets/deepseek/DeepSeek-V4.1-Flash-研究.md)已纳入本报告第 36—41 章。两版缓存来源、共享关系和阶段成本不同，不共用一个未区分版本的布局或成本公式。
 
 ### 2.2 共同方向
 
@@ -749,6 +769,773 @@ GPU 与 NPU 的原生格式、片上存储、同步和编译约束不同。应�
 
 未来模型研发最需要的是能快速验证结构假设的工程基础：把每次收益归因到算法、算子或调度，并在质量和完整成本上做决定。
 
+<a id="s25"></a>
+## 25 PGDN 与 PKDA：预条件如何改变递归记忆的写入
+
+### 25.1 先把名称与证据对象对齐
+
+PGDN 是 **Preconditioned Gated DeltaNet**，PKDA 是 **Preconditioned KDA**，源自 *Preconditioned DeltaNet: Curvature-aware Sequence Modeling for Linear Recurrences*。本次核对的论文为 arXiv:2604.21100v1，2026-04-22 提交。论文中的 **ATK 明确指 apply-to-key，即把预条件作用于写入 key**；ATQ 指 apply-to-query。ATK 不是一种“近似三角内核”的名称。[原论文 v1](https://arxiv.org/abs/2604.21100v1)。
+
+源码核对采用 FLA commit `37a6b1c6290e5240f6f0d80419d08a7aac27e548`，提交时间为 2026-10-08 07:24:57 UTC。PGDN/PKDA 已在 2026-08-20 通过 PR #950 合入上游，合并 commit 为 `e47d5d20aeb5989b58a3738b872e7c288a9fb75f`。因此，论文实验仓库 README 中“上游 PR 仍在进行”的说明不能作为当前状态。[FLA 合并记录](https://github.com/fla-org/flash-linear-attention/pull/950)。
+
+这项技术应进入算子研究清单，但“已有论文、已有内核、已经适配某个大模型、已经达到生产性能”是四个不同结论。本章只确认前两项。
+
+### 25.2 问题：普通 Delta 更新为什么会遇到方向不均衡
+
+这里使用本报告统一的状态布局：每头 `S` 为 `d_k × d_v`，key、query 长度为 `d_k`，value 长度为 `d_v`。普通 Delta 型更新按当前 key 读取旧记忆，再修正其预测误差。若某些 key 坐标反复很大、另一些长期很小，同一个标量写入强度很难同时照顾所有方向。L2 归一化约束总长度，却不保证每个坐标具有相同历史方差。
+
+预条件的工程直觉是：让高频或较强的方向少写一点，让相对较弱的方向多写一点。它改变的是记忆编辑的几何，而不是增加显式历史检索。固定大小的状态仍会压缩历史；即使条件数得到改善，也不产生无限的记忆容量。
+
+原论文从在线最小二乘出发，讨论精确逆 Gram 下的等价关系，实际模型则采用对角近似和稳定参数化。**精确理论对象与实际近似模型必须分开**：不能把论文的精确求解结论直接冠在运行中的 PKDA 上。[原论文 v1，第 3 节](https://arxiv.org/html/2604.21100v1#S3)。
+
+### 25.3 实际更新：主状态 S 之外，还有二阶统计 A
+
+下面按上游参考实现重写单头公式，省略 query 缩放与投影。`A` 是 `d_k` 个非负统计量；`αP`、`βP` 是预条件支路的遗忘和注入门；`c` 是可学习的每头对数中心；`ε` 防止对零取对数；x>1 是限制写入增益范围的参数。主递归的 `β` 与统计支路的 `βP` 是不同参数。
+
+    A_t = αP_t × A_(t-1) + βP_t × (k_t ⊙ k_t)
+    r_t = log(A_t + ε) - c
+    u_t = r_t / (1 + |r_t|)
+    m_t = exp(-log(x) × u_t)
+    k_write_t = m_t ⊙ k_t
+
+    Sbar_t = D_t × S_(t-1)
+    error_t = v_t - transpose(Sbar_t) × k_t
+    S_t = Sbar_t + β_t × k_write_t × transpose(error_t)
+    output_t = transpose(S_t) × q_t
+
+PGDN 的 `D_t = α_t I` 为每头标量遗忘；PKDA 的 `D_t` 为 key 维上的逐通道对角遗忘。读取误差使用原 key，外积写入使用预条件后的 key；同时替换两处 key 会改变模型语义。这些公式与 FLA 的主状态转置约定一致，k 应按对应模型/API 的归一化规则解释；对照 naive 与优化内核时须对齐输入预处理。[PGDN 参考实现](https://github.com/fla-org/flash-linear-attention/blob/37a6b1c6290e5240f6f0d80419d08a7aac27e548/fla/ops/precond_gated_delta_rule/naive.py)、[PKDA 参考实现](https://github.com/fla-org/flash-linear-attention/blob/37a6b1c6290e5240f6f0d80419d08a7aac27e548/fla/ops/precond_kda/naive.py)。
+
+**本文的数学解释：** 若一个坐标的 `A` 相对中心较大，`r` 为正，缩放 `m` 小于 1；相对较小时，`m` 大于 1。因为 `u` 被压到 `(-1,1)`，`m` 被限制在 `(1/x,x)`。这保留了“按统计量反向缩放”的趋势，避免直接计算 `1/A` 时出现极大的增益。
+
+这种限幅让数值问题更可控，但也意味着它不是精确逆矩阵。对角统计只记录坐标强弱，不能捕捉不同 key 坐标之间的完整相关性。若两个方向高度相关，单独调节每个坐标仍可能留下干扰；这构成进一步研究低秩预条件或其他记忆更新的理由。
+
+### 25.4 与 GDN、KDA 的区别究竟在哪里
+
+| 比较维度 | GDN / KDA 基线 | PGDN / PKDA 增量 |
+|---|---|---|
+| 主状态 | `S: d_k × d_v` | 仍为同形状 S |
+| 历史统计 | 主要由 S 隐式承载 | 额外维护 `A: d_k` |
+| 读取与写入 key | 通常绑定到同一 key | 读取用 k，写入用 `m ⊙ k` |
+| 遗忘粒度 | GDN 标量；KDA 逐通道 | PGDN / PKDA 分别保留原粒度 |
+| 增量工作 | 基础门控与 Delta 更新 | A 递推、log / exp、限幅、非对称块内运算 |
+| 适配方式 | 基线权重和训练结构 | 增加统计支路及参数，需要训练或明确的转换研究 |
+
+表中的运行机制来自上述参考实现及[ATK 前向](https://github.com/fla-org/flash-linear-attention/blob/37a6b1c6290e5240f6f0d80419d08a7aac27e548/fla/ops/atk/chunk_atk_fwd.py)。最后一行是工程判断：它不能作为加载既有 K3 权重时可任意切换的“加速模式”；新增结构的质量需要独立验证。
+
+在同样的头数和维度下，A 的存储增量容易估计。假设 `d_k=d_v=128`、96 个头、FP32，主 S 每层为 6 MiB，A 每层为 48 KiB，仅为主状态的 `1/128≈0.78%`。若有 69 层，A 合计约 3.23 MiB。这个算例假设 key 头和 value 头相同、状态未分片，不含卷积缓冲和快照。
+
+**重要推断：** 额外状态小，不代表额外时间一定小。A 需要读取、更新和经过特殊函数；分块训练还有 `k_write` 临时张量、块边界统计以及反向重算。全模型成本主要由这些额外执行步骤、融合程度和带宽决定。
+
+### 25.5 Chunk、Recurrent 与反向不能共用一个简化实现
+
+Decode 适合直接递推：从一个状态槽读取 S 与 A，更新当前 token，再同时写回。Prefill / 训练则需要将统计支路和主支路分块。A 属于逐坐标仿射递推：把一个块写成 `A_end = a_block ⊙ A_start + b_block`，两块可以通过仿射复合连接。块内扫描与块间传递都要保持因果边界；不能给同块所有 token 使用同一个最终 A。
+
+PGDN 的实际 chunk 路径先计算预条件 key，再形成读取 key 与写入 key 的非对称交互，进行三角求解和 WY 表示，随后更新块状态与输出。这里的块内矩阵不是把普通 `K Kᵀ` 原封不动拿来用；历史写入方向与当前读取方向不同。[PGDN chunk 实现](https://github.com/fla-org/flash-linear-attention/blob/37a6b1c6290e5240f6f0d80419d08a7aac27e548/fla/ops/precond_gated_delta_rule/chunk.py)。
+
+反向有两条 key 梯度路径：key 影响当前记忆读取，也影响预条件写入；第二条还经过 A 的时间递推、限幅和可学习中心。只写“基础 KDA 反向 + 一个逐元素乘法”会漏掉历史统计的梯度。上游 ATK 反向接收最终 A 的梯度并返回初始 A 的梯度，主算子合并两条 key 梯度。[ATK 反向](https://github.com/fla-org/flash-linear-attention/blob/37a6b1c6290e5240f6f0d80419d08a7aac27e548/fla/ops/atk/chunk_atk_bwd.py)。
+
+**研发建议：** 最小实现契约要包含 output、最终 S、最终 A，并明确初始 S/A 是否可求梯度。训练跨片段连接若要传梯度，不能在片段之间偷偷 detach A；服务缓存若只保存 S，第二次请求续写就已改变结果。
+
+### 25.6 GPU / NPU 算子需求与低精度边界
+
+在 GPU 上，值得融合的是“小投影与门参数化”“A 更新 + log/限幅/exp + 写 key”“单 token 读改写”。大 Prefill 则要衡量矩阵单元和向量单元之间的布局转换、块内三角求解、跨块同步以及中间张量流量。新增特殊函数可能使短序列被启动开销主导；只有全链路测量才知道预条件支路是否值得进一步融合。
+
+在 NPU 上，本文建议将迁移分成三个独立目标：先做逐 token FP32 参考一致性，再做固定块长的 Prefill / 训练前向，最后做含 A 梯度的反向。矩阵单元负责主要块矩阵运算，向量单元负责平方、累加、对数、指数和门控；缓冲容量、张量布局和流水重叠需要按具体芯片重新选择。GPU Triton 代码存在不能证明 NPU 路径存在，更不能证明速度接近。
+
+本次固定 FLA 快照可见 PGDN/PKDA 的 Triton chunk 和 recurrent 文件，未见各自专属 `triton_ascend` backend。这个结论限定于该快照和已核对的目录；不等于整个社区没有任何 NPU 实现。
+
+**低精度建议属于工程判断：** Q/K/V 投影与大块乘法可以单独评估 BF16、FP8；A、门累积、三角求解和 S 的积累先保持 FP32 基线。尤其不要因主 S 已有低精度方案，就把 A 一并降低精度。A 的误差通过 `log(A+ε)` 影响写入强度，然后进入后续所有主状态更新，这是新的闭环误差通道。
+
+数值测试要覆盖初始 A 为零、极小正数、长期饱和、遗忘几乎为零/一、重复高相关 key、稀疏梯度以及长序列。理论中对单步特征值的限制依赖归一化和门值等假设，不等于低精度、跨很多步、所有输入下的误差保证；PKDA 逐通道遗忘也不能直接套用标量 PGDN 的特征值表达式。
+
+### 25.7 证据规模与源码成熟度
+
+论文训练主体是约 340M / 1B 参数，分别使用 15B / 50B SlimPajama token，训练长度 2,048；KDA / PKDA 的小配置实际约 355M。作者在指定 340M、8×H100 DDP 条件下报告约 10% 的预条件训练开销。它支持“值得进行质量—成本配对实验”，不支持“万亿 MoE 上必然更快或更强”。部分单项任务并未同时提升，不能用平均改善替代所有任务的保证。[论文实验，第 4 节](https://arxiv.org/html/2604.21100v1#S4)。
+
+上游已经有 op 测试、模型层和缓存字段，超过只发布公式的阶段。但同一固定快照中，两类 chunk API 都显式拒绝 `cp_context`，PKDA chunk 还要求 key head dimension 不超过 256、初始主状态为 FP32。存在基础 KDA 的上下文并行能力，不能推出 PKDA 自动继承了它。[PKDA API 与限制](https://github.com/fla-org/flash-linear-attention/blob/37a6b1c6290e5240f6f0d80419d08a7aac27e548/fla/ops/precond_kda/chunk.py)。
+
+PKDA recurrent 内部可见 continuous batching / accepted-token 相关分支，这只证明代码设计考虑过相应场景。框架集成还需专项检查 S 与 A 的槽位步长、每 token 快照、接受前缀提交和拒绝后回滚；不能仅据参数名称给出生产成熟度结论。[PKDA recurrent 实现](https://github.com/fla-org/flash-linear-attention/blob/37a6b1c6290e5240f6f0d80419d08a7aac27e548/fla/ops/precond_kda/fused_recurrent.py)。
+
+### 25.8 具体验收：什么时候才值得纳入 K3 路线
+
+1. **语义一致性：** 逐 token 参考、完整 chunk、拆分 Prefill 后续写，比较输出、S 和 A；覆盖 1 / 63 / 64 / 65 token、非零初始状态、混合长度打包和状态转置。
+2. **梯度完整性：** 不只查 Q/K/V，还查主门、统计门、中心参数、初始 S/A 及最终状态贡献。上游已有 A-state 梯度测试可作为起点，本次没有运行这些 GPU 测试。[PGDN 测试](https://github.com/fla-org/flash-linear-attention/blob/37a6b1c6290e5240f6f0d80419d08a7aac27e548/tests/ops/test_precond_gated_delta.py)、[PKDA 测试](https://github.com/fla-org/flash-linear-attention/blob/37a6b1c6290e5240f6f0d80419d08a7aac27e548/tests/ops/test_precond_kda.py)。
+3. **Runtime 原子性：** S、A、短卷积状态采用同一 token 进度；取消、迁移、prefix fork、投机拒绝不能让三者不同步。
+4. **质量—成本：** 对 GDN→PGDN、KDA→PKDA 分别做参数量/训练预算/数据匹配实验；报告训练时间、长程召回、连续覆盖写入、端到端 Decode 与尾延迟。
+5. **扩展验证：** 若准备在大 MoE 或 NPU 上落地，先完成对应反向、并行语义和多机测试，再把它升为生产优先级。
+
+**路线判断：** PGDN/PKDA 适合作为 P2 架构候选和数值研究方向；P0 应先建立 S+A 联合状态契约、可靠的 GDN/KDA 基线及反向检查。除非质量提升足以覆盖额外时间，不应仅因技术较新就把现有主干替换掉。
+
+<a id="s26"></a>
+## 26 Gated DeltaNet-2：把擦除与写入的控制分开
+
+### 26.1 它解决的是不同问题
+
+GDN-2 不是 PGDN 的另一名称。PGDN/PKDA 按历史统计改变写 key 的尺度；GDN-2 将记忆编辑中“擦除旧内容”和“写入新内容”的门控解耦。核对论文为 arXiv:2605.22791v1，2026-05-21，官方代码来自 NVlabs/GatedDeltaNet-2。[GDN-2 论文 v1](https://arxiv.org/abs/2605.22791v1)、[官方仓库](https://github.com/NVlabs/GatedDeltaNet-2)。
+
+### 26.2 机制与直觉
+
+保持 `S: d_k × d_v` 布局，其更新为：
+
+    Sbar = Diag(α) × S_previous
+    erase_read = transpose(Sbar) × (b ⊙ k)
+    write_value = w ⊙ v
+    S_new = Sbar + k × transpose(write_value - erase_read)
+
+`b` 是 key 维的擦除门，`w` 是 value 维的写入门；二者都变成同一个标量 β 时回到 KDA，再把 α 绑定为标量便回到 GDN。[FLA 参考实现](https://github.com/fla-org/flash-linear-attention/blob/37a6b1c6290e5240f6f0d80419d08a7aac27e548/fla/ops/gdn2/naive.py)。
+
+**本文的解释：** 场景“旧关联过时，新信息只更新其中几个字段”需要两项不同决策。强擦除不应必然意味着把所有新 value 通道强写入；强写入某个字段也不应强制擦除所有 key 坐标。解耦扩大编辑自由度，代价是更多门投影、逐元素工作及反向路径。它仍只有有限状态，不保证任意数量的精确关联。
+
+### 26.3 算子与数值要求
+
+训练实现需要由 channel-wise erase 因子构造非对称块内交互和 WY 三角求解；写入门既作用于 value，也影响梯度传播。把旧的标量 β 反向结果再逐元素缩放并不能一般成立，因为门进入的矩阵位置已经改变。Prefill、Decode、反向都应检查退化到 KDA/GDN 时是否一致。[官方 chunk 内核](https://github.com/NVlabs/GatedDeltaNet-2/blob/a5552fe3c67e0ebc7ef1220df68ae8896ec62d56/lit_gpt/gdn2_ops/chunk_gdn2.py)。
+
+工程上适宜沿用主 S 缓存，加上门构造与融合，而无需像 PGDN 那样新增历史 A。低精度重点从“统计闭环”转到“细粒度门、累计遗忘及非对称三角计算”；建议先查门饱和、擦除弱方向时的消减误差和长程状态漂移。
+
+### 26.4 当前证据与 NPU 路径
+
+论文主要比较 1.3B 参数、100B FineWeb-Edu token，并报告递归及 hybrid 设置下的语言建模与检索结果。应将这些结果限定在该训练规模和实验设置；尚不能据此确认旗舰 MoE 的质量或服务成本。[论文实验](https://arxiv.org/html/2605.22791v1#S4)。
+
+FLA 的上述固定快照已出现 GDN-2 的 `triton_ascend` backend，包含块内前向、WY 反向和 recurrent 分派。块内前向 verifier 要求 chunk size 为 64、向上补齐到二次幂的 key 维不超过 256、NPU 张量，以及 FP16/BF16/FP32 类型。[Ascend backend](https://github.com/fla-org/flash-linear-attention/blob/37a6b1c6290e5240f6f0d80419d08a7aac27e548/fla/ops/gdn2/backends/triton_ascend/__init__.py)。
+
+这证明可以从已有代码推进，而不是从零定义所有接口；它不证明所有共享子算子、所有芯片版本和整模型训练都已完成验证。本次没有运行 NPU 内核。源码存在、正确性通过、端到端收益三个阶段应分别记录。
+
+**验收与优先级：** 把 GDN-2 与 PKDA 做单独的消融，再考虑组合。至少比较“绑定标量门”“仅 key 通道门”“仅 value 通道门”“完整解耦门”，同时报告参数量、召回、状态编辑任务及延迟。P2 原型研究中，已有 NPU 路径可能降低原型成本，但生产选择仍由质量—成本证据决定。
+
+<a id="s27"></a>
+## 27 DeltaProduct：每个 token 进行多次记忆编辑
+
+### 27.1 它增加的是单 token 的状态转移表达力
+
+DeltaProduct 的核对版本为 arXiv:2502.10297v7，2025-10-22；该工作已收录于 NeurIPS 2025。它使用多个广义 Householder 变换的乘积，而不是仅做一次 Delta 更新。官方实验仓库建议后续实现跟随上游 FLA。[论文 v7](https://arxiv.org/abs/2502.10297v7)、[会议原始页面](https://proceedings.nips.cc/paper_files/paper/2025/hash/e1ea2520fbf9cd1600b287dde67e0a3c-Abstract-Conference.html)、[官方实验代码](https://github.com/automl/DeltaProduct/tree/d62241a81d07aa32b1b65e7d17377f6a7cd0a5d8)。
+
+### 27.2 机制及它为什么不是简单加宽
+
+每个真实 token 产生 `n_h` 组 key/value/β。先应用一次该 token 的遗忘，再依序执行 `n_h` 次 Delta 编辑，最后读取一次输出。这里 `n_h` 是每 token 的 Householder / 编辑次数，不是注意力 head 的数量。
+
+    S = forget(S_previous)
+    for j in 1 ... n_h:
+        error_j = v_j - transpose(S) × k_j
+        S = S + β_j × k_j × transpose(error_j)
+    output = transpose(S) × q
+
+同一 token 内后面的编辑会读到前面编辑后的状态，因此不能把所有外积并行相加。[上游参考实现](https://github.com/fla-org/flash-linear-attention/blob/37a6b1c6290e5240f6f0d80419d08a7aac27e548/fla/ops/gated_delta_product/naive.py)。
+
+**本文的数学解释：** 对归一化 k，单次 `I-βkkᵀ` 在 k 方向的特征值为 `1-β`，其余方向为 1。β=2 时成为反射；多个不同方向的反射按顺序组合，可以产生一次秩一编辑无法表达的旋转或状态变换。扩大状态矩阵提高容量，增加 `n_h` 增强一次输入触发的转移，两者改变的是不同轴。
+
+负特征值也不等同于数值发散：反射可保持范数。真正风险来自有限精度、归一化偏差、门参数和连续乘积误差。因此，验证不能只看每个因子的特征值，要看跨多 token 的输出和状态误差。
+
+### 27.3 算子、训练与调度代价
+
+上游 chunk 实现按 `T×n_h` 展开 key/value/β，打包长度边界也按同倍率变换；只有真实 token 边界应用遗忘和输出读取。这个复用方法减少新内核工作，但增加投影、内部扫描长度与反向中间量。[DeltaProduct chunk](https://github.com/fla-org/flash-linear-attention/blob/37a6b1c6290e5240f6f0d80419d08a7aac27e548/fla/ops/gated_delta_product/chunk.py)。
+
+**工程判断：** 固定状态大小并不意味着 Decode 成本相同。每 token 多次编辑若不能留在本地缓冲，会重复读取和写回 S；若全部融合，则可能增加寄存器或 NPU 缓冲占用。调度器应以真实 token 数报告服务吞吐，以内部编辑次数估算工作量，不能把 `T×n_h` 当作服务吞吐 token 分母。
+
+论文的语言建模缩放实验含约 213M / 392M / 805M 模型，训练 token 预算约 19B / 35B / 55B；文中出现的 1.3B 也用于参数匹配的吞吐分析，应避免混成一个“1.3B 完整质量结果”。[论文实验与附录 C.3](https://arxiv.org/html/2502.10297v7#S5)。
+
+**验收：** 先要求 `n_h=1` 与对应基线一致；再检查 2/3 次编辑顺序、片段边界、一次遗忘、最终 S 与反向。质量测试应加入变量更新、状态机、排列组合与长程召回。比较时要固定总参数量或明确新增投影成本。它适合 P2 的表达力实验，不应仅依据合成状态机任务替换主力模型。
+
+<a id="s28"></a>
+## 28 Mamba-2、Mamba-3 与 RWKV-7：固定状态不代表同一种算子
+
+### 28.1 Mamba-2：选择性 SSM 与 SSD 数据流
+
+Mamba-2 的原始论文为 *Transformers are SSMs*，arXiv:2405.21060。每头可用 `H: N × P` 表示状态，N 为 SSM 状态维，P 为该头输入通道数；这里的 N 不应机械等同 KDA 的 key head dimension。
+
+    α_t = exp(Δ_t × A),  A < 0, Δ_t > 0
+    H_t = α_t × H_(t-1) + Δ_t × B_t × transpose(x_t)
+    y_t = transpose(H_t) × C_t
+
+`B_t,C_t` 长度为 N，`x_t,y_t` 长度为 P；这是核心离散 SSM，省略 block 的卷积、gate 和 skip 项。Δ 与 B/C 由输入选择，A 在 Mamba-2 中为学习到的数据无关参数。不同于 KDA，它没有按当前 key 读取旧预测再做 Delta 误差校正。SSD 将结构化时间掩码与块矩阵运算结合，避免逐 token 全串行执行。[Mamba-2 原论文](https://arxiv.org/abs/2405.21060)、[作者 SSD 最小实现](https://github.com/state-spaces/mamba/blob/e9594ce1c732d97440f0332fdc43170a2294dbfa/mamba_ssm/modules/ssd_minimal.py)。
+
+**工程解释：** 状态大小相近，也不能直接把 KDA chunk kernel 当作 Mamba-2 kernel。前者需要处理非对称 Delta 交互和三角求解；后者重点是衰减扫描、块内 SSD contraction 和块间状态传递。运行时可以共用状态槽的生命周期，计算图和缓存内容需要保留各自定义。
+
+### 28.2 Mamba-3：三项新机制分别影响数值、状态与计算强度
+
+本次核对的 Mamba-3 为 arXiv:2603.15569v1，2026-03-16。它组合指数梯形离散化、复数状态的实数旋转等价形式，以及多输入多输出 MIMO。[Mamba-3 原论文 v1](https://arxiv.org/abs/2603.15569v1)。
+
+用论文的旋转等价表示，令 `Btilde_t,Ctilde_t` 为累计数据依赖旋转后的 B/C，其 SISO 核心为：
+
+    α_t = exp(Δ_t × A_t)
+    β_t = (1 - λ_t) × Δ_t × α_t
+    γ_t = λ_t × Δ_t
+    H_t = α_t × H_(t-1)
+          + β_t × Btilde_(t-1) × transpose(x_(t-1))
+          + γ_t × Btilde_t × transpose(x_t)
+    y_t = transpose(H_t) × Ctilde_t
+
+旋转为逐对通道的 2×2 数据依赖旋转，累计作用于 B/C；这与固定频率 RoPE 不同。MIMO 将 B/C 扩为 `N × R`、输入扩为 `P × R`，用矩阵乘法代替单次外积，主 H 仍为 `N × P`。公式是论文式 (11) 的矩阵状态写法，省略外围投影与输出组合。[论文机制，第 3 节](https://arxiv.org/html/2603.15569v1#S3)。
+
+**工程判断：** 梯形项要求正确保留上一时刻的输入因子；旋转要求保留或重建累计相位。前缀迁移和投机回滚若只复制 H 而漏掉这些信息就不完整。低精度研究还要查相位累计、sin/cos、衰减与邻 token 项相加的误差，不能只测 GEMM。
+
+MIMO 的价值在于，在状态带宽占主导时增加同次状态读取所完成的运算。它并不保证 R 增加而延迟恒定；过大的 R、很小的批次、缓冲容量不足或不同芯片都可能改变瓶颈。NPU 原型需要评估小矩阵块的实际矩阵单元利用率；GPU 上的收益不能直接移植。
+
+论文包含 1.5B、100B FineWeb-Edu 等规模的比较；官方仓库目前有 Mamba-3 模块，源码快照为 `e9594ce1c732d97440f0332fdc43170a2294dbfa`。本次未完整审计其所有训练、推理 kernel，也未运行模型。[论文实验](https://arxiv.org/html/2603.15569v1#S4)、[官方实现入口](https://github.com/state-spaces/mamba/blob/e9594ce1c732d97440f0332fdc43170a2294dbfa/mamba_ssm/modules/mamba3.py)。
+
+### 28.3 RWKV-7：对角加秩一转移与可分离的移除/替换 key
+
+本次核对版本为 arXiv:2503.14456v2，2025-03-30。把其论文 `W: d_v × d_k` 主状态转置成本站 `S: d_k × d_v` 约定，可写为：
+
+    S_t = [Diag(w_t) - (a_t ⊙ κ_t) × transpose(κ_t)] × S_(t-1)
+          + k_replace_t × transpose(v_t)
+    core_output_t = transpose(S_t) × r_t
+
+κ 是归一化的移除 key，a 是向量化 in-context 学习率；替换 key 不必与移除 key 相同。完整 block 还包括 token shift、value residual、输出附加项及归一化，不能用这个核心式代替完整模型。论文发布模型范围约 0.19B—2.9B；本章不据其理论状态跟踪结果预测旗舰模型推理能力。[RWKV-7 原论文 v2，第 3 节与式 (17)](https://arxiv.org/html/2503.14456v2#S3)、[官方训练与推理仓库](https://github.com/RWKV/RWKV-LM)。
+
+**工程解释：** RWKV-7 与 KDA 都可落在对角加低秩转移的大类，但 key 参数化、擦除/替换绑定、遗忘位置、token shift 和输出处理不同。一般情形下不能交换 `Diag(w)` 与秩一因子，更不能仅换名字复用一个内核。后端至少要区分“对角仿射 scan”“Delta/WY”“通用非对称 DPLR”三种语义；是否共享某些子内核由数学等价和实测证明。
+
+### 28.4 统一的是验收契约，保留的是计算语义
+
+| 路线 | 核心转移特点 | 额外状态/元数据重点 | 主要硬件关注 |
+|---|---|---|---|
+| Mamba-2 | 标量衰减 + 输入外积 | H 与卷积状态 | SSD、衰减 scan、矩阵 contraction |
+| Mamba-3 | 邻 token 输入项 + 旋转；可用 MIMO | H、前一步输入因子、旋转信息 | 小矩阵复用、相位与累加精度 |
+| KDA / PKDA | 逐通道遗忘 + 误差修正；PKDA 写入预条件 | S；PKDA 另有 A | 非对称交互、WY、三角求解 |
+| RWKV-7 | 向量衰减 + 非对称秩一转移 | 矩阵状态、token-shift 状态 | DPLR 块算法、向量门与小状态带宽 |
+
+这张表是基于上述机制的工程映射。它不提供模型能力排序，也不表示四者的理论时间复杂度相同就有相同的端到端成本。
+
+最小对比实验要固定参数量、训练 token、主状态字节或明确差异，并测状态机/重复赋值、长程召回、训练前后向、增量一致性及迁移/回滚。新结构归入模型研发实验；服务后端先保障既有权重的正确语义，然后再优化执行。
+
+<a id="s29"></a>
+## 29 无 Softmax Attention：先区分模型函数、执行优化与复杂度
+
+### 29.1 “无 Softmax”至少包含五种不同路线
+
+讨论这一方向，必须同时问三个问题：是否仍计算每一对 query/key；是否把历史压成有限状态；是否仍做全行归一化。只看激活函数的名字，会把完全不同的训练和硬件需求混在一起。
+
+| 路线 | 代表形式 | 全序列核心成本，固定头宽/特征宽时 | Decode 历史载荷 | 改变模型语义？ |
+|---|---|---|---|---|
+| 优化 Softmax 的执行 | FlashAttention-3/4 | Dense 仍为 O(N²) | 一般仍有随历史增长的 KV | 保留目标 SDPA 函数，存在浮点/量化差异 |
+| 换成逐元素函数 | Sigmoid、ReLU、Softplus 后可选归一化 | 一般仍为 O(N²) | 一般仍有 KV | 是，打分与梯度改变 |
+| 可分解核特征 | φ(q)ᵀφ(k)，先累计 φ(k)vᵀ | O(N)，特征宽必须固定 | 固定大小矩阵状态，可另有归一化状态 | 换核或近似原核，需分别说明 |
+| 结构化可写记忆 | Delta、Gated Delta、KDA、TTT | 取决于写入规则和分块方法；常有线性序列路线 | 递归矩阵/fast weights 与附加状态 | 是，记忆写入算法改变 |
+| 多尺度或混合函数 | Log-Linear、Softmax/Sigmoid 头混合 | 前者 O(N log N)；后者仍可 O(N²) | 前者多级状态，后者通常 KV | 是，需要对应训练 |
+
+这里的 O(N) 指随序列长度的渐近增长，省略的是模型宽度、层数、状态维度、chunk、并行与硬件常数。Dense Attention 的 QK 与 AV 两次核心矩阵乘约为 `2N²d_k + 2N²d_v` FLOPs；因果掩码约减半常数，没有改变平方增长。一个线性核即使不形成 N × N 中间矩阵，也可能因特征维度很大而在中短序列更慢。比较必须画出长度与批次交叉点。
+
+### 29.2 FlashAttention-4 仍有 Softmax，而且值得继续投入
+
+[FlashAttention-4 v1](https://arxiv.org/abs/2603.05451v1) 于 2026-03-05 提交，面向 Blackwell 研究异步矩阵流水线、指数的执行替代、条件重缩放和反向片上数据管理。它解决矩阵算力增长快于指数/共享内存能力造成的新瓶颈。这里的“指数执行替代”是内核实现，不是把模型的注意力函数换成 ReLU。
+
+2026-09 的 [PyTorch 官方低精度 FA4 说明](https://pytorch.org/blog/low-precision-flash-attention-4-end-to-end-block-scaled-attention-for-blackwell/) 又给出 MXFP8 前向与反向、生产者融合量化及变长张量方案。该实现仍明确计算 `P = Softmax(QKᵀ)`，Softmax 部分保留 FP32，再把中间 P 转为低精度供矩阵乘使用。它说明“低精度 Attention”与“无 Softmax”也是两条独立坐标。文中生产工作负载与 GPU 形状证据不能推广为 K3、DeepSeek 或昇腾上的现成性能。
+
+这两项工作的工程启发是：大矩阵越来越快以后，指数/倒数、归约、scale 生成、同步和布局转换会更容易暴露。下一代内核应同时调度矩阵单元、向量/SFU、片上存储和异步搬运；只把乘法改成 FP4，未必缩短整段 Attention。
+
+### 29.3 Sigmoid 门控也不一定替换了 Softmax
+
+[Gated Attention for LLMs](https://arxiv.org/abs/2505.06708v1) 的重要变体在 SDPA 输出之后加 query 相关的 Sigmoid 门，例如解释形式：
+
+    attention_output = Softmax(QKᵀ / sqrt(d) + mask) × V
+    output = attention_output ⊙ sigmoid(gate_projection(input))
+
+门控制输出通道，并未把 query/key 之间的 Softmax 权重换成 Sigmoid。对算子栈，它增加小投影、Sigmoid 和逐元素乘，常适合输出 epilogue 融合；原有 KV、因果掩码和 Softmax Attention 内核仍需要支持。把它归为“无 Softmax 模型”，会错误删除现有执行路径。
+
+### 29.4 PaTH：内容相关的位置变换，仍保留 Softmax 检索
+
+[PaTH Attention v2](https://arxiv.org/abs/2505.16381v2)，2026-02-03，将位置关系表达为输入相关 Householder-like 变换的有序累积；它仍对变换后的 query/key 分数做 Softmax。新算子重点在低秩变换、块内紧凑表示、块间有序传播和配套反向，而不是删除指数与行归一化。矩阵乘积一般不可交换，分片边界顺序属于正确性要求。
+
+这条路线试图把内容相关状态跟踪引入仍能逐项检索的 Attention。它与 Delta 型线性递归有机制联系，却仍需要历史 key/value 类数据；不能用一份有限 Delta 状态替换全部缓存。Prefill、Decode 和前缀复用需保留该版本规定的变换/缓存语义。论文也研究对 RoPE 检查点继续预训练的迁移，不能据此将位置编码替换当作无需训练的后端优化。
+
+固定 FLA [PaTH 层](https://github.com/fla-org/flash-linear-attention/blob/37a6b1c6290e5240f6f0d80419d08a7aac27e548/fla/layers/path_attn.py)的有缓存 Decode 路径限制 q_len=1，并把当前秩一变换施加到历史 key 后追加新 KV。此表示会改写历史，不能直接套用共享前缀页长期只读的假设；投机拒绝也不一定能仅删除新增 KV 恢复。可研究原始 key 加路径元数据、延迟变换或写时复制，但先证明对应数学等价并测实际流量。
+
+### 29.5 可以优化现有权重，也可以研究新模型；两条验收线不同
+
+FA4 类执行变化先与既有模型参考输出、梯度和精度基线比对。直接改变激活、归一化、记忆写入或头类型，则通常需要从头训练、继续训练或有明确损失目标的蒸馏。论文里的“drop-in replacement”往往指网络组件可替换，不表示已有检查点无需适应就保持能力。即使某篇论文的二次锐化允许免微调，也不能据此宣布任意 Softmax 检查点改成该架构都安全。
+
+**判断：** 无 Softmax 值得研究，Softmax 的高效执行也会继续发展。研发路线应把“目标数学函数”“容许近似误差”“实际执行算法”分别登记，避免模型结构与内核版本共享一个模糊开关。
+
+<a id="s30"></a>
+## 30 Sigmoid、ReLU、Softplus：省掉归一化竞争的收益与新问题
+
+### 30.1 Sigmoid Attention：每条边独立决定，但仍逐对比较
+
+设 `z_ij = q_iᵀk_j / sqrt(d)`。典型 Sigmoid Attention 用 `a_ij = sigmoid(z_ij + b)`，再求 `o_i = Σ_j a_ij v_j`；不额外做行和除法时，每条边的权重不必与其他边争取总和为 1 的质量。作者研究给出长度偏置与训练稳定化方案，并公开 FlashSigmoid。[Sigmoid Attention v2](https://arxiv.org/abs/2409.04431v2)，2025-01-22；[作者代码](https://github.com/apple-aiml-research/ml-sigmoid-attention/tree/76a8d3ad9ac8c074de92cbe3791768924e7ebd86)。
+
+从公式直接看出，独立权重的正向仍需要 QK 和 AV，不能一般性改写成 `Q(KᵀV)`。去掉行归一化能减少归约和跨块重缩放；Sigmoid 本身仍可能用指数/倒数，并非没有 SFU 工作。结果不再是值向量的凸组合，输出尺度成为模型必须学习或显式控制的问题。
+
+一个假设算例足以解释风险：若所有分数为 0、有效 key 数为 m，未偏置 Sigmoid 给每条边 1/2；当所有 v 相同，输出就是 `m/2 × v`。若使用 `b = -log m`，权重为 `1/(m+1)`，输出约为 v。这只是初始尺度推导，不证明真实训练时行和始终为 1。对于因果 Attention，m 随 query 位置增长；固定训练长度的偏置、每行有效长度的偏置、每批最大长度的偏置，属于不同模型定义，不能在服务阶段自行替换。
+
+其梯度也有变化。独立 Sigmoid 的局部导数是 `a(1-a)`，不同 key 的打分没有由归一化直接产生的交叉项；Softmax 则有 `∂a_j/∂z_k = a_j(1[j=k]-a_k)`。当 Sigmoid 饱和，打分梯度变小；当偏置或输出归一化不合适，残差幅度和训练梯度又可能过大。训练需同时观察 QK 范数、输出范数、梯度尖峰和长度分布。
+
+该研究的语言实验包含约 1B 参数条件，某些更长序列条件还需要输出归一化稳定训练。这是有价值的算法与内核证据，距离万亿参数 MoE、百万上下文和多平台一致性仍有明显验证距离。报告不把作者的特定 H100 加速写成通用平台收益。
+
+### 30.2 ReLU Attention：没有指数，也没有免费稀疏加速
+
+一种明确的 Dense 形式是 `o_i = Σ_j max(z_ij,0)v_j / m`，其中 m 是定义好的有效长度或训练长度。Wortsman 等的 [ReLU-ViT 研究 v2](https://arxiv.org/abs/2309.08586v2)，2023-10-17，验证的是视觉 Transformer 在 ImageNet-21k 等设定下的尺度行为。其视觉证据不能直接当成大语言模型长程召回已解决。
+
+与归一化 ReLU `a_j = max(z_j,0)/Σ_k max(z_k,0)` 相比，除以长度不需要分数行和，但也不保证权重和为 1。若当前行所有分数非正，归一化版本分母可能为 0，长度版本输出为 0；两者的输出和梯度契约必须明确。ReLU 在负侧的当前局部导数为 0，不代表某条边“永久无法复活”：投影权重还会从其他样本与位置更新。应该测实际训练中的失活比例与恢复，而不是只用这个词给出结论。
+
+ReLU 确实产生精确零，但需要先算 QK 才知道哪些位置为零。普通 Tensor Core 对包含零的 Dense tile 仍执行矩阵乘。只有零呈现可利用的块结构，或者存在可信的提前筛选/跳块算法，才能节省相应 AV 或 QK 工作；建立元数据和跳块还会增加成本。随机 80% 的逐元素零不能自动等价成 80% kernel 加速。
+
+### 30.3 Softplus 与 LSSA/LSSAR：没有 Softmax 名称，仍有行归一化
+
+[LSSA/LSSAR v6](https://arxiv.org/abs/2501.13428v6)，2026-06-01，包含 Softplus、长度缩放和再锐化。简化但保留核心差别的表示是：
+
+    qhat = q / ||q||₂，khat = k / ||k||₂
+    u_ij = Softplus((log d × log m_i) × qhat_iᵀkhat_j) × valid_mask_ij
+    a_ij = u_ij / Σ_j u_ij
+    x_ij = max(m_i × a_ij - c_i, 0)
+    a'_ij = x_ij^p / Σ_j x_ij^p
+
+这里 `c_i` 在前 3 行为 0，随后为 1；p 可为固定超参数，也可采用作者代码的逐头参数化 `p = Softplus(p_raw) + 1`。主实验及扩展规模在 45M—355M，训练上下文主要 1024；论文明确保留 O(N²)，尚未给出与高效 Attention 对等的优化内核证据。它应进入机制实验候选，而不应立即写成现成推理加速路线。
+
+以下是从这种数学结构得出的实现判断。Softplus 的稳定实现可用 `max(x,0) + log1p(exp(-abs(x)))`，仍包含特殊函数；两个行归一化也都需要归约。第二阶段阈值依赖第一阶段的完整行和，不能简单用一次“未知总和的流式 AV”解决：往往需要两次遍历、缓存中间量或证明等价的融合算法。锐化的幂若可学习，还需对 p 求梯度，关注 `log x`、零点与较大 p 的动态范围。
+
+作者代码在 [固定 gpt2.py 版本](https://github.com/iminfine/freeattn/blob/c6df450f4645b7b7fbbc6cb669513b68c543b014/gpt2.py) 使用 Dense 分数张量、归一化和再加权，并在幂前做行最大值缩放；需记录 p 的初始化、是否学习及层间设置，不能把初始 p=15 写成所有运行都固定 p=15。移植时必须保留短行与全零行的处理；数学式里的 `0/0` 不能交给内核隐式决定。再锐化也可用 `Softmax(p log x)` 表示非零项的归一化，因此“无 Softmax 的模型定义”不一定禁止后端采用等价 Softmax primitive。
+
+### 30.4 归一化保留了什么，又增加什么反向成本
+
+对于任意非负函数 f，令 `r = Σ_j f(z_j)`、`o = Σ_j f(z_j)v_j/r`，在 r > 0 时直接微分得到：
+
+    ∂o/∂z_j = f'(z_j) × (v_j - o) / r
+
+因此换掉 exp 后若保留分母，就仍有跨 key 的梯度联系，反向也仍有行归约。对于 f 为 ReLU，要单独处理非可微点；对于有硬阈值的再锐化，要定义阈值相等时的导数。不能拿“逐元素激活更简单”推导训练反向没有同步或归约。
+
+### 30.5 掩码、位置、低精度与验收
+
+有效 key 数应按模型定义计数，padding 与打包样本边界不可进入分母或长度尺度。因果 Prefill 的早期行、单 token Decode、滑动窗口裁剪后的长度，必须采用同一规则。RoPE、ALiBi 等可以参与分数，但一旦改动长度偏置或缩放，原有长上下文能力不能从位置编码名称直接继承。
+
+精度风险有不同形态：ReLU 的临界零点误差会改变稀疏图；Sigmoid 的小权重在长序列中容易被低精度抹掉；Softplus 的大动态范围及高次幂需要稳定重缩放。更小的载荷可用于 Q/K/V 或中间乘法，行和、输出累加、阈值统计和状态尺度宜先保留较高精度，再做独立消融。尺度元数据的粒度和布局属于算子契约。
+
+**验收：** 先用同一权重的该架构参考实现比较 forward/backward；覆盖全 mask、单 key、全负分数、等分数、极大/极小分数、打包边界和长度外推。随后分别比较从头训练的目标质量、训后蒸馏恢复成本、长程精确引用和完整训练/服务耗时。Sigmoid、ReLU、LSSA 应各有实验结果，不能共享一个“softmax-free 已通过”的结论。
+
+<a id="s31"></a>
+## 31 Kernel-feature 线性 Attention：减少 token 两两比较，代价转到状态
+
+### 31.1 线性来自可分解核与运算次序
+
+关键不是从网络图删掉 Softmax，而是把 query/key 相似度写为固定宽度特征的内积 `κ(q,k) = φ(q)ᵀφ(k)`。设 φ 输出 r 维、value 为 d_v 维，无额外门控的归一化因果形式可写为：
+
+    S_t = S_(t-1) + φ(k_t) v_tᵀ       // r × d_v
+    z_t = z_(t-1) + φ(k_t)            // r
+    o_t = φ(q_t)ᵀ S_t / (φ(q_t)ᵀ z_t)
+
+它是可分解核求和的直接重排。因果前缀只需在 t 边界读取累计状态；非因果版本可先累计所有 key/value。基础来源是 [Linear Transformer v3](https://arxiv.org/abs/2006.16236v3)，2020-08-31。φ 换成 ELU+1 或其他正特征，是新的核函数；并不等于精确执行原检查点的 Softmax。
+
+核心状态更新和读取约 O(N r d_v)，再加特征构造、QKV 投影和归一化。若 r 随上下文增大，不能继续隐含固定 r 宣称 O(N)。未加因果 mask 的核矩阵秩至多为 r；加三角 mask 后不能机械沿用同一个全矩阵秩上界，但历史已经压入有限维状态这一事实没有改变。长程精确检索、重复 key 干扰与旧信息覆盖，应作为核心能力测试。
+
+### 31.2 近似 Softmax 与重新学习核，是不同证据
+
+[Performer/FAVOR+ v4](https://arxiv.org/abs/2009.14794v4)，2022-11-19，通过正随机特征近似 Softmax 相关核。它说明“保留相近匹配偏好而获得线性执行”有另一条路线；近似误差仍依赖特征数、分布和数值实现。随机特征也可能包含指数，线性复杂度不表示没有 SFU。
+
+若要改造现有模型，应先测目标层的注意力输出误差、异常分数与任务质量，然后把蒸馏/继续训练时间计入收益。逐层误差小不保证深层自回归结果不变。若是从头训练，则可以直接选择核、门控、状态大小与混合层比例，用同训练预算比较目标质量。
+
+### 31.3 Mask 和位置不是可随意附加的 N × N 矩阵
+
+简单因果 mask 能由前缀累计表达。打包多个样本必须在样本边界 reset 状态；不能让第二个样本继承第一个样本的 S 与 z。固定滑动窗口的简单加法状态可研究减去过期外积，但仍需要保存可减的历史信息；门控或 Delta 写入的窗口删除一般没有这样简单的减法。
+
+任意 query/key 成对 mask 或位置偏置未必可分解，可能破坏线性重排。先旋转 Q/K，再做非线性正特征映射，也不保证与原 RoPE-Softmax 的相对位置语义相同。每个候选应明确位置变换在 φ 前还是后、是否保留正性、是否引入附加状态，并用长度外推实验确认。
+
+### 31.4 训练需要分块与反向，不能从 Decode 的常数内存推导
+
+逐 token recurrence 的逻辑很小，但 Prefill 的串行启动效率差。训练通常需要 chunk 内矩阵乘、chunk 间累计/scan、必要的状态重计算和专用反向。简单加法累计容易组合；更复杂更新的块转移能否高效组合，须看数学结构。朴素保存每个 token 的 r × d_v 状态会使训练激活内存线性增长；只保留末态会失去反向所需信息，必须设计保存/重算策略。
+
+上下文并行时，一个分片的初态由之前分片的累计决定。不能把各卡局部结果简单平均，也不能只复用普通 KV Attention 的切片方式。算子验收至少比较串行、chunk、scan 和不同分片的 logits、末态与梯度。
+
+### 31.5 Delta、KDA、TTT 改的是写入规则
+
+纯加法把每次外积叠加到状态中；Delta 根据当前记忆对 key 的预测误差做修正。其关系可追溯到 [Fast Weight Programmers v3](https://arxiv.org/abs/2102.11174v3)，2021-06-09。门控、KDA 与 TTT 又继续改变遗忘、更新或记忆学习。它们不是把上式的分母删除后自然得到的同一种模型。
+
+对 Runtime 的共同点是可变的会话状态、提交边界与回滚；对算子的区别则是写入矩阵、门控、chunk 内校正、训练反向和可能的内部学习步骤。某种线性状态能使用简单前缀 scan，不表示任意非线性 TTT 更新也有相同低成本并行形式。具体实现应与本报告的 KDA、TTT 章节共同阅读。
+
+### 31.6 状态低精度与未来判断
+
+归一化状态 S 和 z 的范围、累加时间与误差来源不同。分母接近零时误差被放大，直接加 ε 也会改变模型函数；有符号核还可能出现抵消。FP4/FP8 权重格式的经验不能自动用于长期状态。应分别评估特征精度、外积计算、状态累加、分母及输出精度，并测长输入后的小信息召回。
+
+**判断：** 可分解核是理解 O(N) 的基础；生产重点更可能是受控写入、合适状态容量与少量精确检索的组合。应建设可复用的分块/状态/反向能力，同时让不同核和写入规则有独立正确性契约。
+
+<a id="s32"></a>
+## 32 新兴注意力的下一步：多尺度状态与同层函数分工
+
+### 32.1 Log-Linear：让记忆容量缓慢增长
+
+固定矩阵状态很省空间，也把不同时间范围混在同一容量内。[Log-Linear Attention v3](https://arxiv.org/abs/2506.04761v3)，2026-03-01，通过 Fenwick 式时间分区维护多级状态，在多个时间尺度读取；序列成本 O(N log N)，Decode 时间与状态量为 O(log N)，可施加在 Gated DeltaNet/Mamba 类机制上。其语言实验约 0.7—0.8B 参数、50B token、16K 上下文。[作者仓库固定版](https://github.com/HanGuo97/log-linear-attention/tree/7f8644159c1406fae1ad863829a5b3a4fbf63022)。
+
+解释用读取形式是 `o_t = Σ_level λ_(t,level) × read(q_t, S_(t,level))`。不同级别概括不同历史段；若所有级别读权重退化为同一规则，就可能丢失多尺度的优势。它不是通过单一固定状态免费获得完整历史，也不意味着保留每个 token 的精确 KV。
+
+工程代价从一份状态变成层级目录、不同级别的合并/更新和多路读取。Prefill 需要结构化 chunk 与 scan；Decode 需要快速找到活跃级别、批量执行多路小矩阵读取，避免每一级单独启动。若按请求的真实长度只分配必要级别，容量更省但形状动态；若按最大长度全分配，图捕获简单但有浪费。这是应测的 Runtime 权衡。
+
+低精度也要按级别考察：远历史汇总的读写频率和误差寿命不同于近级别，不能只给所有状态一个统一 dtype。回滚到历史边界时，层级合并不能原地不可逆地覆盖唯一副本；保存必要快照或转移记录的成本要计入投机解码。
+
+**判断：** 这是固定状态与线性 KV 增长之间有实质差别的候选，值得列为 P2 架构实验。学术规模证据尚不能保证 K3 规模提升，也不能只看理论复杂度忽略多级状态带宽与批处理碎片。
+
+### 32.2 MoFA：同一层里的头可以采用不同函数
+
+较新的 [MoFA v1](https://arxiv.org/abs/2609.39188v1) 于 2026-09-30 提交，在训练前固定 Softmax/Sigmoid 头的比例。其 GPT-2 124M、五个随机种子、十五个分布外域实验研究函数选择带来的归纳偏置。它提供近期方向线索，仍是小规模证据；不代表已验证能迁移到大规模 MoE。
+
+这个方向的系统意义是：未来“一个层等于一个 Attention kernel 类型”可能不够。函数不同的头可使用相同 QKV 投影，再分组执行相应 kernel，最后拼接投影。不过 Softmax 与 Sigmoid 两组若都做完整 QK，复杂度仍为 O(N²)，通常也没有消除 KV 增长。头异构本身不等于线性复杂度。
+
+分组执行可能减弱每组矩阵的规模；统一 kernel 中按头选择函数可能造成不同流水线的利用率问题。应实测头组数量、kernel 启动、图复用、训练反向和最终质量；不要为了形式统一强制把全部头转换成同一种函数。若未来再混入线性或稀疏头，必须额外登记各组的状态、mask 和位置契约。
+
+### 32.3 用质量、状态和完整成本决定是否入主线
+
+| 候选 | 应优先证明的收益 | 核心算子投入 | 当前适合的决策 |
+|---|---|---|---|
+| FA4/低精度 FA4 | 既有模型目标函数下的完整执行成本 | QK/PV 流水线、归约/指数、量化融合、反向布局 | 目标设备上的 P1 执行优化 |
+| Sigmoid/ReLU Dense | 新训练配方达到同质量，归约减少是否有收益 | 激活、输出累加、必要尺度/归一化、配套反向 | P2 结构实验，不能直接改旧权重 |
+| LSSA/LSSAR | 长度/检索收益超过两阶段新增成本 | QK 归一化、Softplus、两阶段归约与锐化 | 先机制复现，再研发融合内核 |
+| Kernel/Delta 状态 | 同质量时长上下文的容量/成本改善 | 特征、chunk/scan、状态更新、反向与快照 | 模型已有语义为 P0；新规则为 P2 |
+| Log-Linear/MoFA | 多尺度/函数分工收益可跨规模复现 | 层级状态或头组分派、异构反向 | 有限预算、多种子验证 |
+
+研究应保存同数据、训练 token、参数/激活计算、实际状态字节和精度的对照。对质量，加入干扰项下检索、重复实体、先写后覆盖、位置外推与多步骤推理；对执行，分开测 Prefill、Decode、Verify、反向和恢复。输出尺度、梯度尖峰、稀疏率、分母范围、状态漂移和每级访问量，是解释失败比单一困惑度更有用的观测。
+
+**未来判断：** 高置信度的是 Attention 会继续同时沿执行效率与结构设计演进；中等置信度的是多种记忆/注意力函数共同分工；低置信度的是某一种无 Softmax 技术会统一替代所有检索型层。失败反证应包括：同预算质量损失无法恢复、状态带宽抵消计算节省、异构调度成本高于收益，或长程精确检索仍明显弱于精确/稀疏 Attention。
+
+<a id="s33"></a>
+## 33 OCP 2.0 研究范围与已发布规范
+
+### 33.1 已发布规范、厂商扩展和研究提案的证据边界
+
+本章讨论 OCP 数值格式与 Microscaling 的演进。截至 2026-10-08，本次检索可确认的官方 MX 文件仍是 **Microscaling Formats v1.0，2023 年 9 月**；OCP Hardware Management 项目的 MX 入口直接指向这一版本。未找到可核验的 MX v2.0 正式文本或公开草案。这是公开证据检索的结论，不能据此断言内部工作不存在，也不能把任何新论文自动命名为 OCP 2.0。[OCP MX 官方入口](https://www.opencompute.org/projects/hardware-management/)、[MX v1.0 规范](https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf)。
+
+与 MX 分开的 **OFP8 Revision 1.1 FINAL** 已出现在 OCP 官方 FP8 仓库，封面列明 2026-06-22 生效。修订重点是 FP8 转换边界的描述与附录示例，不是新增 FP6、FP4 或整套低精度训练方法。FP6 与 FP4 在 MX v1.0 就已经存在，BF16 出现在转换来源和高精度计算的语境里，也不能因此称为“2.0 新格式”。[OFP8 官方仓库](https://github.com/opencomputeproject/FP8)、[OFP8 Revision 1.1 FINAL](https://github.com/opencomputeproject/FP8/blob/29141cc56f8b04841a13390a5cbe6ac59e1cb24c/OCP%208-bit%20Floating%20Point%20Specification%20%28OFP8%29%20Revision%201.1%20FINAL.pdf)。
+
+| 对象 | 已确认状态 | 对研发的意义 |
+|---|---|---|
+| OCP MX v1.0 | 已发布格式与基本操作语义 | 稳定的互换与测试基线 |
+| OCP OFP8 Revision 1.1 | 官方 FINAL 文档已发布 | 更新转换边界测试，独立管理版本 |
+| NVFP4 与后端布局 | 厂商格式、配方与执行接口 | 按设备和软件版本选择，不能替代 MX 标准编号 |
+| OAS/MBS、MX+、M²XFP、MX-SAFE | 作者论文中的改进或新格式 | 评估机制、兼容成本与复现条件 |
+| OCP MX v2.0 | 本次未核实具体规范 | 暂不列“新增格式清单”或硬件承诺 |
+
+### 33.2 OFP8 1.1 为什么影响实际转换算子
+
+一个容易遗漏的变化是：应先按目标精度舍入，再判断是否超过最大幅值。附录给出 E4M3 最大有限值 448 的舍入边界：正值大于 448、但不超过 464，仍可按最近偶数舍入到 448；E5M2 最大有限值 57344 的尾数奇偶性不同，61440 的中点会向上舍入，触发溢出或饱和。非饱和 E4M3 溢出生成 NaN，E5M2 生成无穷大。只写“输入超过 448 就溢出”的转换会在边界区间产生不同结果。[OFP8 1.1 第 5.2 节与附录 A](https://github.com/opencomputeproject/FP8/blob/29141cc56f8b04841a13390a5cbe6ac59e1cb24c/OCP%208-bit%20Floating%20Point%20Specification%20%28OFP8%29%20Revision%201.1%20FINAL.pdf)。
+
+**工程建议：** 格式升级必须进入转换测试向量，而不只是更新 dtype 名称。分别覆盖正负零、最小非正规数、相邻可表示值中点、最大有限值附近、饱和与非饱和模式、NaN 和无穷大。随机舍入还要固定种子、概率语义和执行顺序。测试解码位模式是否一致与测试 GEMM 误差是否可接受，是两个不同层面的验收。
+
+### 33.3 标准化没有消除配方与布局的差异
+
+MX v1.0 对一个块使用“元素 × 共用 scale”的表示，并将内部点积精度和运算顺序留给实现决定；物理内存布局也没有统一规定。因此，两套实现都支持 MXFP4，仍可能具有不同的量化算法、累加误差、scale 排列和转置维护成本。[MX v1.0 第 5、6 节](https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf)。
+
+未来值得关注的演进，应拆成四条独立路线：**互换格式** 决定位模式与数值；**计算配方** 决定 scale、舍入、变换和哪些张量保留高精度；**执行接口** 决定分块、累加、布局、转置与融合；**模型契约** 决定训练、权重、激活、通信和状态的质量要求。新标准可能收敛其中一部分，其余仍要由框架和硬件配合。这个判断具有高工程置信度，具体下一版标准会采用什么内容的置信度很低。
+
+<a id="s34"></a>
+## 34 Microscaling 的新研究：缩放、异常值、元数据与可变精度
+
+### 34.1 只减少元素位数，会把误差集中到哪里
+
+低位元素与块共享 scale 共同决定误差。共享的 scale 可以覆盖整个块的幅值，但块内的异常大值会使其他较小值落到更少的档位，甚至变成零。E8M0 的 scale 只能是 2 的幂，理想 scale 落在两个幂之间时，还会引入缩放粒度误差。它们解释了为什么“FP4 只有 1 位尾数”和“MXFP4 每块 32 个元素”必须同时考虑。
+
+这一机制分析不是声称某一格式在所有模型上更差。ACL 2026 的原始 PTQ 研究覆盖多个算法、模型家族和评测，指出 MXFP4 的缩放误差是关键来源，算法与格式的兼容性也影响结果；它提供了“需要改进缩放”的实验线索，不能证明同一校准法可以直接用于 K3、GLM 或 DeepSeek 的全部模块。[MXFP PTQ 原始研究](https://aclanthology.org/2026.acl-long.1854/)。
+
+### 34.2 OAS 与 MBS：在已有计算单元上改善缩放
+
+OAS（Overflow-Aware Scaling）针对某些块选择允许受控饱和的 scale，用大值和小值的总体误差换取更有效的表示范围；它不是无条件禁止溢出，也不是检测到异常值就提高全部精度。MBS（Macro Block Scaling）再为更大的区域加入较精细的缩放信息，使局部的 2 的幂 scale 不必独自承担全部误差。[OAS/MBS 论文](https://arxiv.org/abs/2603.08713)。
+
+**必须保留的实现限定：** 作者的重要实验路径采用 16 元素微块，并在 Blackwell 的 NVFP4 管线中把 scale 约束为 2 的幂；这是 MX 风格的增强路径，不能等同于标准 OCP MXFP4 的 32 元素格式，也不能把论文所称“不修改硬件”推广成所有 MXFP4 GPU/NPU 原样支持。MBS 的 128 元素区域还会改变缩放的应用位置；新增比例系数必须随区域计算正确施加，不能在整个 K 维已经归约后随意乘一个全局常数。[论文第 4 节](https://arxiv.org/html/2603.08713v1)。
+
+可以用下面的解释式检查一个实现的数学边界；这不是论文完整内核公式：
+
+    C[i,j] = sum over region r {
+        scaleA[i,r] × scaleB[j,r] × partial_dot(A[i,r], B[j,r])
+    }
+
+当 scale 随 r 改变时，把它从整个求和中提到外面会改变结果。所需算子是区域统计、scale 选择、打包、局部累加修正及融合；验收应同时报告质量与“量化 + 转换 + GEMM + 修正”的耗时。该方向的价值在于先用软件探索精度/成本，而不是先假定需要新的矩阵单元。
+
+### 34.3 MX+：给块中的重要大值更多有效尾数
+
+MX+ 观察到，块最大值的局部指数可以由共享尺度和其角色推断，因此尝试把原本的指数位用于额外尾数，提高异常大值的表示精度。论文研究了软件集成与硬件支持方式。它改变的是编码/解码与大值处理，不是给普通 MXFP4 文件换一个标签。[MX+，MICRO 2025](https://arxiv.org/abs/2510.14557)。
+
+**工程判断：** 这类方案值得在激活异常值明显的层上试验，前提是完整计入索引或标记、打包、解码以及可能的附加修正。是否仍能直接使用现成 GEMM，需要检查作者的具体路径；“基于 MX 的扩展”不保证普通 MX 解码器能无损读懂它。对于 MoE，少量 token 专家也要测，额外控制成本可能在小矩阵中占主导。
+
+### 34.4 M²XFP：少量元数据用于不同张量角色
+
+M²XFP 将额外位分配给元素或子组，分别优化动态激活与静态权重；论文代表配置以 32 元素共享 scale、8 元素子组组织数据，报告 4.5 bit 的有效位宽。该方案需要理解元数据的解码和计算。作者的硬件速度/能耗证据来自周期级 DNNWeaver 仿真、Verilog 与 28 nm 标准单元综合，不能当作现成 GPU 或 Ascend 的实测收益。[M²XFP，ASPLOS 2026](https://arxiv.org/abs/2601.19213)、[第 6.1 节实验条件](https://arxiv.org/html/2601.19213v2)。
+
+**工程判断：** 该结果支持“给最敏感部分增加少量精度可能比统一加宽更划算”的研究路线。对 K3 的投入应从离线权重编码及参考解码器开始，再判断激活在线编码和后端是否合算。发布模型时必须附元数据版本与反量化规则，否则有效 bit 较低也无法可靠交换。
+
+### 34.5 MX-SAFE：指数与尾数的分配可以随数值区域变化
+
+MX-SAFE 研究了较宽尾数的 E2M5 模式和较宽相对范围的 E3M2 子正常模式组合，并采用 tile 设计减少训练中的再量化负担。其训练分析显示，单次量化误差较小的格式仍可能因为小梯度下溢而不稳定；实验包含视觉模型和多模态任务，而非已复现的 K3 或万亿参数 MoE 全训练。[MX-SAFE，DATE 2026](https://arxiv.org/abs/2605.24391)、[实验范围](https://arxiv.org/html/2605.24391v2)。
+
+这给未来数值设计提出一个具体要求：不只看均方误差，也看下溢率、梯度分布尾部、状态更新偏差和训练长度。动态编码是否值得采用，还取决于转换复杂度、指令支持和模型是否能稳定适应，不能仅凭一种任务的平均准确率决定。
+
+### 34.6 Multi-Scale Dequant：用多个低精度分量代替扩大权重
+
+MSD 研究将高精度激活分成多个低精度分量，分别与已量化权重相乘，再缩放相加，从而减少权重或 KV 在 GEMM 前的反量化。一个说明式为 x ≈ a·x₁ + b·x₂，所以 Wx ≈ a·Wx₁ + b·Wx₂。它新增激活残差分解、多个 GEMM 和输出重建算子，试图交换“转换/访存成本”与“额外矩阵计算”。[MSD 原始论文](https://arxiv.org/abs/2605.13915)。
+
+这个方向与 GPU/NPU 的向量单元、矩阵单元协同直接相关，但不能默认更快：若原来反量化已融合并有效重叠，多做一次 GEMM 可能增加延迟；若原来受访存或转换限制，则可能有价值。应测实际高精度参照误差、分量数、转换/重建时间、重复权重读取和Prefill/Decode形状，避免只看理论矩阵算力。
+
+**证据边界：** 论文主要给出误差推导、延迟/流量模型与数值模拟，本文未将其当作完整模型实测加速。原始文本的 MXFP4 分析使用 E1M2 元素，不能把相关误差界直接应用于 OCP E2M1；论文对部分硬件数据流的概述也应以目标设备官方接口和实际 profiler 验证。[原始方法与实验](https://arxiv.org/html/2605.13915v1)。
+
+### 34.7 位宽预算的计算必须包含 scale、元数据与打包
+
+以下是紧密打包、完整块、单份数据和单份 scale 的逻辑载荷推导，不包括对齐与双布局：
+
+| 假设 | 每 32 元素载荷 | 有效 bit/元素 |
+|---|---:|---:|
+| BF16，无附加 scale | 64 bytes | 16 |
+| OCP MXFP8 | 32 bytes 元素 + 1 byte scale | 8.25 |
+| OCP MXFP6，6 bit 紧密打包 | 24 bytes 元素 + 1 byte scale | 6.25 |
+| OCP MXFP4 | 16 bytes 元素 + 1 byte scale | 4.25 |
+| 在 MXFP4 上假设每块另加 8 bit 元数据 | 16 + 1 + 1 bytes | 4.5 |
+
+最后一行是通用成本算例；不是所有带元数据方案的真实布局。如果 FP6 为了方便存进 8 bit 槽，数据就可能仍占 32 bytes，加 scale 后为 8.25 bit/元素。若保留行、列两份量化表示，还要再计算另一份载荷。训练优化器状态和高精度主权重也必须另算。
+
+**优先级判断：** 近期优先做兼容已有算子的缩放/校准改进、明确量化轴与融合成本；元数据和动态编码适合作为中期研究线。新格式进入标准、进入指令和进入可用训练框架，是三个不同里程碑。
+
+<a id="s35"></a>
+## 35 MX 在 MoE、通信和 GPU/NPU 适配中的实际要求
+
+### 35.1 同名格式不意味着同一执行接口
+
+AMD CDNA4/MI350 官方资料列出 MXFP8、MXFP6、MXFP4 的矩阵单元支持；NVIDIA 的 Transformer Engine NVFP4 文档规定其具体缩放、布局与支持设备条件；CANN 9.1 的 MxMatmul 则明确列出 Ascend 950PR/950DT 的 MXFP8/MXFP4 及 K 方向每 32 元素共享 E8M0 scale。它们是可以建设后端的证据，不是三个后端已有相同模型精度和吞吐的证据。[AMD MI350 微架构](https://rocm.docs.amd.com/en/docs-10.0.0/reference/gpu-arch/mi350.html)、[Transformer Engine NVFP4](https://docs.nvidia.com/deeplearning/transformer-engine/features/low_precision_training/nvfp4/nvfp4.html)、[CANN MxMatmul](https://www.hiascend.com/document/detail/en/CANNCommunityEdition/910/programug/Ascendcopdevg/docs/en/guide/operator_practice/simd_operator_impl/matrix_advanced_api/feature_scenarios/mxmatmul_scenario.md)。
+
+CANN 的表中同时有 FP4 E2M1 和 E1M2。OCP MX v1.0 的具体 MXFP4 是 E2M1，不能把 E1M2 字节按 E2M1 重新解释。对 Ascend 950 的官方接口证据也不能倒推所有旧 Ascend 设备具有相同原生能力。跨设备移植应锁定目标型号、CANN/ROCm/CUDA 和框架版本，再查实际可调用算子。
+
+### 35.2 双轴缩放与物理布局会成为算子工作的一部分
+
+NVIDIA cuDNN 对 MXFP8/NVFP4 scale 使用特定 128 × 4 tile 排列，行数和 scale 列数需要满足填充规则；CANN 的 MxMatmul 则区分数据与 scale 的 ND/NZ 格式、转置标志和专用 scale 组织方式。共用相同 E8M0，并不意味着可以直接传同一个 scale 指针。[cuDNN scale 布局](https://nvidia.github.io/cudnn-frontend/mxfp8-scale-factor-128x4-layout/)、[CANN scale 参数与布局](https://www.hiascend.com/document/detail/en/CANNCommunityEdition/910/programug/Ascendcopdevg/docs/en/guide/operator_practice/simd_operator_impl/matrix_advanced_api/feature_scenarios/mxmatmul_scenario.md)。
+
+**自己的成本算例：** 一位专家只收到 1 个 token，假设输入为 [1,4096] 的 MXFP4。逻辑元素占 2048 bytes，逻辑 scale 为 128 bytes，总计 2176 bytes。若某后端给 scale 的行维单独填充到 128，则 scale 可达 16384 bytes，总计 18432 bytes；这超过同形状 BF16 的 8192 bytes。这里只展示填充风险，未假定数据也按 128 行填充，也不是某个已测 Grouped GEMM 的内存结果。若把多个专家聚合或使用专门的紧凑小矩阵路径，成本可以改变。
+
+由此可见，MoE 不能只比较“4.25 bit 与 16 bit”。要用真实专家 token 数分布测量 packing、scale 填充、小 M GEMM、尾部专家、空专家和共享专家。判断收益时看整个专家链：Dispatch → 通信 → 量化/布局 → Grouped GEMM → 非线性 → 第二个 GEMM → Combine。
+
+### 35.3 低精度通信要明确搬运与归约的区别
+
+All-to-all 或 All-gather 搬运量化块时，元素与 scale 必须一起传递；接收端还要知道逻辑块位置、量化轴和版本。将一个专家收到的 token 拼接成新矩阵，是否需要重新分块和再量化，取决于原来的块边界。如果预先量化再做按行置换，完整行内块通常可以一起搬运；拆分块或改变缩放轴就不能只移动元素。
+
+All-reduce/Reduce-scatter 则包含加法语义。不同节点各自拥有的 scale 通常不同，把低精度编码直接相加不等于把原数值相加；必须采用一致 scale、解码后归约或经过验证的专用量化归约。NVFP4 的官方分布式配方还要求某些 gathered 张量同步全局 amax；节省通信载荷时不能遗漏这一步的同步延迟。[Transformer Engine 分布式 NVFP4](https://docs.nvidia.com/deeplearning/transformer-engine/features/low_precision_training/nvfp4/nvfp4.html)。
+
+**工程建议：** 推理专家激活的传输、训练梯度归约和跨设备状态迁移分别建立协议。线性层精度、网络线上的表示、长期缓存表示可以不同，但每次转换都要出现在成本和误差账本中。递归状态反复量化还会把误差带到未来时间步，不能用单次专家 GEMM 的误差阈值验收。
+
+### 35.4 定制 Runtime 需要调度什么
+
+低精度执行会增加运行期资源：量化缓冲、scale 元数据、行/列表示、转换工作区、同步依赖及高精度回退。K3 Runtime 应在已有算子契约里记录元素格式、scale 格式、块与轴、布局版本、累加类型、量化配方和后端支持条件；用这些条件选择实现，而不是仅以“FP4”字符串选 kernel。
+
+建议按两种时间尺度决策。离线或模型加载时选择专家权重格式、校准、静态布局和需要保护的层；服务运行时根据 batch、专家 token 数、上下文与设备负载选择紧凑小矩阵路径或吞吐路径。频繁在线切换量化格式会带来再量化与缓存失效，只有测得收益超过转换成本时才采用。对未知编码或不满足契约的权重应明确拒绝或走已验证的转换；不能静默重新解释。
+
+### 35.5 可执行的验收与未来判断
+
+建议先建立三组实验。第一组是位模式与转换边界测试，覆盖 OCP 与厂商扩展，确认跨后端解码。第二组是 [M,K,N]、专家数量和 token 分布扫测，记录有效字节、填充率、量化/转置/GEMM/通信各段时间。第三组是完整模型的质量与长期数值验证，加入罕见实体、路由近边界、长递归序列、投机接受/回滚和短训到长训的迁移。
+
+**高置信度判断：** 格式互换会比执行布局更容易统一，scale 与转换将成为一等算子成本；MoE 小矩阵和混合状态会限制理论位宽收益。**中置信度判断：** 分层/分角色精度与增强缩放会先于“全部张量统一 FP4”普及。**待证判断：** 某一元数据编码会成为 OCP 后续规范，或者一种已有 GPU/NPU 可以无修改执行所有新格式。出现正式版本文本、原生指令与端到端复现，才应提升这些判断的证据等级。
+
+<a id="s36"></a>
+## 36 DeepSeek 4.1 Flash 的 CED 与阶段成本
+
+### 36.1 结构变化与来源口径
+
+V4.1 Flash 应作为独立结构分析。固定配置是 40 层语言主干、20 层因果 encoder 接 20 层 decoder，hidden=5120，384 个路由专家选 6，加一个共享专家；另有原生视觉和 Engram。主干约 552B、Engram 约 196B，两个容量口径分列。官方的 prefill 8B / decode 16B 激活量依赖优化执行阶段，不能按“40 层每层同样工作”解释。[固定配置](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json)、[独立结构研究](../../assets/deepseek/DeepSeek-V4.1-Flash-研究.md)。
+
+CED 的关键是 decoder 的全局 KV 来源于 encoder 最后一层的表示，局部 SWA KV 仍来源于各 decoder 层自己的输入。输入很长、输出较短时，先处理 encoder，再为 decoder 恢复一个短窗口，可以省去大部分 prompt 的 decoder 主干计算。它仍是因果语言建模；“encoder”这个名字不能理解为允许读取未来文本的双向编码器。[技术报告 §2.2](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf)。
+
+### 36.2 成本推导与短输入反例
+
+以下只数层-token 工作，忽略投影、稀疏索引、视觉和通信。令输入长度为 N、窗口为 W=128：
+
+```text
+完整参考主干：40 × N
+优化阶段近似：20 × N + 20 × min(N, W)
+二者比值：1/2 + min(N, W)/(2N)
+N=128：1
+N=1024：0.5625
+N=32768：0.501953125
+```
+
+这是结构规模算例，不是运行时间或 FLOPs 的精确比值。缓存命中时还要用未命中的 suffix 长度、回放长度和已有状态共同计算。短 prompt、很长输出、视觉编码占主导时，CED 的输入侧优势可能不再是端到端主导项。
+
+### 36.3 模型接口不能隐藏阶段差别
+
+框架需要分别表达 encoder prefill、decoder replay、完整参考前向、逐 token decode 和 target verify。不能用一个固定“每 token 激活参数”估算所有阶段，也不能以跳过 decoder 的优化接口计算任意 prompt 位置的全部 logits。训练损失、提示词评分和生成首 token 可能需要不同输出范围。
+
+固定参考 `Transformer.forward` 的 prefill 仍遍历完整语言主干；可读参考用于说明语义，并没有直接实现生产 CED 的全部执行计划。[参考模型](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/model.py)。
+
+**工程判断：** 未来结构会更多地把输入处理和输出生成的计算量分开。对 K3 应建立阶段成本接口，是否改为 CED 则需要重新训练与质量对照。CED 不能作为任意已有 decoder-only 权重的透明调度选项。
+
+验收应覆盖短/长 prompt、命中/未命中、全位置评分/末位置生成、多轮工具结果和视觉输入，分别记录 encoder、replay、首 token、decode 的时间与质量。
+
+<a id="s37"></a>
+## 37 CSA2 的共享缓存和分层索引算子
+
+### 37.1 三种模式是一张依赖图
+
+Full 产生全局 main KV、index K 和新 Top-K；Reindex 复用 KV/K、重新选择；Reuse 连选择结果也复用。三者都计算本层 query、本层 SWA 和 attention 输出。固定主干含 4 个 Full、4 个 Reindex、30 个 Reuse，另有 2 个仅 SWA 层。共享的是指定组件，不能把 Reuse 当作整层跳过。[固定配置与参考模型](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/model.py)。
+
+这要求 Runtime 管理 owner/consumer 关系：哪一层发布哪份缓存、消费者何时使用、哪次 query 对应哪套索引、什么时候可以释放。推理批次、投机分支和训练 micro-batch 都有各自身份；不能只用“当前层号”保存一份全局可变 Top-K。
+
+### 37.2 候选池不是最终 attention 集合
+
+decoder 的首次 Full 层仍扫描全因果范围。按每块 8 个位置的最大分数选择最多 2048 块，产生最多 16384 个候选；后续 Reindex 再在候选内选 top-512。上游筛选错误会限制下游召回，下游 query 再好也无法选回已被排除的位置。[技术报告 §2.3.2](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf)。
+
+只数 decoder 的五个 indexer 所打分的位置，且忽略头数、维度和其他成本，可作如下推导：
+
+```text
+五次全扫描：5N
+一次全扫描 + 四次候选扫描：N + 4 × min(N, 16384)
+N=1048576：约为五次全扫描位置数的 21.25%
+```
+
+这一算例解释“后层索引有界”的意义。首次扫描仍随 N 增长；没有证明全模型为常数复杂度。Gather、块归约、Top-K、候选去重和数据搬运也未计入。
+
+### 37.3 逻辑稀疏与物理稀疏要分别核验
+
+固定 `Indexer.forward` 先对完整 index K 做 `einsum`，再用 candidate mask 把池外分数设为负无穷。这保证逻辑候选约束，却仍做了池外矩阵计算。部署要获得上面的计算收益，必须先收集候选 index K 或在稀疏 kernel 中直接跳过池外 tile；仅有 mask 不够。[Indexer.forward](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/model.py#L527)。
+
+所需算子链是 FP4 index GEMM、跨 head 加权归约、块最大值、块 Top-K、候选 Gather、二级打分/Top-K、索引排序，以及 SWA 与稀疏 global attention。主要 attention 仍执行在线 Softmax；indexer 的 ReLU score 不表示主 attention 无 Softmax。[稀疏内核](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/kernel.py#L311)。
+
+训练中共享层跨 PP stage 时，要处理共享参数的单一逻辑 owner、shadow replica 的同步、梯度汇总和点对点 payload。共享缓存减少存储，不保证 PP 通信同步同样减少；层数平均切分可能把 owner 与大量消费者分到不同 stage。
+
+**工程判断：** “产生、检索、消费历史”逐渐成为可分别优化的模块。验收除质量外，应测每层实际打分位置数、Gather 字节、候选召回、Top-K 稳定性、跨 stage 字节，以及重计算/取消之后是否读到错误版本。
+
+<a id="s38"></a>
+## 38 Bounded replay 与分层会话状态
+
+### 38.1 为什么回放一个窗口不是精确恢复
+
+一层 SWA 只读最近 W 个位置，多层叠加后依赖会向更早历史传播。因此恢复 L 层状态不能一般地只从 W 个原始 token 得到完整前向结果。V4.1 的 bounded replay 刻意截断这部分依赖，用近似状态换恢复成本；官方将其纳入模型适应与部署方案。[技术报告 §3.2.2](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf)。
+
+encoder replay 在命中 global KV、缺少 SWA 时回放前缀尾部：已命中的 global KV 保持不变，新 suffix 生成新缓存。decoder replay 则将 prompt 尾部 encoder 表示经过 decoder 层，恢复生成所需 SWA。两者的输入、发布范围和用途不同。[站内逐项说明](../../assets/deepseek/DeepSeek-V4.1-Flash-研究.md)。
+
+### 38.2 它改变了缓存一致性的标准
+
+近似回放下，同一段文本 suffix 的新状态可能受缓存命中边界影响。不能把“与 full forward 不逐值相等”直接判成 kernel 错误，也不能把所有差异都归给回放而放过真正的实现 bug。应分别建立完整前向参照、规定 replay 参照和部署质量评测。
+
+一个合理的验证顺序是先让 CPU/可信后端执行同一截断回放算法，核对设备实现；再比较回放与完整前向的误差；最后测任务质量。检索、数字、长工具链和边界附近的事实应单独看，不能只给整体均分。
+
+### 38.3 生命周期影响存储层级
+
+长期 global KV 与活跃会话 SWA 的复用频率不同。前者适合较长驻留与持久缓存；后者可以进入短驻留的主机内存池，丢失时使用 replay。分层策略的收益取决于真实复用曲线、换入耗时和回放代价，不能把论文的 SSD 降幅直接当成 HBM 降幅。
+
+调度成本应包含“状态在何处、是否可恢复、是否需近似恢复”。断线重试、迁移、抢占、缓存淘汰和投机拒绝不能统一称为 cache miss。迁移包需携带 owner、长度、窗口边界、精度、权重版本和恢复模式；接收端先确认语义一致再执行。
+
+**工程判断：** 未来 Runtime 会支持按状态类型选择保留、传输、重算和近似恢复。对 K3 的递归状态，直接截断 replay 不是默认有效方法；状态影响跨很长时间，必须由对应模型训练与质量证据支持。精确恢复与近似恢复应作为两种明确模式。
+
+<a id="s39"></a>
+## 39 DeepSeek 4.1 的 FP4 缓存和容量推导
+
+### 39.1 同一模型里的三种缩放契约
+
+main KV 使用 E2M1 数据、每 16 通道一个 E4M3 scale，省去完整 NVFP4 的第二级 global scale；index K 使用 MXFP4，每 32 通道一个 E8M0 scale；SWA 使用 MXFP8，每 32 通道一个 E8M0 scale。main KV 的 FP4 用于存储，attention 前解量化；不要求把这种变体作为原生 GEMM 输入。[量化调用与布局](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/model.py#L746)、[量化实现](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/kernel.py)。
+
+这说明“采用 FP4”不能决定一个统一 dtype：数据位宽相同，scale、block、量化位置和消费方式仍可能不同。通信和 checkpoint 必须传递这些元数据，不能仅用一个 `fp4=true` 标志。
+
+### 39.2 890 bytes 每 token 的复算
+
+按固定配置和逻辑打包布局推导：
+
+```text
+main KV：512×4/8 + (512/16)×1 = 288 B/记录
+index K：128×4/8 + (128/32)×1 = 68 B/记录
+三个 ratio=2 owner + 一个 ratio=1 owner：
+global bytes = (3×floor(N/2)+N)×356
+偶数 N：890N B；N=1048576：890 MiB
+```
+
+890 MiB 是一个请求的列示全局缓存，不是整个模型显存。40 层 SWA 窗口另有 `40×128×(512+16)=2703360 B`；三个 DSpark context 窗口另有 `3×128×528=202752 B`。压缩主状态、页表、对齐、候选、临时 score、通信及权重另计。[配置](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json)、[部署缓存明细](../../assets/deepseek/DeepSeek-V4.1-Flash-研究.md)。
+
+上述 Main/Index 格式的有效 bit 分别是 `4+8/16=4.5` 与 `4+8/32=4.25`。两者精度与存储成本不同；不能用 512 维乘“4 bit”漏掉 scale，也不能把 Main 的 E4M3 scale 当 E8M0 指数值读取。
+
+### 39.3 QAT 和数据布局决定可用性
+
+省去 global scale 的动机可以用数值范围理解：E2M1 最大幅值 6，E4M3 scale 最大有限值 448，组合幅值上限为 2688。若 512 维 KV 的 RMSNorm 权重幅值最多约为 1，则归一化后向量范数约不超过 √512，RoPE 保持二范数，单通道幅值也受这一范围限制。这是依赖模型归一化与已训练参数的推导，不是所有模型的普遍保证；异常激活、权重版本和实际转换仍须观测。[技术报告 §2.4.4](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf)。
+
+低位缓存质量依赖模型训练适应、归一化和量化位置。读取旧模型权重后简单把 KV 改为 FP4，不会自动获得相同质量。V4.1 参考路径可进行 inplace 量化/反量化模拟；其 buffer dtype 不代表生产缓存已经按半字节存储。
+
+真实后端还要实现 nibble 打包、scale 对齐、RoPE 后量化、融合解包/Gather、在线 Softmax、误差观测和分片搬运。压缩 KV 字节减少后，解包、随机读取和候选元数据可能成为更大的时间占比。
+
+**工程判断：** 存储格式可比计算格式更灵活。选缓存格式时先固定质量和消费 kernel，再衡量容量与解量化时间。GPU/NPU 不支持该 FP4 GEMM 编码，也可能通过高效解量化消费缓存；是否划算取决于实际流水线。
+
+<a id="s40"></a>
+## 40 Single-Pass mHC 和 Engram 的新算子需求
+
+### 40.1 先改变依赖，再减少访存
+
+普通 mHC 当前子层输入混合系数依赖当前残差的全维归约，必须等系数算出后再次读取残差。Single-Pass mHC 改用上一子层产生的 input mixing，让当前 tile 同时用于混合输入和预测后续系数。这个变化属于模型数据流；不能只靠编译器把依赖删掉。[Block.forward](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/model.py#L968)。
+
+用 n 条流、宽度 d 的激活访存模型解释：原多次执行口径为 `(4n+4)d`，普通 mHC 改善后的两次执行为 `(3n+2)d`，Single-Pass 理想映射为 `(2n+2)d`。n=4 时分别是 20d、14d、10d。20d→10d 只针对这段激活读写；融合其他阶段、权重与归约开销仍存在，不意味着整模型快两倍。[技术报告 §2.4.1](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf)。
+
+GPU/NPU 算子需求包括流混合、系数投影、RMS 统计、Sinkhorn 约束、残差写回和 FP8 转换。融合时不能忽略寄存器、片上存储和归约同步；训练反向还要恢复前移依赖的梯度。现有独立 norm/matmul/量化算子可提供基线，是否需要一个大融合算子应由时间线证明。
+
+### 40.2 Engram 将容量变成稀疏读取
+
+V4.1 的两处 Engram 按文本 n-gram 和多 hash head 访问大表，再投影与门控写入四条残差流。24 个地址各读 256 维，形成 6144 维输入；视觉位置排除在文本 n-gram 与写入之外。它不是把 196B 参数对每 token 完整乘一遍。[参考 Engram 模块](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/model.py#L350)、[查表实现](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/engram.py)。
+
+以未打包 BF16 记录作带宽算例，两模块每 token 的原始向量载荷是 `2×24×256×2=24576 B`。它只解释地址访问规模，不代表生产传输字节：表可量化，重复地址可合并，热缓存可命中，跨设备实现另有协议与归约。大表容量与每 token 访存量要分开估算。
+
+确定性地址给预取提供机会，但 Decode 的未来 token 未知。系统应区分“已知输入可提前预取”和“采样完成后才知道地址”。所需算子为 hash/地址计算、分片查表、解量化、重复地址合并、稀疏梯度、投影和门控；主机/RDMA 预取则属于更大的服务实现。
+
+固定参考采用本地分片 lookup 与 all-reduce，并未实现论文的后台 host RDMA 预取。MoE EP 与 Engram 表分片也应分别设计，不能默认共用一个最优并行组。
+
+**工程判断：** 新算子应按“改变数学依赖”“改变布局”“改变存储层级”分类。Single-Pass mHC 属于第一类，Engram 预取同时涉及后两类。每项都有不同的质量与一致性边界。
+
+<a id="s41"></a>
+## 41 DSpark 原生视觉和训练服务接口
+
+### 41.1 草稿和验证的工作不同
+
+V4.1 DSpark 有三组草稿 stage，专用 MoE 为 128 选 3，block=5。读取主干末三层 attention 输入的残差流均值，形成草稿特征；草稿位置先并行产生 base logits，再按已采样前 token 顺序执行 Markov 修正。confidence 提供接受概率预测，不能代替目标模型验证。[DSparkBlock 与相关头](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/model.py#L1122)。
+
+设第 i 个位置在此前缀已接受下的条件接受概率为 c_i，则接受至少 i 个位置的预测概率为 `product(c_1…c_i)`；长度 k 的预测接受数可用这些前缀概率之和估算。这只在置信度语义与校准符合假设时有用，不是实际接受判据。长度选择还要除以真实草稿、verify、状态提交和等待的成本。
+
+繁忙时较短 verify 可以改善普通请求尾延迟，空闲时更长 verify 可能摊薄启动。应在实际引擎负载曲线上选长度，不能只按 confidence 最大化草稿长度。固定 `forward_spec` 是草稿接口，参考生成路径不包含完整 acceptance/rejection 和服务调度。
+
+### 41.2 原生视觉和服务池名称
+
+ViT 使用 32 层、1024 宽度与 2D RoPE；3×3 pixel-unshuffle 将邻域拼接后通过 9216→5120→5120 projector 进入主干。它减少语言侧视觉 token 数，但需要单独处理图像网格、padding 和重排。文本与图像路由 bias 分开，缓存键也需含视觉预处理身份。[视觉配置与源码](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/vision.py)。
+
+论文 EPD 的 E 指视觉 Encoder，P/D 是语言 Prefill/Decode；CED 的 encoder 却是语言前半段。资源计划应使用明确的“视觉编码池”“语言预填充池”“语言生成池”，否则容易把图像排队和语言 replay 的成本混在一起。
+
+### 41.3 训练适配需要哪些额外接口
+
+CSA2 的共享状态需要跨层梯度、PP payload 和 micro-batch 生命周期；Engram 需要稀疏表更新与分片 checkpoint；mHC 需要保持前移 mixing 的语义；视觉需要图像/文本批次；DSpark 的辅助目标和主干更新范围需按配方区分。普通 MoE 模型类只覆盖其中一部分。
+
+**工程判断：** K3/DeepSeek/GLM 的共享框架宜提供有类型的状态契约、共享 owner、阶段执行和算子后端接口；各模型保留不同的数学定义。不能用一个“MoE+FP4”模板生成完整兼容栈。
+
+验收分三层：固定配置与 reference 的语义一致；生产优化路径的状态/采样规则与参考或规定近似模式一致；实际服务负载下的质量和成本达标。已列入模型支持表，只能作为开始检查的入口。
+
+<a id="s42"></a>
+## 42 新算子组合的研发优先级和反证实验
+
+### 42.1 按语义与资源分类
+
+以下是本报告的工程归纳，适用于制定实验顺序，不表示所有技术会进入同一个模型。算子库可以复用布局、归约和通信原语；模型语义和可变状态必须由各自契约描述。
+
+| 方向 | 核心新增工作 | 主要资源约束 | 不能省略的边界 |
+|---|---|---|---|
+| PGDN / PKDA | A 预条件状态更新、除法/缩放、不对称块内构造、主状态更新与反向 | 主状态带宽、块内计算、稳定累加 | A 与主状态同时快照、恢复、提交 |
+| GDN-2 / DeltaProduct | 不同形式的状态转移与复合更新 | 片上矩阵容量、scan/块计算、反向重算 | 基础算子名称相似不代表同一权重语义 |
+| 分层线性记忆 | 分层更新、层级合并与选取 | 多层状态容量、不均匀更新 | 状态不再是单份固定矩阵 |
+| 无 Softmax dense attention | 成对分数、替代激活、尺度控制、反向 | 二次计算、激活/SFU、tile带宽 | 去掉Softmax不代表去掉N²项 |
+| FlashAttention-4 | 在线归一化、异步矩阵执行、低精度块缩放 | 特定硬件管线和布局 | 数学仍有Softmax，性能不可跨设备照搬 |
+| MX及相邻缩放研究 | 统计、异常值处理、打包、scale转换和块缩放GEMM | 元数据、转置、量化开销 | 规范版本、元素编码和量化轴要明确 |
+| CSA2 | Full/Reindex/Reuse、候选Gather、块Top-K | 全范围首次扫描、不规则读取、共享生命周期 | reference完整打分再mask没有节省池外乘法 |
+| CED与replay | 阶段执行、短回放、输入/生成成本分开 | 额外回放、缓存层级和短输入固定开销 | 近似恢复不可宣称逐值等价 |
+| Single-Pass mHC | 前移混合系数、残差/归约/转换融合 | hidden归约与激活访存 | 数据依赖变化属于模型结构 |
+| Engram | 地址、分片lookup、预取、稀疏更新与门控 | 随机读取、冷项、主机链路 | 表容量、每token读量和EP分别计算 |
+| DSpark | 并行base logits、顺序Markov、confidence、target verify | 草稿占用、提交状态和负载曲线 | confidence不是目标采样接受判据 |
+
+### 42.2 现有权重兼容与新模型研究分开安排
+
+第一优先级是目标检查点已经要求的算子和状态语义。部署 K3 时支持其真实 KDA、LatentMoE、AttnRes 和视觉路径；部署 V4.1 时支持真实 CSA2、CED、mHC、Engram 与 DSpark 条件。这些是正确运行所需能力，不能用更“新”的论文模块替换。
+
+第二优先级是在语义一致基础上减少数据搬运、启动与通信。包括真正的候选池稀疏打分、打包缓存消费、量化和GEMM流水线、专家分块通信、状态池管理与形状分派。它们是否划算由完整负载决定。输出分布、规定的近似恢复模式和精度配方均是比较条件。
+
+第三优先级是改变模型结构的实验：预条件递归、新状态转移、替代注意力激活、分层记忆和新缩放方案。每次只改变足够小的一组变量，配对数据、计算预算、训练步数、模型容量和状态内存。将PGDN、无Softmax、Engram、循环深度全部堆入一个原型，会难以解释收益来源。
+
+### 42.3 必须保存的最小实验记录
+
+每个算子应记录逻辑shape、物理layout、量化格式/axis、累加dtype、状态输入输出、误差指标与测试范围。训练另记录反向、随机性、共享参数owner、并行网格和恢复后的继续训练；服务另记录命中边界、分支、取消、租户隔离和阶段预算。
+
+相邻后端之间不能只比较一个kernel名称。应给同一输入和同一语义运行可信参考，再检查阶段的数值/质量差异，最后测真实设备上的时间、内存与服务尾延迟。对于近似算法，正确性参照应是规定算法；对于性能优化，正确性参照应保持原数学规则。
+
+### 42.4 新增的反证实验
+
+1. **预条件收益是否来自更大的状态预算。** PGDN/PKDA 与原GDN/KDA同时匹配训练预算和每请求状态字节，测长检索、状态误差和完整吞吐；A状态带来的开销不能隐藏。
+2. **无Softmax收益是否来自训练/尺度变化。** 匹配总算力、参数、token数、位置策略和归一化，再分别测短句、长文本、选择性检索及梯度分布。一次小模型替换成功不能证明大检查点可直接替换。
+3. **候选池是否真的减少设备执行。** 记录实际执行tile、score tensor规模和Gather字节，对比完整打分后mask。只有逻辑稀疏而没有物理跳过时，应将收益归零或按实测重估。
+4. **缓存格式节省是否被解量化抵消。** 固定模型与QAT配方，比较FP8和FP4打包容量、读取/解包时间、总逐token时间与质量。临时反量化张量也计入峰值内存。
+5. **replay是否对特定任务造成退化。** 改变命中位置和回放长度，加入长工具链、数字与重复实体，分别测可信完整前向、规定replay及设备实现。
+6. **优化是否在混合流量下成立。** 热/冷Engram、专家热点、大小图像、不同verify长度与普通Decode同时运行，测P99、公平性、状态峰值和单位有效任务成本。
+
+### 42.5 未来判断
+
+可较有把握投入的基础能力是多类型状态、跨层共享生命周期、块缩放数据契约、不规则选择/Gather、大小矩阵分派和阶段成本观测。它们覆盖多个当前模型，也能承接新研究。
+
+对具体新结构应保留分级判断：PGDN/PKDA、分层记忆和替代注意力激活有机制与早期研究依据，但规模迁移及端到端收益仍需各自验证；OCP未来版本只能依据已发布规范或明确提案判断。模型容量增加、理论复杂度下降、某kernel峰值提高，都不能单独回答“质量约束下系统更便宜了吗”。
+
 <a id="references"></a>
 ## 参考资料与证据用途
 
@@ -782,8 +1569,52 @@ GPU 与 NPU 的原生格式、片上存储、同步和编译约束不同。应�
 | R24 | [SGLang 官方仓库](https://github.com/sgl-project/sglang) | 在线服务框架职责与扩展基础 |
 | R25 | [vLLM 官方仓库](https://github.com/vllm-project/vllm) | 推理执行、缓存与服务生态 |
 | R26 | [TorchTitan 官方仓库](https://github.com/pytorch/torchtitan) | 训练平台、当前模型列表与协同方向 |
+| R27 | [Preconditioned DeltaNet v1](https://arxiv.org/abs/2604.21100v1) | PGDN/PKDA、ATK/ATQ与原论文实验边界 |
+| R28 | [FLA PGDN/PKDA 上游合并](https://github.com/fla-org/flash-linear-attention/pull/950) | 2026-08-20合并记录；区别已合入代码和整栈验证 |
+| R29 | [FLA 固定源码树](https://github.com/fla-org/flash-linear-attention/tree/37a6b1c6290e5240f6f0d80419d08a7aac27e548) | 状态、chunk/recurrent/反向、API限制及NPU路径 |
+| R30 | [Gated DeltaNet-2 v1](https://arxiv.org/abs/2605.22791v1) | 擦除/写入门解耦及1.3B实验条件 |
+| R31 | [GDN-2 官方实现](https://github.com/NVlabs/GatedDeltaNet-2/tree/a5552fe3c67e0ebc7ef1220df68ae8896ec62d56) | 模型更新和专用块内核 |
+| R32 | [DeltaProduct v7](https://arxiv.org/abs/2502.10297v7) | 每token多次状态编辑和实验口径 |
+| R33 | [DeltaProduct 作者代码](https://github.com/automl/DeltaProduct) | 训练配置与上游实现入口 |
+| R34 | [FlashAttention-4 v1](https://arxiv.org/abs/2603.05451v1) | Blackwell上的Softmax执行优化 |
+| R35 | [PyTorch 低精度 FA4](https://pytorch.org/blog/low-precision-flash-attention-4-end-to-end-block-scaled-attention-for-blackwell/) | MXFP8前向/反向、FP32 Softmax与融合量化 |
+| R36 | [Gated Attention for LLMs v1](https://arxiv.org/abs/2505.06708v1) | SDPA后Sigmoid门仍保留Softmax |
+| R37 | [PaTH Attention v2](https://arxiv.org/abs/2505.16381v2) | 有序路径变换、Softmax与训练迁移 |
+| R38 | [Sigmoid Self-Attention v2](https://arxiv.org/abs/2409.04431v2) | 独立权重、长度偏置和尺度稳定 |
+| R39 | [FlashSigmoid 作者代码](https://github.com/apple-aiml-research/ml-sigmoid-attention/tree/76a8d3ad9ac8c074de92cbe3791768924e7ebd86) | 固定实现与算法/内核边界 |
+| R40 | [ReLU Vision Transformer v2](https://arxiv.org/abs/2309.08586v2) | 视觉证据；非大语言模型统一结论 |
+| R41 | [Softplus Attention LSSA/LSSAR v6](https://arxiv.org/abs/2501.13428v6) | 两阶段归一化、长度与再锐化 |
+| R42 | [FreeAttn 固定 gpt2.py](https://github.com/iminfine/freeattn/blob/c6df450f4645b7b7fbbc6cb669513b68c543b014/gpt2.py) | 短行偏移、p参数化、重缩放与Dense实现 |
+| R43 | [Transformers are RNNs v3](https://arxiv.org/abs/2006.16236v3) | 可分解核、累计状态与复杂度来源 |
+| R44 | [Performer/FAVOR+ v4](https://arxiv.org/abs/2009.14794v4) | 随机特征近似与重新学习核的区别 |
+| R45 | [Fast Weight Programmers v3](https://arxiv.org/abs/2102.11174v3) | 加法状态与Delta写入 |
+| R46 | [Log-Linear Attention v3](https://arxiv.org/abs/2506.04761v3) | 多尺度状态与O(N log N)执行 |
+| R47 | [Log-Linear 作者代码](https://github.com/HanGuo97/log-linear-attention/tree/7f8644159c1406fae1ad863829a5b3a4fbf63022) | 固定早期实现，不推定覆盖v3所有修订 |
+| R48 | [MoFA v1](https://arxiv.org/abs/2609.39188v1) | 2026-09-30小规模头函数分工证据 |
+| R49 | [OCP Hardware Management 官方入口](https://www.opencompute.org/projects/hardware-management/) | 公开MX规范版本入口；未核实v2.0 |
+| R50 | [OFP8 Revision 1.1 FINAL 固定版本](https://github.com/opencomputeproject/FP8/blob/29141cc56f8b04841a13390a5cbe6ac59e1cb24c/OCP%208-bit%20Floating%20Point%20Specification%20%28OFP8%29%20Revision%201.1%20FINAL.pdf) | 转换边界与附录；封面生效日期2026-06-22 |
+| R51 | [MXFP PTQ 原始研究](https://aclanthology.org/2026.acl-long.1854/) | 算法/格式兼容与缩放误差 |
+| R52 | [OAS/MBS](https://arxiv.org/abs/2603.08713) | 受控饱和与区域缩放；16元素路径限定 |
+| R53 | [MX+](https://arxiv.org/abs/2510.14557) | 块最大值扩展尾数编码 |
+| R54 | [M²XFP](https://arxiv.org/abs/2601.19213) | 角色差异化元数据；硬件仿真/综合证据 |
+| R55 | [MX-SAFE](https://arxiv.org/abs/2605.24391) | 数值区域与指数/尾数模式、下溢风险 |
+| R56 | [Multi-Scale Dequant](https://arxiv.org/abs/2605.13915) | 激活分量GEMM；格式与模拟证据边界 |
+| R57 | [AMD MI350 官方微架构](https://rocm.docs.amd.com/en/docs-10.0.0/reference/gpu-arch/mi350.html) | CDNA4 MXFP8/6/4执行能力 |
+| R58 | [CANN 9.1 MxMatmul 官方接口](https://www.hiascend.com/document/detail/en/CANNCommunityEdition/910/programug/Ascendcopdevg/docs/en/guide/operator_practice/simd_operator_impl/matrix_advanced_api/feature_scenarios/mxmatmul_scenario.md) | 950PR/950DT、编码/scale/布局条件 |
+| R59 | [cuDNN MXFP scale 布局](https://nvidia.github.io/cudnn-frontend/mxfp8-scale-factor-128x4-layout/) | 128×4 scale tile及填充成本 |
+| R60 | [DeepSeek V4.1 Flash 技术报告](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/DeepSeek_V41_Tech_Report.pdf) | CED、CSA2、replay、mHC与生产设计 |
+| R61 | [V4.1 固定配置](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/config.json) | 层型、共享owner、MoE及辅助组件配置 |
+| R62 | [V4.1 固定参考模型](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/model.py) | 数学数据流与reference/生产边界 |
+| R63 | [V4.1 固定参考内核](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/kernel.py) | 量化、在线Softmax及mHC primitive |
+| R64 | [V4.1 Engram 参考](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/engram.py) | 分片查表与本地参考路径 |
+| R65 | [V4.1 视觉参考](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/blob/2cba9e42aa026125f3ed06c6d98c1db82f7ca027/inference/vision.py) | 2D RoPE、ViT和projector重排 |
+| R66 | [Mamba-2 / SSD](https://arxiv.org/abs/2405.21060) | 状态空间对偶、scan和矩阵分块 |
+| R67 | [Mamba-3 v1](https://arxiv.org/abs/2603.15569v1) | 离散化、旋转/MIMO与状态需求 |
+| R68 | [Mamba 作者固定实现](https://github.com/state-spaces/mamba/tree/e9594ce1c732d97440f0332fdc43170a2294dbfa) | 截至基准日的Mamba-3实现入口 |
+| R69 | [RWKV-7 v2](https://arxiv.org/abs/2503.14456v2) | 非对称低秩递归与DPLR算子边界 |
 | L01 | [本站 K3 Runtime 报告](../../assets/kimi/K3-SGLang-vLLM-TorchTitan与定制runtime方案.md) | 配置审计算例、接口与落地验收 |
 | L02 | [本站 GLM 研究](../../index.html#/family/glm) | CANN 固定快照与官方卡口径边界 |
+| L03 | [本站 DeepSeek V4.1 Flash 研究](../../assets/deepseek/DeepSeek-V4.1-Flash-研究.md) | 固定配置/源码、缓存、CED、CSA2 与部署边界 |
 
 若要核验某个工程建议，应先读对应原始来源，再按本文的实验设计独立测试。没有引用速度倍数的章节，不表示原论文没有报告速度；本文刻意不将不同实验环境下的数字拼成平台排行榜。
 
@@ -811,5 +1642,13 @@ GPU 与 NPU 的原生格式、片上存储、同步和编译约束不同。应�
 | TTFT / TPOT | 首 token 时间 / 每输出 token 时间 |
 | P99 | 99% 样本不超过的延迟；体现尾部服务体验 |
 | headroom | 为估计误差、临时状态与突发保留的资源余量 |
+
+| PGDN / PKDA | 预条件化的 Gated DeltaNet / KDA；包含主记忆与预条件状态 |
+| ATK | apply-to-key；预条件器作用于写入 key 的路径 |
+| CED | 因果 encoder/decoder 划分；全局 KV 来源与局部 SWA 分开 |
+| Full / Reindex / Reuse | CSA2 的全局缓存和索引产生/复用模式 |
+| Bounded replay | 截断历史依赖的有界回放；近似恢复需单独评估 |
+| OFP8 / MX | OCP FP8 元素规范与块缩放格式规范，版本分别管理 |
+| 无 Softmax Attention | 替代函数或状态机制的统称，本身不规定序列复杂度 |
 
 报告状态：文献与工程分析已完成；尚未运行模型硬件性能、训练收敛或新结构复现实验。

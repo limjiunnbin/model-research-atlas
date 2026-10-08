@@ -66,16 +66,16 @@
       "name": "未来模型分析",
       "publisher": "跨模型与论文研究",
       "kind": "技术前瞻",
-      "description": "基于 Kimi、GLM、DeepSeek 与业界学术界公开研究，逐项解释未来架构、算子、低精度、MoE、记忆技术和 K3 定制 Runtime 的研发路线。",
+      "description": "逐项分析 PGDN/PKDA 等状态算子、无 Softmax Attention、OCP/MX 演进、DeepSeek 4.1 Flash，以及架构、低精度、MoE 与定制 Runtime。",
       "path": "reports/future-models/",
       "updated": "2026-10-08",
       "topics": [
-        "混合注意力与记忆",
-        "MoE 与低精度",
-        "算子与 Runtime"
+        "新兴状态与注意力算子",
+        "OCP/MX 与低精度",
+        "DeepSeek 4.1 与 Runtime"
       ],
       "counts": [
-        "24 个独立章节",
+        "42 个独立章节",
         "证据 · 判断 · 验证路线"
       ]
     }
