@@ -18,6 +18,7 @@ C = dict(
     idx_heads=32, idx_dim=128, idx_topk=2048, kpool=4,
     lin_heads=64, lin_dim=128, conv=4, hc=4, vocab=154880, layers=45,
     first_k_dense=3,
+    vision_depth=24, vision_hidden=1024, vision_heads=16, vision_inter=4096,
 )
 H, I, MI, E = C['hidden'], C['inter'], C['moe_inter'], C['experts']
 QKV = C['lin_heads'] * C['lin_dim']          # 8192
@@ -190,24 +191,84 @@ def node(idx):
     )
 
 
+def vision_node(idx):
+    """Config-level only. The recipe drops the vision tower, so no matrix is claimed.
+
+    Depth and width come from the released config.json `vision_config`; the exclusion
+    list in its `quantization_config` confirms blocks 0..23 with attn.qkv / attn.proj /
+    attn.q_norm / attn.k_norm / norm1 / norm2 / mlp.{gate,up,down}_proj. Per-matrix
+    shapes are NOT recorded because no implementation in the pinned recipe builds them.
+    """
+    return dict(
+        id=f'vision-{idx + 1}', group='vision', number=idx + 1, type='Vision',
+        ffn='Dense', parameters=None, activeLinearParameters=None, payloadBytes=None,
+        modules=[
+            dict(id='attention', title='视觉注意力（qkv / proj，含 q_norm、k_norm）',
+                 representative=False, count=1, selectedCount=1, parameters=None, matrices=[]),
+            dict(id='ffn', title='视觉 MLP（gate / up / down，clamped SwiGLU）',
+                 representative=False, count=1, selectedCount=1, parameters=None, matrices=[]),
+            dict(id='norms', title='norm1 / norm2', representative=False, count=1,
+                 selectedCount=1, parameters=None, matrices=[]),
+        ],
+    )
+
+
+def global_nodes():
+    """Global components: embedding, final norm, lm_head, and the MTP layer.
+
+    The MTP layer (index 45) is present in the released checkpoint — its per-layer
+    entries appear once each in the config's exclusion list (eh_proj, enorm, hnorm,
+    shared_head.norm, plus a 46th input_layernorm / post_attention_layernorm and a
+    43rd mlp.gate) — and it is a DSA + MoE layer. The pinned recipe does not build it
+    and rejects next_n > 0, so no matrix is claimed here.
+    """
+    return [
+        dict(id='embed', group='global', number=0, type='Embedding', ffn='—',
+             parameters=C['vocab'] * H, activeLinearParameters=C['vocab'] * H,
+             payloadBytes=None, modules=[module(
+                 'embed', '词嵌入 model.embed_tokens',
+                 [mat('model.embed_tokens.weight', [C['vocab'], H], BF16)])]),
+        dict(id='final-norm', group='global', number=0, type='Norm', ffn='—',
+             parameters=H, activeLinearParameters=H, payloadBytes=None,
+             modules=[module('norm', '末层归一 model.norm',
+                             [mat('model.norm.weight', [H], BF16)])]),
+        dict(id='lm-head', group='global', number=0, type='Output', ffn='—',
+             parameters=C['vocab'] * H, activeLinearParameters=C['vocab'] * H,
+             payloadBytes=None, modules=[module(
+                 'lm_head', '输出投影 lm_head',
+                 [mat('lm_head.weight', [C['vocab'], H], BF16)])]),
+        dict(id='mtp', group='global', number=0, type='MTP', ffn='MoE',
+             parameters=None, activeLinearParameters=None, payloadBytes=None,
+             modules=[dict(id='mtp', title='MTP 层（第 45 层，DSA + MoE；本配方不构建）',
+                           representative=False, count=1, selectedCount=1,
+                           parameters=None, matrices=[])]),
+    ]
+
+
 def build():
     nodes = [node(i) for i in range(C['layers'])]
+    nodes += [vision_node(i) for i in range(C['vision_depth'])]
+    nodes += global_nodes()
     doc = dict(
         schemaVersion=1,
         modelId='glm-5.3-flash',
         label='GLM-5.3-Flash',
         evidence='derived',
         scope=(
-            '结构与逐矩阵形状来自 cann-recipes-infer 固定快照 96e5813 的 models/glm_5_3 实现，'
-            '按配置默认值展开后逐项相乘得到逻辑参数；不是权重文件头审计，因此 payloadBytes 全部为空，'
-            '也不代表发布权重的实际字节布局。层排布使用 configuration_glm53.py 的默认值：'
-            'i%4==3 的 11 层为 DSA，其余 34 层为 KDA；前 3 层 Dense、其余 42 层 MoE。'
-            '按该默认值求和为 313,326,811,966；README 所述约 306B 与“前 4 层 Dense”一致，'
-            '说明发布 config.json 很可能覆盖了 first_k_dense_replace，此差异未在本站消解。'
-            'stored_dtype 中的 HiF8 / MXFP8 / MXFP4 是本配方转换脚本产出的部署格式，'
-            '不是智谱发布权重的原始精度（发布格式为 FP8）。'
+            '结构与逐矩阵形状来自 cann-recipes-infer 固定快照 3b36eea 的 models/glm_5_3 实现，'
+            '按张量声明形状逐项相乘得到逻辑参数；层排布、各维度与专家数已与智谱发布的 config.json 逐项核对一致。'
+            '不是权重文件头审计，因此 payloadBytes 全部为空，也不代表发布权重的实际字节布局。'
+            '发布 config.json 的 layer_types 与 full_attn_layers=[3,7,11,15,19,23,27,31,35,39,43] 确认 '
+            '11 层 DSA / 34 层 KDA，mlp_layer_types 确认前 3 层 Dense、其余 42 层 MoE，'
+            'first_k_dense_replace=3 与实现默认值一致，没有覆盖。'
+            '据此推导的 45 层解码主干加 embed/lm_head/末层归一为 313,326,811,966；'
+            '配方 README 自述“约 306B”与该口径不符，且仓库未给出推导过程，本站保留差异不做消解。'
+            '视觉塔为配置级：深度 24 与宽度 1024 取自 vision_config，逐矩阵形状未记录，因为本配方丢弃视觉通路。'
+            'MTP 层在检查点中存在（配置排除列表中各项出现一次）且为 DSA + MoE 层，但配方不构建、运行时拒绝 next_n>0。'
+            'stored_dtype 中的 HiF8 / MXFP8 / MXFP4 是本配方转换脚本产出的部署格式；'
+            '发布权重为 FP8 e4m3 动态激活，其不量化张量集合与本配方的判定一致。'
         ),
-        source='https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_3/models/modeling_glm53.py',
+        source='https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5_3/models/modeling_glm53.py',
         templatePath=None,
         nodes=nodes,
         config=dict(
@@ -228,14 +289,15 @@ def build():
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(doc, ensure_ascii=False, indent=2), encoding='utf-8')
 
-    kda = sum(n['type'] == 'KDA' for n in nodes)
-    mla = sum(n['type'] == 'MLA' for n in nodes)
-    dense = sum(n['ffn'] == 'Dense' for n in nodes)
-    total = sum(n['parameters'] for n in nodes)
-    total += C['vocab'] * H * 2 + H  # embed_tokens + lm_head + final norm
-    print(f'GLM-5.3 structure: {len(nodes)} layers ({kda} KDA / {mla} DSA), '
-          f'{dense} dense + {len(nodes) - dense} MoE; '
-          f'derived total with embed/lm_head/norm = {total:,}')
+    kda = sum(n['type'] == 'KDA' for n in nodes if n['group'] == 'decoder')
+    mla = sum(n['type'] == 'MLA' for n in nodes if n['group'] == 'decoder')
+    dense = sum(n['ffn'] == 'Dense' for n in nodes if n['group'] == 'decoder')
+    dec = [n for n in nodes if n['group'] == 'decoder']
+    vis = [n for n in nodes if n['group'] == 'vision']
+    total = sum(n['parameters'] for n in dec) + C['vocab'] * H * 2 + H
+    print(f'GLM-5.3 structure: {len(dec)} decoder layers ({kda} KDA / {mla} DSA), '
+          f'{dense} dense + {len(dec) - dense} MoE; {len(vis)} vision layers (config level); '
+          f'derived decoder+embed+lm_head+norm total = {total:,}')
 
 
 if __name__ == '__main__':

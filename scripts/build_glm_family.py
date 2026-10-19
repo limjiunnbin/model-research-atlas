@@ -11,7 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'data/families/glm'
-COMMIT = '96e5813f3a62686c9f1f9abba7d07dcd94687971'
+COMMIT = '3b36eeac4cde5e608f00cdd0560a715ff8925e15'
 BLOB = f'https://gitcode.com/cann/cann-recipes-infer/blob/{COMMIT}/'
 
 CFG53 = BLOB + 'models/glm_5_3/models/configuration_glm53.py'
@@ -22,11 +22,19 @@ README5 = BLOB + 'models/glm_5/README.md'
 README52 = BLOB + 'models/glm_5_2/README.md'
 
 
+HF53 = 'https://huggingface.co/zai-org/GLM-5.3-Flash/blob/main/config.json'
+
+
 def f(value, source, evidence='derived', note=None):
     d = dict(value=value, evidence=evidence, source=source)
     if note:
         d['note'] = note
     return d
+
+
+def o(value, note=None):
+    """A fact read directly from the vendor's own released config.json."""
+    return f(value, HF53, 'official', note)
 
 
 def unknown(source, note=None):
@@ -90,25 +98,30 @@ MODELS = [
         tags=['长文档', '通用对话', '高吞吐部署'],
         source='https://huggingface.co/zai-org/GLM-5.3-Flash',
         summaryEvidence='derived',
-        sections=['s2', 's3', 's4', 's5', 's6'],
+        sections=['s2', 's3', 's4', 's5', 's6', 's9', 's10'],
         facts=dict(
-            layers=f(45, CFG53), hidden=f(4096, CFG53), heads=f(64, CFG53),
-            attention=f('34 KDA + 11 DSA（MLA 全程 NoPE + k-pool 压缩 indexer）', CFG53,
-                        note='排布来自配置默认值 layer_types：i%4==3 为 DSA'),
-            experts=f(288, CFG53), topK=f(8, CFG53), shared=f(1, CFG53),
-            expertInput=f(4096, CFG53), expertWidth=f(2048, CFG53), denseWidth=f(12288, CFG53),
-            context=f(1048576, CFG53, note='配置上限，不等于实测质量或硬件运行上限'),
-            vocab=f(154880, CFG53),
-            visionLayers=unknown(CFG53, NO_VISION_53),
-            visionHidden=unknown(CFG53, NO_VISION_53),
-            quantization=f('发布 FP8；本配方部署为 Hybrid HiF8-MXFP8-MXFP4', README53),
-            parameters=unknown(README53,
-                               'README 自述约 306B。本站未做权重审计；按配方配置默认值逐矩阵推导为 313,326,811,966，'
-                               '两者相差约一层 MoE，详见结构页与来源页的口径说明。'),
-            payload=unknown(README53, '本站未做权重审计'),
+            layers=o(45), hidden=o(4096), heads=o(64),
+            attention=o('34 KDA + 11 DSA（MLA 全程 NoPE + k-pool 压缩 indexer）',
+                        note='layer_types 与 linear_attn_config.full_attn_layers='
+                             '[3,7,11,15,19,23,27,31,35,39,43] 一致；另有 1 个 MTP 层也是 DSA'),
+            experts=o(288), topK=o(8), shared=o(1),
+            expertInput=o(4096), expertWidth=o(2048), denseWidth=o(12288),
+            context=o(1048576, note='配置上限，不等于实测质量或硬件运行上限'),
+            vocab=o(154880),
+            visionLayers=o(24, note='vision_config.depth=24，并由配置排除列表中的 '
+                                    'visual.blocks.0..23 确认；本配方丢弃视觉通路，故仅记录配置级结构'),
+            visionHidden=o(1024, note='vision_config.hidden_size；out_hidden_size=4096'),
+            quantization=o('发布 FP8 e4m3（动态激活）；本配方部署为 Hybrid HiF8-MXFP8-MXFP4',
+                           note='发布权重不量化的张量集合由 quantization_config.modules_to_not_convert '
+                                '的 1509 条逐张量记录给出，与本配方 classify() 的判定一致'),
+            parameters=unknown(HF53,
+                               '本站未做权重审计。按官方 config.json 逐矩阵推导，45 层解码主干加 '
+                               'embed/lm_head/末层归一为 313,326,811,966（不含视觉塔与 MTP 层）。'
+                               '配方 README 自述“约 306B”与该口径不符，仓库未给出推导过程，本站不做消解。'),
+            payload=unknown(HF53, '本站未做权重审计'),
         ),
         auditPath=None,
-        configPath=None,
+        configPath='data/families/glm/configs/GLM-5.3-Flash-config.json',
         architecturePath='data/families/glm/glm-5.3-flash-architecture.json',
         revision=None,
         implementationLinks=[
@@ -123,12 +136,12 @@ FAMILY = dict(
     id='glm',
     name='GLM',
     publisher='智谱 Zhipu AI',
-    updated='2026-09-30',
+    updated='2026-10-19',
     description='从 GLM-5 / GLM-5.2 的 DSA + MoE 主干，到 GLM-5.3-Flash 的 KDA 混合注意力、mHC 超连接与昇腾 NPU 上的 Hybrid HiF8-MXFP8-MXFP4 部署。',
     scope=(
-        '3 个名称条目，全部通过 CANN 推理配方 cann-recipes-infer 的固定快照 96e5813 研究，'
-        '不是智谱全部公开模型，也不是厂商模型卡的逐项复核。'
-        '只有 GLM-5.3-Flash 有逐矩阵结构；GLM-5 与 GLM-5.2 仅记录配置级规格。'
+        '3 个名称条目，通过 CANN 推理配方 cann-recipes-infer 的固定快照 3b36eea 研究实现与部署；'
+        'GLM-5.3-Flash 的结构另与智谱发布的 config.json 逐项核对，故其规格为官方披露。'
+        '不是智谱全部公开模型。只有 GLM-5.3-Flash 有逐矩阵结构；GLM-5 与 GLM-5.2 仅记录配置级规格。'
         '本站未加载权重、未做文件头审计，也未运行任何 NPU 性能实验。'
     ),
     models=MODELS,
@@ -152,7 +165,7 @@ FAMILY = dict(
             title='高吞吐在线服务',
             text='配方给出昇腾 950DT 八卡、8K 序列下的 decode 每步耗时与 TPS，并默认开启共享专家多流与 npugraph_ex 图模式。',
             models=['glm-5.3-flash'],
-            boundary='这些数字来自配方 README 自述，本站未复现。比较吞吐必须同时固定卡数、序列长度、批大小、量化格式与图模式。',
+            boundary='这些数字来自配方 README 自述，本站未复现。比较吞吐必须同时固定卡数、序列长度、批大小、量化格式与图模式。该路径没有 profiling 与单项 A/B；另一条单卡 offload 路径的实测不可挪用过来。',
         ),
         dict(
             title='昇腾平台迁移',
@@ -163,7 +176,7 @@ FAMILY = dict(
     ],
     overview=dict(
         title='主干缩小，注意力混合，精度分层',
-        conclusion='GLM-5 与 GLM-5.2 共用 78 层 DSA + MoE 主干，5.2 的增量是 IndexShare。GLM-5.3-Flash 改动更大：层数降到 45、残差宽度降到 4096，但把 34 层换成 KDA 线性注意力、加入 4 流 mHC 超连接，并在昇腾侧按模块分配 HiF8 / MXFP8 / MXFP4 三种精度。',
+        conclusion='GLM-5 与 GLM-5.2 共用 78 层 DSA + MoE 主干，5.2 的增量是 IndexShare。GLM-5.3-Flash 改动更大：层数降到 45、残差宽度降到 4096，但把 34 层换成 KDA 线性注意力、加入 4 流 mHC 超连接，并在昇腾侧按模块分配 HiF8 / MXFP8 / MXFP4 三种精度。发布检查点另含 24 层视觉塔与 1 个 MTP 层，本配方均不构建。',
         highlights=[
             dict(id='glm-5', label='GLM-5 · DSA 主干'),
             dict(id='glm-5.2', label='GLM-5.2 · IndexShare'),
@@ -171,8 +184,8 @@ FAMILY = dict(
         ],
     ),
     historyNote='顺序按配方仓库中样例的适配关系整理：GLM-5.2 样例自述基于 GLM-5 样例迁移，GLM-5.3 是独立的新样例。这是推理配方的适配顺序，不是权重继承证明。',
-    auditNote='本次研究没有加载任何权重，也没有做文件头审计。GLM-5.3-Flash 的逐矩阵形状来自实现源码中参数的声明形状，逐项相乘得到逻辑参数；GLM-5 与 GLM-5.2 只记录配置类默认值。',
-    limitations='结构排布取自配置类默认值，发布 config.json 可能覆盖。按默认值推导的 GLM-5.3-Flash 参数总数为 313,326,811,966，与 README 自述的约 306B 相差约一层 MoE，本站未消解该差异。配方 README 的吞吐数字未经本站复现。',
+    auditNote='本次研究没有加载任何权重，也没有做文件头审计。GLM-5.3-Flash 的逐矩阵形状来自实现源码中参数的声明形状，逐项相乘得到逻辑参数，各维度与层排布已与官方 config.json 核对一致；视觉塔与 MTP 层仅记录配置级信息。GLM-5 与 GLM-5.2 只记录配方配置类默认值。',
+    limitations='按官方 config.json 推导的 GLM-5.3-Flash 解码主干参数为 313,326,811,966（不含视觉塔与 MTP），与配方 README 自述的约 306B 不符，仓库未给出推导过程，本站不做消解。视觉塔与 MTP 层只有配置级信息，没有逐矩阵形状。配方 README 的吞吐数字未经本站复现。多卡 HiF8 路径没有任何 profiling 数据或单项优化 A/B；仓库另有一条单卡 CPU-MoE offload 路径（INT8 加 MXFP4）确有实测，但量化与框架不同，不可挪用。GLM-5.2 在仓库内没有任何性能或精度数字。',
     technology=[
         dict(id='evolution', title='演进', section='s2',
              summary='GLM-5 → GLM-5.2 的增量是 IndexShare；GLM-5.3-Flash 换了注意力组成、残差结构与部署精度。'),
@@ -184,6 +197,10 @@ FAMILY = dict(
              summary='层间隐藏态是 4 条并行流；每个子层前后各用一组 Sinkhorn 归一化的混合矩阵折叠与展开。'),
         dict(id='quant', title='混合精度与 NPU 优化', section='s6',
              summary='按模块分配 HiF8 / MXFP8 / MXFP4，并保留一批必须留在 BF16/FP32 的张量；配套自定义算子与多流重叠。'),
+        dict(id='profiling', title='Profiling 与实测数据', section='s9',
+             summary='多卡 HiF8 配方只有一张 README decode 表，没有 profiling 也没有 A/B；另一条单卡 CPU-MoE offload 路径有 trace 导出的逐组件分解与带置信区间的 A/B，两者不可混用。'),
+        dict(id='future', title='未来结构预判', section='s10',
+             summary='依据代码与配置里已存在但未启用的钩子推断后续方向：IndexShare、MTP、多模态、hc_pre v2、W4A4。属解释判断，不是路线图。'),
     ],
     hardwarePath='data/families/glm/hardware.json',
 )

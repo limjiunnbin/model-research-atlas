@@ -4578,8 +4578,8 @@
     {
       "name": "DeepSeek-研究报告包.zip",
       "path": "assets/deepseek/DeepSeek-研究报告包.zip",
-      "bytes": 8588247,
-      "sha256": "7f881db92785bb90aa677be2accc9cc7e136798abb24f93103cc3e491ce95376",
+      "bytes": 8595070,
+      "sha256": "b356e42033032a143af9df14c21cdda8621bb29e444a08007bf78ec17ff0090b",
       "title": "完整研究包",
       "category": "当前研究",
       "scope": "当前研究、表格、配置及固定来源；包含注明范围的既有基础数据，无权重或完整第三方源码。"
@@ -4677,8 +4677,8 @@
     {
       "name": "DeepSeek-静态分析.xlsx",
       "path": "assets/deepseek/DeepSeek-静态分析.xlsx",
-      "bytes": 662568,
-      "sha256": "74cbdbf4847f7e2af02b8465c34c1c7d43f0e7b4dfda32bfbcf15178eb47f94f",
+      "bytes": 671255,
+      "sha256": "8c7c2ab58d4859aa539b44fe04caeaa86e789a90738bd9e2acc9e2e30ea511a3",
       "title": "静态分析工作簿",
       "category": "分析与比较",
       "scope": "5 个 sheet；21 版成本/并行示例、43 个跨家族条目、机制与算子条件。V4.1 缓存交互计算见网站。"
@@ -4713,8 +4713,8 @@
     {
       "name": "跨家族比较.csv",
       "path": "assets/deepseek/跨家族比较.csv",
-      "bytes": 29882,
-      "sha256": "09986fa6e314f0347ebba966e1f6ff46cca791768f42d4c8db86cc1b386d8255",
+      "bytes": 30410,
+      "sha256": "9c414d1701d492c197090e8c16d3a85ddb4a3d97a56b25c495af95122ad65d9a",
       "title": "跨家族比较 CSV",
       "category": "分析与比较",
       "scope": "43 个条目，包含 V4.1；未核验的历史项保留未知。"

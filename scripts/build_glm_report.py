@@ -8,7 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'data/families/glm/report.json'
-COMMIT = '96e5813f3a62686c9f1f9abba7d07dcd94687971'
+COMMIT = '3b36eeac4cde5e608f00cdd0560a715ff8925e15'
 REPO = 'https://gitcode.com/cann/cann-recipes-infer'
 
 
@@ -68,11 +68,21 @@ S3 = """<h2>3. 总体规格并列</h2>
      ['词表', '154,880', '154,880', '154,880'],
      ['发布精度', 'BF16 与 FP8', 'BF16', 'FP8'],
      ['参数总数', '未审计', '未审计', '未审计（配方自述约 306B）']]) + """
-<p><strong>关于参数总数的一处口径差异。</strong>按配方配置类默认值（前 3 层 Dense、其余 42 层 MoE）逐矩阵推导，
-GLM-5.3-Flash 的逻辑参数总数为 <code>313,326,811,966</code>；若前 4 层为 Dense，则为 <code>306,203,703,838</code>，
-与 README 自述的"约 306B"一致。两者相差恰好约一层 MoE 的规模。</p>
-<p>这说明发布的 config.json 很可能覆盖了 <code>first_k_dense_replace</code>。本站保留配置类默认值构建结构页，
-并在结构页与来源页同时标注该差异，不替厂商选定其中一个。</p>"""
+<p><strong>关于参数总数的一处口径差异。</strong>GLM-5.3-Flash 的配置已与智谱发布的
+<code>config.json</code> 逐项核对：<code>first_k_dense_replace</code> 确为 <strong>3</strong>，
+<code>layer_types</code> 为 34 个 <code>linear_attention</code> 加 11 个
+<code>deepseek_sparse_attention</code>，<code>linear_attn_config.full_attn_layers</code> 为
+<code>[3,7,11,15,19,23,27,31,35,39,43]</code>，<code>mlp_layer_types</code> 为前 3 层 dense 加 42 层
+sparse。实现默认值没有被覆盖。</p>
+<p>据此逐矩阵推导，45 层解码主干加 embed / lm_head / 末层归一为
+<code>313,326,811,966</code>（不含视觉塔与 MTP 层）。配方 README 自述的"约 306B"与这个口径<strong>不符</strong>，
+而仓库没有给出它的推导过程。本站如实保留两个数字，不替任何一方消解差异。</p>
+<p>需要说明的是，早先曾推测"约 306B 对应前 4 层 Dense"——该推测已被官方配置<strong>证伪</strong>，
+相关表述已全部更正。</p>
+<p>发布检查点还包含两部分本配方不构建的内容：<strong>24 层视觉塔</strong>
+（<code>vision_config.depth=24</code>、<code>hidden_size=1024</code>、<code>out_hidden_size=4096</code>）
+与 <strong>1 个 MTP 层</strong>（<code>num_nextn_predict_layers=1</code>，位于第 45 层，同为 DSA + MoE）。
+它们在本站只有配置级记录，没有逐矩阵形状。</p>"""
 
 S4 = """<h2>4. 混合注意力：KDA 与 DSA 各自承担什么</h2>
 <p>GLM-5.3-Flash 的 45 层按 <code>i % 4 == 3</code> 划分：第 4、8、12……层（0 起计为 3、7、11……）是 DSA，
@@ -202,6 +212,121 @@ S8 = f"""<h2>8. 来源与复核方式</h2>
 该脚本把形状与逻辑参数的推导过程完整写在代码里。</p>
 <p>本站未与智谱发布的 config.json 或权重文件逐项复核，也未运行任何 NPU 实验。</p>"""
 
+S9 = """<h2>9. Profiling 与实测数据：分清是哪条路径</h2>
+<p>GLM-5.3-Flash 在这个仓库里有<strong>两条互不相同的部署路径</strong>，实测数据的分布极不均匀。
+把它们混在一起看会得出完全错误的结论，所以先分开。</p>
+""" + table(
+    ['', '路径 A：多卡 HiF8 配方', '路径 B：单卡 CPU-MoE offload'],
+    [['代码位置', '<code>models/glm_5_3/</code>（本站主要研究对象）',
+      '<code>integration/sglang/glm53-flash-single-npu-moe-offload/</code>'],
+     ['栈', 'cann-recipes-infer 自带 executor', 'SGLang + KTransformers 补丁'],
+     ['量化', 'Hybrid <strong>HiF8</strong>-MXFP8-MXFP4', '注意力/dense/常驻专家 <strong>INT8 W8A8</strong>；offload 专家 MXFP4'],
+     ['硬件', '昇腾 950DT × 8，EP8', '单张 910C A3 die + 鲲鹏 CPU，61.3 GiB HBM'],
+     ['实测深度', '<strong>仅一张 decode 吞吐表</strong>', '<strong>profiler 导出的逐组件分解 + 多项 A/B + 精度账</strong>']]) + """
+<h3>9.1 路径 A（HiF8 配方）：没有 profiling 数据</h3>
+<p>这正是本站研究的那条路径，它的实测材料非常薄：</p>
+<ul>
+<li>只有 README 的 decode 吞吐表（见 6.4），属配方自述，未写明 CANN / torch_npu / 固件驱动版本、重复次数与预热方式，只覆盖 decode，不含精度。</li>
+<li><strong>没有提交任何 profiling trace 或 timeline 产物。</strong></li>
+<li><strong>没有任何单项优化的 A/B</strong>：mHC 融合算子、共享专家多流、npugraph_ex、k-pool indexer、吸收式 MLA、causal_conv1d 全部没有开关前后的数字。</li>
+<li><strong>HiF8 本身没有任何 profiling 或与其他精度档的算子级耗时对照。</strong></li>
+<li>没有针对本配方的精度或困惑度结果。</li>
+</ul>
+<p>所以「Ascend 优化」页的每一条都是<strong>待验证项</strong>，指标栏写的是"应该采集什么"，不是"已经测到多少"。
+本站不替这些格子填推测值。</p>
+<h3>9.2 路径 B（单卡 offload）：有 profiler 导出的实测，但不能挪用</h3>
+<p>这条路径的设计文档是整个仓库里最深的性能分析。它<strong>不是</strong> HiF8 配方的数据，
+量化方案、卡数与框架都不同，<strong>不可用于推断路径 A</strong>。但它对理解 GLM-5.3 的结构开销很有参考价值。</p>
+<p><strong>NPU 关键路径按模型结构分解</strong>（16K 上下文，单步 33.3 ms）：</p>
+""" + table(
+    ['组件', '耗时 (ms)', '占 NPU 关键路径'],
+    [['KDA（34 层线性注意力）', '10.4', '约 31%'],
+     ['MoE', '9.6', '约 29%'],
+     ['DSA（11 层稀疏注意力）', '5.4', '约 16%'],
+     ['<strong>mHC</strong>（45 层 × 2 对）', '<strong>3.3</strong>', '<strong>约 10%</strong>'],
+     ['合计', '33.3', '100%']]) + """
+<p>文档注明该分解<strong>由 trace 定位，不是用减法反推</strong>；同时说明 profiler 本身会抬高单步耗时
+（profiling 下 20.89–28.72 ms，生产 20.57 ms），所以绝对值不可直接当生产指标。</p>
+<p><strong>带置信区间的隔离 A/B</strong>（这条路径上）：</p>
+<ul>
+<li>动态热专家常驻 开/关：19.28 → 23.13 tok/s，<strong>1.200× ± 0.017</strong>（n=8 交错，95% CI [1.166, 1.233]）。</li>
+<li>侧流重叠 开/关：decode 增益约 <strong>12%</strong>；A5 上为 −5.97 ms/token。结构上限由 trace 数出
+（每步 44.1 个 &gt;50 µs 的空隙，合计 21,038 µs）。</li>
+<li>流式 prefill 开/关：13,933 token 的 TTFT 208.36 → 63.93 s（<strong>3.26×</strong>）；
+但 630 token 的短输入<strong>反而变慢</strong> 11.4 → 18.3 s，因此设了 512 的阈值。</li>
+<li>NUMA 绑核：双节点达成 230–250 GB/s（上限 343，67–73%）；配错成 <code>NODES=0</code> 加 <code>tp=1</code>
+会掉到 <strong>38.5 GB/s</strong>。A5 上按 L3 域轮转分配使每层 116.2 → 94.6 µs（<strong>−18.6%</strong>）。</li>
+</ul>
+<p><strong>精度账</strong>（路径 B）：GSM8K 单卡 97.35%（多卡 TP8 97.42–97.65%，官方 BF16 97.50%，n=1319）；
+GPQA-Diamond 单卡 <strong>84.85%</strong>（168/198，多卡 85.35%）；wikitext-2 困惑度
+<strong>3.5888</strong>（32 窗）、相对基线 <strong>+1.13%</strong>。
+注意困惑度的窗数不可跨设置比较——同一配置 3 窗是 2.2445、12 窗是 3.1449、32 窗才是 3.5888。</p>
+<p>这也更正了本站此前的一处表述：根 README 的 3.5888 确属这条单卡 offload 路径，
+对应 INT8 W8A8 加 MXFP4，<strong>不是</strong> HiF8 配方的结果。</p>
+<h3>9.3 同家族其他版本的实测</h3>
+<ul>
+<li><strong>GLM-5</strong>：Atlas A3、W8A8、全局 BS 256、序列 65536、64 卡 → TPOT <strong>22.54 ms</strong>、
+单卡吞吐 <strong>177.46 tokens/p/s</strong>；GSM8K <strong>96.59%</strong>。
+条件注明"基于 MTP3 与 force eplb 采集，平均 3 个 draft token 中 accept 1.44 个"。</li>
+<li><strong>GLM-5.2</strong>：<strong>仓库内没有任何性能或精度数字</strong>，是一处明确空缺。</li>
+</ul>
+<h3>9.4 怎么自己采集</h3>
+<p>框架的 profiler 是 <code>torch_npu.profiler</code>，统一走 <code>executor/utils/profiler_context.py</code>。
+YAML 只暴露 <code>enable_profiler</code> 一个开关，采集参数（Level1、PipeUtilization、
+<code>active=3, repeat=1, skip_first=3</code>）全部硬编码在该文件里。产物落在
+<code>&lt;output_path&gt;/prof/{prefill,decode,mm_encode}</code>。</p>
+<p>两个已知坑：decode 阶段<strong>无法冷启动单独采集</strong>（必须先经过 prefill，且一旦进入 decode 不再切回）；
+离线 msprof 解析常只产出截断的 <code>trace_view.json</code> 而 CSV 全缺，仓库把根因归到输出目录所在的文件系统。</p>
+<h3>9.5 仍然没有的</h3>
+<ul>
+<li>任何可供再分析的原始 trace / CSV（profiler 是开关，产物不入库）。</li>
+<li><code>ops/ascendc/docs/</code> 下的 20 份算子文档<strong>全部没有实测数字</strong>，只有定性描述
+（如 hc_pre 的"性能较高 / 较低"分支）。</li>
+<li><code>benchmark/</code> 目录只做精度评测，不含吞吐或时延，也没有 GLM 条目。</li>
+<li>路径 A 上 HiF8 与 BF16 的任何对照。</li>
+</ul>"""
+
+
+S10 = """<h2>10. 未来结构预判</h2>
+<p><strong>本节是解释判断，不是官方路线图。</strong>依据只有一类：<em>代码与配置里已经存在、但在
+GLM-5.3-Flash 上尚未启用的钩子</em>。这类"预留但未用"的痕迹比趋势外推可靠，但仍然可能永远不落地。
+每条都给出它的实际依据。</p>
+<h3>10.1 有明确预留痕迹的（依据较强）</h3>
+""" + table(
+    ['预判', '已存在的痕迹', '为什么是预留而非遗漏'],
+    [['<strong>IndexShare 进入混合注意力线</strong>：部分 DSA 层复用上一个 full 层的 top-k，不再持有 indexer 权重',
+      'GLM-5.3 的 <code>indexer_types</code> 全为 <code>full</code>（官方 config 的 45 项亦全为 full），但配置类完整保留了该调度字段的解析逻辑',
+      '配置类注释明说保留该调度"以备未来检查点"；GLM-5.2 已在非混合主干上验证过 IndexShare'],
+     ['<strong>MTP 推理支持</strong>：第 45 层参与投机解码',
+      'MTP 层已在发布检查点中（<code>num_nextn_predict_layers=1</code>，排除列表含 <code>eh_proj</code> / <code>enorm</code> / <code>hnorm</code> / <code>shared_head.norm</code>），转换脚本会处理它，但运行时拒绝 <code>next_n&gt;0</code>，README 写"暂不支持 MTP"',
+      '权重已发布、转换已支持，缺的只是运行时；"暂不支持"是明确的待办表述'],
+     ['<strong>多模态通路</strong>：24 层视觉塔接入',
+      '发布 config 是多模态的（<code>Glm5NextForConditionalGeneration</code>，含 <code>vision_config</code> 与 image/video token id），但配方丢弃 <code>vision_config</code> 并跳过 <code>model.visual.*</code>',
+      '视觉权重与配置都已发布，配方侧是明确的"仅文本"取舍'],
+     ['<strong>hc_pre 的 v2 变体</strong>：复用 <code>pre_mix</code> 降低 mHC 开销',
+      '算子包内已有 <code>npu_hc_pre_v2</code>，但 GLM-5.3 不调用它',
+      '算子已随包发布，调用侧未接'],
+     ['<strong>W4A4 激活档</strong>：路由专家激活也降到 4 bit',
+      '转换脚本注明 W4A8 与 W4A4 的落盘权重<strong>完全相同</strong>，切换只改 config 的 <code>input_activations.num_bits</code>，无需重新转换',
+      '落盘格式已兼容，纯配置开关']]) + """
+<h3>10.2 趋势外推（依据较弱，仅供对照）</h3>
+<ul>
+<li><strong>线性注意力占比继续上升。</strong>GLM-5 / 5.2 是 0/78，GLM-5.3-Flash 是 34/45（约 76%）。
+若长上下文仍是主要目标，提高 KDA 比例是最直接的缓存压降手段。但这同时意味着更依赖递推状态的数值稳定性，
+而目前 KDA 的全部权重都不量化——这两件事会互相拉扯。</li>
+<li><strong>mHC 的宽度泛化。</strong>当前融合算子把 <code>hc_mult=4</code>、<code>d=4096</code>、
+<code>hc_mix=24</code> 与 Sinkhorn 迭代 20 都写死，换宽度或换流数就需要新 kernel。
+若 mHC 要用到其他尺寸的模型上，算子必须先泛化。</li>
+<li><strong>prefill 侧 indexer 的融合实现。</strong>decode 已有 <code>npu_lightning_indexer</code>，
+prefill 仍是 torch matmul 加 topk 并按 1024 分块。长输入场景若成为瓶颈，这是最明显的缺口。</li>
+</ul>
+<h3>10.3 一处可能是遗漏而非预留</h3>
+<p><code>enable_custom_ops</code> 被传入路由专家的量化配置，但仓库内没有任何位置读取它，
+导致路由专家 GMM 的 <code>swiglu_limit</code> clamp 实际不参与（共享专家的 MXFP8 路径则显式传了）。
+这更像接线未完成而不是有意预留，但未经运行确认。</p>
+<p class="small">以上全部为研究推断。没有任何一条来自厂商或 CANN 团队的公开路线图声明。</p>"""
+
+
 SECTIONS = [
     dict(id='s0', title='GLM-5 → GLM-5.3-Flash：结构演进、混合注意力与昇腾部署研究', html=S0),
     dict(id='s1', title='1. 研究口径与证据强度', html=S1),
@@ -212,6 +337,8 @@ SECTIONS = [
     dict(id='s6', title='6. 混合精度与昇腾侧优化', html=S6),
     dict(id='s7', title='7. 能确定什么，哪些还需要实测', html=S7),
     dict(id='s8', title='8. 来源与复核方式', html=S8),
+    dict(id='s9', title='9. Profiling 与实测数据：分清是哪条路径', html=S9),
+    dict(id='s10', title='10. 未来结构预判', html=S10),
 ]
 
 

@@ -3,8 +3,8 @@
   "modelId": "glm-5.3-flash",
   "label": "GLM-5.3-Flash",
   "evidence": "derived",
-  "scope": "结构与逐矩阵形状来自 cann-recipes-infer 固定快照 96e5813 的 models/glm_5_3 实现，按配置默认值展开后逐项相乘得到逻辑参数；不是权重文件头审计，因此 payloadBytes 全部为空，也不代表发布权重的实际字节布局。层排布使用 configuration_glm53.py 的默认值：i%4==3 的 11 层为 DSA，其余 34 层为 KDA；前 3 层 Dense、其余 42 层 MoE。按该默认值求和为 313,326,811,966；README 所述约 306B 与“前 4 层 Dense”一致，说明发布 config.json 很可能覆盖了 first_k_dense_replace，此差异未在本站消解。stored_dtype 中的 HiF8 / MXFP8 / MXFP4 是本配方转换脚本产出的部署格式，不是智谱发布权重的原始精度（发布格式为 FP8）。",
-  "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_3/models/modeling_glm53.py",
+  "scope": "结构与逐矩阵形状来自 cann-recipes-infer 固定快照 3b36eea 的 models/glm_5_3 实现，按张量声明形状逐项相乘得到逻辑参数；层排布、各维度与专家数已与智谱发布的 config.json 逐项核对一致。不是权重文件头审计，因此 payloadBytes 全部为空，也不代表发布权重的实际字节布局。发布 config.json 的 layer_types 与 full_attn_layers=[3,7,11,15,19,23,27,31,35,39,43] 确认 11 层 DSA / 34 层 KDA，mlp_layer_types 确认前 3 层 Dense、其余 42 层 MoE，first_k_dense_replace=3 与实现默认值一致，没有覆盖。据此推导的 45 层解码主干加 embed/lm_head/末层归一为 313,326,811,966；配方 README 自述“约 306B”与该口径不符，且仓库未给出推导过程，本站保留差异不做消解。视觉塔为配置级：深度 24 与宽度 1024 取自 vision_config，逐矩阵形状未记录，因为本配方丢弃视觉通路。MTP 层在检查点中存在（配置排除列表中各项出现一次）且为 DSA + MoE 层，但配方不构建、运行时拒绝 next_n>0。stored_dtype 中的 HiF8 / MXFP8 / MXFP4 是本配方转换脚本产出的部署格式；发布权重为 FP8 e4m3 动态激活，其不量化张量集合与本配方的判定一致。",
+  "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5_3/models/modeling_glm53.py",
   "templatePath": null,
   "nodes": [
     {
@@ -21994,6 +21994,1069 @@
               "count": 1
             }
           ]
+        }
+      ]
+    },
+    {
+      "id": "vision-1",
+      "group": "vision",
+      "number": 1,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-2",
+      "group": "vision",
+      "number": 2,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-3",
+      "group": "vision",
+      "number": 3,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-4",
+      "group": "vision",
+      "number": 4,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-5",
+      "group": "vision",
+      "number": 5,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-6",
+      "group": "vision",
+      "number": 6,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-7",
+      "group": "vision",
+      "number": 7,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-8",
+      "group": "vision",
+      "number": 8,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-9",
+      "group": "vision",
+      "number": 9,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-10",
+      "group": "vision",
+      "number": 10,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-11",
+      "group": "vision",
+      "number": 11,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-12",
+      "group": "vision",
+      "number": 12,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-13",
+      "group": "vision",
+      "number": 13,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-14",
+      "group": "vision",
+      "number": 14,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-15",
+      "group": "vision",
+      "number": 15,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-16",
+      "group": "vision",
+      "number": 16,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-17",
+      "group": "vision",
+      "number": 17,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-18",
+      "group": "vision",
+      "number": 18,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-19",
+      "group": "vision",
+      "number": 19,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-20",
+      "group": "vision",
+      "number": 20,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-21",
+      "group": "vision",
+      "number": 21,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-22",
+      "group": "vision",
+      "number": 22,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-23",
+      "group": "vision",
+      "number": 23,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "vision-24",
+      "group": "vision",
+      "number": 24,
+      "type": "Vision",
+      "ffn": "Dense",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "attention",
+          "title": "视觉注意力（qkv / proj，含 q_norm、k_norm）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "ffn",
+          "title": "视觉 MLP（gate / up / down，clamped SwiGLU）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        },
+        {
+          "id": "norms",
+          "title": "norm1 / norm2",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
+        }
+      ]
+    },
+    {
+      "id": "embed",
+      "group": "global",
+      "number": 0,
+      "type": "Embedding",
+      "ffn": "—",
+      "parameters": 634388480,
+      "activeLinearParameters": 634388480,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "embed",
+          "title": "词嵌入 model.embed_tokens",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": 634388480,
+          "matrices": [
+            {
+              "tensor_template": "model.embed_tokens.weight",
+              "stored_dtype": "bfloat16（转换时跳过，不量化）",
+              "stored_shape": [
+                154880,
+                4096
+              ],
+              "logical_shape": [
+                154880,
+                4096
+              ],
+              "logical_parameters_each": 634388480,
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "final-norm",
+      "group": "global",
+      "number": 0,
+      "type": "Norm",
+      "ffn": "—",
+      "parameters": 4096,
+      "activeLinearParameters": 4096,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "norm",
+          "title": "末层归一 model.norm",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": 4096,
+          "matrices": [
+            {
+              "tensor_template": "model.norm.weight",
+              "stored_dtype": "bfloat16（转换时跳过，不量化）",
+              "stored_shape": [
+                4096
+              ],
+              "logical_shape": [
+                4096
+              ],
+              "logical_parameters_each": 4096,
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lm-head",
+      "group": "global",
+      "number": 0,
+      "type": "Output",
+      "ffn": "—",
+      "parameters": 634388480,
+      "activeLinearParameters": 634388480,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "lm_head",
+          "title": "输出投影 lm_head",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": 634388480,
+          "matrices": [
+            {
+              "tensor_template": "lm_head.weight",
+              "stored_dtype": "bfloat16（转换时跳过，不量化）",
+              "stored_shape": [
+                154880,
+                4096
+              ],
+              "logical_shape": [
+                154880,
+                4096
+              ],
+              "logical_parameters_each": 634388480,
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mtp",
+      "group": "global",
+      "number": 0,
+      "type": "MTP",
+      "ffn": "MoE",
+      "parameters": null,
+      "activeLinearParameters": null,
+      "payloadBytes": null,
+      "modules": [
+        {
+          "id": "mtp",
+          "title": "MTP 层（第 45 层，DSA + MoE；本配方不构建）",
+          "representative": false,
+          "count": 1,
+          "selectedCount": 1,
+          "parameters": null,
+          "matrices": []
         }
       ]
     }

@@ -9,9 +9,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'data/families/glm/hardware.json'
-COMMIT = '96e5813f3a62686c9f1f9abba7d07dcd94687971'
+COMMIT = '3b36eeac4cde5e608f00cdd0560a715ff8925e15'
 BLOB = f'https://gitcode.com/cann/cann-recipes-infer/blob/{COMMIT}/'
-ACCESSED = '2026-09-30'
+ACCESSED = '2026-10-19'
 
 SRC = [
     ('g1', 'models/glm_5_3/README.md', '5421dd0e321cb418713cc7349d6bb31e95a962ed17c4c0ec6082d43e844d3743'),
@@ -24,14 +24,14 @@ SRC = [
     ('g8', 'models/glm_5_3/utils/convert_model.py', 'a0cc39665a1dfdee47bf7ec1121769515aa801a6ab776b1aef974f52b384b881'),
     ('g9', 'models/glm_5_3/utils/mx_quantize.py', 'ebf013a65f73c260d7ec24a31317c61e5beda01c6ca02befee015863295fec3b'),
     ('g10', 'module/quantization/compressed_tensors/compressed_tensors_w8a8_hif8.py',
-     '989a81a7061121f4080745c5e875fcf0859231c7395bc5c436583ee4643ce6d3'),
+     'aed1c3fa5144990b2b0579cd640540dffac08ff2c5f009dd3eed0012db110806'),
     ('g11', 'models/glm_5_3/set_env.sh', '2db90a4a7b5a7143327aa7ae78f679a63df222ac3b8b7cc69f9b4423866f33b7'),
-    ('g12', 'module/quantization/mxfp4.py', 'd5d8759d3e7f97c7b8bfb3252b9c06af2ebb36e907e02623065df6ce6132a114'),
-    ('g13', 'module/quantization/mxfp8.py', 'b6083e840efe3702b107312f4b3ef542f1370adf2813af451236fe9117cad3fc'),
+    ('g12', 'module/quantization/mxfp4.py', '23c2f94ebed2cca6c5e1f4ac41fec448825f12a7e47500bb2ba4e14d22e6944b'),
+    ('g13', 'module/quantization/mxfp8.py', 'a75dfdcba255391455835a217d96b8ebc61d8774abf86db97d830b77b87419d7'),
     ('g14', 'module/quantization/compressed_tensors/compressed_tensors.py',
      '0dfdfb2aff6929d510e3de5ba6d55b22a20fcec16a14c72105e52abd7bdee9b7'),
     ('g15', 'executor/core/config/inference_config.py',
-     '4789b86f5a3c4eab9d8efa6c6c2ff2f65eb35fa6fa1296fb6479ef360fec81ec'),
+     'cb6c84159ff41c46cdc800b5fe5aad707cdcd6fc94b3b4f8e01550f211a8131e'),
     ('g16', 'ops/ascendc/docs/custom-npu_hc_pre.md',
      '3514d5ab7563a0a2c1a2a9c8c7aab8a28fd5a062ab3174ed30f5f293e0c4e94e'),
     ('g17', 'ops/ascendc/docs/custom-npu_hc_post.md',
@@ -42,12 +42,22 @@ SRC = [
      'a452769ed5441af89422854ce17f306573864397b3203ae70418e503de7fc936'),
     ('g21', 'models/glm_5_2/models/configuration_glm.py',
      'cf7c229b4fc3be8fbc0adc8fa0e61a6d2723489e5b071afa8929a1c1891dbf71'),
+    ('g22', 'docs/integration/sglang/glm53-flash-single-npu-moe-offload/glm53_flash_single_card_design.md',
+     'fb2ada6fa1dda58507e9473e8f507d138255c5266a30005dcb6c7c99d2714cb9'),
+    ('g23', 'executor/utils/profiler_context.py',
+     'd8f61d55a06b9e8d73da50fad1769bad02f9d7a26be9000e5ffc784fe8eb7169'),
 ]
+
+CONFIG_SHA = '822a37ae7e9159f03a03e69122160abbbaba5369284d97f7ea5ddb77db8fd09f'
 
 SOURCES = [
     dict(id=i, title=f'cann-recipes-infer / {p}', url=BLOB + p, revision=COMMIT,
          sha256=h, accessed=ACCESSED, kind='固定源码 / 文档')
     for i, p, h in SRC
+] + [
+    dict(id='hf53', title='zai-org/GLM-5.3-Flash / config.json（厂商发布配置）',
+         url='https://huggingface.co/zai-org/GLM-5.3-Flash/blob/main/config.json',
+         revision='main', sha256=CONFIG_SHA, accessed=ACCESSED, kind='厂商发布配置'),
 ]
 
 ALL53 = ['glm-5.3-flash']
@@ -179,6 +189,32 @@ MODULES = [
         refs=r(('g4', 733), ('g4', 372), ('g6', 38), ('g2', None)),
     ),
     dict(
+        id='profiling',
+        title='Profiling 通路与两条路径的实测分布',
+        models=ALL53,
+        flow=[
+            'YAML 只有 enable_profiler 一个开关，采集参数硬编码在 executor/utils/profiler_context.py',
+            'torch_npu.profiler，Level1 + PipeUtilization，active=3 / repeat=1 / skip_first=3',
+            '按阶段分目录落盘到 <output_path>/prof/{prefill,decode,mm_encode}',
+            '离线由 msprof 解析；仓库不提交任何 trace 产物',
+        ],
+        meaning='必须区分“能打开 profiler”与“已提交实测数据”。本配方（多卡 HiF8）只有一张 README decode 表；'
+                '另一条单卡 CPU-MoE offload 路径（SGLang + KTransformers，INT8 W8A8 加 MXFP4）才有 '
+                'profiler 导出的逐组件分解与带置信区间的 A/B。两条路径的量化、卡数与框架都不同，数据不可互相挪用。',
+        code='create_profiler 固定 profiler_level=Level1、aic_metrics=PipeUtilization、with_stack/record_shapes/'
+             'profile_memory 全关；ProfilerManager 按 mm_encode / prefill / decode 分阶段切换，'
+             'prefill 与 mm_encode 用 active=1、skip_first=0，decode 沿用 3/1/3。',
+        hardware='单卡路径的 trace 给出 GLM-5.3 的结构开销量级：单步 NPU 关键路径 33.3 ms 中 '
+                 'KDA 10.4、MoE 9.6、DSA 5.4、mHC 3.3 ms。这是该路径的数字，只能当作结构开销的量级参考，'
+                 '不能当作本配方在 950DT 上的指标。',
+        limit='decode 阶段无法冷启动单独采集（必须先过 prefill，且进入 decode 后不再切回）；'
+              '离线 msprof 常只产出截断的 trace_view.json 而 CSV 全缺，仓库把根因归到输出目录的文件系统。'
+              'profiler 自身会抬高单步耗时（该路径 profiling 下 20.89–28.72 ms，生产 20.57 ms）。'
+              'ops/ascendc/docs/ 下 20 份算子文档全部没有实测数字；benchmark/ 只做精度评测且无 GLM 条目。',
+        evidence='源码核验 + 另一路径的实测文档',
+        refs=r(('g23', 50), ('g22', 158), ('g2', None), ('g1', 119)),
+    ),
+    dict(
         id='parallel',
         title='并行策略：注意力与 dense 走 DP，并行度来自 MoE EP',
         models=ALL53,
@@ -237,7 +273,10 @@ OPTIMIZATIONS = [
         title='验证分模块量化的精度代价',
         status='未实测 · 仓库无精度数据',
         scope='路由专家 MXFP4 W4A8 / 共享专家 MXFP8 / DSA 投影与 dense MLP HiF8',
-        observation='转换脚本按张量名把权重分成三个精度档，最大的一档（路由专家）只有 4 bit。仓库没有任何针对本配方的精度或困惑度结果；根 README 里的 3.5888 困惑度属于另一条 SGLang 单卡 offload 路径，不能归到本配方。',
+        observation='转换脚本按张量名把权重分成三个精度档，最大的一档（路由专家）只有 4 bit。'
+                    '仓库没有任何针对本配方（HiF8）的精度或困惑度结果。'
+                    '根 README 的困惑度 3.5888 属另一条单卡 offload 路径（INT8 W8A8 加 MXFP4，wikitext-2 32 窗，'
+                    '相对基线 +1.13%），该路径另有 GSM8K 97.35% 与 GPQA-Diamond 84.85%；这些都不能归到本配方。',
         proposal='以 BF16 为基准，逐档打开量化（先 HiF8，再 MXFP8，再 MXFP4），比较 logits 误差与固定任务集质量，定位哪一档带来主要损失。',
         metric='相对 BF16 的 logits/隐藏态误差分布；固定评测集准确率；困惑度；每档的显存与吞吐变化。',
         risk='把不同来源的精度数字混为一谈会得出错误结论。W4A8 与 W4A4 的落盘权重相同，仅靠 config 切换，比较时必须确认实际激活位宽。',
@@ -249,7 +288,10 @@ OPTIMIZATIONS = [
         title='确认 mHC 融合算子的形状分支是否命中',
         status='未实测 · 算子文档仅有定性描述',
         scope='npu_hc_pre / npu_hc_post，每层两对，共 90 次调用',
-        observation='算子文档说明 T/bs ≤ 128 且能被 16 整除时走融合 kernel，否则回退到两个拆分 kernel，并分别标注“性能较高 / 较低”，但没有给出任何数字。mHC 每层要做两次全流量混合，调用次数与层数同阶。',
+        observation='算子文档说明 T/bs ≤ 128 且能被 16 整除时走融合 kernel，否则回退到两个拆分 kernel，'
+                    '并分别标注“性能较高 / 较低”，但没有给出任何数字。mHC 每层要做两次全流量混合，调用次数与层数同阶。'
+                    '可参照的量级来自另一条单卡 offload 路径的 trace：单步 NPU 关键路径 33.3 ms 中 mHC 占 3.3 ms（约 10%）——'
+                    '那是 INT8 加 MXFP4 的单卡路径，不是本配方在 950DT 上的数字。',
         proposal='在目标 BS 与序列切分下抓 trace，确认实际走的是融合还是回退分支；对比不同 batch 切分下 hc_pre/hc_post 的耗时占比。',
         metric='hc_pre / hc_post 在单步 decode 中的耗时占比；融合与回退分支的耗时差；随 BS 变化的曲线。',
         risk='形状分支由运行时 shape 决定，换 BS 或并发可能静默落到慢路径。仓库没有实测数据，不能预设融合一定更快。',
@@ -261,7 +303,10 @@ OPTIMIZATIONS = [
         title='量化共享专家多流的实际重叠收益',
         status='未实测 · 仓库无 A/B 数据',
         scope='decode 且 moe_ep_size > 1 的 dispatch / combine 路径',
-        observation='enable_multi_streams 默认开启，README 描述它与 dispatch / GMM / combine 重叠，但没有给出开关对比。prefill 与单卡 EP 下该路径不生效。',
+        observation='enable_multi_streams 默认开启，README 描述它与 dispatch / GMM / combine 重叠，'
+                    '但本配方没有给出开关对比。prefill 与单卡 EP 下该路径不生效。'
+                    '另一条单卡 offload 路径上，侧流重叠的实测增益约 12%（A5 上 −5.97 ms/token），'
+                    '并由 trace 数出每步 44.1 个 >50 µs 空隙合计 21,038 µs 的结构上限——同样不可挪用到本配方。',
         proposal='固定其他条件，只切换 enable_multi_streams，在多个 BS 档位比较 decode 每步耗时；同时抓 trace 确认侧流是否真正与通信重叠。',
         metric='decode 每步耗时差（开/关）；通信与计算的重叠比例；共享专家在时间线上的位置。',
         risk='小 batch 下通信占比高，收益可能明显；大 batch 下路由专家 GMM 变长，重叠窗口关系会变化。单点结论不能外推。',
@@ -315,22 +360,42 @@ PROTOCOL = [
 
 VERSION_NOTES = [
     dict(models=['glm-5.3-flash'],
-         text='GLM-5.3-Flash：层排布、专家数与各矩阵形状取自配方配置类默认值。按该默认值推导的参数总数为 313,326,811,966，与 README 自述的约 306B 相差约一层 MoE 的规模；若前 4 层为 Dense 则推导值为 306,203,703,838，与自述一致。这说明发布 config.json 很可能覆盖了 first_k_dense_replace，本站保留配置默认值并明示该差异，不替厂商选定其一。'),
+         text='GLM-5.3-Flash 的层排布已与智谱发布的 config.json 核对一致：layer_types 为 34 个 '
+              'linear_attention 加 11 个 deepseek_sparse_attention，linear_attn_config.full_attn_layers '
+              '为 [3,7,11,15,19,23,27,31,35,39,43]，mlp_layer_types 为前 3 层 dense 加 42 层 sparse，'
+              'first_k_dense_replace=3 与实现默认值相同，没有覆盖。据此推导的解码主干加 embed/lm_head/'
+              '末层归一为 313,326,811,966。配方 README 自述“约 306B”与该口径不符；仓库未给出推导过程，'
+              '本站不替任一方消解该差异。'),
     dict(models=['glm-5.3-flash'],
-         text='配方仅适配文本通路：发布 config.json 为多模态嵌套结构，配置类丢弃 vision_config，加载时跳过 model.visual.*。因此本站不记录 GLM-5.3-Flash 的视觉层数与视觉宽度。MTP 权重存在于检查点并被转换脚本处理，但运行时直接拒绝 next_n > 0，配方自述暂不支持 MTP。'),
+         text='发布检查点是多模态的，含 24 层视觉塔（vision_config.depth=24，hidden_size=1024，'
+              'out_hidden_size=4096），以及 1 个 MTP 层（num_nextn_predict_layers=1，位于第 45 层，'
+              '同为 DSA + MoE）。本配方两者都不构建：配置类丢弃 vision_config、加载时跳过 model.visual.*，'
+              '运行时直接拒绝 next_n>0。因此本站对这两部分只记录配置级信息，不给逐矩阵形状。'),
+    dict(models=['glm-5.3-flash'],
+         text='发布权重的量化布局有官方逐张量记录：quantization_config 为 FP8 e4m3、动态激活，'
+              'modules_to_not_convert 列出 1509 条不量化张量。其覆盖面与本配方 convert_model.py 的 '
+              'classify() 判定一致——KDA 全部投影、DSA 的 kv_b_proj、整个 indexer、mlp.gate、各 norm、'
+              'mHC 参数、embed/lm_head 均在排除之列，而路由专家、共享专家、dense MLP 与 DSA 的四个投影'
+              '不在其中。该列表同时出现 self_attn.qkv_proj 与 fused_qkvbfg_a_proj 两个融合名，'
+              '说明发布检查点可能以融合张量存储 KDA 的 q/k/v 与 a 投影；本站按实现侧的拆分名记录形状。'),
     dict(models=['glm-5', 'glm-5.2'],
-         text='GLM-5 与 GLM-5.2 仅通过配方的配置类默认值与 README 记录，没有逐矩阵结构。两者的配置默认值在本快照中完全一致，差异体现在 GLM-5.2 新增的 IndexShare 调度参数（index_topk_freq 等）与其 README 说明。'),
+         text='GLM-5 与 GLM-5.2 仅通过配方的配置类默认值与 README 记录，没有逐矩阵结构，也未与厂商 '
+              'config.json 核对。两者的配置默认值在本快照中完全一致，差异体现在 GLM-5.2 新增的 '
+              'IndexShare 调度参数（index_topk_freq 等）与其 README 说明。'),
     dict(models=['glm-5', 'glm-5.2', 'glm-5.3-flash'],
-         text='全部数据来自 Huawei 的 CANN 推理配方仓库，不是智谱的官方模型卡。本站未与厂商发布的 config.json 或权重逐项复核，因此所有事实的证据等级记为“计算推导”。'),
+         text='实现与部署材料来自 Huawei 的 CANN 推理配方仓库，不是厂商文档；这部分事实记为“计算推导”。'
+              'GLM-5.3-Flash 的模型规格另有厂商 config.json 支撑，记为“官方披露”。'
+              '本站未运行任何 NPU 实验，仓库内也没有 profiling 数据。'),
 ]
+
 
 DOC = dict(
     schemaVersion=1,
     familyId='glm',
-    updated='2026-09-30',
+    updated='2026-10-19',
     title='GLM 实现、硬件与昇腾优化研究',
-    scope='基于 cann-recipes-infer 固定快照 96e5813 的源码与配方文档研究；没有执行任何 NPU 性能实验。代码存在、配方自述与本地实测严格分开记录。',
-    optimizationNote='本家族全部条目均未实测：仓库没有任何单项优化的 A/B 数据，下列指标是待采集项而不是已知结论。',
+    scope='基于 cann-recipes-infer 固定快照 3b36eea 的源码与配方文档研究；没有执行任何 NPU 性能实验。代码存在、配方自述与本地实测严格分开记录。',
+    optimizationNote='下列条目针对多卡 HiF8 配方，均未实测——该路径没有任何单项优化的 A/B 数据，指标栏是待采集项而不是已知结论。另一条单卡 CPU-MoE offload 路径（INT8 加 MXFP4）确有实测，已在对应条目中标注，但量化与框架不同，不可挪用。',
     modules=MODULES,
     platforms=PLATFORMS,
     optimizations=OPTIMIZATIONS,

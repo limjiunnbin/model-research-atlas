@@ -2,9 +2,9 @@
   "id": "glm",
   "name": "GLM",
   "publisher": "智谱 Zhipu AI",
-  "updated": "2026-09-30",
+  "updated": "2026-10-19",
   "description": "从 GLM-5 / GLM-5.2 的 DSA + MoE 主干，到 GLM-5.3-Flash 的 KDA 混合注意力、mHC 超连接与昇腾 NPU 上的 Hybrid HiF8-MXFP8-MXFP4 部署。",
-  "scope": "3 个名称条目，全部通过 CANN 推理配方 cann-recipes-infer 的固定快照 96e5813 研究，不是智谱全部公开模型，也不是厂商模型卡的逐项复核。只有 GLM-5.3-Flash 有逐矩阵结构；GLM-5 与 GLM-5.2 仅记录配置级规格。本站未加载权重、未做文件头审计，也未运行任何 NPU 性能实验。",
+  "scope": "3 个名称条目，通过 CANN 推理配方 cann-recipes-infer 的固定快照 3b36eea 研究实现与部署；GLM-5.3-Flash 的结构另与智谱发布的 config.json 逐项核对，故其规格为官方披露。不是智谱全部公开模型。只有 GLM-5.3-Flash 有逐矩阵结构；GLM-5 与 GLM-5.2 仅记录配置级规格。本站未加载权重、未做文件头审计，也未运行任何 NPU 性能实验。",
   "models": [
     {
       "id": "glm-5",
@@ -25,89 +25,89 @@
         "layers": {
           "value": 78,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5/models/configuration_glm.py"
         },
         "hidden": {
           "value": 6144,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5/models/configuration_glm.py"
         },
         "heads": {
           "value": 64,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5/models/configuration_glm.py"
         },
         "attention": {
           "value": "78 层 DSA：MLA + Lightning Indexer",
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5/README.md"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5/README.md"
         },
         "experts": {
           "value": 256,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5/models/configuration_glm.py"
         },
         "topK": {
           "value": 8,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5/models/configuration_glm.py"
         },
         "shared": {
           "value": 1,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5/models/configuration_glm.py"
         },
         "expertInput": {
           "value": 6144,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5/models/configuration_glm.py"
         },
         "expertWidth": {
           "value": 2048,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5/models/configuration_glm.py"
         },
         "denseWidth": {
           "value": 12288,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5/models/configuration_glm.py"
         },
         "context": {
           "value": 202752,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5/models/configuration_glm.py",
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5/models/configuration_glm.py",
           "note": "配置上限，不等于实测质量或硬件运行上限"
         },
         "vocab": {
           "value": 154880,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5/models/configuration_glm.py"
         },
         "visionLayers": {
           "value": null,
           "evidence": "unknown",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5/models/configuration_glm.py"
         },
         "visionHidden": {
           "value": null,
           "evidence": "unknown",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5/models/configuration_glm.py"
         },
         "quantization": {
           "value": "发布 BF16 与 FP8 两种权重；配方转换为 W8A8（int8）或 MXFP8",
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5/README.md"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5/README.md"
         },
         "parameters": {
           "value": null,
           "evidence": "unknown",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5/models/configuration_glm.py",
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5/models/configuration_glm.py",
           "note": "本站未做权重审计"
         },
         "payload": {
           "value": null,
           "evidence": "unknown",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5/models/configuration_glm.py",
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5/models/configuration_glm.py",
           "note": "本站未做权重审计"
         }
       },
@@ -136,89 +136,89 @@
         "layers": {
           "value": 78,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_2/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5_2/models/configuration_glm.py"
         },
         "hidden": {
           "value": 6144,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_2/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5_2/models/configuration_glm.py"
         },
         "heads": {
           "value": 64,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_2/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5_2/models/configuration_glm.py"
         },
         "attention": {
           "value": "78 层 DSA：MLA + Lightning Indexer，按 indexer_types 分 full / shared（IndexShare）",
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_2/README.md"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5_2/README.md"
         },
         "experts": {
           "value": 256,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_2/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5_2/models/configuration_glm.py"
         },
         "topK": {
           "value": 8,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_2/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5_2/models/configuration_glm.py"
         },
         "shared": {
           "value": 1,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_2/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5_2/models/configuration_glm.py"
         },
         "expertInput": {
           "value": 6144,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_2/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5_2/models/configuration_glm.py"
         },
         "expertWidth": {
           "value": 2048,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_2/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5_2/models/configuration_glm.py"
         },
         "denseWidth": {
           "value": 12288,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_2/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5_2/models/configuration_glm.py"
         },
         "context": {
           "value": 202752,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_2/models/configuration_glm.py",
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5_2/models/configuration_glm.py",
           "note": "配置上限，不等于实测质量或硬件运行上限"
         },
         "vocab": {
           "value": 154880,
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_2/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5_2/models/configuration_glm.py"
         },
         "visionLayers": {
           "value": null,
           "evidence": "unknown",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_2/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5_2/models/configuration_glm.py"
         },
         "visionHidden": {
           "value": null,
           "evidence": "unknown",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_2/models/configuration_glm.py"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5_2/models/configuration_glm.py"
         },
         "quantization": {
           "value": "发布 BF16 权重；配方转换为 W8A8（int8）",
           "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_2/README.md"
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5_2/README.md"
         },
         "parameters": {
           "value": null,
           "evidence": "unknown",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_2/models/configuration_glm.py",
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5_2/models/configuration_glm.py",
           "note": "本站未做权重审计"
         },
         "payload": {
           "value": null,
           "evidence": "unknown",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_2/models/configuration_glm.py",
+          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/3b36eeac4cde5e608f00cdd0560a715ff8925e15/models/glm_5_2/models/configuration_glm.py",
           "note": "本站未做权重审计"
         }
       },
@@ -244,103 +244,106 @@
         "s3",
         "s4",
         "s5",
-        "s6"
+        "s6",
+        "s9",
+        "s10"
       ],
       "facts": {
         "layers": {
           "value": 45,
-          "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_3/models/configuration_glm53.py"
+          "evidence": "official",
+          "source": "https://huggingface.co/zai-org/GLM-5.3-Flash/blob/main/config.json"
         },
         "hidden": {
           "value": 4096,
-          "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_3/models/configuration_glm53.py"
+          "evidence": "official",
+          "source": "https://huggingface.co/zai-org/GLM-5.3-Flash/blob/main/config.json"
         },
         "heads": {
           "value": 64,
-          "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_3/models/configuration_glm53.py"
+          "evidence": "official",
+          "source": "https://huggingface.co/zai-org/GLM-5.3-Flash/blob/main/config.json"
         },
         "attention": {
           "value": "34 KDA + 11 DSA（MLA 全程 NoPE + k-pool 压缩 indexer）",
-          "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_3/models/configuration_glm53.py",
-          "note": "排布来自配置默认值 layer_types：i%4==3 为 DSA"
+          "evidence": "official",
+          "source": "https://huggingface.co/zai-org/GLM-5.3-Flash/blob/main/config.json",
+          "note": "layer_types 与 linear_attn_config.full_attn_layers=[3,7,11,15,19,23,27,31,35,39,43] 一致；另有 1 个 MTP 层也是 DSA"
         },
         "experts": {
           "value": 288,
-          "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_3/models/configuration_glm53.py"
+          "evidence": "official",
+          "source": "https://huggingface.co/zai-org/GLM-5.3-Flash/blob/main/config.json"
         },
         "topK": {
           "value": 8,
-          "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_3/models/configuration_glm53.py"
+          "evidence": "official",
+          "source": "https://huggingface.co/zai-org/GLM-5.3-Flash/blob/main/config.json"
         },
         "shared": {
           "value": 1,
-          "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_3/models/configuration_glm53.py"
+          "evidence": "official",
+          "source": "https://huggingface.co/zai-org/GLM-5.3-Flash/blob/main/config.json"
         },
         "expertInput": {
           "value": 4096,
-          "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_3/models/configuration_glm53.py"
+          "evidence": "official",
+          "source": "https://huggingface.co/zai-org/GLM-5.3-Flash/blob/main/config.json"
         },
         "expertWidth": {
           "value": 2048,
-          "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_3/models/configuration_glm53.py"
+          "evidence": "official",
+          "source": "https://huggingface.co/zai-org/GLM-5.3-Flash/blob/main/config.json"
         },
         "denseWidth": {
           "value": 12288,
-          "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_3/models/configuration_glm53.py"
+          "evidence": "official",
+          "source": "https://huggingface.co/zai-org/GLM-5.3-Flash/blob/main/config.json"
         },
         "context": {
           "value": 1048576,
-          "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_3/models/configuration_glm53.py",
+          "evidence": "official",
+          "source": "https://huggingface.co/zai-org/GLM-5.3-Flash/blob/main/config.json",
           "note": "配置上限，不等于实测质量或硬件运行上限"
         },
         "vocab": {
           "value": 154880,
-          "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_3/models/configuration_glm53.py"
+          "evidence": "official",
+          "source": "https://huggingface.co/zai-org/GLM-5.3-Flash/blob/main/config.json"
         },
         "visionLayers": {
-          "value": null,
-          "evidence": "unknown",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_3/models/configuration_glm53.py",
-          "note": "发布 config.json 为多模态嵌套结构，本配方丢弃 vision_config 并在加载时跳过 model.visual.*，因此视觉通路未进入本次研究。"
+          "value": 24,
+          "evidence": "official",
+          "source": "https://huggingface.co/zai-org/GLM-5.3-Flash/blob/main/config.json",
+          "note": "vision_config.depth=24，并由配置排除列表中的 visual.blocks.0..23 确认；本配方丢弃视觉通路，故仅记录配置级结构"
         },
         "visionHidden": {
-          "value": null,
-          "evidence": "unknown",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_3/models/configuration_glm53.py",
-          "note": "发布 config.json 为多模态嵌套结构，本配方丢弃 vision_config 并在加载时跳过 model.visual.*，因此视觉通路未进入本次研究。"
+          "value": 1024,
+          "evidence": "official",
+          "source": "https://huggingface.co/zai-org/GLM-5.3-Flash/blob/main/config.json",
+          "note": "vision_config.hidden_size；out_hidden_size=4096"
         },
         "quantization": {
-          "value": "发布 FP8；本配方部署为 Hybrid HiF8-MXFP8-MXFP4",
-          "evidence": "derived",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_3/README.md"
+          "value": "发布 FP8 e4m3（动态激活）；本配方部署为 Hybrid HiF8-MXFP8-MXFP4",
+          "evidence": "official",
+          "source": "https://huggingface.co/zai-org/GLM-5.3-Flash/blob/main/config.json",
+          "note": "发布权重不量化的张量集合由 quantization_config.modules_to_not_convert 的 1509 条逐张量记录给出，与本配方 classify() 的判定一致"
         },
         "parameters": {
           "value": null,
           "evidence": "unknown",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_3/README.md",
-          "note": "README 自述约 306B。本站未做权重审计；按配方配置默认值逐矩阵推导为 313,326,811,966，两者相差约一层 MoE，详见结构页与来源页的口径说明。"
+          "source": "https://huggingface.co/zai-org/GLM-5.3-Flash/blob/main/config.json",
+          "note": "本站未做权重审计。按官方 config.json 逐矩阵推导，45 层解码主干加 embed/lm_head/末层归一为 313,326,811,966（不含视觉塔与 MTP 层）。配方 README 自述“约 306B”与该口径不符，仓库未给出推导过程，本站不做消解。"
         },
         "payload": {
           "value": null,
           "evidence": "unknown",
-          "source": "https://gitcode.com/cann/cann-recipes-infer/blob/96e5813f3a62686c9f1f9abba7d07dcd94687971/models/glm_5_3/README.md",
+          "source": "https://huggingface.co/zai-org/GLM-5.3-Flash/blob/main/config.json",
           "note": "本站未做权重审计"
         }
       },
       "auditPath": null,
-      "configPath": null,
+      "configPath": "data/families/glm/configs/GLM-5.3-Flash-config.json",
       "architecturePath": "data/families/glm/glm-5.3-flash-architecture.json",
       "revision": null,
       "implementationLinks": [
@@ -364,14 +367,14 @@
     {
       "name": "GLM-implementation-hardware-ascend.md",
       "path": "assets/glm/GLM-implementation-hardware-ascend.md",
-      "bytes": 37458,
-      "sha256": "5cab992b3a0bbf64fb6ffe3d29eab130add532a314c190f792001705317b4751"
+      "bytes": 42405,
+      "sha256": "2917620f4f74eae51ac81f38242c142ae356a7e73431bcc158b5e5944b6d8bf6"
     },
     {
       "name": "GLM-hardware-sources.csv",
       "path": "assets/glm/GLM-hardware-sources.csv",
-      "bytes": 6973,
-      "sha256": "b1a63a43d68e05e3384316483ec443a366363b4ffeec74e5e7820e43d813ad0d"
+      "bytes": 7972,
+      "sha256": "41c91dabf79f6b4bfa3e9916131a64b5a2f4a5927d7fa7de81562eafa68c3925"
     }
   ],
   "reportPath": "data/families/glm/report.json",
@@ -393,7 +396,7 @@
       "models": [
         "glm-5.3-flash"
       ],
-      "boundary": "这些数字来自配方 README 自述，本站未复现。比较吞吐必须同时固定卡数、序列长度、批大小、量化格式与图模式。"
+      "boundary": "这些数字来自配方 README 自述，本站未复现。比较吞吐必须同时固定卡数、序列长度、批大小、量化格式与图模式。该路径没有 profiling 与单项 A/B；另一条单卡 offload 路径的实测不可挪用过来。"
     },
     {
       "title": "昇腾平台迁移",
@@ -408,7 +411,7 @@
   ],
   "overview": {
     "title": "主干缩小，注意力混合，精度分层",
-    "conclusion": "GLM-5 与 GLM-5.2 共用 78 层 DSA + MoE 主干，5.2 的增量是 IndexShare。GLM-5.3-Flash 改动更大：层数降到 45、残差宽度降到 4096，但把 34 层换成 KDA 线性注意力、加入 4 流 mHC 超连接，并在昇腾侧按模块分配 HiF8 / MXFP8 / MXFP4 三种精度。",
+    "conclusion": "GLM-5 与 GLM-5.2 共用 78 层 DSA + MoE 主干，5.2 的增量是 IndexShare。GLM-5.3-Flash 改动更大：层数降到 45、残差宽度降到 4096，但把 34 层换成 KDA 线性注意力、加入 4 流 mHC 超连接，并在昇腾侧按模块分配 HiF8 / MXFP8 / MXFP4 三种精度。发布检查点另含 24 层视觉塔与 1 个 MTP 层，本配方均不构建。",
     "highlights": [
       {
         "id": "glm-5",
@@ -425,8 +428,8 @@
     ]
   },
   "historyNote": "顺序按配方仓库中样例的适配关系整理：GLM-5.2 样例自述基于 GLM-5 样例迁移，GLM-5.3 是独立的新样例。这是推理配方的适配顺序，不是权重继承证明。",
-  "auditNote": "本次研究没有加载任何权重，也没有做文件头审计。GLM-5.3-Flash 的逐矩阵形状来自实现源码中参数的声明形状，逐项相乘得到逻辑参数；GLM-5 与 GLM-5.2 只记录配置类默认值。",
-  "limitations": "结构排布取自配置类默认值，发布 config.json 可能覆盖。按默认值推导的 GLM-5.3-Flash 参数总数为 313,326,811,966，与 README 自述的约 306B 相差约一层 MoE，本站未消解该差异。配方 README 的吞吐数字未经本站复现。",
+  "auditNote": "本次研究没有加载任何权重，也没有做文件头审计。GLM-5.3-Flash 的逐矩阵形状来自实现源码中参数的声明形状，逐项相乘得到逻辑参数，各维度与层排布已与官方 config.json 核对一致；视觉塔与 MTP 层仅记录配置级信息。GLM-5 与 GLM-5.2 只记录配方配置类默认值。",
+  "limitations": "按官方 config.json 推导的 GLM-5.3-Flash 解码主干参数为 313,326,811,966（不含视觉塔与 MTP），与配方 README 自述的约 306B 不符，仓库未给出推导过程，本站不做消解。视觉塔与 MTP 层只有配置级信息，没有逐矩阵形状。配方 README 的吞吐数字未经本站复现。多卡 HiF8 路径没有任何 profiling 数据或单项优化 A/B；仓库另有一条单卡 CPU-MoE offload 路径（INT8 加 MXFP4）确有实测，但量化与框架不同，不可挪用。GLM-5.2 在仓库内没有任何性能或精度数字。",
   "technology": [
     {
       "id": "evolution",
@@ -457,6 +460,18 @@
       "title": "混合精度与 NPU 优化",
       "section": "s6",
       "summary": "按模块分配 HiF8 / MXFP8 / MXFP4，并保留一批必须留在 BF16/FP32 的张量；配套自定义算子与多流重叠。"
+    },
+    {
+      "id": "profiling",
+      "title": "Profiling 与实测数据",
+      "section": "s9",
+      "summary": "多卡 HiF8 配方只有一张 README decode 表，没有 profiling 也没有 A/B；另一条单卡 CPU-MoE offload 路径有 trace 导出的逐组件分解与带置信区间的 A/B，两者不可混用。"
+    },
+    {
+      "id": "future",
+      "title": "未来结构预判",
+      "section": "s10",
+      "summary": "依据代码与配置里已存在但未启用的钩子推断后续方向：IndexShare、MTP、多模态、hc_pre v2、W4A4。属解释判断，不是路线图。"
     }
   ],
   "hardwarePath": "data/families/glm/hardware.json"
